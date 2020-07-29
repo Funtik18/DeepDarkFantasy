@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Environment {
+namespace DDF.Environment {
 
 	[RequireComponent(typeof(MeshRenderer))]
 	public class Floor : MonoBehaviour {
@@ -11,10 +11,15 @@ namespace Environment {
 		private MeshRenderer meshRenderer;
 
 		private void Awake() {
-			meshRenderer = GetComponent<MeshRenderer>();
+			MeshRenderer();
 		}
-
+		private void MeshRenderer() {
+			if(meshRenderer == null) {
+				meshRenderer = GetComponent<MeshRenderer>();
+			}
+		}
 		public void SetFloorMaterial(Material material) {
+			MeshRenderer();
 			meshRenderer.material = material;
 		}
 	}
