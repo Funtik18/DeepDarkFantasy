@@ -98,6 +98,7 @@ namespace DDF.Inventory {
         #endregion
 
         #region Functional
+        
         /// <summary>
         /// Добавление предмета в инвентарь.
         /// </summary>

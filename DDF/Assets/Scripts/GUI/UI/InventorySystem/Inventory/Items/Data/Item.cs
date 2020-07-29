@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace DDF.Inventory {
 
@@ -26,7 +27,6 @@ namespace DDF.Inventory {
         [SerializeField]
         //public IconAssetType IconType = IconAssetType.Sprite;
 
-        [Tooltip("The sprite that represents this item in an inventory view.")]
         //[SerializeField]
         public Sprite icon;
 
@@ -45,23 +45,19 @@ namespace DDF.Inventory {
 
 
 
-        [Tooltip("The color to display in a slot's highlight when this item is stored.")]
-        public Color Highlight = Color.clear;
+        //public Color Highlight = Color.clear;
 
 
         [Header("Stacking")]
-        [Tooltip("The maximum number of items sharing the same StackID that can be stacked on top of each other in a single location.")]
-        public uint MaxStack = 1;
-        [Tooltip("The current stack size for this item. There is only one real instance of the item and all stacked instances are destroyed and cause this number to increment.")]
+        [Tooltip("Если -1 значит возможное количество у предмета максимальное")]
+        public int MaxStack = 1;
         public uint StackCount = 1;
 
         [Header("Misc")]
-        [Tooltip("A special identifier used to determine.")]
-        public ItemType type = ItemType.UselessItem;
+        public ItemType itemType;
 
         //public
 
-        [Tooltip("A special identifier used to determine.")]
         [SerializeField]
         private string itemID = System.Guid.NewGuid().ToString();
         [Tooltip("Будет ли объект копироваться или будет один экземляр.")]
@@ -80,49 +76,111 @@ namespace DDF.Inventory {
 		}
 	}
 
-    public enum ItemType : int {
-        UselessItem = -1,
-        Consumable = 0,
-        Weapon = 1,
-        Shields = 2,
-        Armor = 3,
-        Accessories = 4,
-        Ammo = 5,
-        TomesAndLicenses = 6,
-        KeyItems = 7
+    public class ItemType : ScriptableObject {}
+    #region Other
+    [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/ItemType/UselessItem", order = 1)]
+    public class UselessItem : ItemType { }
+    [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/ItemType/ConsumableItem", order = 1)]
+    public class ConsumableItem : ItemType {
+        public Conumable conumable = Conumable.Potion;
     }
-   /* static class ExItemTypes {
-        public static String GetString( this ItemType itemType ) {
-            switch (itemType) {
-                case ItemType.UselessItem:
-                return "Yeah!";
-                case ItemType.Consumable:
-                return "Okay!";
-                case ItemType.Weapon:
-                return "Yeah!";
-                case ItemType.Shields:
-                return "Okay!";
-                case ItemType.Armor:
-                return "Yeah!";
-                case ItemType.Accessories:
-                return "Okay!";
-                case ItemType.Ammo:
-                return "Yeah!";
-                case ItemType.TomesAndLicenses:
-                return "Okay!";
-                case ItemType.KeyItems:
-                return "Okay!";
-                default:
-                return "What?!";
-            }
+    [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/ItemType/MoneyItem", order = 1)]
+    public class MoneyItem : ItemType {
+        public Money money = Money.Gold;
+    }
 
-            return "";
-        }
-    }*/
+    public class CraftingItem : ItemType {
+        public Crafting crafting = Crafting.CraftingMaterial;
+    }
 
-
-    public enum Armor : int {
-        Belt = 0,
-        Boot = 1
+    public enum Conumable {
+        Potion,
+    }
+    public enum Money {
+        Gold,
+        Silver,
+        Copper,
 	}
+    
+    public enum Crafting {
+        CraftingMaterial,
+        BlacksmithPlan,
+        JewelerDesign,
+        PageOfTraining,
+        Dye,
+        Gem,
+    }
+
+    #endregion
+    #region Weapons
+    public class WeaponItem : ItemType { }
+
+    public class OneHandedItem : WeaponItem { 
+        public OneHanded oneHanded = OneHanded.Sword;
+    }
+    public class TwoHandedItem : WeaponItem {
+        public TwoHanded twoHanded = TwoHanded.Sword;
+    }
+    public class RangedItem : WeaponItem {
+        public Ranged ranged = Ranged.Bow;
+    }
+
+    public enum OneHanded {
+        Axe,
+        Dagger,
+        Maces,
+        Spear,
+        Sword,
+        Flail,
+    }
+    public enum TwoHanded {
+        Axe,
+        Maces,
+        Polearms,
+        Stave,
+        Sword,
+    }
+    public enum Ranged {
+        Bow,
+        Crossbow,
+    }
+
+
+    #endregion
+    #region Armor
+    public class HeadItem : ItemType {
+        public Head head = Head.Helm;
+    }
+    public class SholderItem : ItemType { }
+    public class TorsoItem : ItemType {
+        public Torso torso = Torso.ChestArmor;
+    }
+    public class WristItem : ItemType { }
+    public class HandItem : ItemType { }
+    public class WaistItem : ItemType { }
+    public class LegItem : ItemType { }
+    public class FeetItem : ItemType { }
+    public class JewelryItem : ItemType { }
+
+    public class FollowerSpecial : ItemType {
+
+	}
+
+    public enum Head {
+        Helm,
+    }
+    public enum Torso {
+        ChestArmor,
+	}
+    /*Belt,
+        BodyArmor,
+        Boot,
+        Glove,
+    Circlet,
+        Shield,
+        Amulet,
+        Ring,*/
+    #endregion
+
+
 }
