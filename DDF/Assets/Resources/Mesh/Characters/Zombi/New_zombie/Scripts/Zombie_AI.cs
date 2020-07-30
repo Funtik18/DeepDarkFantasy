@@ -12,13 +12,12 @@ public class Zombie_AI : MonoBehaviour
     private List<GameObject> curse = new List<GameObject>();
     public List<string> Targets_Tag = new List<string>();
     public List<Transform> Waypoints = new List<Transform>();
-    private Vector3 startPoint, nowPoint;
     private bool heviatack,isee,attacking,hiting,weapon,Agressive,endbattle;
     private float _timer = 0,_timere = 0,mYHp,_timereat = 0;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
     private Character_stats stats;
-    private int way_number = 0,nap = 0,heal = 0;
+    private int nap = 0, heal = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,11 +41,12 @@ public class Zombie_AI : MonoBehaviour
             if(_timer>=1.5f)
                 Ballte_mode();
         }else{
-            if(walk && !stats.dead && !endbattle && curse.Count == 0)
+            if(walk && !stats.dead && !endbattle)
                 {
                     move_to_point();
                 }else{
-                     move_to_body();
+                    if(curse.Count!=0 && !stats.dead && !hiting && !attacking)
+                        move_to_body();
                 }
         }
     }
@@ -54,7 +54,7 @@ public class Zombie_AI : MonoBehaviour
     private void lookMySost(){
         if(stats.HP<=0){
             enemys.Clear();
-            GetComponent<Animator>().applyRootMotion = false;
+            GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
             stats.dead = true;
             _timere+=Time.deltaTime;
@@ -68,6 +68,7 @@ public class Zombie_AI : MonoBehaviour
             }
         }else
         if(stats.HP<=50){
+            Debug.Log(stats.HP+"Beee");
             endAnim();
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
@@ -100,7 +101,6 @@ public class Zombie_AI : MonoBehaviour
             GetComponent<IK_Controls>().lookObj = null;
             _timer = 0;
             myanim.SetFloat("X",0);
-            startPoint = transform.position;
         }
         myanim.SetBool("Battle",Agressive);
 
@@ -116,7 +116,8 @@ public class Zombie_AI : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        characterController.Move(moveDirection * Time.deltaTime);
+        if(!stats.dead)
+            characterController.Move(moveDirection * Time.deltaTime);
     } 
 
     private void Ballte_mode(){
@@ -146,9 +147,8 @@ public class Zombie_AI : MonoBehaviour
 
         if((min>hevi_dist && !heviatack))
         {
-            GetComponent<Animator>().applyRootMotion = false;
-            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            nowPoint = transform.position;
+            GetComponent<Animator>().applyRootMotion = true;
+            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
             myanim.SetFloat("X",1f);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
@@ -270,31 +270,30 @@ public class Zombie_AI : MonoBehaviour
 
             GetComponent<Animator>().applyRootMotion = false;
             transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-        
-    }
+        }
 
      private void move_to_body(){
-        GameObject body = curse[0];
+        Debug.Log("i want eat "+heal);
+        GameObject body = curse[curse.Count-1];
         GetComponent<IK_Controls>().lookObj = body.transform;
         Vector3 Wvc = new Vector3 (body.transform.position.x,transform.position.y,body.transform.position.z);
         Quaternion Qvc = body.transform.rotation;
         float distance = Vector3.Distance(transform.position,Wvc);
-        if((distance>sparing_distance/2))
+        if((distance>5))
         {
             GetComponent<Animator>().applyRootMotion = false;
             transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
             myanim.SetFloat("X",1f);
-            //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
         else{
             myanim.SetBool("jump_strafe",true);
-            if(_timereat >= 1){
+            if(_timereat >= 5){
                 stats.HP+=5;
                 heal+=5;
                 _timereat = 0;
             }
             if(heal>=20){
-                curse.Remove(body);
+                curse.RemoveAt(curse.Count-1);
                 myanim.SetBool("jump_strafe",false);
                 heal = 0;
             }
