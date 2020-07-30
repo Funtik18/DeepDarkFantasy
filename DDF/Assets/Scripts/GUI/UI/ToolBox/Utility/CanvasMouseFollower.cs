@@ -4,7 +4,7 @@ using Toolbox.Common;
 using UnityEngine;
 
 
-namespace DDFInventory.Utility {
+namespace DDF.Inventory.Utility {
 
     /// <summary>
     /// Вспомогательный компонент, который позволяет игровому объекту следовать за мышью на канвасе.

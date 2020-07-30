@@ -54,7 +54,7 @@ namespace DDF.Inventory {
                 item = value;
                 if (item == null) return;
                 reference = item.GetId();
-                StackCount = (int)item.StackCount;
+                //StackCount = (int)item.StackCount;
             }
 			get {
                 return item;

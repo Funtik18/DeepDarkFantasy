@@ -1,33 +1,28 @@
-﻿using System;
+﻿using DDF.Atributes;
+using System;
 using Unity.Collections;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+
 
 namespace DDF.Inventory {
 
     [DisallowMultipleComponent]
     [AddComponentMenu("DDF/Inventory/Item", 1)]
     [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/Item", order = 1)]
-    [Serializable]
     public class Item : ScriptableObject {
         [Header("Information")]
-        [SerializeField]
         public string name;
 
-        [SerializeField]
         [Multiline]
         public string description;
 
-        [SerializeField]
         [Multiline]
         public string anotation;
 
 
         [Header("Icon")]
-        [SerializeField]
         //public IconAssetType IconType = IconAssetType.Sprite;
 
-        //[SerializeField]
         public Sprite icon;
 
         [SerializeField]
@@ -41,22 +36,17 @@ namespace DDF.Inventory {
 
 
         [Header("Stats")]
+
         public Vector2Int size = Vector2Int.one;
 
-
-
-        //public Color Highlight = Color.clear;
-
-
         [Header("Stacking")]
-        [Tooltip("Если -1 значит возможное количество у предмета максимальное")]
-        public int MaxStack = 1;
-        public uint StackCount = 1;
+        [InfoBox("Если y == -1 тогда возможное максимальное количество, максимально.", InfoBoxType.Warning)]
+        [InfoBox("x - текущее количество\ny - максимальное количество.", InfoBoxType.Normal)]
+        public Vector2Int StackCount = new Vector2Int(1, 3);
 
         [Header("Misc")]
         public ItemType itemType;
 
-        //public
 
         [SerializeField]
         private string itemID = System.Guid.NewGuid().ToString();

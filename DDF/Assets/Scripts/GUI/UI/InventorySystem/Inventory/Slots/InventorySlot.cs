@@ -28,7 +28,7 @@ namespace DDF.Inventory {
                     item = value;
                     if (item == null) StackCount = 0;
 					else {
-                        StackCount = (int)item.StackCount;
+                        //StackCount = (int)item.StackCount;
                     }
                 }
             }
