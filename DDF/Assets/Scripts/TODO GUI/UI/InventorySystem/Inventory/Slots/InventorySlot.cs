@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using DDF.Inventory.Items;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -11,7 +10,7 @@ namespace DDF.Inventory {
     [RequireComponent(typeof(Image))]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    [AddComponentMenu("DDF/Inventory/Slot", 0)]
+    [AddComponentMenu("Inventory/Slot", 3)]
     [Serializable]
     public class InventorySlot : MonoBehaviour, IPointerUI, IDragUI, IDropUI {
 

@@ -1,0 +1,17 @@
+﻿using UnityEngine;
+
+namespace DDF.Inventory.Items {
+    [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/ItemType/MiscCraftingType")]
+    public class CraftingType : ItemType {
+        public Crafting crafting = Crafting.CraftingMaterial;
+    }
+
+    public enum Crafting {
+        CraftingMaterial,
+        BlacksmithPlan,
+        JewelerDesign,
+        PageOfTraining,
+        Dye,
+        Gem,
+    }
+}

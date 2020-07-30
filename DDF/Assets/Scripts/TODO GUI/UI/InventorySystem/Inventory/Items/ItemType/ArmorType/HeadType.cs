@@ -1,0 +1,11 @@
+﻿using UnityEngine;
+
+namespace DDF.Inventory.Items {
+    [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/ItemType/ArmorHeadType")]
+    public class HeadType : ArmorType {
+        public Head head = Head.Helm;
+    }
+    public enum Head {
+        Helm,
+    }
+}

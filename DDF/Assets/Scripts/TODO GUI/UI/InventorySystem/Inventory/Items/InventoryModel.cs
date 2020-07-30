@@ -1,4 +1,5 @@
 ﻿using DDF.Help;
+using DDF.Inventory.Items;
 using UnityEngine;
 using UnityEngine.UI;
 

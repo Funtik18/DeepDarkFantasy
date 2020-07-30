@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DDF.Inventory.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +10,6 @@ namespace DDF.Inventory {
     [RequireComponent(typeof(InventoryGrid))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Inventory/Container", 2)]
-    [Serializable]
     public class InventoryContainer : MonoBehaviour {
 
         public InventoryView view;
@@ -27,10 +27,7 @@ namespace DDF.Inventory {
 
 
         #region Settup
-        
-        
         private void Awake() {
-
             grid = GetComponent<InventoryGrid>();
             grid.view = view;
         }
@@ -48,6 +45,7 @@ namespace DDF.Inventory {
             }
 
             foreach (var item in startItems) {
+                print(item.itemSize.ToString());
                 AddItem(item);
             }
         }
@@ -106,9 +104,34 @@ namespace DDF.Inventory {
                 print(item.name + " Can not assign this item");
             }
         }
+
+        public int DetermineItem( Item item ) {
+            /*ItemType itemType = item.itemType;
+            int stackCount = item.itemStackCount.x;
+            int stackSize = item.itemStackCount.y;
+
+			if (stackCount < 1) {//ошибка, количество
+                return 0;
+			}
+
+            if(stackSize == -1) {//объект "бесконечный"
+                return -1;
+			}
+
+			if (!(stackCount <= stackSize)) {//ошибка, количество
+                return 0;
+			}*/
+
+
+
+            return 0;
+
+		}
+
+
         private bool AddItemXY( Item item ) {
 
-            Vector2 size = item.size;
+            Vector2 size = item.itemSize;
 
             for (int y = 0; y < height; y++) {
 
@@ -131,7 +154,7 @@ namespace DDF.Inventory {
                                 RectTransform rect = SetupDraggedModel(clone);
                                 rect.position = neighbors[i].GetComponent<RectTransform>().TransformPoint(neighbors[i].GetComponent<RectTransform>().rect.center);
 
-                                grid.RecalculateCellProportion(rect, clone.size);
+                                grid.RecalculateCellProportion(rect, clone.itemSize);
                             }
                         }
                         neighbors.Clear();
@@ -151,11 +174,11 @@ namespace DDF.Inventory {
         /// <param name="positionSlot"></param>
         private void AddItemOnPosition( Item item, InventorySlot positionSlot ) {
 
-            List<InventorySlot> slots = TakeSlotsBySize(positionSlot, item.size);
+            List<InventorySlot> slots = TakeSlotsBySize(positionSlot, item.itemSize);
 
             RectTransform rect = positionSlot.GetComponent<RectTransform>();
             buffer.position = rect.TransformPoint(rect.rect.center);
-            grid.RecalculateCellPosition(buffer, item.size);
+            grid.RecalculateCellPosition(buffer, item.itemSize);
 
             if (slots.Count > 0) {
 
@@ -223,9 +246,9 @@ namespace DDF.Inventory {
             if (isDrag) {
 				#region Наведение на предмет с предметом
 				if (view.SolidItemSlot) {
-                    SelectLandingModels(lastSlot, rootModel.referenceItem.size);
+                    SelectLandingModels(lastSlot, rootModel.referenceItem.itemSize);
 				} else {
-                    SelectLandingSlots(lastSlot, buffer.GetComponent<InventoryModel>().referenceItem.size);
+                    SelectLandingSlots(lastSlot, buffer.GetComponent<InventoryModel>().referenceItem.itemSize);
                 }
 				#endregion
 			}
@@ -297,7 +320,7 @@ namespace DDF.Inventory {
         }
 
         private void SetOrientation(Item item) {
-            item.size = new Vector2Int(item.size.y, item.size.x);
+            //item.itemSize = item.GetSize();
 
 		}
 

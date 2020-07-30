@@ -1,4 +1,5 @@
 ﻿using DDF.Help;
+using DDF.Inventory.Items;
 using System;
 using UnityEngine;
 
@@ -71,7 +72,7 @@ namespace DDF.Inventory {
 
             InventoryModel model = obj.GetComponent<InventoryModel>();
 
-            model.Icon.sprite = item.icon;
+            model.Icon.sprite = item.itemIcon;
             model.Icon.preserveAspect = true;
 
 			if (solidItemSlot) {

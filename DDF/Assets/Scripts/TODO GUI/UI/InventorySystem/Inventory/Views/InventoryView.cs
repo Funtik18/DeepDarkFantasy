@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DDF.Inventory {
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    [AddComponentMenu("Inventory/View", 3)]
+    [AddComponentMenu("Inventory/View", 4)]
     [Serializable]
     public class InventoryView : MonoBehaviour {
 
