@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace DDF.Atributes {
 	public enum InfoBoxType {
@@ -8,7 +9,7 @@ namespace DDF.Atributes {
 	}
 
 	[AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
-	public class InfoBoxAttribute : DrawerAttribute {
+	public class InfoBoxAttribute : PropertyAttribute {
 		public string Text { get; private set; }
 		public InfoBoxType Type { get; private set; }
 

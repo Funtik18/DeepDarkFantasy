@@ -3,33 +3,36 @@ using System;
 
 using UnityEngine;
 
-public sealed class CoroutineObject {
-    public MonoBehaviour Owner { get; private set; }
-    public Coroutine Coroutine { get; private set; }
-    public Func<IEnumerator> Routine { get; private set; }
+namespace DDF.Help {
 
-    public bool IsProcessing => Coroutine != null;
+    public sealed class CoroutineObject {
+        public MonoBehaviour Owner { get; private set; }
+        public Coroutine Coroutine { get; private set; }
+        public Func<IEnumerator> Routine { get; private set; }
 
-    public CoroutineObject( MonoBehaviour owner, Func<IEnumerator> routine ) {
-        Owner = owner;
-        Routine = routine;
-    }
+        public bool IsProcessing => Coroutine != null;
 
-    private IEnumerator Process() {
-        yield return Routine.Invoke();
-        Coroutine = null;
-    }
+        public CoroutineObject( MonoBehaviour owner, Func<IEnumerator> routine ) {
+            Owner = owner;
+            Routine = routine;
+        }
 
-    public void Start() {
-        Stop();
-
-        Coroutine = Owner.StartCoroutine(Process());
-    }
-
-    public void Stop() {
-        if (IsProcessing) {
-            Owner.StopCoroutine(Coroutine);
+        private IEnumerator Process() {
+            yield return Routine.Invoke();
             Coroutine = null;
+        }
+
+        public void Start() {
+            Stop();
+
+            Coroutine = Owner.StartCoroutine(Process());
+        }
+
+        public void Stop() {
+            if (IsProcessing) {
+                Owner.StopCoroutine(Coroutine);
+                Coroutine = null;
+            }
         }
     }
 }
