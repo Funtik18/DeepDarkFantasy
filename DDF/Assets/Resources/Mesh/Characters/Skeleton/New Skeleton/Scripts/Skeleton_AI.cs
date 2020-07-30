@@ -36,14 +36,14 @@ public class Skeleton_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lookMySost();
-        if(Agressive){
+            lookMySost();
+        if(Agressive && !stats.dead){
             //walk = false;
             _timer+=Time.deltaTime;
             if(_timer>=1.5f)
                 Ballte_mode();
         }else{
-            if(walk && !stats.dead && !endbattle)
+            if(walk && !endbattle)
                 move_to_point();
         }
     }
@@ -102,8 +102,8 @@ public class Skeleton_AI : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-
-        characterController.Move(moveDirection * Time.deltaTime);
+        if(!stats.dead)
+            characterController.Move(moveDirection * Time.deltaTime);
     } 
 
 
