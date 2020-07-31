@@ -30,8 +30,8 @@ namespace DDF.Inventory {
 
         [SerializeField]
         private TMPro.TextMeshProUGUI stackSize;
-        private int LastStackCount = 1;
-        public int StackCount {
+        private uint LastStackCount = 1;
+        public uint StackCount {
             protected set {
                 if (LastStackCount != value) {
                     //the stack count has changed for our item, update the text
@@ -46,7 +46,7 @@ namespace DDF.Inventory {
 
             get {
                 if (string.IsNullOrEmpty(stackSize.text)) return 0;
-                else return int.Parse(stackSize.text);
+                else return uint.Parse(stackSize.text);
             }
         }
 
@@ -56,7 +56,7 @@ namespace DDF.Inventory {
                 item = value;
                 if (item == null) return;
                 reference = item.GetId();
-                //StackCount = (int)item.StackCount;
+                RefreshModel();
             }
 			get {
                 return item;
@@ -64,7 +64,12 @@ namespace DDF.Inventory {
             }
 		}
 
-
 		public string reference = HelpFunctions.Crypto.GetNewGuid();
+    
+        public void RefreshModel() {
+            StackCount = item.itemStackCount;
+
+        }
+
     }
 }

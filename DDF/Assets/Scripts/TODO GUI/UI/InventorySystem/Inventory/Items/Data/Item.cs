@@ -28,8 +28,18 @@ namespace DDF.Inventory.Items {
             }
         }
         [Header("Stacking")]
-        public Vector2Int itemSize = Vector2Int.one;
-        public Vector2Int itemStackCount = Vector2Int.one;
+        [Range(1,10)]
+        [SerializeField]
+        private int itemWidth = 1;
+        [Range(1, 10)]
+        [SerializeField]
+        private int itemHeight = 1;
+
+        [Range(1, 64)]
+        public uint itemStackCount = 1;
+        [Tooltip("Если itemStackSize == -1 тогда возможное максимальное количество, максимально.")]
+        [Range(-1, 10)]
+        public int itemStackSize = 1;//дефолтное любое, кроме нуля
 
         [Header("Stats")]
 
@@ -41,8 +51,8 @@ namespace DDF.Inventory.Items {
         [SerializeField]
         private string itemID = System.Guid.NewGuid().ToString();
 
-        [SerializeField]
         [InfoBox("Будет ли объект копироваться или будет один экземляр.", InfoBoxType.Normal)]
+        [SerializeField]
         private bool onlyOne = false;
 
         /// <summary>
@@ -52,13 +62,30 @@ namespace DDF.Inventory.Items {
         /// <returns></returns>
         public Item GetItem(bool copy = false) {
             if (onlyOne) return this;
+
+            Item clone = Instantiate(this);
             if (!copy)
-            itemID = System.Guid.NewGuid().ToString();
-            return Instantiate(this);
+                clone.itemID = System.Guid.NewGuid().ToString();
+            return clone;
+		}
+
+        [SerializeField][HideInInspector]
+        private Vector2 vector2;
+        /// <summary>
+        /// Возвращает размер в предмета в инвентаре.
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 GetSize() {
+            if(vector2 == null || vector2.x == 0 || vector2.y == 0) {
+                vector2 = new Vector2(itemWidth, itemHeight);
+			}
+
+            return vector2;
 		}
 
         public string GetId() {
             return itemID;
 		}
+
     }
 }
