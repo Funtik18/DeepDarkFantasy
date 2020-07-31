@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DDF.Inventory.Items {
+namespace DDF.UI.Inventory.Items {
     [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/ItemType/WeaponOneHandedType")]
     public class OneHandedType : WeaponType {
         public OneHanded oneHanded = OneHanded.Sword;

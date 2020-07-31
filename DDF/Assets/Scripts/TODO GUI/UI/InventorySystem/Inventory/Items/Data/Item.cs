@@ -3,7 +3,7 @@ using DDF.Atributes;
 #endif
 using UnityEngine;
 
-namespace DDF.Inventory.Items {
+namespace DDF.UI.Inventory.Items {
     [AddComponentMenu("DDF/Inventory/Item", 1)]
     [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/Item", order = 1)]
     public class Item : ScriptableObject {

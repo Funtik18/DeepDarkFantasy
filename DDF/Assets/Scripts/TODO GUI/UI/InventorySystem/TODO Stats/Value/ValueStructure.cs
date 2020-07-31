@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.Inventory.Stats {
+namespace DDF.UI.Inventory.Stats {
     [CreateAssetMenu(fileName = "ValueStructure", menuName = "DDF/Inventory/Stats/Value/Struct")]
     public class ValueStructure : ScriptableObject {
         public List<Value> values;

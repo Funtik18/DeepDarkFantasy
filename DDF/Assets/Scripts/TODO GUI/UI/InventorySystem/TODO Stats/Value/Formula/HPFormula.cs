@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.Inventory.Stats {
+namespace DDF.UI.Inventory.Stats {
 
 	[CreateAssetMenu(fileName = "HP", menuName = "DDF/Inventory/Stats/Formula/HP", order = 1)]
 	public class HPFormula : FormulaInt {

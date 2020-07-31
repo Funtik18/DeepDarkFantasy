@@ -1,11 +1,11 @@
-﻿using DDF.Inventory.Items;
+﻿using DDF.UI.Inventory.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace DDF.Inventory {
+namespace DDF.UI.Inventory {
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(InventoryGrid))]
     [DisallowMultipleComponent]
@@ -107,30 +107,38 @@ namespace DDF.Inventory {
         /// <returns></returns>
         public void AddItem( Item item ) {
 
-            for (int i = 0; i < currentItems.Count; i++) {
-                if (currentItems[i].itemType == item.itemType) {
+           for (int i = 0; i < currentItems.Count; i++) {
+                if (currentItems[i].itemType == item.itemType  ) {
                     //если true значит смог найти такой же предмет и положить туда количество
-                    if(IncreaseItemCount(currentItems[i], item.itemStackCount) == true)
+                    if(IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
+                        //обновляем модель
+                        InventoryModel model = FindModelByItem(currentItems[i]);
+                        model.RefreshModel();
                         return;
+                    }
                 }
             }
 
             if (!AddItemXY(item)) {
-                print(item.name + " Can not assign this item");
+                Debug.LogError(item.name + " Can not assign this item");
             }
         }
         #region ItemWork
         private bool IncreaseItemCount(Item item, uint count) {
-            if (item.itemStackSize == -1) {//объект "бесконечный"
+            if (item.itemStackSize == -1) {//объект "бесконечный", деньги
                 item.itemStackCount += count;
-
-                InventoryModel model = FindModelByItem(item);
-                model.RefreshModel();
-
                 return true;
 			} else {
-                //if()
-			}
+                //int diff = item.itemStackSize - (int)item.itemStackCount;//сколько я ещё могу добавить в предмет
+				//if (count <= diff) {
+                  //  item.itemStackCount += count;
+                    //return true;
+                //} else {
+                    //int diff2 = (int)count - diff;
+
+                    //item.itemStackCount += (uint)diff;
+                //}
+            }
             return false;
         }
         private void DecreaseItemCount( Item item, uint count ) {
@@ -162,8 +170,8 @@ namespace DDF.Inventory {
 
                             if (i == 0) {
                                 RectTransform rect = SetupDraggedModel(clone);
-                                rect.position = neighbors[i].GetComponent<RectTransform>().TransformPoint(neighbors[i].GetComponent<RectTransform>().rect.center);
 
+                                AddItemOnPosition(clone, rect, neighbors[i], false);
                                 grid.RecalculateCellProportion(rect, clone.GetSize());
                             }
                         }
@@ -178,35 +186,32 @@ namespace DDF.Inventory {
             return false;
         }
         /// <summary>
-        /// TODO: все проверки должны быть здесь
+        /// Добавление предмета на определёную позицию в инвентаре.
+        /// При перетаскивании
         /// </summary>
         /// <param name="item"></param>
         /// <param name="positionSlot"></param>
-        private void AddItemOnPosition( Item item, InventorySlot positionSlot ) {
+        private void AddItemOnPosition( Item item, RectTransform model, InventorySlot positionSlot, bool recalculatePos = true ) {
 
             Vector2 size = item.GetSize();
 
             List<InventorySlot> slots = TakeSlotsBySize(positionSlot, size);
 
-            RectTransform rect = positionSlot.GetComponent<RectTransform>();
-            overSeer.buffer.position = rect.TransformPoint(rect.rect.center);
-            grid.RecalculateCellPosition(overSeer.buffer, size) ;
-
             if (slots.Count > 0) {
-
                 for (int i = 0; i < slots.Count; i++) {
                     slots[i].AssignItem(item);
                 }
             }
-
             slots.Clear();
 
+            RectTransform rect = positionSlot.GetComponent<RectTransform>();
+            model.position = rect.TransformPoint(rect.rect.center);
 
+            if(recalculatePos)
+                grid.RecalculateCellPosition(model, size);
 
             SelectAllNotEmptySlots();
         }
-
-
 
         /// <summary>
         /// Удаление предмета из инвенторя.
@@ -348,18 +353,21 @@ namespace DDF.Inventory {
         private void OnEndDrag( PointerEventData eventData ) {//если дропнул на тот же слот откуда взял или дропнул не известно куда
             if (!overSeer.isDrag) return;
 
+            RectTransform rect = overSeer.buffer;
+
+
             if (overSeer.isDrag != false) {
 
-                AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.rootSlot);
+                AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
                 DeselectAllSlots();
 
                 overSeer.isDrag = false;
             }
 
-            overSeer.buffer.SetSiblingIndex(indexOldSibling);
+            rect.SetSiblingIndex(indexOldSibling);
 
             if (view.SolidItemSlot) {
-                SelectAllNotEmptyModels();
+                //SelectAllNotEmptyModels();
 			} else {
                 DeselectAllSlots();
                 SelectAllNotEmptySlots();
@@ -370,22 +378,24 @@ namespace DDF.Inventory {
         private void OnDrop( PointerEventData eventData ) {
             if (!overSeer.isDrag) return;
 
+            RectTransform rect = overSeer.buffer;
+
             if (actionSelection == -1) {//нельзя
-                overSeer.from.AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.rootSlot);
+                overSeer.from.AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
 
                 DeselectAllSlots();
 
                 overSeer.isDrag = false;
             }
             if (actionSelection == 1) {//можно
-                AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.lastSlot);
+                AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.lastSlot);
 
                 overSeer.isDrag = false;
             }
 
             if(actionSelection == 2) {//обмен
 
-                AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.rootSlot);
+                AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
                 DeselectAllSlots();
 
                 /*List<InventorySlot> slots = TakeSlotsBySize(lastSlot, buffer.GetComponent<InventoryModel>().referenceItem.size);
@@ -409,7 +419,7 @@ namespace DDF.Inventory {
             }
 
             if (view.SolidItemSlot) {
-                SelectAllNotEmptyModels();
+                //SelectAllNotEmptyModels();
             } else {
                 DeselectAllSlots();
                 SelectAllNotEmptySlots();
@@ -559,7 +569,7 @@ namespace DDF.Inventory {
 
 
         private RectTransform SetupDraggedModel(Item item) {
-            RectTransform rect = grid.CreateModelByItem(item, view.SolidItemSlot);
+            RectTransform rect = grid.CreateModelByItem(item);
             return rect;
         }
 
@@ -577,7 +587,6 @@ namespace DDF.Inventory {
 
         #region Select
 
-        private int actionSelection = -1;
 
         private void SelectSlot( InventorySlot slot, Color color) {
             slot.HighlightColor = color;
@@ -627,7 +636,8 @@ namespace DDF.Inventory {
         }
         //intersection
 
-        
+
+        private int actionSelection = -1;
 
         private void SelectLandingSlots( InventorySlot slot, Vector2 size ) {
 
@@ -706,12 +716,17 @@ namespace DDF.Inventory {
             slots.Clear();
         }
 
-
+        /// <summary>
+        /// Убирает подсветку с всех слотов.
+        /// </summary>
         private void DeselectAllSlots() {
             for (int i = 0; i < slotsList.Count; i++) {
                 SelectSlot(slotsList[i], view.normalColor);
             }
         }
+        /// <summary>
+        /// Подсвечивает слоты с предметами.
+        /// </summary>
         private void SelectAllNotEmptySlots() {
             for (int i = 0; i < slotsList.Count; i++) {
                 if(!slotsList[i].isEmpty())

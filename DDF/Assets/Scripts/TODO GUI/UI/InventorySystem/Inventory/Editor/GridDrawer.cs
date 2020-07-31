@@ -1,4 +1,4 @@
-﻿using DDF.Inventory;
+﻿using DDF.UI.Inventory;
 using UnityEngine;
 
 namespace DDF.Editor {

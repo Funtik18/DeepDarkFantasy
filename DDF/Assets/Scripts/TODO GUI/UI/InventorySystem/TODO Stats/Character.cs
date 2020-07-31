@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.Inventory.Stats {
+namespace DDF.UI.Inventory.Stats {
 	#region Stats
 	
 

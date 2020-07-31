@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace DDF.Inventory {
+namespace DDF.UI.Inventory {
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Inventory/View", 4)]

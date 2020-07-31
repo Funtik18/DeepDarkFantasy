@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DDF.Inventory.Stats {
+namespace DDF.UI.Inventory.Stats {
     public class Stats {
         public List<ValueReference> valueList;
 

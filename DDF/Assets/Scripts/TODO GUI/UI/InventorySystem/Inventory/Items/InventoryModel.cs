@@ -1,9 +1,9 @@
 ﻿using DDF.Help;
-using DDF.Inventory.Items;
+using DDF.UI.Inventory.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DDF.Inventory {
+namespace DDF.UI.Inventory {
     /// <summary>
     /// Отвечает за картинку предмета в инвентаре.
     /// </summary>

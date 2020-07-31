@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace DDF.Inventory.Utility {
+namespace DDF.UI.Inventory.Utility {
     public static class PointerUtility {
         private static bool StartedOverUI = false;
 

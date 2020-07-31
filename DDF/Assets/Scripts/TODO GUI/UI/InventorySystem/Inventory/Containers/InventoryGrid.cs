@@ -1,9 +1,9 @@
 ﻿using DDF.Help;
-using DDF.Inventory.Items;
+using DDF.UI.Inventory.Items;
 using System;
 using UnityEngine;
 
-namespace DDF.Inventory {
+namespace DDF.UI.Inventory {
 
     public class InventoryGrid : MonoBehaviour {
         [HideInInspector]
@@ -65,7 +65,7 @@ namespace DDF.Inventory {
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public RectTransform CreateModelByItem( Item item, bool solidItemSlot ) {
+        public RectTransform CreateModelByItem( Item item ) {
 
             GameObject obj = Instantiate(modelPrefab);
             obj.name = item.name;
@@ -75,7 +75,7 @@ namespace DDF.Inventory {
             model.Icon.sprite = item.itemIcon;
             model.Icon.preserveAspect = true;
 
-			if (solidItemSlot) {
+			if (view.SolidItemSlot) {
                 model.Hightlight.gameObject.SetActive(true);
                 model.Hightlight.color = view.baseColor;
 			} else {
@@ -134,6 +134,12 @@ namespace DDF.Inventory {
 
 
         #region Recalculate
+        /// <summary>
+        /// Создание слотов.
+        /// </summary>
+        /// <param name="cellRect"></param>
+        /// <param name="cellSize"></param>
+        /// <param name="cellPos"></param>
         public void RecalculateCellSizeAndPosition( RectTransform cellRect, Vector2 cellSize, Vector2 cellPos) {
             cellRect.sizeDelta = cellSize;
             Vector2 newPos = new Vector2(( cellSize.x * cellPos.x ) + cellSpace.x * cellPos.x, -( cellSize.y * cellPos.y ) + cellSpace.y * cellPos.y);

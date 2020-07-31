@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using DDF.Inventory.Items;
+using DDF.UI.Inventory.Items;
 
 namespace DDF.Editor {
 	using UnityEditor;

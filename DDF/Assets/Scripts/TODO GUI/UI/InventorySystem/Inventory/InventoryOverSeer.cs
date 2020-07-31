@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.Inventory {
+namespace DDF.UI.Inventory {
 
     public class InventoryOverSeer : MonoBehaviour {
         public static InventoryOverSeer _instance;
@@ -27,6 +27,10 @@ namespace DDF.Inventory {
 		[HideInInspector]
 		public List<InventoryContainer> containers;
 		[HideInInspector]
+		public List<Transform> dragParents;
+
+
+		[HideInInspector]
 		public InventoryContainer from;//откуда взяли
 		[HideInInspector]
 		public InventoryContainer whereNow;//где сейчас находимся
@@ -39,6 +43,7 @@ namespace DDF.Inventory {
 
 		public void RegistrationContainer(InventoryContainer container) {
 			containers.Add(container);
+			dragParents.Add(container.view.dragParent);
 		}
 	}
 }

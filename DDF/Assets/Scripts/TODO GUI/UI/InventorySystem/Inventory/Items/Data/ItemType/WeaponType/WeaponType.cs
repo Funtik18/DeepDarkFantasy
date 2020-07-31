@@ -1,3 +1,3 @@
-﻿namespace DDF.Inventory.Items {
+﻿namespace DDF.UI.Inventory.Items {
     public class WeaponType : ItemType {}
 }

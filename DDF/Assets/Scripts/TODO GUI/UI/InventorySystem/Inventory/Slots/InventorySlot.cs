@@ -1,11 +1,11 @@
-﻿using DDF.Inventory.Items;
+﻿using DDF.UI.Inventory.Items;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace DDF.Inventory {
+namespace DDF.UI.Inventory {
 
     [RequireComponent(typeof(Image))]
     [RequireComponent(typeof(RectTransform))]

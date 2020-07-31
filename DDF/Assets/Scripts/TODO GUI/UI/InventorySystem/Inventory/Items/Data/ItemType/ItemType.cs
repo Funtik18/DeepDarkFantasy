@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
-namespace DDF.Inventory.Items {
+namespace DDF.UI.Inventory.Items {
     public class ItemType : ScriptableObject { }
 }

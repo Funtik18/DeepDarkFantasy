@@ -1,4 +1,4 @@
-﻿using DDF.Inventory;
+﻿using DDF.UI.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;

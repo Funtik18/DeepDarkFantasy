@@ -1,16 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
-namespace DDF.Inventory {
+namespace DDF.UI.Tools {
 
     public class DraggableWindow : MonoBehaviour, IDragUI, IPointerUI {
 
         private Vector2 pointerOffset;//для того чтобы не перетаскивать с середины
-        public RectTransform container;//ограничение
-        public RectTransform root;//что двигаем
+
+        [Tooltip("Ограничение.")]
+        public RectTransform container;
+        [Tooltip("Объект который двигаем.")]
+        public RectTransform root;
 
 
         private bool clampedToLeft;
@@ -29,9 +30,7 @@ namespace DDF.Inventory {
             clampedToTop = false;
             clampedToBottom = false;
         }
-        List<Vector2> pointersOffsets;
         public void OnBeginDrag( PointerEventData eventData ) {
-            //child.SetAsLastSibling();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(root, eventData.position, eventData.pressEventCamera, out pointerOffset);
         }
         public void OnDrag( PointerEventData eventData ) {
