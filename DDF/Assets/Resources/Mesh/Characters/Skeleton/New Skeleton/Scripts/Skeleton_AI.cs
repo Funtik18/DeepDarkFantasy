@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DDF.Atributes;
+
 
 public class Skeleton_AI : MonoBehaviour
 {
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
+    
+    [InfoBox("maxPain - Болевой порог, до которого я игнорирую попадание", InfoBoxType.Normal)]
+    public float maxPain = 2;
     private CharacterController characterController;
     private Animator myanim;
     public GameObject axeReady, axenotready;
     public bool walk;
     private List<GameObject> enemys = new List<GameObject>();
+
+    [InfoBox("Targets_Tag - Теги тех кого я не люблю", InfoBoxType.Normal)]
     public List<string> Targets_Tag = new List<string>();
     //public List<Transform> Waypoints = new List<Transform>();
     private Vector3 startPoint, nowPoint;
@@ -43,7 +50,7 @@ public class Skeleton_AI : MonoBehaviour
             if(_timer>=1.5f)
                 Ballte_mode();
         }else{
-            if(walk && !endbattle)
+            if(walk && !endbattle && !stats.dead)
                 move_to_point();
         }
     }
@@ -67,9 +74,11 @@ public class Skeleton_AI : MonoBehaviour
         }
         
         if(mYHp>stats.HP){
-            if(!hiting && (mYHp-stats.HP)>2)
+            if(!hiting && (mYHp-stats.HP)>maxPain)
                 myanim.SetBool("Hit",true);
             mYHp = stats.HP;
+            if(!Agressive)
+                IseeSomething(stats.Iam);
         }
 
         if(enemys.Count != 0 || hiting){
@@ -125,19 +134,19 @@ public class Skeleton_AI : MonoBehaviour
         Myeyes.targetTag = enemy.tag;
         isee = Myeyes.isee;
 
-        //if(!isee && !heviatack){
+        if(!isee && !heviatack){
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
-       // }
+        }
 
         //int hevi_dist = 70;
 
         if((min>sparing_distance && !heviatack))
         {
-            GetComponent<Animator>().applyRootMotion = false;
-            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            nowPoint = transform.position;
-            myanim.SetFloat("X",0.6f);
+            GetComponent<Animator>().applyRootMotion = true;
+           // transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+            //nowPoint = transform.position;
+            myanim.SetFloat("X",1f);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
          else

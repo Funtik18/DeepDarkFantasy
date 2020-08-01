@@ -75,7 +75,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.012394766, y: -0.005478725, z: 0.0009001659}
+  m_ConnectedAnchor: {x: -0.012394783, y: -0.005478725, z: 0.00090016273}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -168,7 +168,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8595986950082733521}
-  - {fileID: 540912549083371966}
   m_Father: {fileID: 567768279076087377}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -412,13 +411,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818755982499497786}
-  m_LocalRotation: {x: 0.09629158, y: 0.097819105, z: 0.7149341, w: 0.6855863}
-  m_LocalPosition: {x: 0.036, y: -0.24, z: 1.27}
+  m_LocalRotation: {x: 0.2655124, y: -0.015708327, z: 0.96239924, w: -0.05517294}
+  m_LocalPosition: {x: -0.093, y: -0.028, z: 1.29}
   m_LocalScale: {x: 0.20556931, y: 0.20556934, z: 0.20556942}
   m_Children: []
   m_Father: {fileID: 5786970870529582247}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.054, y: 30.85, z: 186.577}
 --- !u!33 &5074720613086060130
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -442,6 +441,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -466,6 +466,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &1692408474285425609
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -556,7 +557,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00014748087, y: 0.034438245, z: -0.0063389177}
+  m_ConnectedAnchor: {x: 0.00014748046, y: 0.034438245, z: -0.0063389223}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -758,7 +759,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 4.656613e-10, y: 0.03388091, z: -9.313226e-10}
+  m_ConnectedAnchor: {x: -0.000000012340024, y: 0.033880904, z: 0.000000013038516}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -898,7 +899,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 8.731149e-10, y: 0.019097954, z: -0.0000000037252903}
+  m_ConnectedAnchor: {x: -0.0000000040163286, y: 0.019097954, z: 0.0000000055879354}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: -1, z: 0}
   m_TwistLimitSpring:
@@ -1054,13 +1055,16 @@ MonoBehaviour:
   speedRotation: 10
   gravity: 10
   sparing_distance: 15
-  walk: 1
+  maxPain: 3
+  walk: 0
   endbattle: 0
   axeReady: {fileID: 7355550822675257012}
   axenotready: {fileID: 1634993076629666760}
+  LHandPoint: {fileID: 7572862543044210680}
   Targets_Tag:
   - Monster
-  Waypoints: []
+  - Zombie
+  - Skeleton
 --- !u!114 &8296172669103657537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1073,7 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72fd15957dedc6488178f6e34a79a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ikActive: 0
+  ikActive: 1
   rightHandObj: {fileID: 0}
   leftHandObj: {fileID: 0}
   lookObj: {fileID: 0}
@@ -1091,6 +1095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 100
   dead: 0
+  Iam: {fileID: 0}
 --- !u!1 &3255753869582714192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,6 +1204,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1307,7 +1313,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0.028939307, z: 0.0028607175}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 540912549083371966}
   m_Father: {fileID: 8595986950082733521}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1399,12 +1406,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4381858980279222588}
-  m_LocalRotation: {x: -0.04127117, y: -0.0693418, z: -0.01613182, w: 0.9966083}
-  m_LocalPosition: {x: -0.0032, y: 0.015, z: 0.0202}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.010000001}
+  m_LocalRotation: {x: -0.053542163, y: -0.0029964224, z: -0.022726288, w: 0.9983025}
+  m_LocalPosition: {x: -0.00050168275, y: -0.022388685, z: 0.016570179}
+  m_LocalScale: {x: 0.010000002, y: 0.010000001, z: 0.010000001}
   m_Children: []
-  m_Father: {fileID: 737494980962702001}
-  m_RootOrder: 1
+  m_Father: {fileID: 1546034445539076948}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3552822926549360980
 MeshFilter:
@@ -1429,6 +1436,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1453,6 +1461,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &302665888664043615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1749,7 +1758,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 10
   m_CollisionDetection: 0
 --- !u!1 &6142078439241641797
 GameObject:
@@ -2077,7 +2086,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00025510872, y: 0.02371137, z: 0.0020426682}
+  m_ConnectedAnchor: {x: -0.00025509717, y: 0.02371137, z: 0.0020426775}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2217,7 +2226,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000004656613, y: 0.033889107, z: -0.000000009313226}
+  m_ConnectedAnchor: {x: 0.0000000055879354, y: 0.033889115, z: 0.000000008381903}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2388,7 +2397,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: -1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.022911295, y: 0.0066924123, z: -0.0009882496}
+  m_ConnectedAnchor: {x: 0.022911295, y: 0.0066924165, z: -0.0009882593}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -2712,7 +2721,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: -1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.022923687, y: 0.0067064716, z: -0.00021824031}
+  m_ConnectedAnchor: {x: -0.022923695, y: 0.0067064716, z: -0.00021825085}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -2821,7 +2830,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000000547152, y: 0.019087601, z: 0.0000000037252903}
+  m_ConnectedAnchor: {x: 0.000000014784746, y: 0.019087598, z: 0.0000000055879354}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: -1, z: 0}
   m_TwistLimitSpring:
@@ -2961,7 +2970,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.012394768, y: -0.005478725, z: 0.00096882967}
+  m_ConnectedAnchor: {x: 0.012394786, y: -0.0054787244, z: 0.00096883683}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:

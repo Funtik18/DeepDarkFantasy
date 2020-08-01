@@ -1,24 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DDF.Atributes;
 
 public class Monster_AI : MonoBehaviour
 {
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
+    
+    [InfoBox("maxPain - Болевой порог, до которого я игнорирую попадание", InfoBoxType.Normal)]
+    public float maxPain = 2;
+
+    [InfoBox("hevi_dist - Дистанция от врага для особой атаки. hevi_dist > sparing_distance", InfoBoxType.Normal)]
+    int hevi_dist = 70;
     private CharacterController characterController;
     private Animator myanim;
     public bool walk;
     public GameObject axeReady, axenotready;
     private List<GameObject> enemys = new List<GameObject>();
+
+    [InfoBox("Targets_Tag - Теги тех кого я не люблю", InfoBoxType.Normal)]
     public List<string> Targets_Tag = new List<string>();
-    public List<Transform> Waypoints = new List<Transform>();
-    private Vector3 startPoint, nowPoint;
     private bool heviatack,isee,attacking,hiting,weapon,Agressive,endbattle;
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
     private Character_stats stats;
-    private int way_number = 0,nap = 0;
+    private int nap = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,9 +73,11 @@ public class Monster_AI : MonoBehaviour
         }
         
         if(mYHp>stats.HP){
-            if(!hiting && (mYHp-stats.HP)>2)
+            if(!hiting && (mYHp-stats.HP)>maxPain)
                 myanim.SetBool("Hit",true);
             mYHp = stats.HP;
+            if(!Agressive)
+                IseeSomething(stats.Iam);
         }
 
         if(enemys.Count != 0 || hiting){
@@ -79,7 +88,6 @@ public class Monster_AI : MonoBehaviour
             GetComponent<IK_Controls>().lookObj = null;
             _timer = 0;
             myanim.SetFloat("X",0);
-            startPoint = transform.position;
         }
         myanim.SetBool("Battle",Agressive);
 
@@ -127,18 +135,16 @@ public class Monster_AI : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
         }
 
-        int hevi_dist = 70;
 
         if((min>hevi_dist && !heviatack))
         {
             GetComponent<Animator>().applyRootMotion = false;
             transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            nowPoint = transform.position;
             myanim.SetFloat("X",0.6f);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
         else
-            if(min<=hevi_dist && min>60)
+            if(min<=hevi_dist && min>hevi_dist-10)
             {
                 GetComponent<Animator>().applyRootMotion = true;
                 myanim.SetBool("Hevi_Attak", true);
