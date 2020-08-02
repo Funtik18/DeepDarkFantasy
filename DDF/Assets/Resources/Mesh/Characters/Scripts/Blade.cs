@@ -27,6 +27,12 @@ public class Blade : MonoBehaviour
             }
     }
 
+    private void Start(){
+        if(gameObject.transform.root.GetComponent<Character_stats>() != null)
+        dmg = gameObject.transform.root.GetComponent<Character_stats>().dmg;
+        if(dmg<=0)
+            dmg = 1;
+    }
        
 void FixedUpdate () {
      if (speedOrder) {

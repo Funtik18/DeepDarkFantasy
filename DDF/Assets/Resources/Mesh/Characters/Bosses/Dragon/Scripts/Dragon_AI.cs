@@ -5,20 +5,20 @@ using UnityEngine;
 public class Dragon_AI : MonoBehaviour
 {
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
+    public int fire_dist = 70;
     private CharacterController characterController;
     private Animator myanim;
     public bool walk;
     public GameObject axeReady, axenotready,partic_fire;
     private List<GameObject> enemys = new List<GameObject>();
     public List<string> Targets_Tag = new List<string>();
-    public List<Transform> Waypoints = new List<Transform>();
     private Vector3 startPoint, nowPoint;
     private bool heviatack,isee,attacking,hiting,weapon,Agressive,endbattle,fair;
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
     private Character_stats stats;
-    private int way_number = 0,nap = 0;
+    private int nap = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,7 +55,7 @@ public class Dragon_AI : MonoBehaviour
 
             GetComponentInChildren<RayScan>().enabled = false;
             GetComponent<CharacterController>().enabled = false;
-            GetComponent<CapsuleCollider>().enabled = false;
+            partic_fire.SetActive(false);
 
             if(_timere >= 3.25f){
                 myanim.enabled = false;
@@ -118,9 +118,8 @@ public class Dragon_AI : MonoBehaviour
         }
 
         partic_fire.SetActive(fair);
-        int hevi_dist = 70;
 
-        if((min>hevi_dist && !heviatack))
+        if((min>fire_dist && !heviatack))
         {
             GetComponent<Animator>().applyRootMotion = true;
             //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
@@ -129,7 +128,7 @@ public class Dragon_AI : MonoBehaviour
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
         else
-            if(min<=hevi_dist && min>60)
+            if(min<=fire_dist && min>60)
             {
                 GetComponent<Animator>().applyRootMotion = true;
                 myanim.SetBool("Hevi_Attak", true);

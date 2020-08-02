@@ -108,7 +108,7 @@ public class Monster_AI : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-
+        if(!stats.dead)
         characterController.Move(moveDirection * Time.deltaTime);
     } 
 
@@ -138,9 +138,9 @@ public class Monster_AI : MonoBehaviour
 
         if((min>hevi_dist && !heviatack))
         {
-            GetComponent<Animator>().applyRootMotion = false;
-            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            myanim.SetFloat("X",0.6f);
+            GetComponent<Animator>().applyRootMotion = true;
+            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+            myanim.SetFloat("X",stats.speed);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
         else
@@ -153,8 +153,8 @@ public class Monster_AI : MonoBehaviour
             else
                 if(min>sparing_distance && !attacking)
                 {
-                    myanim.SetFloat("X",0.6f);
-                    transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+                    myanim.SetFloat("X",stats.speed);
+                    //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
                 }
                 else
                 {
@@ -165,7 +165,7 @@ public class Monster_AI : MonoBehaviour
                         attacking = true;
                         bool rootM = false;
                         int attack = Random.Range(1,5);
-                        Debug.Log("Choose Attack "+ attack);
+                        //Debug.Log("Choose Attack "+ attack);
                     if(attack == 1){
                             rootM = true;
                             myanim.SetBool("Attak", true);
@@ -279,12 +279,12 @@ public class Monster_AI : MonoBehaviour
             Debug.Log(hit.transform.name+" "+nap);
         }
             //float dist = Vector3.Distance(transform.position,Wvc);
-            myanim.SetFloat("X",0.8f);
+            myanim.SetFloat("X",stats.speed);
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
 
-            GetComponent<Animator>().applyRootMotion = false;
-            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+            GetComponent<Animator>().applyRootMotion = true;
+            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
         
     }
 

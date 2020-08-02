@@ -109,7 +109,7 @@ public class knight_AI : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-
+        if(!stats.dead)
         characterController.Move(moveDirection * Time.deltaTime);
     } 
 
@@ -157,7 +157,7 @@ public class knight_AI : MonoBehaviour
             else
                 if(min>=sparing_distance && !attacking)
                 {
-                    myanim.SetFloat("X",0.6f);
+                    myanim.SetFloat("X",stats.speed);
                     //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
                 }
                 else
@@ -280,7 +280,7 @@ public class knight_AI : MonoBehaviour
             //Debug.Log(hit.transform.name+" "+nap);
         }
             //float dist = Vector3.Distance(transform.position,Wvc);
-            myanim.SetFloat("X",1f);
+            myanim.SetFloat("X",stats.speed);
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
 

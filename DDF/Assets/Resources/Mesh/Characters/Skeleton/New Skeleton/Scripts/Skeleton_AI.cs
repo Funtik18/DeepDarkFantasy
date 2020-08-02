@@ -143,10 +143,10 @@ public class Skeleton_AI : MonoBehaviour
 
         if((min>sparing_distance && !heviatack))
         {
-            GetComponent<Animator>().applyRootMotion = true;
-           // transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+            GetComponent<Animator>().applyRootMotion = false;
+            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
             //nowPoint = transform.position;
-            myanim.SetFloat("X",1f);
+            myanim.SetFloat("X",stats.speed);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
          else
@@ -270,7 +270,7 @@ public class Skeleton_AI : MonoBehaviour
             //Debug.Log(hit.transform.name+" "+nap);
         }
             //float dist = Vector3.Distance(transform.position,Wvc);
-            myanim.SetFloat("X",0.8f);
+            myanim.SetFloat("X",stats.speed);
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
 
