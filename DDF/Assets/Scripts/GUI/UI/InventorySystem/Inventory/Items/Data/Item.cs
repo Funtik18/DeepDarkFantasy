@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using DDF.Atributes;
+using System;
 #endif
 using UnityEngine;
 
@@ -69,7 +70,7 @@ namespace DDF.UI.Inventory.Items {
             return clone;
 		}
 
-        [SerializeField][HideInInspector]
+        [NonSerialized]
         private Vector2 vector2;
         /// <summary>
         /// Возвращает размер в предмета в инвентаре.

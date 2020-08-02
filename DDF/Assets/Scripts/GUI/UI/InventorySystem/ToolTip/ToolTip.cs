@@ -3,6 +3,7 @@ using DDF.UI.Inventory.Items;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
+	[RequireComponent(typeof(RectTransform))]
 	[RequireComponent(typeof(CanvasGroup))]
 	public class ToolTip : MonoBehaviour {
 
@@ -10,6 +11,7 @@ namespace DDF.UI.Inventory {
 
 		private CanvasGroup canvasGroup;
 
+		public RectTransform rect { get { return GetComponent<RectTransform>(); } }
 
 		[SerializeField]
 		private TMPro.TextMeshProUGUI text;
@@ -25,8 +27,9 @@ namespace DDF.UI.Inventory {
 		private void Awake() {
 			_instance = this;
 			canvasGroup = GetComponent<CanvasGroup>();
-		}
 
+			
+		}
 		public void SetPosition( Vector2 newPos ) {
 			transform.position = newPos;
 		}
@@ -49,9 +52,6 @@ namespace DDF.UI.Inventory {
 			Resize();
 		}
 		public void ShowToolTip() {
-
-
-
 			HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup);
 
 			isHide = false;

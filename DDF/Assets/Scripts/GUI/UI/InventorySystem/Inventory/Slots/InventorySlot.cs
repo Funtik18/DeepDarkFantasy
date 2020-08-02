@@ -15,8 +15,6 @@ namespace DDF.UI.Inventory {
     [Serializable]
     public class InventorySlot : MonoBehaviour, IPointerUI, IDragUI, IDropUI {
 
-        //public Transform[] squares;
-
         [SerializeField]
         private Item item;
 
@@ -26,41 +24,9 @@ namespace DDF.UI.Inventory {
             protected set {
                 if (item != value) {
                     item = value;
-                    if (item == null) StackCount = 0;
-					else {
-                        //StackCount = (int)item.StackCount;
-                    }
                 }
             }
         }
-        private int stackSize = 0;
-        public int StackCount {
-            protected set {
-                if (stackSize != value) {
-                    stackSize = value;
-                }
-            }
-
-            get {
-                if (stackSize <= 0) return 0;
-                else return stackSize;
-            }
-        }
-
-        [Header("Inventory Behaviour")]
-
-        /*[SerializeField]
-        [Tooltip("The default icon to use when no item is displayed in this slot.")]
-        private Sprite defaultIcon;
-        public Sprite DefaultIcon {
-            get { return defaultIcon; }
-            set {
-                defaultIcon = value;
-                if (Item == null) SetDefaultIcon();
-            }
-        }
-        public Color defaultIconColor = Color.white;
-        */
 
         [Header("Sub-GameObject References")]
 
@@ -77,69 +43,41 @@ namespace DDF.UI.Inventory {
             }
             get { return highlight.color; }
         }
-
-
-        /* [SerializeField]
-         private Image iconImage;
-         [HideInInspector]
-         public Sprite Icon {
-             protected set {
-                 iconImage.sprite = value;
-                 if (value == null) iconImage.enabled = false;
-                 else iconImage.enabled = true;
-             }
-             get {
-                 return iconImage.sprite;
-             }
-         }
-         */
-
-        
-
-
-        public bool autoEquip = false;
-
+        /// <summary>
+        /// Позиция в инвентаре.
+        /// </summary>
         [HideInInspector]
         public Vector2Int position = Vector2Int.zero;
 
-
+		#region Functional
 		public virtual void AssignItem( Item newItem ) {
 
             Item = newItem;
         }
-
         public virtual void FreeItem() {
             Item = null;
         }
-
         public virtual bool isEmpty(){
             if (Item == null){
                 return true;
 			}
             return false;
         }
+		#endregion
 
-		/// <summary>
-		/// Helper for setting default icon of the slot.
-		/// </summary>
-		/*public void SetDefaultIcon() {
-            //iconMesh.Rotation = Vector3.zero;
-            //IconMesh.material = null;
-            //Icon3D = null;
-            Icon = defaultIcon;
-
-            iconImage.color = defaultIconColor;
-        }
-        */
-        #region Triggers, Events
-        [Serializable]
+		#region Triggers, Events
+		[Serializable]
         public class PointerTrigger : UnityEvent<PointerEventData, InventorySlot> { }
         [HideInInspector]
         public PointerTrigger OnHover = new PointerTrigger();
         [HideInInspector]
         public PointerTrigger OnDown = new PointerTrigger();
         [HideInInspector]
-        public PointerTrigger OnClick = new PointerTrigger();
+        public PointerTrigger OnLeftClick = new PointerTrigger();
+        [HideInInspector]
+        public PointerTrigger OnMiddleClick = new PointerTrigger();
+        [HideInInspector]
+        public PointerTrigger OnRightClick = new PointerTrigger();
         [HideInInspector]
         public PointerTrigger OnUp = new PointerTrigger();
         [HideInInspector]
@@ -175,9 +113,15 @@ namespace DDF.UI.Inventory {
         public void OnPointerClick( PointerEventData eventData ) {
             //if (InvalidateClick) return;
             //if (TouchHover && Time.unscaledTime - HoverStartTime > MinHoverTime) return;
-
-            OnClick.Invoke(eventData, this);
-            //if (this.Item != null) Item.OnClick.Invoke(eventData, this);
+            if(eventData.button == PointerEventData.InputButton.Left) {
+                OnLeftClick.Invoke(eventData, this);
+            }
+            if (eventData.button == PointerEventData.InputButton.Middle) {
+                OnMiddleClick.Invoke(eventData, this);
+            }
+            if (eventData.button == PointerEventData.InputButton.Right) {
+                OnRightClick.Invoke(eventData, this);
+            }
         }
 		public void OnPointerUp( PointerEventData eventData ) {
             OnUp.Invoke(eventData, this);

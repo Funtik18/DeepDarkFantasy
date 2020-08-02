@@ -10,7 +10,7 @@ namespace DDF.UI.Inventory {
     [RequireComponent(typeof(InventoryGrid))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Inventory/Container", 2)]
-    public class InventoryContainer : MonoBehaviour, IPointerUI {
+    public class InventoryContainer : MonoBehaviour {
 
         private InventoryOverSeer overSeer;
 
@@ -71,7 +71,11 @@ namespace DDF.UI.Inventory {
             slot.OnHover.AddListener(OnPointerEnter);
 
             slot.OnDown.AddListener(OnPointerDown);
-            slot.OnClick.AddListener(OnPointerClick);
+
+            slot.OnLeftClick.AddListener(OnPointerLeftClick);
+            slot.OnMiddleClick.AddListener(OnPointerMiddleClick);
+            slot.OnRightClick.AddListener(OnPointerRightClick);
+
             slot.OnUp.AddListener(OnPointerUp);
             slot.OnEndHover.AddListener(OnPointerExit);
 
@@ -86,7 +90,9 @@ namespace DDF.UI.Inventory {
         private void UnSubscribeSlot( InventorySlot slot ) {
             slot.OnHover.RemoveAllListeners();
             slot.OnDown.RemoveAllListeners();
-            slot.OnClick.RemoveAllListeners();
+            slot.OnLeftClick.RemoveAllListeners();
+            slot.OnMiddleClick.RemoveAllListeners();
+            slot.OnRightClick.RemoveAllListeners();
             slot.OnUp.RemoveAllListeners();
             slot.OnEndHover.RemoveAllListeners();
 
@@ -231,25 +237,6 @@ namespace DDF.UI.Inventory {
 
         #region Events
 
-        #region Container Events
-        public void OnPointerEnter( PointerEventData eventData ) {
-            overSeer.whereNow = this;
-        }
-        public void OnPointerDown( PointerEventData eventData ) { }
-        public void OnPointerClick( PointerEventData eventData ) { }
-        public void OnPointerUp( PointerEventData eventData ) { }
-        public void OnPointerExit( PointerEventData eventData ) {
-            overSeer.whereNow = null;
-        }
-
-
-        #endregion
-
-
-        
-        
-        bool canDrag = false;
-
         /// <summary>
         /// Наведение на предметы.
         /// </summary>
@@ -286,7 +273,11 @@ namespace DDF.UI.Inventory {
 
 		public void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
             overSeer.lastSlot = slot;
-            
+            overSeer.whereNow = this;
+
+            if (MenuOptions._instance.IsHide) ToolTipShow();
+
+
             if (overSeer.isDrag) {//передвигает от фром
                 if(overSeer.whereNow != null)
                     overSeer.whereNow.HoverLanding();//и подсвечивает тот контейнер на который указывает
@@ -297,15 +288,26 @@ namespace DDF.UI.Inventory {
         }
 
         public void OnPointerDown( PointerEventData eventData, InventorySlot slot ) {
+            if (!MenuOptions._instance.IsHide) return;
+
             overSeer.rootSlot = slot;//запомнили слот откуда взяли
         }
-        public void OnPointerClick( PointerEventData eventData, InventorySlot slot ) { }
+        public void OnPointerLeftClick( PointerEventData eventData, InventorySlot slot ) {
+            MenuOptionsHide();
+        }
+        public void OnPointerMiddleClick( PointerEventData eventData, InventorySlot slot ) { }
+        public void OnPointerRightClick( PointerEventData eventData, InventorySlot slot ) {
+            if (slot.isEmpty()) MenuOptionsHide();
+            MenuOptionsShow();
+        }
+
         public void OnPointerUp( PointerEventData eventData, InventorySlot slot ) { }
         public void OnPointerExit( PointerEventData eventData, InventorySlot slot ) {
-
             overSeer.lastSlot = slot;
 
-			if (view.SolidItemSlot) {
+            ToolTipHide();
+
+            if (view.SolidItemSlot) {
                 if (!overSeer.lastSlot.isEmpty()) {
                     overSeer.lastModel = FindModelByItem(overSeer.lastSlot.Item);
                     overSeer.lastModel.Hightlight.color = view.baseColor;
@@ -315,11 +317,12 @@ namespace DDF.UI.Inventory {
                 SelectAllNotEmptySlots();
             }
 
+            overSeer.whereNow = null;
+
             // HideToolTip();
         }
-
-        int indexOldSibling = -1;
         private void OnBeginDrag( PointerEventData eventData ) {
+            if (!MenuOptions._instance.IsHide) return;
             if (overSeer.rootSlot.isEmpty()) return;
 
             overSeer.from = this;
@@ -336,21 +339,23 @@ namespace DDF.UI.Inventory {
 
             DeleteItem(overSeer.rootSlot.Item);
 
-            #region Позиция в иерархии
             overSeer.buffer = overSeer.rootModel.GetComponent<RectTransform>();
-            indexOldSibling = overSeer.buffer.GetSiblingIndex();
-            overSeer.buffer.SetAsLastSibling();
-			#endregion
 
-		}
+            #region Позиция в иерархии
+            overSeer.buffer.SetAsLastSibling();
+            grid.dragParent.SetAsLastSibling();
+            #endregion
+        }
 
 		private void OnDrag( PointerEventData eventData ) {
+            if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
             Vector2 mousePos2D = Input.mousePosition;
 
             overSeer.buffer.position = grid.RectSetPositionToWorld(mousePos2D);
         }
         private void OnEndDrag( PointerEventData eventData ) {//если дропнул на тот же слот откуда взял или дропнул не известно куда
+            if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
             RectTransform rect = overSeer.buffer;
@@ -361,10 +366,11 @@ namespace DDF.UI.Inventory {
                 AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
                 DeselectAllSlots();
 
+                print("ВЫБРОС " + overSeer.rootModel.referenceItem.itemName);
+
                 overSeer.isDrag = false;
             }
 
-            rect.SetSiblingIndex(indexOldSibling);
 
             if (view.SolidItemSlot) {
                 //SelectAllNotEmptyModels();
@@ -376,19 +382,22 @@ namespace DDF.UI.Inventory {
             overSeer.from = null;
         }
         private void OnDrop( PointerEventData eventData ) {
+            if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
             RectTransform rect = overSeer.buffer;
 
+            //+
             if (actionSelection == -1) {//нельзя
                 overSeer.from.AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
 
                 DeselectAllSlots();
-
                 overSeer.isDrag = false;
             }
+            //+
             if (actionSelection == 1) {//можно
-                AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.lastSlot);
+                overSeer.whereNow.AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.lastSlot);
+                rect.SetParent(overSeer.whereNow.grid.dragParent);
 
                 overSeer.isDrag = false;
             }
@@ -426,9 +435,9 @@ namespace DDF.UI.Inventory {
             }
         }
 
-		#endregion
+        #endregion
 
-		/* InventoryModel model = buffer.GetComponent<InventoryModel>();
+        /* InventoryModel model = buffer.GetComponent<InventoryModel>();
 
              List<InventorySlot> slots = TakeSlotsBySize(positionSlot, model.referenceItem.size);
 
@@ -448,31 +457,50 @@ namespace DDF.UI.Inventory {
 
 
 
-		#region ToolTip
-		/*private void ToolTipShow() {
+        #region UIInteraction
+        private void ToolTipShow() {
 
-            Item item = lastSlot.Item;
+            if (overSeer.lastSlot.isEmpty()) return;
+            RectTransform rectPos;
 
-
+            Item item = overSeer.lastSlot.Item;
             List<InventorySlot> slots = TakeSlotsByItem(item);
-
-            RectTransform rect = slots[slots.Count - 1].GetComponent<RectTransform>();
-
-            
-            ToolTip._instance.SetItem(item);
-            ToolTip._instance.SetPosition(grid.RecalculateToolTipPosition(rect));
-            ToolTip._instance.ShowToolTip();
+            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
+            //ToolTip._instance.SetItem(item);
 
             slots.Clear();
+
+            ToolTip._instance.transform.SetAsLastSibling();
+
+            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
+            ToolTip._instance.ShowToolTip();
         }
-        private void HideToolTip() => ToolTip._instance.HideToolTip();*/
+        private void ToolTipHide() => ToolTip._instance.HideToolTip();
 
-		#endregion
 
-		#endregion
+        private void MenuOptionsShow() {
+            if (overSeer.lastSlot.isEmpty()) return;
+            RectTransform rectPos;
 
-		#region Slots work
-		private List<InventorySlot> TakeSlotsBySize( InventorySlot slot, Vector2 size ) {
+            Item item = overSeer.lastSlot.Item;
+            List<InventorySlot> slots = TakeSlotsByItem(item);
+            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
+
+            slots.Clear();
+
+            MenuOptions._instance.transform.SetAsLastSibling();
+
+            MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
+            MenuOptions._instance.OpenMenu();
+        }
+        private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();
+
+        #endregion
+
+        #endregion
+
+        #region Slots work
+        private List<InventorySlot> TakeSlotsBySize( InventorySlot slot, Vector2 size ) {
 
             Vector2Int slotPosition = slot.position;
 
@@ -574,7 +602,7 @@ namespace DDF.UI.Inventory {
         }
 
         private InventoryModel FindModelByItem(Item item) {
-            List<InventoryModel> models = view.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
+            List<InventoryModel> models = grid.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
             InventoryModel model = null;
             for (int i = 0; i < models.Count; i++) {
                 if (models[i].reference == item.GetId()) {
@@ -735,7 +763,7 @@ namespace DDF.UI.Inventory {
         }
 
         private void SelectAllNotEmptyModels() {
-            List<InventoryModel> models = view.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
+            List<InventoryModel> models = grid.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
 
             for (int i = 0; i < models.Count; i++) {
                 models[i].Hightlight.color = view.baseColor;

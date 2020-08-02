@@ -13,6 +13,13 @@ namespace DDF.UI.Inventory {
         public GameObject slotPrefab;
         [Tooltip("Запрашивает модель с InventoryModel")]
         public GameObject modelPrefab;
+        [Tooltip("Запрашивает объект для хранения моделей")]
+        public GameObject dragParentPrefab;
+
+        public Transform canvasRoot;
+
+        [HideInInspector]
+        public Transform dragParent;
 
         public int width = 10;
         public int height = 6;
@@ -24,13 +31,21 @@ namespace DDF.UI.Inventory {
 
         private Camera camera;
         private float screenToCameraDistance;
-
         private void Awake() {
 
             camera = Camera.main;
             screenToCameraDistance = camera.nearClipPlane;
 
             ConstructGrid();
+
+            GameObject obj = GameObject.Find("DragParents");
+			if (obj == null) {
+                obj = HelpFunctions.TransformSeer.CreateObjectInParent(canvasRoot, dragParentPrefab);
+                obj.name = "DragParents";
+			}
+            GameObject temp = HelpFunctions.TransformSeer.CreateObjectInParent(obj.transform, dragParentPrefab);
+            temp.name = "DragParent";
+            dragParent = temp.transform;
         }
 
         /// <summary>
@@ -42,7 +57,7 @@ namespace DDF.UI.Inventory {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
 
-                    GameObject obj = HelpFunctions.TransformSeer.CreateObjectInParen(transform, slotPrefab);
+                    GameObject obj = HelpFunctions.TransformSeer.CreateObjectInParent(transform, slotPrefab);
                     obj.name = "Slot(" + x + "," + y + ")";
 
                     RectTransform slotRect = obj.transform as RectTransform;
@@ -87,7 +102,7 @@ namespace DDF.UI.Inventory {
             
             RectTransform rect = obj.transform as RectTransform;
 
-            rect.SetParent(view.dragParent);
+            rect.SetParent(dragParent);
 
 
             rect.sizeDelta = cellSize;
@@ -102,25 +117,24 @@ namespace DDF.UI.Inventory {
             return camera.ScreenToWorldPoint(GetPositionNearClip(position2D));
         }
 
-        public Vector2 RecalculateToolTipPosition(RectTransform rect) {
+        public Vector2 RecalculatePositionToCornRect(RectTransform rectCorn, RectTransform rect ) {
             int i = 3;
-            RectTransform toolTip = ToolTip._instance.GetComponent<RectTransform>();
 
             Vector2 newPosition = Vector2.zero;
 
             if (i == 1) {//
-                newPosition = rect.TransformPoint(rect.rect.center + new Vector2(-cellSize.x / 2, cellSize.y / 2) + new Vector2(-toolTip.sizeDelta.x, toolTip.sizeDelta.y));
+                newPosition = rectCorn.TransformPoint(rectCorn.rect.center + new Vector2(-cellSize.x / 2, cellSize.y / 2) + new Vector2(-rect.sizeDelta.x, rect.sizeDelta.y));
             }
             if (i == 2) {//
-                newPosition = rect.TransformPoint(rect.rect.center + new Vector2(cellSize.x / 2, cellSize.y / 2) + new Vector2(0, toolTip.sizeDelta.y));
+                newPosition = rectCorn.TransformPoint(rectCorn.rect.center + new Vector2(cellSize.x / 2, cellSize.y / 2) + new Vector2(0, rect.sizeDelta.y));
             }
 
             if (i == 3) {
 
-                newPosition = rect.TransformPoint(rect.rect.center + new Vector2(cellSize.x / 2, -cellSize.y / 2));
+                newPosition = rectCorn.TransformPoint(rectCorn.rect.center + new Vector2(cellSize.x / 2, -cellSize.y / 2));
             }
             if (i == 4) {
-                newPosition = rect.TransformPoint(rect.rect.center + new Vector2(-cellSize.x / 2, -cellSize.y / 2) + new Vector2(-toolTip.sizeDelta.x, 0));
+                newPosition = rectCorn.TransformPoint(rectCorn.rect.center + new Vector2(-cellSize.x / 2, -cellSize.y / 2) + new Vector2(-rect.sizeDelta.x, 0));
             }
 
             return newPosition;

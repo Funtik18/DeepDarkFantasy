@@ -27,7 +27,7 @@ namespace DDF.Help {
 			}
 
 
-			public static GameObject CreateObjectInParen( Transform parent, GameObject obj ) {
+			public static GameObject CreateObjectInParent( Transform parent, GameObject obj ) {
 				GameObject newobj = Instantiate(obj);
 				Transform temp = newobj.transform;
 
@@ -55,15 +55,16 @@ namespace DDF.Help {
 		}
 
 		public class CanvasGroupSeer {
-			public static void EnableGameObject( CanvasGroup canvasGroup ) {
+			public static void EnableGameObject( CanvasGroup canvasGroup, bool iteract = false) {
 				canvasGroup.alpha = 1;
-				canvasGroup.blocksRaycasts = false;
-				canvasGroup.interactable = false;
+				canvasGroup.blocksRaycasts = iteract;
+				canvasGroup.interactable = iteract;
+				
 			}
-			public static void DisableGameObject( CanvasGroup canvasGroup ) {
+			public static void DisableGameObject( CanvasGroup canvasGroup, bool iteract = false ) {
 				canvasGroup.alpha = 0;
-				canvasGroup.blocksRaycasts = false;
-				canvasGroup.interactable = false;
+				canvasGroup.blocksRaycasts = iteract;
+				canvasGroup.interactable = iteract;
 			}
 		}
 

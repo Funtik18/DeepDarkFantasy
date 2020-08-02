@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DDF.UI.Inventory.Items;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector]
 		public RectTransform buffer;
+
+		[HideInInspector]
+		public Item lastItem;
 
 		[HideInInspector]
 		public InventorySlot lastSlot;
@@ -26,8 +30,6 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector]
 		public List<InventoryContainer> containers;
-		[HideInInspector]
-		public List<Transform> dragParents;
 
 
 		[HideInInspector]
@@ -43,7 +45,6 @@ namespace DDF.UI.Inventory {
 
 		public void RegistrationContainer(InventoryContainer container) {
 			containers.Add(container);
-			dragParents.Add(container.view.dragParent);
 		}
 	}
 }

@@ -10,8 +10,6 @@ namespace DDF.UI.Inventory {
     public class InventoryView : MonoBehaviour {
 
         public InventoryContainer container;
-        public Transform dragParent;
-        //public Transform dropParent;
 
 
         [Header("Drag & Drop Toggles")]

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DDF.Help;
+using UnityEngine;
 
 namespace DDF.UI {
     [RequireComponent(typeof(Canvas))]
@@ -20,10 +21,10 @@ namespace DDF.UI {
         }
 
         public void OpenHint() {
-            canvasGroup.alpha = 1;
+            HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup);
         }
         public void CloseHint() {
-            canvasGroup.alpha = 0;
+            HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
         }
         public void OpenCloseHint() {
 

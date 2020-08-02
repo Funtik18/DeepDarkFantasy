@@ -6,9 +6,6 @@ namespace DDF.Editor {
     [CustomEditor(typeof(Item))]
 
     public class ItemDrawer : Editor {
-        int cashWidthSize;
-        int cashHeightSize;
-
         uint cashCurrentStackCount;
         int cashMaxStackCount;
 
@@ -21,15 +18,10 @@ namespace DDF.Editor {
             
             item = target as Item;
 
-            int cashX = (int)item.GetSize().x;
-            int cashY = (int)item.GetSize().y;
-
             uint cashCurrent = item.itemStackCount;
             int cashMax = item.itemStackSize;
 
             if (firstTime) {
-                cashWidthSize = cashX;
-                cashHeightSize = cashY;
 
                 cashCurrentStackCount = cashCurrent;
                 cashMaxStackCount = cashMax;
