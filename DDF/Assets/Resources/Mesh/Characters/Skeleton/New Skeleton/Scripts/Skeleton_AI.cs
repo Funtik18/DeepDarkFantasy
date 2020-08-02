@@ -143,8 +143,8 @@ public class Skeleton_AI : MonoBehaviour
 
         if((min>sparing_distance && !heviatack))
         {
-            GetComponent<Animator>().applyRootMotion = false;
-            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+            GetComponent<Animator>().applyRootMotion = true;
+            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
             //nowPoint = transform.position;
             myanim.SetFloat("X",stats.speed);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));

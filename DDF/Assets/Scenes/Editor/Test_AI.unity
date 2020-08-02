@@ -548,6 +548,11 @@ PrefabInstance:
       propertyPath: strengh
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6269559700729045505, guid: 932dfe6ebe571f3459cc0cdd97bc0701,
+        type: 3}
+      propertyPath: agility
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 932dfe6ebe571f3459cc0cdd97bc0701, type: 3}
 --- !u!1 &42564110
@@ -1115,7 +1120,7 @@ PrefabInstance:
     - target: {fileID: 9212322084784240188, guid: ce8f1839c40359741b67be8a73cdec7f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.28
+      value: 7.64
       objectReference: {fileID: 0}
     - target: {fileID: 9212322084784240188, guid: ce8f1839c40359741b67be8a73cdec7f,
         type: 3}
@@ -14233,10 +14238,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6057140222963153312, guid: ab4f62cdeb472d843aa09f9cdb9e67e9,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6dad967c579c87140990b62bac938ce7, type: 2}
     - target: {fileID: -4216859302048453862, guid: ab4f62cdeb472d843aa09f9cdb9e67e9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 208.9
+      value: 184
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ab4f62cdeb472d843aa09f9cdb9e67e9,
         type: 3}
@@ -14308,6 +14318,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rat
       objectReference: {fileID: 0}
+    - target: {fileID: 7230749741371998272, guid: ab4f62cdeb472d843aa09f9cdb9e67e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ae56c9b07c0e850408e89d0f7319723b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4f62cdeb472d843aa09f9cdb9e67e9, type: 3}
 --- !u!1001 &1057844592943280590

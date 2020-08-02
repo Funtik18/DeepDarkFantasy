@@ -36,6 +36,10 @@ public class Character_stats : MonoBehaviour
 
     void Start()
     {
+        int n = 11;
+        strengh %= n;
+        agility %= n;
+        intelegence %= n;
         UpDateStat();
     }
 
