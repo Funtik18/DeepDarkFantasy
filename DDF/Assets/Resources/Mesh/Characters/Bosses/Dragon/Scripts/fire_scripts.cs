@@ -9,7 +9,7 @@ public class fire_scripts : MonoBehaviour
     private void OnTriggerStay(Collider other) {
         Character_stats stat = other.GetComponent<Character_stats>();
         if(stat != null){
-            stat.getHit(dmg);
+            stat.getHit(dmg,gameObject.transform.root.gameObject);
         }
         Debug.Log("Hit "+other.name);
     }

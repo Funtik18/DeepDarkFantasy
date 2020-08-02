@@ -21,7 +21,7 @@ public class Blade : MonoBehaviour
             if(active){
                 if(moveSpeed>1){
                     if(cS != null){
-                        cS.getHit((int)moveSpeed%dmg);
+                        cS.getHit((int)moveSpeed%dmg,gameObject.transform.root.gameObject);
                     }    
                 } 
             }

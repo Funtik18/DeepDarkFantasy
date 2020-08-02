@@ -1,25 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DDF.Atributes;
 
 public class knight_AI : MonoBehaviour
 {
     public float spare_dis = 50;
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
+    
+    [InfoBox("maxPain - Болевой порог, до которого я игнорирую попадание", InfoBoxType.Normal)]
+    public float maxPain = 2;
     private CharacterController characterController;
     private Animator myanim;
     public bool walk,endbattle;
     public GameObject axeReady, axenotready;
+
+    [InfoBox("LHandPoint - Место для крепления левой руки на пушке", InfoBoxType.Normal)]
+    public Transform LHandPoint;
     private List<GameObject> enemys = new List<GameObject>();
+
+    [InfoBox("Targets_Tag - Теги тех кого я не люблю", InfoBoxType.Normal)]
     public List<string> Targets_Tag = new List<string>();
-    public List<Transform> Waypoints = new List<Transform>();
-    private Vector3 startPoint, nowPoint;
     private bool heviatack,isee,attacking,hiting,weapon,Agressive;
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
     private Character_stats stats; 
-    private int way_number = 0,nap = 0;
+    private int nap = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,13 +72,16 @@ public class knight_AI : MonoBehaviour
             }
         }
 
-        if(mYHp>stats.HP && (mYHp-stats.HP)>2){
-            if(!hiting)
+        if(mYHp>stats.HP && (mYHp-stats.HP)>maxPain){
+            if(!hiting){
                 myanim.SetBool("Hit",true);
+                }
             mYHp = stats.HP;
+            if(!Agressive)
+                IseeSomething(stats.Iam);
         }
         
-        if(enemys.Count != 0 || hiting){
+        if(enemys.Count != 0){
             Agressive = true;
         }
         else{
@@ -79,7 +89,6 @@ public class knight_AI : MonoBehaviour
             GetComponent<IK_Controls>().lookObj = null;
             _timer = 0;
             myanim.SetFloat("X",0);
-            startPoint = transform.position;
         }
         myanim.SetBool("Battle",Agressive);
 
@@ -132,9 +141,8 @@ public class knight_AI : MonoBehaviour
 
         if((min>spare_dis && !heviatack))
         {
-            GetComponent<Animator>().applyRootMotion = false;
-            transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            nowPoint = transform.position;
+            GetComponent<Animator>().applyRootMotion = true;
+            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
             myanim.SetFloat("X",0.6f);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
@@ -143,13 +151,14 @@ public class knight_AI : MonoBehaviour
             {
                 GetComponent<Animator>().applyRootMotion = true;
                 myanim.SetBool("Attak", true);
+                GetComponent<IK_Controls>().leftHandObj = LHandPoint;
                 heviatack = true;
             }
             else
                 if(min>=sparing_distance && !attacking)
                 {
                     myanim.SetFloat("X",0.6f);
-                    transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+                    //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
                 }
                 else
                 {
@@ -198,6 +207,7 @@ public class knight_AI : MonoBehaviour
         attacking = false;
         hiting = false;
         endbattle = false;
+        GetComponent<IK_Controls>().leftHandObj = null;
     }
 
     public void hide_weapon(){

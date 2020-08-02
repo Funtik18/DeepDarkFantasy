@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DDF.Atributes;
 
 public class Zombie_AI : MonoBehaviour
 {
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
+
+    [InfoBox("maxPain - Болевой порог, до которого я игнорирую попадание", InfoBoxType.Normal)]
+    public float maxPain = 2;
+
+    [InfoBox("fall - Время, которое я провожу без сознания", InfoBoxType.Normal)]
+    public float fall = 10;
     private CharacterController characterController;
     private Animator myanim;
     public bool walk;
     private List<GameObject> enemys = new List<GameObject>();
     private List<GameObject> curse = new List<GameObject>();
+
+    [InfoBox("Targets_Tag - Теги тех кого я не люблю", InfoBoxType.Normal)]
     public List<string> Targets_Tag = new List<string>();
-    public List<Transform> Waypoints = new List<Transform>();
-    private bool heviatack,isee,attacking,hiting,weapon,Agressive,endbattle;
-    private float _timer = 0,_timere = 0,mYHp,_timereat = 0;
+    private bool heviatack,isee,attacking,hiting,Agressive,endbattle;
+    private float _timer = 0,_timere = 0,mYHp,_timereat = 0,allmYHp = 0;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
     private Character_stats stats;
@@ -28,7 +36,7 @@ public class Zombie_AI : MonoBehaviour
         }
         if(GetComponentInChildren<Character_stats>()!=null){
             stats = GetComponentInChildren<Character_stats>();
-            mYHp = stats.HP;
+            allmYHp = mYHp = stats.HP;
         }
     }
 
@@ -67,8 +75,8 @@ public class Zombie_AI : MonoBehaviour
                 this.enabled = false;
             }
         }else
-        if(stats.HP<=50){
-            Debug.Log(stats.HP+"Beee");
+        if(stats.HP<=allmYHp/3){
+            //Debug.Log(stats.HP+"Beee");
             endAnim();
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
@@ -78,7 +86,7 @@ public class Zombie_AI : MonoBehaviour
             enemys.Clear();
             _timere+=Time.deltaTime;
             //Debug.Log(_timere);
-            if(_timere>=5){
+            if(_timere>=fall){
                 GetComponentInChildren<RayScan>().enabled = true;
                 stats.dead = false;
                 myanim.SetBool("Dead",false);
@@ -88,9 +96,11 @@ public class Zombie_AI : MonoBehaviour
         }
         
         if(mYHp>stats.HP){
-            if(!hiting && (mYHp-stats.HP)>2)
+            if(!hiting && (mYHp-stats.HP)>maxPain)
                 myanim.SetBool("Hit",true);
             mYHp = stats.HP;
+            if(!Agressive)
+                IseeSomething(stats.Iam);
         }
 
         if(enemys.Count != 0 || hiting){
@@ -143,35 +153,24 @@ public class Zombie_AI : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
         }
 
-        int hevi_dist = 70;
-
-        if((min>hevi_dist && !heviatack))
-        {
-            GetComponent<Animator>().applyRootMotion = true;
-            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            myanim.SetFloat("X",1f);
-            //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
-        }
-        else
-            if(min>sparing_distance && !attacking)
+        if(min>sparing_distance && !attacking)
+            {
+                GetComponent<Animator>().applyRootMotion = true;
+                myanim.SetFloat("X",0.6f);
+                //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+            }
+            else
+            {
+            if(!heviatack)
                 {
-                    myanim.SetFloat("X",0.6f);
-                    transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-                }
-                else
+                if(!attacking)
                 {
-                if(!heviatack)
-                    {
-                    if(!attacking)
-                    {
-                        attacking = true;
-                        bool rootM = false;
-                        rootM = true;
-                        myanim.SetBool("Attak", true);
-                    GetComponent<Animator>().applyRootMotion = rootM;
-                    }
+                    attacking = true;
+                    myanim.SetBool("Attak", true);
+                    GetComponent<Animator>().applyRootMotion = true;
                 }
-            } 
+            }
+        } 
 
         if(enemy.GetComponent<Character_stats>()!=null)
         if(enemy.GetComponent<Character_stats>().dead){
@@ -189,18 +188,11 @@ public class Zombie_AI : MonoBehaviour
         myanim.SetBool("Low_Attak", false);
         myanim.SetBool("around_attack", false);
         myanim.SetBool("jump_strafe", false);
+        myanim.SetFloat("X",0.0f);
         heviatack = false;
         attacking = false;
         hiting = false;
         endbattle = false;
-    }
-
-    public void hide_weapon(){
-        weapon = false;
-    }
-
-    public void picup_weapon(){
-        weapon = true;
     }
 
     public void IseeSomething(GameObject other){
@@ -273,7 +265,7 @@ public class Zombie_AI : MonoBehaviour
         }
 
      private void move_to_body(){
-        Debug.Log("i want eat "+heal);
+        //Debug.Log("i want eat "+heal);
         GameObject body = curse[curse.Count-1];
         GetComponent<IK_Controls>().lookObj = body.transform;
         Vector3 Wvc = new Vector3 (body.transform.position.x,transform.position.y,body.transform.position.z);
