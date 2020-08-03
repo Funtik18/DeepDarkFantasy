@@ -3,19 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace DDF.UI.Inventory {
-    [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Inventory/View", 4)]
     [Serializable]
     public class InventoryView : MonoBehaviour {
-
-        public InventoryContainer container;
-
-
-        [Header("Drag & Drop Toggles")]
-        public bool DisableDragging;
-        public bool DisableDropping;
-        public bool DisableWorldDropping;
+        [Header("Toggles")]
+        //public bool DisableDragging;
+        //public bool DisableDropping;
+        //public bool DisableWorldDropping;
 
         public bool HoverHightlight = false;
         public bool SolidItemSlot = false;

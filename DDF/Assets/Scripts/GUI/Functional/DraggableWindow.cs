@@ -21,7 +21,7 @@ namespace DDF.UI.Tools {
 
         public void Start() {
             if (container == null)
-                container = transform.parent as RectTransform;
+                container = GetComponentInParent<Canvas>().transform as RectTransform;
             if (root == null)
                 root = transform as RectTransform;
 

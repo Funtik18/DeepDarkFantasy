@@ -7,7 +7,8 @@ namespace DDF.UI.Inventory {
 
     public class InventoryGrid : MonoBehaviour {
         [HideInInspector]
-        public InventoryView view;
+        public Inventory inventory;
+        private InventoryView view { get { return inventory.view; } }
 
         [Tooltip("Запрашивает слот с InventorySLot")]
         public GameObject slotPrefab;
@@ -15,8 +16,6 @@ namespace DDF.UI.Inventory {
         public GameObject modelPrefab;
         [Tooltip("Запрашивает объект для хранения моделей")]
         public GameObject dragParentPrefab;
-
-        public Transform canvasRoot;
 
         [HideInInspector]
         public Transform dragParent;
@@ -31,27 +30,27 @@ namespace DDF.UI.Inventory {
 
         private Camera camera;
         private float screenToCameraDistance;
-        private void Awake() {
+        public void Init() {
 
             camera = Camera.main;
             screenToCameraDistance = camera.nearClipPlane;
 
             ConstructGrid();
 
-            GameObject obj = GameObject.Find("DragParents");
+            GameObject obj = DragParents._instance.gameObject;
 			if (obj == null) {
-                obj = HelpFunctions.TransformSeer.CreateObjectInParent(canvasRoot, dragParentPrefab);
-                obj.name = "DragParents";
-			}
+				Debug.LogError("ERROR");
+            }
             GameObject temp = HelpFunctions.TransformSeer.CreateObjectInParent(obj.transform, dragParentPrefab);
-            temp.name = "DragParent";
+            temp.name = inventory.InventoryName + "-DragParent";
             dragParent = temp.transform;
         }
 
-        /// <summary>
-        /// Генерирует сетку.
-        /// </summary>
-        public void ConstructGrid() {
+		#region Construction
+		/// <summary>
+		/// Генерирует сетку.
+		/// </summary>
+		public void ConstructGrid() {
             DisposeGrid();
 
             for (int y = 0; y < height; y++) {
@@ -73,14 +72,14 @@ namespace DDF.UI.Inventory {
         public void DisposeGrid() {
             HelpFunctions.TransformSeer.DestroyChildrenInParent(transform);
         }
+		#endregion
 
-
-        /// <summary>
-        /// Создаёт объект для просмотра предмета, его картинку.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public RectTransform CreateModelByItem( Item item ) {
+		/// <summary>
+		/// Создаёт объект для просмотра предмета, его картинку.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public RectTransform CreateModelByItem( Item item ) {
 
             GameObject obj = Instantiate(modelPrefab);
             obj.name = item.name;

@@ -11,7 +11,7 @@ namespace DDF.UI.Inventory {
 
         public static MenuOptions _instance;
 
-		public CanvasGroup canvasGroup;
+		private CanvasGroup canvasGroup;
 
 		public RectTransform rect { get { return GetComponent<RectTransform>(); } }
 
@@ -21,6 +21,10 @@ namespace DDF.UI.Inventory {
 		private bool isHide = true;
 		public bool IsHide { get { return isHide; } }
 
+		private Item currentItem;
+		
+
+
 		private void Awake() {
 			_instance = this;
 		}
@@ -28,10 +32,6 @@ namespace DDF.UI.Inventory {
 			canvasGroup = GetComponent<CanvasGroup>();
 
 			options = new List<MenuOption>();
-			AddNewOption("Open", delegate { Option1(); CloseMenu(); });
-			AddNewOption("Read", delegate { Option2(); CloseMenu(); });
-			AddNewOption("Use", delegate { Option3(); CloseMenu(); });
-
 		}
 
 		public void AddNewOption(string optionName, UnityAction call) {
@@ -47,8 +47,20 @@ namespace DDF.UI.Inventory {
 
 			options.Add(option);
 		}
-		private void Option1() {
-			print("+");
+		private void OptionUse() {
+			print("Use with " + currentItem.name);
+		}
+		private void OptionOpen() {
+			if(currentItem.itemType is PouchType) {
+				Inventory real = InventoryOverSeer._instance.containers.Find(x => x.inventoryID == currentItem.GetId());
+
+				CanvasGroup obj = real.GetComponent<CanvasGroup>();
+
+				HelpFunctions.CanvasGroupSeer.EnableGameObject(obj, true);
+
+			} else {
+				Debug.LogError("ERROR");
+			}
 		}
 		private void Option2() {
 			print("-");
@@ -56,29 +68,103 @@ namespace DDF.UI.Inventory {
 		private void Option3() {
 			print("+-");
 		}
+		private void DefaultOption() {
+			print("default");
+		}
+
 
 		public void SetPosition(Vector3 position ) {
 			transform.position = position;
 		}
 
+		public void SetCurrentItem( Item item ) {
+			currentItem = item;
+		}
+
 		public void OpenMenu() {
 
-			ReBuildMenu();
+			HelpFunctions.TransformSeer.DestroyChildrenInParent(transform);
+			options.Clear();
+
+			List<ItemTag> tags = currentItem.itemType.tags;
+			for(int i = 0; i < tags.Count; i++) {
+
+				UnityAction call = DetermineAction(tags[i].name);
+
+				AddNewOption(tags[i].tag, delegate { call?.Invoke(); CloseMenu(); });
+			}
 
 			HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup, true);
 
 			isHide = false;
 		}
+
+		public UnityAction DetermineAction(string tag) {
+
+			UnityAction call;
+
+			switch (tag) {
+				case "Use": {
+					call = OptionUse;
+					return call;
+				}
+				break;
+				case "Open": {
+					call = OptionOpen;
+					return call;
+				}
+				break;
+
+				/*case "Read": {
+					call = Option1;
+					return call;
+				}break;
+				case "Drink": {
+					call = Option1;
+					return call;
+				}
+				break;
+				case "Eat": {
+					call = Option1;
+					return call;
+				}
+				break;
+				case "Equip": {
+					call = Option1;
+					return call;
+				}
+				case "TakeOff": {
+					call = Option1;
+					return call;
+				}
+				break;
+				break;
+				case "Identify": {
+					call = Option1;
+					return call;
+				}
+				break;
+				case "Open": {
+					call = Option1;
+					return call;
+				}
+				break;*/
+
+
+
+				default: {
+					call = DefaultOption;
+					return call;
+				}
+				break;
+			}
+		}
+
+
 		public void CloseMenu() {
 			HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
 
 			isHide = true;
-		}
-
-		public void ReBuildMenu() {
-			Item item = InventoryOverSeer._instance.lastItem;
-
-			
 		}
 	}
 }

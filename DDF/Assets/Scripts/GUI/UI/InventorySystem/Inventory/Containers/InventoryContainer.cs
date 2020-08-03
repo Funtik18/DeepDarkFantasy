@@ -1,4 +1,5 @@
 ﻿using DDF.Events;
+using DDF.Help;
 using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,9 @@ namespace DDF.UI.Inventory {
     public class InventoryContainer : MonoBehaviour {
 
         private InventoryOverSeer overSeer;
-
-        public InventoryView view;
+        [SerializeField]
+        private Inventory inventory;
+        private InventoryView view { get { return inventory.view; } }
 
         private InventoryGrid grid;
         private int width, height;
@@ -22,21 +24,17 @@ namespace DDF.UI.Inventory {
         [HideInInspector] public InventorySlot[,] slotsArray;
         [HideInInspector] public List<InventorySlot> slotsList;
 
-        public List<Item> startItems = new List<Item>();
-
-        private List<Item> currentItems = new List<Item>();
-
-
+        public List<Item> currentItems = new List<Item>();
 
         #region Settup
-        private void Awake() {
+        public void Init() {
             grid = GetComponent<InventoryGrid>();
-            grid.view = view;
-        }
-        private void Start() {
+            grid.inventory = inventory;
+
+            grid.Init();
 
             overSeer = InventoryOverSeer._instance;
-            overSeer.RegistrationContainer(this);
+            overSeer.RegistrationContainer(inventory);
 
             width = grid.width;
             height = grid.height;
@@ -50,10 +48,12 @@ namespace DDF.UI.Inventory {
                 SubscribeSlot(slot);
             }
 
-
-            foreach (var item in startItems) {
+            List<Item> copy = new List<Item>(currentItems);
+            currentItems.Clear();
+            foreach (var item in copy) {
                 AddItem(item);
             }
+            copy.Clear();
         }
 
         private void ListToGridArray() {
@@ -112,18 +112,25 @@ namespace DDF.UI.Inventory {
         /// <param name="item"></param>
         /// <returns></returns>
         public void AddItem( Item item ) {
+            if (item.itemType is PouchType) {
+                Inventory pouch = ( item.itemType as PouchType ).inventory;
+                GameObject obj = HelpFunctions.TransformSeer.CreateObjectInParent(GetComponentInParent<Canvas>().transform, pouch.gameObject);
+                obj.name = pouch.InventoryName;
+                pouch.inventoryID = item.GetId();
+            }
 
-           for (int i = 0; i < currentItems.Count; i++) {
-                if (currentItems[i].itemType == item.itemType  ) {
-                    //если true значит смог найти такой же предмет и положить туда количество
-                    if(IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
-                        //обновляем модель
-                        InventoryModel model = FindModelByItem(currentItems[i]);
-                        model.RefreshModel();
-                        return;
+
+            for (int i = 0; i < currentItems.Count; i++) {
+                    if (currentItems[i].itemType == item.itemType) {
+                        //если true значит смог найти такой же предмет и положить туда количество
+                        if (IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
+                            //обновляем модель
+                            InventoryModel model = FindModelByItem(currentItems[i]);
+                            model.RefreshModel();
+                            return;
+                        }
                     }
                 }
-            }
 
             if (!AddItemXY(item)) {
                 Debug.LogError(item.name + " Can not assign this item");
@@ -234,6 +241,47 @@ namespace DDF.UI.Inventory {
 
         #endregion
 
+        #region UIInteraction
+        private void ToolTipShow() {
+
+            if (overSeer.lastSlot.isEmpty()) return;
+            RectTransform rectPos;
+
+            Item item = overSeer.lastSlot.Item;
+            List<InventorySlot> slots = TakeSlotsByItem(item);
+            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
+            //ToolTip._instance.SetItem(item);
+
+            slots.Clear();
+
+            overSeer.OrderRefresh();
+
+            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
+            ToolTip._instance.ShowToolTip();
+        }
+        private void ToolTipHide() => ToolTip._instance.HideToolTip();
+
+
+        private void MenuOptionsShow() {
+            if (overSeer.lastSlot.isEmpty()) return;
+            RectTransform rectPos;
+
+            Item item = overSeer.lastSlot.Item;
+            List<InventorySlot> slots = TakeSlotsByItem(item);
+            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
+
+            slots.Clear();
+
+            MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
+
+            overSeer.OrderRefresh();
+
+            MenuOptions._instance.SetCurrentItem(item);
+            MenuOptions._instance.OpenMenu();
+        }
+        private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();
+
+        #endregion
 
         #region Events
 
@@ -275,7 +323,7 @@ namespace DDF.UI.Inventory {
             overSeer.lastSlot = slot;
             overSeer.whereNow = this;
 
-            if (MenuOptions._instance.IsHide) ToolTipShow();
+            if (MenuOptions._instance.IsHide && !overSeer.isDrag) ToolTipShow();
 
 
             if (overSeer.isDrag) {//передвигает от фром
@@ -288,16 +336,35 @@ namespace DDF.UI.Inventory {
         }
 
         public void OnPointerDown( PointerEventData eventData, InventorySlot slot ) {
+            if(overSeer.isDrag) ItemBackToRootSlot();
             if (!MenuOptions._instance.IsHide) return;
 
             overSeer.rootSlot = slot;//запомнили слот откуда взяли
         }
+
+        float clicked = 0;
+        float clicktime = 0;
+        float clickdelay = 0.5f;
         public void OnPointerLeftClick( PointerEventData eventData, InventorySlot slot ) {
-            MenuOptionsHide();
+			#region DoubleClick
+			clicked++;
+            if (clicked == 1) clicktime = Time.time;
+
+            if (clicked > 1 && Time.time - clicktime < clickdelay) {
+                clicked = 0;
+                clicktime = 0;
+                Debug.Log("Double CLick: " + slot.gameObject.name);
+
+            } else if (clicked > 2 || Time.time - clicktime > 1) clicked = 0;
+			#endregion
+
+			MenuOptionsHide();
         }
         public void OnPointerMiddleClick( PointerEventData eventData, InventorySlot slot ) { }
         public void OnPointerRightClick( PointerEventData eventData, InventorySlot slot ) {
-            if (slot.isEmpty()) MenuOptionsHide();
+            if (overSeer.isDrag) return;
+            if (slot.isEmpty()) { MenuOptionsHide(); return; }
+            ToolTipHide();
             MenuOptionsShow();
         }
 
@@ -369,15 +436,12 @@ namespace DDF.UI.Inventory {
                 print("ВЫБРОС " + overSeer.rootModel.referenceItem.itemName);
 
                 overSeer.isDrag = false;
+
+                ReloadHightLight();
             }
 
 
-            if (view.SolidItemSlot) {
-                //SelectAllNotEmptyModels();
-			} else {
-                DeselectAllSlots();
-                SelectAllNotEmptySlots();
-            }
+
 
             overSeer.from = null;
         }
@@ -385,27 +449,18 @@ namespace DDF.UI.Inventory {
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
-            RectTransform rect = overSeer.buffer;
-
             //+
             if (actionSelection == -1) {//нельзя
-                overSeer.from.AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
-
-                DeselectAllSlots();
-                overSeer.isDrag = false;
+                ItemBackToRootSlot();
             }
             //+
             if (actionSelection == 1) {//можно
-                overSeer.whereNow.AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.lastSlot);
-                rect.SetParent(overSeer.whereNow.grid.dragParent);
-
-                overSeer.isDrag = false;
+                ItemPlaceOnSlot();
             }
 
             if(actionSelection == 2) {//обмен
 
-                AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
-                DeselectAllSlots();
+                ItemBackToRootSlot();
 
                 /*List<InventorySlot> slots = TakeSlotsBySize(lastSlot, buffer.GetComponent<InventoryModel>().referenceItem.size);
                 List<Item> unionItems = TakeUnionSlots(slots);
@@ -421,12 +476,33 @@ namespace DDF.UI.Inventory {
 
                 buffer = model.GetComponent<RectTransform>();*/
 
-
-
-
-                overSeer.isDrag = false;
             }
 
+            if (view.SolidItemSlot) {
+                //SelectAllNotEmptyModels();
+            } else {
+                DeselectAllSlots();
+                SelectAllNotEmptySlots();
+            }
+        }
+
+        private void ItemBackToRootSlot() {
+            overSeer.from.AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.buffer, overSeer.rootSlot);
+
+            DeselectAllSlots();
+            overSeer.isDrag = false;
+
+            ReloadHightLight();
+        }
+        private void ItemPlaceOnSlot() {
+            overSeer.whereNow.AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.buffer, overSeer.lastSlot);
+            overSeer.buffer.SetParent(overSeer.whereNow.grid.dragParent);
+            overSeer.isDrag = false;
+
+            ReloadHightLight();
+        }
+
+        private void ReloadHightLight() {
             if (view.SolidItemSlot) {
                 //SelectAllNotEmptyModels();
             } else {
@@ -457,45 +533,7 @@ namespace DDF.UI.Inventory {
 
 
 
-        #region UIInteraction
-        private void ToolTipShow() {
-
-            if (overSeer.lastSlot.isEmpty()) return;
-            RectTransform rectPos;
-
-            Item item = overSeer.lastSlot.Item;
-            List<InventorySlot> slots = TakeSlotsByItem(item);
-            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-            //ToolTip._instance.SetItem(item);
-
-            slots.Clear();
-
-            ToolTip._instance.transform.SetAsLastSibling();
-
-            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
-            ToolTip._instance.ShowToolTip();
-        }
-        private void ToolTipHide() => ToolTip._instance.HideToolTip();
-
-
-        private void MenuOptionsShow() {
-            if (overSeer.lastSlot.isEmpty()) return;
-            RectTransform rectPos;
-
-            Item item = overSeer.lastSlot.Item;
-            List<InventorySlot> slots = TakeSlotsByItem(item);
-            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-
-            slots.Clear();
-
-            MenuOptions._instance.transform.SetAsLastSibling();
-
-            MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
-            MenuOptions._instance.OpenMenu();
-        }
-        private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();
-
-        #endregion
+        
 
         #endregion
 

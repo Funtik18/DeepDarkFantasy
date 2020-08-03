@@ -12,9 +12,6 @@ namespace DDF.UI.Inventory {
 		public RectTransform buffer;
 
 		[HideInInspector]
-		public Item lastItem;
-
-		[HideInInspector]
 		public InventorySlot lastSlot;
 		[HideInInspector]
 		public InventorySlot rootSlot;
@@ -29,7 +26,7 @@ namespace DDF.UI.Inventory {
 
 
 		[HideInInspector]
-		public List<InventoryContainer> containers;
+		public List<Inventory> containers;
 
 
 		[HideInInspector]
@@ -40,10 +37,18 @@ namespace DDF.UI.Inventory {
 		private void Awake() {
 			_instance = this;
 
-			containers = new List<InventoryContainer>();
+			containers = new List<Inventory>();
+
 		}
 
-		public void RegistrationContainer(InventoryContainer container) {
+		public void OrderRefresh() {
+			DragParents._instance.transform.SetAsLastSibling();
+			ToolTip._instance.transform.SetAsLastSibling();
+			MenuOptions._instance.transform.SetAsLastSibling();
+
+		}
+
+		public void RegistrationContainer( Inventory container ) {
 			containers.Add(container);
 		}
 	}
