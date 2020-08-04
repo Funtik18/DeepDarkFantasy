@@ -17,15 +17,19 @@ public class arrow : MonoBehaviour
     private void Update() {
         _timer+=Time.deltaTime;
         if(_timer>20){
-
+            Destroy(plumage);
         }
     }
 
     private void OnTriggerEnter(Collider other) {
         if(fly){
             Character_stats cS = other.gameObject.GetComponent<Character_stats>();
-            if(cS != null)
+        string myname = gameObject.transform.root.name;
+        string hisname = other.name;
+        if(myname != hisname)
+            if(cS != null){
                 cS.getHit(dmg,gameObject.transform.root.gameObject);
+            }
             plumage.GetComponent<Rigidbody>().isKinematic = true;
             gameObject.transform.root.parent = other.transform;
             fly = false;

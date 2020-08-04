@@ -167,10 +167,12 @@ public class Archer_AI : MonoBehaviour
                     attacking = true;
                     myanim.SetBool("Attak",true);
                 }
+
             } 
 
         if(enemy.GetComponent<Character_stats>()!=null)
         if(enemy.GetComponent<Character_stats>().dead){
+            GetComponent<IK_Controls>().rightHandObj = null;
             enemys.Remove(enemy);
             endbattle = true;
         }    
