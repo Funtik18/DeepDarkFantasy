@@ -113,7 +113,7 @@ namespace DDF.UI.Inventory {
         /// <returns></returns>
         public void AddItem( Item item ) {
             for (int i = 0; i < currentItems.Count; i++) {
-                    if (currentItems[i].itemType == item.itemType) {
+                    if (currentItems[i].ComparableType(item.GetItemType())){
                         //если true значит смог найти такой же предмет и положить туда количество
                         if (IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
                             //обновляем модель
@@ -127,11 +127,13 @@ namespace DDF.UI.Inventory {
             Item clone = item.GetItem();
 
             if (AddItemXY(clone)) {
-                if (clone.itemType is PouchType) {
-                    PouchType pouchType = clone.itemType as PouchType;
+                ItemType type = clone.GetItemType();
+                if (type is PouchType) {
+                    PouchType pouchType = type as PouchType;
                     Inventory pouchPrefab = pouchType.inventory;
                     Inventory newpouch = HelpFunctions.TransformSeer.CreateObjectInParent(GetComponentInParent<Canvas>().transform, pouchPrefab.gameObject, pouchPrefab.InventoryName).GetComponent<Inventory>();
-
+                    
+                    newpouch.CreateNewID();
                     pouchType.inventoryReference = newpouch.inventoryID;
                 }
 			} else {

@@ -51,9 +51,10 @@ namespace DDF.UI.Inventory {
 			print("Use with " + currentItem.name);
 		}
 		private void OptionOpen() {
-			if(currentItem.itemType is PouchType) {
-				string findId = ( currentItem.itemType as PouchType ).inventoryReference;
-
+			ItemType type = currentItem.GetItemType();
+			if (type is PouchType) {
+				string findId = ( type as PouchType ).inventoryReference;
+				print(findId);
 				List<Inventory> inventories = InventoryOverSeer._instance.containers;
 				Inventory finder = inventories.Find(x => x.inventoryID == findId);
 
@@ -92,7 +93,7 @@ namespace DDF.UI.Inventory {
 			HelpFunctions.TransformSeer.DestroyChildrenInParent(transform);
 			options.Clear();
 
-			List<ItemTag> tags = currentItem.itemType.tags;
+			List<ItemTag> tags = currentItem.GetItemType().tags;
 			for(int i = 0; i < tags.Count; i++) {
 
 				UnityAction call = DetermineAction(tags[i].name);

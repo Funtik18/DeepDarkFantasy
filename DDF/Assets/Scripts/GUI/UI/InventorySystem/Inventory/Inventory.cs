@@ -11,8 +11,12 @@ namespace DDF.UI.Inventory {
         public InventoryView view;
         public InventoryContainer container;
 
-		private void Awake() {
+		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
+		}
+		private void Awake() {
+			if (inventoryID == "")
+				CreateNewID();
 		}
 
 		private void Start() {
