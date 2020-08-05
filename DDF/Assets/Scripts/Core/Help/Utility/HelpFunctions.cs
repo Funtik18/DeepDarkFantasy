@@ -27,8 +27,10 @@ namespace DDF.Help {
 			}
 
 
-			public static GameObject CreateObjectInParent( Transform parent, GameObject obj ) {
+			public static GameObject CreateObjectInParent( Transform parent, GameObject obj, string ObjName = "NewGameObject" ) {
 				GameObject newobj = Instantiate(obj);
+				newobj.name = ObjName;
+
 				Transform temp = newobj.transform;
 
 				temp.SetParent(parent);

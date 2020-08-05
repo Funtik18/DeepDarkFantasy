@@ -52,12 +52,18 @@ namespace DDF.UI.Inventory {
 		}
 		private void OptionOpen() {
 			if(currentItem.itemType is PouchType) {
-				Inventory real = InventoryOverSeer._instance.containers.Find(x => x.inventoryID == currentItem.GetId());
+				string findId = ( currentItem.itemType as PouchType ).inventoryReference;
 
-				CanvasGroup obj = real.GetComponent<CanvasGroup>();
+				List<Inventory> inventories = InventoryOverSeer._instance.containers;
+				Inventory finder = inventories.Find(x => x.inventoryID == findId);
+
+				if(finder == null) {
+					Debug.LogError("ERROR i cant find this id - " + findId);
+					return;
+				}
+				CanvasGroup obj = finder.GetComponent<CanvasGroup>();
 
 				HelpFunctions.CanvasGroupSeer.EnableGameObject(obj, true);
-
 			} else {
 				Debug.LogError("ERROR");
 			}

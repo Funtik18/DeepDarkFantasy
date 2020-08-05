@@ -112,14 +112,6 @@ namespace DDF.UI.Inventory {
         /// <param name="item"></param>
         /// <returns></returns>
         public void AddItem( Item item ) {
-            if (item.itemType is PouchType) {
-                Inventory pouch = ( item.itemType as PouchType ).inventory;
-                GameObject obj = HelpFunctions.TransformSeer.CreateObjectInParent(GetComponentInParent<Canvas>().transform, pouch.gameObject);
-                obj.name = pouch.InventoryName;
-                pouch.inventoryID = item.GetId();
-            }
-
-
             for (int i = 0; i < currentItems.Count; i++) {
                     if (currentItems[i].itemType == item.itemType) {
                         //если true значит смог найти такой же предмет и положить туда количество
@@ -132,7 +124,17 @@ namespace DDF.UI.Inventory {
                     }
                 }
 
-            if (!AddItemXY(item)) {
+            Item clone = item.GetItem();
+
+            if (AddItemXY(clone)) {
+                if (clone.itemType is PouchType) {
+                    PouchType pouchType = clone.itemType as PouchType;
+                    Inventory pouchPrefab = pouchType.inventory;
+                    Inventory newpouch = HelpFunctions.TransformSeer.CreateObjectInParent(GetComponentInParent<Canvas>().transform, pouchPrefab.gameObject, pouchPrefab.InventoryName).GetComponent<Inventory>();
+
+                    pouchType.inventoryReference = newpouch.inventoryID;
+                }
+			} else {
                 Debug.LogError(item.name + " Can not assign this item");
             }
         }
@@ -174,23 +176,22 @@ namespace DDF.UI.Inventory {
 
                     if (neighbors.Count > 0) {
 
-                        Item clone = item.GetItem();
 
                         for (int i = 0; i < neighbors.Count; i++) {//добавление
 
                             neighbors[i].HighlightColor = view.baseColor;
-                            neighbors[i].AssignItem(clone);
+                            neighbors[i].AssignItem(item);
 
                             if (i == 0) {
-                                RectTransform rect = SetupDraggedModel(clone);
+                                RectTransform rect = SetupDraggedModel(item);
 
-                                AddItemOnPosition(clone, rect, neighbors[i], false);
-                                grid.RecalculateCellProportion(rect, clone.GetSize());
+                                AddItemOnPosition(item, rect, neighbors[i], false);
+                                grid.RecalculateCellProportion(rect, item.GetSize());
                             }
                         }
                         neighbors.Clear();
 
-                        currentItems.Add(clone);
+                        currentItems.Add(item);
 
                         return true;
                     }

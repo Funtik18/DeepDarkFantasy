@@ -5,16 +5,18 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
     public class Inventory : MonoBehaviour {
 
-		public string inventoryID = System.Guid.NewGuid().ToString();
+		public string inventoryID;
 
 		public string InventoryName = "Inventory";
         public InventoryView view;
         public InventoryContainer container;
 
-		
+		private void Awake() {
+			inventoryID = System.Guid.NewGuid().ToString();
+		}
 
 		private void Start() {
-			inventoryID = System.Guid.NewGuid().ToString();
+			
 
 			container.Init();
 		}
