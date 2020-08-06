@@ -223,6 +223,7 @@ public class knight_AI : MonoBehaviour
         bool frendly = true;
         foreach(string s in Targets_Tag){
             //Debug.Log(other.name+" "+other.tag+" "+ s);
+            if(other != null)
             if(other.tag.Equals(s)){
                 frendly = false;
             }

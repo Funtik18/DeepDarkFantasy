@@ -13,6 +13,7 @@ public class Archer_AI : MonoBehaviour
     private CharacterController characterController;
     private Animator myanim;
     public GameObject bowReady, bowNotReady;
+    public GameObject arrowInKolchan;
     public Transform bowString;
     public bool walk;
     private List<GameObject> enemys = new List<GameObject>();
@@ -21,7 +22,7 @@ public class Archer_AI : MonoBehaviour
     public List<string> Targets_Tag = new List<string>();
     //public List<Transform> Waypoints = new List<Transform>();
     private Vector3 startPoint, nowPoint;
-    private bool heviatack,isee,attacking,hiting,weapon,Agressive,irotate,endbattle;
+    private bool heviatack,isee,attacking,hiting,weapon,Agressive,irotate,endbattle,arrow;
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero, moveforward = Vector3.zero;
     private RayScan Myeyes; 
@@ -106,6 +107,14 @@ public class Archer_AI : MonoBehaviour
             else{
                 bowNotReady.SetActive(true);
                 bowReady.SetActive(false);
+            }
+        
+         if(arrowInKolchan != null)
+            if(arrow){
+                arrowInKolchan.SetActive(true);
+            }
+            else{
+                arrowInKolchan.SetActive(false);
             }
 
         foreach(GameObject g in Myeyes.inview){
@@ -208,10 +217,15 @@ public class Archer_AI : MonoBehaviour
         weapon = true;
     }
 
+    public void take_arrow(){
+        arrow = !arrow;
+    }
+
     public void IseeSomething(GameObject other){
         bool frendly = true;
         foreach(string s in Targets_Tag){
             //Debug.Log(other.name+" "+other.tag+" "+ s);
+            if(other != null)
             if(other.tag.Equals(s)){
                 frendly = false;
             }
