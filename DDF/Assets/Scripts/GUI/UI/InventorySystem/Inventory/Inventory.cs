@@ -7,6 +7,12 @@ namespace DDF.UI.Inventory {
 
 		public string inventoryID;
 
+		/// <summary>
+		/// если тру то 3д если фалсе то 2д.
+		/// </summary>
+		[HideInInspector]
+		public bool is3dOr2d = true;
+
 		public string InventoryName = "Inventory";
         public InventoryView view;
         public InventoryContainer container;

@@ -69,6 +69,18 @@ namespace DDF.UI.Inventory {
 				Debug.LogError("ERROR");
 			}
 		}
+		private void OptionDivision() {
+			uint itemCount = currentItem.itemStackCount;
+			int itemCountSize = currentItem.itemStackSize;
+
+			ItemDivision division = ItemDivision._instance;
+
+			division.SetCurrentItem(currentItem);
+			division.SetPosition(transform.position);
+			division.OpenDivision();
+		}
+
+
 		private void Option2() {
 			print("-");
 		}
@@ -88,13 +100,24 @@ namespace DDF.UI.Inventory {
 			currentItem = item;
 		}
 
+		public UnityAction DetermineAction(string tag) {
+
+			switch (tag) {
+				case "Use": return OptionUse;
+				case "Open": return OptionOpen;
+				case "Division": return OptionDivision;
+
+				default: return DefaultOption;
+			}
+		}
+
 		public void OpenMenu() {
 
 			HelpFunctions.TransformSeer.DestroyChildrenInParent(transform);
 			options.Clear();
 
 			List<ItemTag> tags = currentItem.GetItemType().tags;
-			for(int i = 0; i < tags.Count; i++) {
+			for (int i = 0; i < tags.Count; i++) {
 
 				UnityAction call = DetermineAction(tags[i].name);
 
@@ -105,69 +128,6 @@ namespace DDF.UI.Inventory {
 
 			isHide = false;
 		}
-
-		public UnityAction DetermineAction(string tag) {
-
-			UnityAction call;
-
-			switch (tag) {
-				case "Use": {
-					call = OptionUse;
-					return call;
-				}
-				break;
-				case "Open": {
-					call = OptionOpen;
-					return call;
-				}
-				break;
-
-				/*case "Read": {
-					call = Option1;
-					return call;
-				}break;
-				case "Drink": {
-					call = Option1;
-					return call;
-				}
-				break;
-				case "Eat": {
-					call = Option1;
-					return call;
-				}
-				break;
-				case "Equip": {
-					call = Option1;
-					return call;
-				}
-				case "TakeOff": {
-					call = Option1;
-					return call;
-				}
-				break;
-				break;
-				case "Identify": {
-					call = Option1;
-					return call;
-				}
-				break;
-				case "Open": {
-					call = Option1;
-					return call;
-				}
-				break;*/
-
-
-
-				default: {
-					call = DefaultOption;
-					return call;
-				}
-				break;
-			}
-		}
-
-
 		public void CloseMenu() {
 			HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
 

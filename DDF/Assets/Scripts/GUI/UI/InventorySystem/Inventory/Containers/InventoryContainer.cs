@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace DDF.UI.Inventory {
+    /// <summary>
+    /// TODO: обновлять, сортировать currentItems
+    /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(InventoryGrid))]
     [DisallowMultipleComponent]
@@ -14,8 +17,7 @@ namespace DDF.UI.Inventory {
     public class InventoryContainer : MonoBehaviour {
 
         private InventoryOverSeer overSeer;
-        [SerializeField]
-        private Inventory inventory;
+        [SerializeField] private Inventory inventory;
         private InventoryView view { get { return inventory.view; } }
 
         private InventoryGrid grid;
@@ -27,6 +29,7 @@ namespace DDF.UI.Inventory {
         public List<Item> currentItems = new List<Item>();
 
         #region Settup
+
         public void Init() {
             grid = GetComponent<InventoryGrid>();
             grid.inventory = inventory;
@@ -246,7 +249,6 @@ namespace DDF.UI.Inventory {
 
             currentItems.Remove(item);
         }
-
         #endregion
 
         #region UIInteraction
@@ -425,31 +427,24 @@ namespace DDF.UI.Inventory {
 		private void OnDrag( PointerEventData eventData ) {
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
+
             Vector2 mousePos2D = Input.mousePosition;
 
-            overSeer.buffer.position = grid.RectSetPositionToWorld(mousePos2D);
+            if (inventory.is3dOr2d == true) {
+                overSeer.buffer.position = mousePos2D;
+            } else {
+                overSeer.buffer.position = grid.RectSetPositionToWorld(mousePos2D);
+            }
         }
         private void OnEndDrag( PointerEventData eventData ) {//если дропнул на тот же слот откуда взял или дропнул не известно куда
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
-            RectTransform rect = overSeer.buffer;
-
-
             if (overSeer.isDrag != false) {
-
-                AddItemOnPosition(overSeer.rootModel.referenceItem, rect, overSeer.rootSlot);
-                DeselectAllSlots();
+                ItemBackToRootSlot();
 
                 print("ВЫБРОС " + overSeer.rootModel.referenceItem.itemName);
-
-                overSeer.isDrag = false;
-
-                ReloadHightLight();
             }
-
-
-
 
             overSeer.from = null;
         }
@@ -527,29 +522,6 @@ namespace DDF.UI.Inventory {
         }
 
         #endregion
-
-        /* InventoryModel model = buffer.GetComponent<InventoryModel>();
-
-             List<InventorySlot> slots = TakeSlotsBySize(positionSlot, model.referenceItem.size);
-
-             buffer.position = positionSlot.GetComponent<RectTransform>().TransformPoint(positionSlot.GetComponent<RectTransform>().rect.center);
-
-             grid.RecalculateCellPosition(buffer, model.referenceItem.size);
-
-
-             if (slots.Count > 0) {
-
-                 for (int i = 0; i < slots.Count; i++) {
-                     slots[i].AssignItem(model.referenceItem);
-                 }
-             }
-
-             slots.Clear();*/
-
-
-
-        
-
         #endregion
 
         #region Slots work
