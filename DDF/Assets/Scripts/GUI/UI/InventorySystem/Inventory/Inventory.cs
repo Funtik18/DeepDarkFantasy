@@ -20,8 +20,6 @@ namespace DDF.UI.Inventory {
 		}
 
 		private void Start() {
-			
-
 			container.Init();
 		}
 	}

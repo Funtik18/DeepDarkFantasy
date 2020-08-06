@@ -8,6 +8,9 @@ namespace DDF.UI.Inventory {
     public class InventoryOverSeer : MonoBehaviour {
         public static InventoryOverSeer _instance;
 
+		public Inventory mainInventory;
+
+
 		[HideInInspector]
 		public RectTransform buffer;
 

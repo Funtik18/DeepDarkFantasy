@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using DDF.Atributes;
-using System;
 #endif
+using System;
 using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
@@ -47,7 +47,7 @@ namespace DDF.UI.Inventory.Items {
         [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
         [Header("Misc")]
         [SerializeField]
-        private ItemType itemType;
+        public ItemType itemType;
 
         [SerializeField]
         private string itemID = System.Guid.NewGuid().ToString();
@@ -56,27 +56,21 @@ namespace DDF.UI.Inventory.Items {
         [SerializeField]
         private bool onlyOne = false;
 
+        //Get
+
         /// <summary>
         /// Если copy == false то возвращает другой объект-копию.
         /// </summary>
         /// <param name="copy"></param>
         /// <returns></returns>
-        public Item GetItem(bool copy = false) {
+        public Item GetItemCopy() {
             if (onlyOne) return this;
 
             Item clone = Instantiate(this);
-            clone.ReplaceItemType();
-            if (!copy) {
-                clone.itemID = System.Guid.NewGuid().ToString();
-            }
+            clone.itemType = Instantiate(itemType);
+            clone.itemID = System.Guid.NewGuid().ToString();
             return clone;
 		}
-
-        public ItemType GetItemType( bool copy = false ) {
-            if (onlyOne || copy == false) return itemType;
-            ItemType clone = Instantiate(itemType);
-            return clone;
-        }
 
         [NonSerialized]
         private Vector2 vector2;
@@ -95,19 +89,5 @@ namespace DDF.UI.Inventory.Items {
         public string GetId() {
             return itemID;
 		}
-
-        public void ReplaceItemType() {
-            itemType = GetItemType(true);
-
-        }
-
-        public bool ComparableType(ItemType type) {
-            if(itemType == type) {
-                return true;
-
-			}
-            return false;
-		}
-
     }
 }

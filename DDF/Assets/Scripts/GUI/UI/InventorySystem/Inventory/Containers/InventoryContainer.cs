@@ -112,22 +112,12 @@ namespace DDF.UI.Inventory {
         /// <param name="item"></param>
         /// <returns></returns>
         public void AddItem( Item item ) {
-            for (int i = 0; i < currentItems.Count; i++) {
-                    if (currentItems[i].ComparableType(item.GetItemType())){
-                        //если true значит смог найти такой же предмет и положить туда количество
-                        if (IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
-                            //обновляем модель
-                            InventoryModel model = FindModelByItem(currentItems[i]);
-                            model.RefreshModel();
-                            return;
-                        }
-                    }
-                }
+           
 
-            Item clone = item.GetItem();
+            Item clone = item.GetItemCopy();
 
             if (AddItemXY(clone)) {
-                ItemType type = clone.GetItemType();
+                ItemType type = clone.itemType;
                 if (type is PouchType) {
                     PouchType pouchType = type as PouchType;
                     Inventory pouchPrefab = pouchType.inventory;
@@ -136,7 +126,20 @@ namespace DDF.UI.Inventory {
                     newpouch.CreateNewID();
                     pouchType.inventoryReference = newpouch.inventoryID;
                 }
-			} else {
+
+                /*for (int i = 0; i < currentItems.Count; i++) {
+                    if (currentItems[i].ComparableType(item.GetItemType())) {
+                        //если true значит смог найти такой же предмет и положить туда количество
+                        if (IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
+                            //обновляем модель
+                            InventoryModel model = FindModelByItem(currentItems[i]);
+                            model.RefreshModel();
+                            return;
+                        }
+                    }
+                }*/
+
+            } else {
                 Debug.LogError(item.name + " Can not assign this item");
             }
         }
