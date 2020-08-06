@@ -112,12 +112,22 @@ namespace DDF.UI.Inventory {
         /// <param name="item"></param>
         /// <returns></returns>
         public void AddItem( Item item ) {
-           
-
             Item clone = item.GetItemCopy();
 
+            for (int i = 0; i < currentItems.Count; i++) {
+                if (currentItems[i].CompareItem(clone) == 1) {
+                    //если true значит смог найти такой же предмет и положить туда количество
+                    if (IncreaseItemCount(currentItems[i], clone.itemStackCount) == true) {
+                        //обновляем модель
+                        InventoryModel model = FindModelByItem(currentItems[i]);
+                        model.RefreshModel();
+                        return;
+                    }
+                }
+            }
+
             if (AddItemXY(clone)) {
-                ItemType type = clone.itemType;
+                ItemType type = clone.GetItemType();
                 if (type is PouchType) {
                     PouchType pouchType = type as PouchType;
                     Inventory pouchPrefab = pouchType.inventory;
@@ -127,17 +137,7 @@ namespace DDF.UI.Inventory {
                     pouchType.inventoryReference = newpouch.inventoryID;
                 }
 
-                /*for (int i = 0; i < currentItems.Count; i++) {
-                    if (currentItems[i].ComparableType(item.GetItemType())) {
-                        //если true значит смог найти такой же предмет и положить туда количество
-                        if (IncreaseItemCount(currentItems[i], item.itemStackCount) == true) {
-                            //обновляем модель
-                            InventoryModel model = FindModelByItem(currentItems[i]);
-                            model.RefreshModel();
-                            return;
-                        }
-                    }
-                }*/
+                
 
             } else {
                 Debug.LogError(item.name + " Can not assign this item");
@@ -243,6 +243,8 @@ namespace DDF.UI.Inventory {
                 slots[i].FreeItem();
             }
             slots.Clear();
+
+            currentItems.Remove(item);
         }
 
         #endregion
@@ -458,6 +460,7 @@ namespace DDF.UI.Inventory {
             //+
             if (actionSelection == -1) {//нельзя
                 ItemBackToRootSlot();
+
             }
             //+
             if (actionSelection == 1) {//можно
@@ -493,7 +496,9 @@ namespace DDF.UI.Inventory {
         }
 
         private void ItemBackToRootSlot() {
-            overSeer.from.AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.buffer, overSeer.rootSlot);
+            Item item = overSeer.rootModel.referenceItem;
+            overSeer.from.AddItemOnPosition(item, overSeer.buffer, overSeer.rootSlot);
+            overSeer.from.currentItems.Add(item);
 
             DeselectAllSlots();
             overSeer.isDrag = false;
@@ -501,8 +506,12 @@ namespace DDF.UI.Inventory {
             ReloadHightLight();
         }
         private void ItemPlaceOnSlot() {
-            overSeer.whereNow.AddItemOnPosition(overSeer.rootModel.referenceItem, overSeer.buffer, overSeer.lastSlot);
+            Item item = overSeer.rootModel.referenceItem;
+            overSeer.whereNow.AddItemOnPosition(item, overSeer.buffer, overSeer.lastSlot);
+            overSeer.whereNow.currentItems.Add(item);
+
             overSeer.buffer.SetParent(overSeer.whereNow.grid.dragParent);
+
             overSeer.isDrag = false;
 
             ReloadHightLight();

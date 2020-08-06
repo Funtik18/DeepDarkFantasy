@@ -13,13 +13,11 @@ namespace DDF.UI.Inventory.Items {
 
         [TextArea]
         public string itemDescription;
-
         [TextArea]
         public string itemAnotation;
         
         [Header("Icon")]
         public Sprite itemIcon;
-
         [SerializeField]
         public Vector3 itemIconOrientation = Vector3.zero;
         public Vector3 IconOrientation {
@@ -28,6 +26,7 @@ namespace DDF.UI.Inventory.Items {
                 itemIconOrientation = value;
             }
         }
+
         [Header("Stacking")]
         [Range(1,10)]
         [SerializeField]
@@ -45,9 +44,10 @@ namespace DDF.UI.Inventory.Items {
         [Header("Stats")]
 
         [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
+
         [Header("Misc")]
         [SerializeField]
-        public ItemType itemType;
+        private ItemType itemType;
 
         [SerializeField]
         private string itemID = System.Guid.NewGuid().ToString();
@@ -68,6 +68,7 @@ namespace DDF.UI.Inventory.Items {
 
             Item clone = Instantiate(this);
             clone.itemType = Instantiate(itemType);
+            clone.itemType.name = itemType.name;
             clone.itemID = System.Guid.NewGuid().ToString();
             return clone;
 		}
@@ -86,8 +87,23 @@ namespace DDF.UI.Inventory.Items {
             return vector2;
 		}
 
+        public ItemType GetItemType() {
+            return itemType;
+        }
+
         public string GetId() {
             return itemID;
+		}
+
+        //Compare
+
+        public int CompareItem(Item item) {
+            if(itemType.ToString() == item.itemType.ToString()) {
+                return 1;
+			}
+
+
+            return 0;
 		}
     }
 }

@@ -15948,7 +15948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b686312ffda054d9578f93ee58ca4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainInventory: {fileID: 0}
+  mainInventory: {fileID: 1808852044}
   buffer: {fileID: 0}
   lastSlot: {fileID: 0}
   rootSlot: {fileID: 0}
@@ -39266,6 +39266,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806975610}
   m_CullTransparentMesh: 0
+--- !u!114 &1808852044 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5881990477943027906, guid: 398d6f99a294e5745a79a111d56098df,
+    type: 3}
+  m_PrefabInstance: {fileID: 5881990477125384172}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a24acaa6b5a3a54eab6e060f3bfdf3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1813238892
 GameObject:
   m_ObjectHideFlags: 0
