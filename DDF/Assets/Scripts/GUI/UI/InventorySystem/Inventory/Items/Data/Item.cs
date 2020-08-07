@@ -98,12 +98,17 @@ namespace DDF.UI.Inventory.Items {
         //Compare
 
         public int CompareItem(Item item) {
-            if(itemType.ToString() == item.itemType.ToString()) {
+
+            if (CompareItemType(item.itemType) == 1) {
                 return 1;
-			}
-
-
+            }
             return 0;
 		}
+        public int CompareItemType(ItemType itemTypeCompare) {
+            if (itemTypeCompare.ToString() == itemType.ToString()) {
+                return 1;
+            }
+            return 0;
+        }
     }
 }

@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace DDF.UI.Inventory {
     [DisallowMultipleComponent]
-    [AddComponentMenu("Inventory/View", 4)]
     [Serializable]
     public class InventoryView : MonoBehaviour {
-        [Header("Toggles")]
-        //public bool DisableDragging;
-        //public bool DisableDropping;
-        //public bool DisableWorldDropping;
-
+        [Header("Settings")]
+        [Tooltip("Подсветка курсора.")]
         public bool HoverHightlight = false;
-        public bool SolidItemSlot = false;
+        public bool SolidHightlight = false;
 
 
         [Header("Slot Colors")]

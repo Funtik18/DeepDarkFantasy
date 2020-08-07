@@ -88,15 +88,7 @@ namespace DDF.UI.Inventory {
 
             model.Icon.sprite = item.itemIcon;
             model.Icon.preserveAspect = true;
-
-			if (view.SolidItemSlot) {
-                model.Hightlight.gameObject.SetActive(true);
-                model.Hightlight.color = view.baseColor;
-			} else {
-                model.Hightlight.gameObject.SetActive(false);
-            }
-
-
+            model.Hightlight.gameObject.SetActive(false);
             model.referenceItem = item;
             
             RectTransform rect = obj.transform as RectTransform;

@@ -26,7 +26,7 @@ namespace DDF.UI.Inventory {
         [HideInInspector] public InventorySlot[,] slotsArray;
         [HideInInspector] public List<InventorySlot> slotsList;
 
-        public List<Item> currentItems = new List<Item>();
+        public List<Item> currentItems;
 
         #region Settup
 
@@ -299,37 +299,26 @@ namespace DDF.UI.Inventory {
         /// Наведение на предметы.
         /// </summary>
         public void HoverItem() {
-            if (!overSeer.lastSlot.isEmpty())
-                if (view.SolidItemSlot) {
-                    overSeer.lastModel = FindModelByItem(overSeer.lastSlot.Item);
-                    overSeer.lastModel.Hightlight.color = view.highlightColor;
-                } else {
-                    SelectItemSlots(overSeer.lastSlot);
-                }
+            if (!overSeer.lastSlot.isEmpty()) {
+                SelectItemSlots(overSeer.lastSlot);
+            }
         }
-
         /// <summary>
         /// Подсветка посадки предмета.
         /// </summary>
         public void HoverLanding() {
-            //if (view.SolidItemSlot) {
-              //  SelectLandingModels(lastSlot, rootModel.referenceItem.GetSize());
-            //} else {
-                SelectLandingSlots(overSeer.lastSlot, overSeer.buffer.GetComponent<InventoryModel>().referenceItem.GetSize());
-         //   }
+            SelectLandingSlots(overSeer.lastSlot, overSeer.buffer.GetComponent<InventoryModel>().referenceItem.GetSize());
         }
         /// <summary>
         /// Подсветка курсора.
         /// </summary>
-        public void HoverHightlightCursor() {
-            if (view.HoverHightlight) {
-                SelectSlot(overSeer.lastSlot, view.hoverColor);
-            }
+        public void HoverHightlightCursor(InventorySlot slot, Color highlight) {
+            SelectSlot(slot, highlight);
         }
 
-		#region Slot Events
+        #region Slot Events
 
-		public void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
+        public void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
             overSeer.lastSlot = slot;
             overSeer.whereNow = this;
 
@@ -337,10 +326,22 @@ namespace DDF.UI.Inventory {
 
 
             if (overSeer.isDrag) {//передвигает от фром
-                if(overSeer.whereNow != null)
-                    overSeer.whereNow.HoverLanding();//и подсвечивает тот контейнер на который указывает
+                if(overSeer.whereNow != null) {
+					if (view.SolidHightlight) {
+                        overSeer.whereNow.SelectAllSlots();
+                    } else {
+                        overSeer.whereNow.HoverLanding();//и подсвечивает тот контейнер на который указывает
+                    }
+                }
             } else {
-                HoverHightlightCursor();
+				if (view.SolidHightlight) {
+					for(int i = 0; i < slotsList.Count;i++) {
+                        HoverHightlightCursor(slotsList[i], view.disableColor);
+                    }
+				}
+                if (view.HoverHightlight) {
+                    HoverHightlightCursor(overSeer.lastSlot, view.hoverColor);
+                }
                 HoverItem();
             }
         }
@@ -384,21 +385,12 @@ namespace DDF.UI.Inventory {
 
             ToolTipHide();
 
-            if (view.SolidItemSlot) {
-                if (!overSeer.lastSlot.isEmpty()) {
-                    overSeer.lastModel = FindModelByItem(overSeer.lastSlot.Item);
-                    overSeer.lastModel.Hightlight.color = view.baseColor;
-                }
-            } else {
-                DeselectAllSlots();
-                SelectAllNotEmptySlots();
-            }
+            ReloadHightLight();
 
             overSeer.whereNow = null;
-
-            // HideToolTip();
         }
         private void OnBeginDrag( PointerEventData eventData ) {
+            if (overSeer.DisableWorldDragging) return;
             if (!MenuOptions._instance.IsHide) return;
             if (overSeer.rootSlot.isEmpty()) return;
 
@@ -410,9 +402,6 @@ namespace DDF.UI.Inventory {
             overSeer.rootSlot = slots[0];
 
             overSeer.rootModel = FindModelByItem(overSeer.rootSlot.Item);
-            if(view.SolidItemSlot)
-                overSeer.rootModel.Hightlight.color = view.normalColor;
-
 
             DeleteItem(overSeer.rootSlot.Item);
 
@@ -425,6 +414,7 @@ namespace DDF.UI.Inventory {
         }
 
 		private void OnDrag( PointerEventData eventData ) {
+            if (overSeer.DisableWorldDragging) return;
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
@@ -437,10 +427,11 @@ namespace DDF.UI.Inventory {
             }
         }
         private void OnEndDrag( PointerEventData eventData ) {//если дропнул на тот же слот откуда взял или дропнул не известно куда
+            if (overSeer.DisableWorldDragging) return;
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
-            if (overSeer.isDrag != false) {
+            if (overSeer.isDrag != false ) {
                 ItemBackToRootSlot();
 
                 print("ВЫБРОС " + overSeer.rootModel.referenceItem.itemName);
@@ -452,41 +443,32 @@ namespace DDF.UI.Inventory {
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
-            //+
-            if (actionSelection == -1) {//нельзя
+            if (inventory.isRestrictions) {
+                Item item = overSeer.rootModel.referenceItem;
+                Vector2 size = item.GetSize();
+
+                if(grid.width == size.x && grid.height == size.y) {
+                    if(item.CompareItemType(inventory.storageType) == 1) {
+                        ItemPlace();
+                        return;
+					}
+                }
+                print("Error");
                 ItemBackToRootSlot();
-
-            }
-            //+
-            if (actionSelection == 1) {//можно
-                ItemPlaceOnSlot();
-            }
-
-            if(actionSelection == 2) {//обмен
-
-                ItemBackToRootSlot();
-
-                /*List<InventorySlot> slots = TakeSlotsBySize(lastSlot, buffer.GetComponent<InventoryModel>().referenceItem.size);
-                List<Item> unionItems = TakeUnionSlots(slots);
-
-                Item copy = unionItems[0].GetItem(true);
-                DeleteItem(unionItems[0]);
-                AddItemOnPosition(lastSlot);
-
-                DeselectAllSlots();
-
-                InventoryModel model = FindModelByItem(copy);
-                model.referenceItem = copy;
-
-                buffer = model.GetComponent<RectTransform>();*/
-
-            }
-
-            if (view.SolidItemSlot) {
-                //SelectAllNotEmptyModels();
             } else {
-                DeselectAllSlots();
-                SelectAllNotEmptySlots();
+                //+
+                if (actionSelection == -1 || overSeer.DisableWorldDropping) {//нельзя
+                    ItemBackToRootSlot();
+                }
+                //+
+                if (actionSelection == 1) {//можно
+                    ItemPlaceOnSlot();
+                }
+
+                if (actionSelection == 2) {//обмен
+
+                    ItemBackToRootSlot();
+                }
             }
         }
 
@@ -495,7 +477,6 @@ namespace DDF.UI.Inventory {
             overSeer.from.AddItemOnPosition(item, overSeer.buffer, overSeer.rootSlot);
             overSeer.from.currentItems.Add(item);
 
-            DeselectAllSlots();
             overSeer.isDrag = false;
 
             ReloadHightLight();
@@ -511,14 +492,32 @@ namespace DDF.UI.Inventory {
 
             ReloadHightLight();
         }
+        private void ItemPlace(bool recalculatePos = true) {
+            Item item = overSeer.rootModel.referenceItem;
+            List<InventorySlot> slots = overSeer.whereNow.slotsList;
 
-        private void ReloadHightLight() {
-            if (view.SolidItemSlot) {
-                //SelectAllNotEmptyModels();
-            } else {
-                DeselectAllSlots();
-                SelectAllNotEmptySlots();
+            for (int i = 0; i < slots.Count; i++) {
+                slots[i].AssignItem(item);
             }
+            overSeer.whereNow.currentItems.Add(item);
+
+            overSeer.buffer.SetParent(overSeer.whereNow.grid.dragParent);
+
+            RectTransform rect = slots[0].GetComponent<RectTransform>();
+            overSeer.buffer.position = rect.TransformPoint(rect.rect.center);
+
+            if (recalculatePos)
+                grid.RecalculateCellPosition(overSeer.buffer, item.GetSize());
+
+            
+
+            overSeer.isDrag = false;
+
+            ReloadHightLight();
+        }
+        private void ReloadHightLight() {
+            DeselectAllSlots();
+            SelectAllNotEmptySlots();
         }
 
         #endregion
@@ -769,6 +768,13 @@ namespace DDF.UI.Inventory {
             slots.Clear();
         }
 
+        
+        private void SelectAllSlots() {
+            for (int i = 0; i < slotsList.Count; i++) {
+                SelectSlot(slotsList[i], view.highlightColor);
+            }
+        }
+        
         /// <summary>
         /// Убирает подсветку с всех слотов.
         /// </summary>
@@ -777,6 +783,9 @@ namespace DDF.UI.Inventory {
                 SelectSlot(slotsList[i], view.normalColor);
             }
         }
+
+
+
         /// <summary>
         /// Подсвечивает слоты с предметами.
         /// </summary>

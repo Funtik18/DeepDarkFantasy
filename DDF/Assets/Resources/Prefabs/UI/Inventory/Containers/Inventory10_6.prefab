@@ -7676,7 +7676,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 5881990477943027906}
   slotsList: []
-  currentItems: []
+  currentItems:
+  - {fileID: 11400000, guid: eb081c8a6ab5dde4c8aefebca1141fd4, type: 2}
+  - {fileID: 11400000, guid: c91568ab7fa4582438ea6df026b1f7c9, type: 2}
+  - {fileID: 11400000, guid: efd5b903b4205684aadd824fc9900206, type: 2}
+  - {fileID: 11400000, guid: a7c8f200da18f0446aaa6654fb949fe3, type: 2}
+  - {fileID: 11400000, guid: 5db7ef29696fab34cb314331ac0d200e, type: 2}
 --- !u!1 &5881990477943027910
 GameObject:
   m_ObjectHideFlags: 0
@@ -7768,6 +7773,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
+  is3dOr2d: 1
+  isRestrictions: 0
   InventoryName: Inventory
   view: {fileID: 5881990478111525363}
   container: {fileID: 5881990476501761579}
@@ -7829,7 +7836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HoverHightlight: 1
-  SolidItemSlot: 0
+  SolidHightlight: 0
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   highlightColor: {r: 0.49803922, g: 0.8745098, b: 0.49803922, a: 1}
   replaceColor: {r: 0.8745098, g: 0.8745098, b: 0.24705882, a: 1}

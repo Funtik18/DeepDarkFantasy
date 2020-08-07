@@ -8,10 +8,13 @@ namespace DDF.UI.Inventory {
     public class InventoryOverSeer : MonoBehaviour {
         public static InventoryOverSeer _instance;
 
+		[Header("Toggles")]
+		public bool DisableWorldDragging;
+		public bool DisableWorldDropping;
+
 		[HideInInspector] public Canvas mainCanvas;
-
+		
 		public Inventory mainInventory;
-
 
 		[HideInInspector] public RectTransform buffer;
 
