@@ -3,34 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using DDF.Atributes;
 
-public class knight_AI : MonoBehaviour
+
+public class Archer_AI : MonoBehaviour
 {
-    public float spare_dis = 50;
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
     
     [InfoBox("maxPain - Болевой порог, до которого я игнорирую попадание", InfoBoxType.Normal)]
     public float maxPain = 2;
     private CharacterController characterController;
     private Animator myanim;
-    public bool walk,endbattle;
-    public GameObject axeReady, axenotready;
-
-    [InfoBox("LHandPoint - Место для крепления левой руки на пушке", InfoBoxType.Normal)]
-    public Transform LHandPoint;
+    public GameObject bowReady, bowNotReady;
+    public GameObject arrowInKolchan;
+    public Transform bowString;
+    public bool walk;
     private List<GameObject> enemys = new List<GameObject>();
 
     [InfoBox("Targets_Tag - Теги тех кого я не люблю", InfoBoxType.Normal)]
     public List<string> Targets_Tag = new List<string>();
-    private bool heviatack,isee,attacking,hiting,weapon,Agressive;
+    //public List<Transform> Waypoints = new List<Transform>();
+    private Vector3 startPoint, nowPoint;
+    private bool heviatack,isee,attacking,hiting,weapon,Agressive,irotate,endbattle,arrow;
     private float _timer = 0,_timere = 0,mYHp;
-    private Vector3 moveDirection = Vector3.zero;
+    private Vector3 moveDirection = Vector3.zero, moveforward = Vector3.zero;
     private RayScan Myeyes; 
     private Character_stats stats; 
-    private int nap = 0;
+    private int way_number = 0,nap = 0;
     // Start is called before the first frame update
     void Start()
     {
-         characterController = this.GetComponent<CharacterController>();
+        characterController = this.GetComponent<CharacterController>();
         myanim = this.GetComponent<Animator>();
         if(GetComponentInChildren<RayScan>()!=null){
             Myeyes = GetComponentInChildren<RayScan>();
@@ -44,19 +45,24 @@ public class knight_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lookMySost();
-        if(Agressive){
+            lookMySost();
+        if(Agressive && !stats.dead){
+            //walk = false;
             _timer+=Time.deltaTime;
-            if(_timer>=2.5f)
+            if(_timer>=1.5f)
                 Ballte_mode();
         }else{
-            if(walk && !stats.dead && !endbattle)
+            if(walk && !endbattle && !stats.dead)
                 move_to_point();
         }
     }
 
     private void lookMySost(){
         if(stats.HP<=0){
+
+            GetComponent<IK_Controls>().rightHandObj = null;
+            bowReady.GetComponent<bow>().shoot = true;
+
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
@@ -65,23 +71,23 @@ public class knight_AI : MonoBehaviour
 
             GetComponentInChildren<RayScan>().enabled = false;
             GetComponent<CharacterController>().enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;
 
             if(_timere >= 3.25f){
                 GetComponent<Animator>().enabled = false;
                 this.enabled = false;
             }
         }
-
-        if(mYHp>stats.HP && (mYHp-stats.HP)>maxPain){
-            if(!hiting){
+        
+        if(mYHp>stats.HP){
+            if(!hiting && (mYHp-stats.HP)>maxPain)
                 myanim.SetBool("Hit",true);
-                }
             mYHp = stats.HP;
             if(!Agressive)
                 IseeSomething(stats.Iam);
         }
-        
-        if(enemys.Count != 0){
+
+        if(enemys.Count != 0 || hiting){
             Agressive = true;
         }
         else{
@@ -89,17 +95,27 @@ public class knight_AI : MonoBehaviour
             GetComponent<IK_Controls>().lookObj = null;
             _timer = 0;
             myanim.SetFloat("X",0);
+            startPoint = transform.position;
         }
         myanim.SetBool("Battle",Agressive);
 
-        if(weapon){
-            axeReady.SetActive(true);
-            axenotready.SetActive(false);
-        }
-        else{
-            axenotready.SetActive(true);
-            axeReady.SetActive(false);
-        }
+        if(bowReady != null && bowNotReady != null)
+            if(weapon){
+                bowReady.SetActive(true);
+                bowNotReady.SetActive(false);
+            }
+            else{
+                bowNotReady.SetActive(true);
+                bowReady.SetActive(false);
+            }
+        
+         if(arrowInKolchan != null)
+            if(arrow){
+                arrowInKolchan.SetActive(true);
+            }
+            else{
+                arrowInKolchan.SetActive(false);
+            }
 
         foreach(GameObject g in Myeyes.inview){
             IseeSomething(g);
@@ -110,7 +126,7 @@ public class knight_AI : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime;
         }
         if(!stats.dead)
-        characterController.Move(moveDirection * Time.deltaTime);
+            characterController.Move(moveDirection * Time.deltaTime);
     } 
 
 
@@ -127,7 +143,7 @@ public class knight_AI : MonoBehaviour
         GameObject enemy = enemys[id];
         GetComponent<IK_Controls>().lookObj = enemy.transform;
         Vector3 Wvc = new Vector3 (enemy.transform.position.x,transform.position.y,enemy.transform.position.z);
-        Quaternion Qvc = enemy.transform.rotation;
+        //Quaternion Qvc = enemy.transform.rotation;
 
         Myeyes.targetTag = enemy.tag;
         isee = Myeyes.isee;
@@ -137,59 +153,35 @@ public class knight_AI : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
         }
 
-        //int hevi_dist = 40;
 
-        if((min>spare_dis && !heviatack))
+        if((min>sparing_distance))
         {
             GetComponent<Animator>().applyRootMotion = true;
-            //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            myanim.SetFloat("X",0.6f);
-            //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
+            myanim.SetFloat("X",stats.speed);
         }
-        else
-            if(min<=spare_dis && min>sparing_distance)
+         else
+            if((min<sparing_distance-20))
             {
-                GetComponent<Animator>().applyRootMotion = true;
-                myanim.SetBool("Attak", true);
-                GetComponent<IK_Controls>().leftHandObj = LHandPoint;
-                heviatack = true;
+                myanim.SetFloat("X",stats.speed*-1);
             }
             else
-                if(min>=sparing_distance && !attacking)
+            {
+            if(bowReady.GetComponent<bow>().ready && !attacking)
                 {
-                    myanim.SetFloat("X",stats.speed);
-                    //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
+                GetComponent<IK_Controls>().rightHandObj = null;
+                bowReady.GetComponent<bow>().shoot = true;
+                myanim.SetBool("Attak",false);
+                GetComponent<Animator>().applyRootMotion = true;
+                }else{
+                    attacking = true;
+                    myanim.SetBool("Attak",true);
                 }
-                else
-                {
-                if(!heviatack)
-                    {
-                    if(!attacking)
-                    {
-                        attacking = true;
-                        bool rootM = false;
-                        int attack = Random.Range(1,4);
-                        //Debug.Log("Choose Attack "+ attack);
-                    if(attack == 1){
-                            rootM = true;
-                            myanim.SetBool("Low_Attak", true);
-                        }
-                    if(attack == 2){
-                            rootM = true;
-                            myanim.SetBool("Low_Attak", true);
-                        }
-                    if(attack == 3){
-                            rootM = true;
-                            heviatack = true;
-                            myanim.SetBool("around_attack", true);
-                        }
-                    GetComponent<Animator>().applyRootMotion = rootM;
-                    }
-                } 
+
             } 
 
         if(enemy.GetComponent<Character_stats>()!=null)
         if(enemy.GetComponent<Character_stats>().dead){
+            GetComponent<IK_Controls>().rightHandObj = null;
             enemys.Remove(enemy);
             endbattle = true;
         }    
@@ -203,20 +195,30 @@ public class knight_AI : MonoBehaviour
         myanim.SetBool("Low_Attak", false);
         myanim.SetBool("around_attack", false);
         myanim.SetBool("jump_strafe", false);
+        myanim.SetBool("right", false);
+        myanim.SetBool("left", false);
         heviatack = false;
         attacking = false;
         hiting = false;
+        irotate = false;
         endbattle = false;
-        GetComponent<IK_Controls>().leftHandObj = null;
+    }
+
+    public void readyToShoot(){
+        bowReady.GetComponent<bow>().startPrepare = true;
+        GetComponent<IK_Controls>().rightHandObj = bowString;
     }
 
     public void hide_weapon(){
         weapon = false;
-        endbattle = true;
     }
 
     public void picup_weapon(){
         weapon = true;
+    }
+
+    public void take_arrow(){
+        arrow = !arrow;
     }
 
     public void IseeSomething(GameObject other){
@@ -273,7 +275,7 @@ public class knight_AI : MonoBehaviour
         RaycastHit hit = new RaycastHit();
 		Vector3 pos = transform.position + offset;
         Debug.DrawRay(pos, Wvc, Color.green);
-		if (Physics.Raycast (pos, Wvc, out hit, 10))
+		if (Physics.Raycast (pos, Wvc, out hit, 10) && !irotate)
 		{
             if(hit.transform.root.tag!=transform.tag)
                 nap = Random.Range(0,4);
@@ -289,5 +291,4 @@ public class knight_AI : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
         
     }
-
 }
