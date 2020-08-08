@@ -23,12 +23,12 @@ public class arrow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if(fly){
-            Character_stats cS = other.gameObject.GetComponent<Character_stats>();
+            CharacterStats cS = other.gameObject.GetComponent<CharacterStats>();
         string myname = gameObject.transform.root.name;
         string hisname = other.name;
         if(myname != hisname)
             if(cS != null){
-                cS.getHit(dmg,gameObject.transform.root.gameObject);
+                cS.TakeDamage(dmg,gameObject.transform.root.gameObject);
             }
             plumage.GetComponent<Rigidbody>().isKinematic = true;
             gameObject.transform.root.parent = other.transform;

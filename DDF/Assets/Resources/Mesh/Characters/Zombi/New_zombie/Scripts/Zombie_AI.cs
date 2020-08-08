@@ -24,7 +24,7 @@ public class Zombie_AI : MonoBehaviour
     private float _timer = 0,_timere = 0,mYHp,_timereat = 0,allmYHp = 0;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
-    private Character_stats stats;
+    private CharacterStats stats;
     private int nap = 0, heal = 0;
     // Start is called before the first frame update
     void Start()
@@ -34,9 +34,9 @@ public class Zombie_AI : MonoBehaviour
         if(GetComponentInChildren<RayScan>()!=null){
             Myeyes = GetComponentInChildren<RayScan>();
         }
-        if(GetComponentInChildren<Character_stats>()!=null){
-            stats = GetComponentInChildren<Character_stats>();
-            allmYHp = mYHp = stats.HP;
+        if(GetComponentInChildren<CharacterStats>()!=null){
+            stats = GetComponentInChildren<CharacterStats>();
+            allmYHp = mYHp = stats.currentHP;
         }
     }
 
@@ -60,7 +60,7 @@ public class Zombie_AI : MonoBehaviour
     }
 
     private void lookMySost(){
-        if(stats.HP<=0){
+        if(stats.currentHP<=0){
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
@@ -75,7 +75,7 @@ public class Zombie_AI : MonoBehaviour
                 this.enabled = false;
             }
         }else
-        if(stats.HP<=allmYHp/3){
+        if(stats.currentHP<=allmYHp/3){
             //Debug.Log(stats.HP+"Beee");
             endAnim();
             GetComponent<Animator>().applyRootMotion = true;
@@ -90,15 +90,15 @@ public class Zombie_AI : MonoBehaviour
                 GetComponentInChildren<RayScan>().enabled = true;
                 stats.dead = false;
                 myanim.SetBool("Dead",false);
-                stats.HP = 60;
+                stats.currentHP = 60;
                 _timere = 0;
             }
         }
         
-        if(mYHp>stats.HP){
-            if(!hiting && (mYHp-stats.HP)>maxPain)
+        if(mYHp>stats.currentHP){
+            if(!hiting && (mYHp-stats.currentHP)>maxPain)
                 myanim.SetBool("Hit",true);
-            mYHp = stats.HP;
+            mYHp = stats.currentHP;
             if(!Agressive)
                 IseeSomething(stats.Iam);
         }
@@ -172,8 +172,8 @@ public class Zombie_AI : MonoBehaviour
             }
         } 
 
-        if(enemy.GetComponent<Character_stats>()!=null)
-        if(enemy.GetComponent<Character_stats>().dead){
+        if(enemy.GetComponent<CharacterStats>()!=null)
+        if(enemy.GetComponent<CharacterStats>().dead){
             curse.Add(enemy);
             enemys.Remove(enemy);
             endbattle = true;
@@ -212,8 +212,8 @@ public class Zombie_AI : MonoBehaviour
                 }
             }
             if(!have){
-                if(other.GetComponent<Character_stats>()!=null)
-                    if(!other.GetComponent<Character_stats>().dead)
+                if(other.GetComponent<CharacterStats>()!=null)
+                    if(!other.GetComponent<CharacterStats>().dead)
                         enemys.Add(other);
             }
         }
@@ -282,7 +282,7 @@ public class Zombie_AI : MonoBehaviour
         else{
             myanim.SetBool("jump_strafe",true);
             if(_timereat >= 5){
-                stats.HP+=5;
+                stats.currentHP+=5;
                 heal+=5;
                 _timereat = 0;
             }

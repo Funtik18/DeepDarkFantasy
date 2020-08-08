@@ -24,7 +24,7 @@ public class Monster_AI : MonoBehaviour
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
-    private Character_stats stats;
+    private CharacterStats stats;
     private int nap = 0;
     // Start is called before the first frame update
     void Start()
@@ -34,9 +34,9 @@ public class Monster_AI : MonoBehaviour
         if(GetComponentInChildren<RayScan>()!=null){
             Myeyes = GetComponentInChildren<RayScan>();
         }
-        if(GetComponentInChildren<Character_stats>()!=null){
-            stats = GetComponentInChildren<Character_stats>();
-            mYHp = stats.HP;
+        if(GetComponentInChildren<CharacterStats>()!=null){
+            stats = GetComponentInChildren<CharacterStats>();
+            mYHp = stats.currentHP;
         }
     }
 
@@ -55,7 +55,7 @@ public class Monster_AI : MonoBehaviour
     }
 
     private void lookMySost(){
-        if(stats.HP<=0){
+        if(stats.currentHP<=0){
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
@@ -72,10 +72,10 @@ public class Monster_AI : MonoBehaviour
             }
         }
         
-        if(mYHp>stats.HP){
-            if(!hiting && (mYHp-stats.HP)>maxPain)
+        if(mYHp>stats.currentHP){
+            if(!hiting && (mYHp-stats.currentHP)>maxPain)
                 myanim.SetBool("Hit",true);
-            mYHp = stats.HP;
+            mYHp = stats.currentHP;
             if(!Agressive)
                 IseeSomething(stats.Iam);
         }
@@ -189,8 +189,8 @@ public class Monster_AI : MonoBehaviour
                 }
             } 
 
-        if(enemy.GetComponent<Character_stats>()!=null)
-        if(enemy.GetComponent<Character_stats>().dead){
+        if(enemy.GetComponent<CharacterStats>()!=null)
+        if(enemy.GetComponent<CharacterStats>().dead){
             enemys.Remove(enemy);
             endbattle = true;
         }   
@@ -234,8 +234,8 @@ public class Monster_AI : MonoBehaviour
                 }
             }
             if(!have){
-                if(other.GetComponent<Character_stats>()!=null)
-                    if(!other.GetComponent<Character_stats>().dead)
+                if(other.GetComponent<CharacterStats>()!=null)
+                    if(!other.GetComponent<CharacterStats>().dead)
                         enemys.Add(other);
             }
         }

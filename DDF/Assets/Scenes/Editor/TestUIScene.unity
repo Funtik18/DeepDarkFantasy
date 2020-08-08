@@ -7552,7 +7552,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 357432258}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 928730370}
+        m_TargetAssemblyTypeName: DDF.UI.Bar.HealthBar, Assembly-CSharp
+        m_MethodName: UpdateBar
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 10
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &357432258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19827,7 +19839,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 831971134}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1048853813}
+        m_TargetAssemblyTypeName: CharacterStats, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &831971134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22620,6 +22644,7 @@ GameObject:
   - component: {fileID: 928730367}
   - component: {fileID: 928730369}
   - component: {fileID: 928730368}
+  - component: {fileID: 928730370}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -22684,6 +22709,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928730366}
   m_CullTransparentMesh: 0
+--- !u!114 &928730370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928730366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27cc5b82fe44aec4984c67ff6e798971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &929923656
 GameObject:
   m_ObjectHideFlags: 0
@@ -25395,6 +25432,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047947078}
   m_CullTransparentMesh: 0
+--- !u!1 &1048853812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1048853814}
+  - component: {fileID: 1048853813}
+  m_Layer: 0
+  m_Name: Character
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1048853813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048853812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7322285a41395b546b1f209add5d9e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  dead: 0
+  speed: 0
+  dmg: 0
+  HPBar: {fileID: 928730370}
+  strengh: 1
+  agility: 1
+  intelegence: 1
+  Iam: {fileID: 0}
+--- !u!4 &1048853814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048853812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.1069984, y: 2.9910014, z: 124.311325}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051582460
 GameObject:
   m_ObjectHideFlags: 0

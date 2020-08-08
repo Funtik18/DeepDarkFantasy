@@ -8,6 +8,8 @@ namespace DDF.UI.Bar {
     
     public class HealthBar : BarBase {
 
+        private float maxvalue = 100;
+
         /// <summary>
         /// События, если вышел за минимум.
         /// </summary>
@@ -24,9 +26,13 @@ namespace DDF.UI.Bar {
         [HideInInspector] public UnityAction overMaxLastMax;
         private int amount = 0;
 
+        public void SetMaxValue(float maximum) {
+            maxvalue = maximum;
+        }
+
 
         public void TakeDamage(float damage) {
-            float normalized = 1f / damage;
+            float normalized = 1/(maxvalue / damage);
 
             DecreaseOn(normalized);
 		    
@@ -36,8 +42,8 @@ namespace DDF.UI.Bar {
 
             amount = 0;
         }
-        public void RestoreHealth( float health ) {
-            float normalized = 1f / health;
+        public void RestoreHealth( float heal ) {
+            float normalized = 1/(maxvalue / heal);
 
 			if (amount > 0) {
                 overMaxLastMax?.Invoke();
@@ -49,6 +55,11 @@ namespace DDF.UI.Bar {
                 overMax?.Invoke();
                 amount++;
             }
+        }
+
+        public void UpdateBar(float currentValue) {
+            float normalized = 1/(maxvalue / currentValue);
+            CurrentCount = normalized;
         }
     }
 }

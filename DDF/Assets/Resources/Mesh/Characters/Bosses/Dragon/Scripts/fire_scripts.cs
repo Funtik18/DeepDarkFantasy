@@ -7,9 +7,9 @@ public class fire_scripts : MonoBehaviour
     public int dmg = 10;
     // Start is called before the first frame update
     private void OnTriggerStay(Collider other) {
-        Character_stats stat = other.GetComponent<Character_stats>();
+        CharacterStats stat = other.GetComponent<CharacterStats>();
         if(stat != null){
-            stat.getHit(dmg,gameObject.transform.root.gameObject);
+            stat.TakeDamage(dmg,gameObject.transform.root.gameObject);
         }
         Debug.Log("Hit "+other.name);
     }
