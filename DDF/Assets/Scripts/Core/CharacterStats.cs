@@ -4,7 +4,17 @@ using DDF.UI.Bar;
 
 public class CharacterStats : MonoBehaviour {
 
-    private float maxHP;// максимально возможное количесвто хп
+    private float maxHP;
+    public float MaxHP {
+		get {
+            return maxHP;
+        }
+        set {
+            maxHP = value;
+            if (maxHP <= 0) maxHP = 0;
+            if (maxHP < CurrentHP) CurrentHP = maxHP;
+        }
+    }// максимально возможное количесвто хп
     private float baseHP = 10;//базовое хп
     [SerializeField]
     [ReadOnly]
@@ -15,12 +25,8 @@ public class CharacterStats : MonoBehaviour {
         }
         set {
             currentHP = value;
-			if (currentHP >= maxHP) {
-                currentHP = maxHP;
-            }
-            if (currentHP <=0) {
-                currentHP = 0;
-            }
+			if (currentHP >= MaxHP) currentHP = MaxHP;
+            if (currentHP <=0) currentHP = 0;
         }
     }//теукщее
 
@@ -74,11 +80,11 @@ public class CharacterStats : MonoBehaviour {
 
     void Start() {
         UpdateStats();
-        currentHP = maxHP;
+        currentHP = MaxHP;
         currentMP = maxMP;
 
-        HPBar.SetMaxValue(maxHP);
-        HPBar.UpdateBar(maxHP);//надо будет менять на загружаемое значение
+        HPBar.SetMaxValue(MaxHP);
+        HPBar.UpdateBar(MaxHP);//надо будет менять на загружаемое значение
 
         MPBar.SetMaxValue(maxMP);
         MPBar.UpdateBar(maxMP);//надо будет менять на загружаемое значение
@@ -116,13 +122,13 @@ public class CharacterStats : MonoBehaviour {
     }
 
     public void IncreaseHPLimitOn(float buf) {
-        maxHP += buf;
-        HPBar.SetMaxValue(maxHP);
+        MaxHP += buf;
+        HPBar.SetMaxValue(MaxHP);
         HPBar.UpdateBar(CurrentHP);
     }
     public void DecreaseHPLimitOn( float buf ) {
-        maxHP -= buf;
-        HPBar.SetMaxValue(maxHP);
+        MaxHP -= buf;
+        HPBar.SetMaxValue(MaxHP);
         HPBar.UpdateBar(CurrentHP);
     }
     #endregion
@@ -153,7 +159,7 @@ public class CharacterStats : MonoBehaviour {
     #endregion
 
     private void UpdateStats() {
-        maxHP = baseHP + strengh * 2;
+        MaxHP = baseHP + strengh * 2;
 
         if (castrat) maxMP = 0;
         else maxMP = baseMP + intelegence * 2;
@@ -164,7 +170,7 @@ public class CharacterStats : MonoBehaviour {
 
     public void PrintStats() {
         Debug.Log("\nCharacterStats" + "\n"
-            + maxHP + "/" + CurrentHP + "\n"
+            + MaxHP + "/" + CurrentHP + "\n"
             + maxMP + "/" + CurrentMP + "\n");
     }
 }

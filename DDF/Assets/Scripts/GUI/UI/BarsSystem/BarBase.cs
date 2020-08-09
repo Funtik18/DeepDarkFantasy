@@ -5,8 +5,16 @@ using UnityEngine.Events;
 namespace DDF.UI.Bar {
 	[RequireComponent(typeof(CanvasGroup))]
     public class BarBase : MonoBehaviour{
+
+		[Header("Colors")]
+		public Color barColor = new Color32(187, 77, 62, 255);
+		public Color backgroundColor = new Color32(127, 223, 192, 255);
+
+
 		[SerializeField]
         private Image imageBar;
+		[SerializeField]
+		private Image imagebackground;
 		protected CanvasGroup canvasGroup;
 
 		protected float maxvalue = 100;
@@ -40,6 +48,8 @@ namespace DDF.UI.Bar {
 
 		protected virtual void Awake() {
 			canvasGroup = GetComponent<CanvasGroup>();
+			imageBar.color = barColor;
+			imagebackground.color = backgroundColor;
 		}
 
 		protected void IncreaseOn(float val) {
