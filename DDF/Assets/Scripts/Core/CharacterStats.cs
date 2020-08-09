@@ -5,11 +5,27 @@ using DDF.Atributes;
 using DDF.UI.Bar;
 
 public class CharacterStats : MonoBehaviour {
-    public float maxHP;// максимально возможное количесвто хп
+    private float maxHP;// максимально возможное количесвто хп
     private float baseHP = 10;//базовое хп
-    public float currentHP;//теукщее
+    private float currentHP;
+    public float CurrentHP { 
+        get {
+            return currentHP;
+        }
+        set {
+            currentHP += value;
+			if (currentHP >= maxHP) {
+                currentHP = maxHP;
+            }
+            if (currentHP <=0) {
+                currentHP = 0;
+            }
+
+        }
+    }//теукщее
 
     public bool dead;
+
     public float speed;
     public int dmg;
 
@@ -49,8 +65,6 @@ public class CharacterStats : MonoBehaviour {
         int uclon = Random.Range(1, 20);
         if (uclon > agility) {
             currentHP -= dmg;
-            HPBar.TakeDamage(dmg);
-
             Iam = place;
         } else {
             Debug.Log("Miss");
@@ -59,15 +73,21 @@ public class CharacterStats : MonoBehaviour {
     public void TakeDamage( float dmg ) {
         int uclon = Random.Range(1, 20);
         if (uclon > agility) {
-            currentHP -= dmg;
-            HPBar.UpdateBar(currentHP);
-
+            CurrentHP -= dmg;
+            HPBar.UpdateBar(CurrentHP);
 
             PrintStats();
         } else {
             Debug.Log("Miss");
         }
     }
+
+
+    public void RestoreHealth( float heal ) {
+        CurrentHP += heal;
+        HPBar.UpdateBar(CurrentHP);
+    }
+
     private void UpdateStats() {
         maxHP = baseHP + strengh * 2;
 
@@ -76,6 +96,6 @@ public class CharacterStats : MonoBehaviour {
     }
 
     public void PrintStats() {
-        print(maxHP + "/" + currentHP);
+        print(maxHP + "/" + CurrentHP);
 	}
 }
