@@ -13,14 +13,13 @@ public class CharacterStats : MonoBehaviour {
             return currentHP;
         }
         set {
-            currentHP += value;
+            currentHP = value;
 			if (currentHP >= maxHP) {
                 currentHP = maxHP;
             }
             if (currentHP <=0) {
                 currentHP = 0;
             }
-
         }
     }//теукщее
 
@@ -86,6 +85,9 @@ public class CharacterStats : MonoBehaviour {
     public void RestoreHealth( float heal ) {
         CurrentHP += heal;
         HPBar.UpdateBar(CurrentHP);
+
+        PrintStats();
+
     }
 
     private void UpdateStats() {
