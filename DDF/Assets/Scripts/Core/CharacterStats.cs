@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DDF.Atributes;
 using DDF.UI.Bar;
 
-public class CharacterStats : MonoBehaviour {
+public class CharacterStats : BarBase {
     private float maxHP;// максимально возможное количесвто хп
     private float baseHP = 10;//базовое хп
     private float currentHP;
@@ -23,6 +21,25 @@ public class CharacterStats : MonoBehaviour {
         }
     }//теукщее
 
+    private float maxMP;
+    private float baseMP = 10;
+    private float currentMP;
+    public float CurrentMP {
+        get {
+            return currentMP;
+        }
+        set {
+            currentMP = value;
+            if (currentMP >= maxMP) {
+                currentMP = maxMP;
+            }
+            if (currentMP <= 0) {
+                currentMP = 0;
+            }
+        }
+    }//теукщее
+
+
     public bool dead;
 
     public float speed;
@@ -30,7 +47,8 @@ public class CharacterStats : MonoBehaviour {
 
     [SerializeField]
     private HealthBar HPBar;
-    //private HealthBar HPBar;
+    [SerializeField]
+    private ManaBar MPBar;
 
     [Header("Статы 1-10")]
     [InfoBox("СИЛА хитпоинты=10+сила*2 урон в ближнем бою=dmg+(2*strengh)", InfoBoxType.Normal)]
@@ -54,8 +72,6 @@ public class CharacterStats : MonoBehaviour {
 
         HPBar.SetMaxValue(maxHP);
         HPBar.UpdateBar(maxHP);//надо будет менять на загружаемое значение
-
-        PrintStats();
     }
     /// <summary>
     /// Delete
@@ -75,7 +91,7 @@ public class CharacterStats : MonoBehaviour {
             CurrentHP -= dmg;
             HPBar.UpdateBar(CurrentHP);
 
-            PrintStats();
+            //PrintStats();
         } else {
             Debug.Log("Miss");
         }
@@ -85,9 +101,7 @@ public class CharacterStats : MonoBehaviour {
     public void RestoreHealth( float heal ) {
         CurrentHP += heal;
         HPBar.UpdateBar(CurrentHP);
-
-        PrintStats();
-
+       // PrintStats();
     }
 
     private void UpdateStats() {
@@ -98,6 +112,6 @@ public class CharacterStats : MonoBehaviour {
     }
 
     public void PrintStats() {
-        print(maxHP + "/" + CurrentHP);
+        Debug.Log(maxHP + "/" + CurrentHP);
 	}
 }

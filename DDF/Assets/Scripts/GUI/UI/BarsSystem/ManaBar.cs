@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace DDF.UI.Bar {
-    public class HealthBar : BarBase {
 
+    public class ManaBar : MonoBehaviour {
         private float maxvalue = 100;
 
         private float lastvalue = 0;
@@ -25,12 +24,12 @@ namespace DDF.UI.Bar {
         [HideInInspector] public UnityAction overMaxLastMax;
         private int amount = 0;
 
-        public void SetMaxValue(float maximum) {
+        public void SetMaxValue( float maximum ) {
             maxvalue = maximum;
         }
-        
-        public void UpdateBar(float currentValue) {
-            float normalized = 1/(maxvalue / currentValue);//в проеделах от 0 до 1
+
+        public void UpdateBar( float currentValue ) {
+            float normalized = 1 / ( maxvalue / currentValue );//в проеделах от 0 до 1
             CurrentCount = normalized;
             SeeForActions();
         }
