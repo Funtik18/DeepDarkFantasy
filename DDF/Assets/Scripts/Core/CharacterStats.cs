@@ -2,9 +2,12 @@
 using DDF.Atributes;
 using DDF.UI.Bar;
 
-public class CharacterStats : BarBase {
+public class CharacterStats : MonoBehaviour {
+
     private float maxHP;// максимально возможное количесвто хп
     private float baseHP = 10;//базовое хп
+    [SerializeField]
+    [ReadOnly]
     private float currentHP;
     public float CurrentHP { 
         get {
@@ -22,7 +25,9 @@ public class CharacterStats : BarBase {
     }//теукщее
 
     private float maxMP;
-    private float baseMP = 10;
+    private float baseMP = 5;
+    [SerializeField]
+    [ReadOnly]
     private float currentMP;
     public float CurrentMP {
         get {
@@ -39,19 +44,20 @@ public class CharacterStats : BarBase {
         }
     }//теукщее
 
-
-    public bool dead;
-
-    public float speed;
-    public int dmg;
-
     [SerializeField]
     private HealthBar HPBar;
     [SerializeField]
     private ManaBar MPBar;
 
-    [Header("Статы 1-10")]
+
+    public bool dead = false;
+    public bool castrat = false;//не может владеть магией если true
+
+    public float speed;
+    public float dmg;
+
     [InfoBox("СИЛА хитпоинты=10+сила*2 урон в ближнем бою=dmg+(2*strengh)", InfoBoxType.Normal)]
+    [Header("Статы 1-10")]
     [Range(1, 10)]
     public int strengh = 1;
 
@@ -69,9 +75,13 @@ public class CharacterStats : BarBase {
     void Start() {
         UpdateStats();
         currentHP = maxHP;
+        currentMP = maxMP;
 
         HPBar.SetMaxValue(maxHP);
         HPBar.UpdateBar(maxHP);//надо будет менять на загружаемое значение
+
+        MPBar.SetMaxValue(maxMP);
+        MPBar.UpdateBar(maxMP);//надо будет менять на загружаемое значение
     }
     /// <summary>
     /// Delete
@@ -85,33 +95,76 @@ public class CharacterStats : BarBase {
             Debug.Log("Miss");
         }
     }
-    public void TakeDamage( float dmg ) {
+
+
+	#region HP
+	public void TakeDamage( float dmg ) {
         int uclon = Random.Range(1, 20);
         if (uclon > agility) {
             CurrentHP -= dmg;
             HPBar.UpdateBar(CurrentHP);
 
-            //PrintStats();
+            PrintStats();
         } else {
             Debug.Log("Miss");
         }
     }
 
-
     public void RestoreHealth( float heal ) {
         CurrentHP += heal;
         HPBar.UpdateBar(CurrentHP);
-       // PrintStats();
     }
+
+    public void IncreaseHPLimitOn(float buf) {
+        maxHP += buf;
+        HPBar.SetMaxValue(maxHP);
+        HPBar.UpdateBar(CurrentHP);
+    }
+    public void DecreaseHPLimitOn( float buf ) {
+        maxHP -= buf;
+        HPBar.SetMaxValue(maxHP);
+        HPBar.UpdateBar(CurrentHP);
+    }
+    #endregion
+
+    #region MP
+    public void SpendMana( float count ) {
+        CurrentMP -= count;
+        MPBar.UpdateBar(CurrentMP);
+    }
+
+    public void RestoreMana( float mana ) {
+        CurrentMP += mana;
+        MPBar.UpdateBar(CurrentMP);
+    }
+
+    public void IncreaseMPLimitOn( float buf ) {
+        if (castrat) return;
+        maxMP += buf;
+        MPBar.SetMaxValue(maxMP);
+        MPBar.UpdateBar(CurrentMP);
+    }
+    public void DecreaseMPLimitOn( float buf ) {
+        if (castrat) return;
+        maxMP -= buf;
+        MPBar.SetMaxValue(maxMP);
+        MPBar.UpdateBar(CurrentMP);
+    }
+    #endregion
 
     private void UpdateStats() {
         maxHP = baseHP + strengh * 2;
+
+        if (castrat) maxMP = 0;
+        else maxMP = baseMP + intelegence * 2;
 
         speed = ( 2 * ( (float)agility / 10 ) ) * 1;
         dmg = dmg + ( 2 * strengh );
     }
 
     public void PrintStats() {
-        Debug.Log(maxHP + "/" + CurrentHP);
-	}
+        Debug.Log("\nCharacterStats" + "\n"
+            + maxHP + "/" + CurrentHP + "\n"
+            + maxMP + "/" + CurrentMP + "\n");
+    }
 }

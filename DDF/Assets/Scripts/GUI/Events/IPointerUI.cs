@@ -1,5 +1,5 @@
 ﻿using UnityEngine.EventSystems;
 
-namespace DDF.Events {
+namespace DDF.UI.Events {
 	public interface IPointerUI : IPointerEnterHandler, IPointerDownHandler, IPointerClickHandler, IPointerUpHandler, IPointerExitHandler { }
 }

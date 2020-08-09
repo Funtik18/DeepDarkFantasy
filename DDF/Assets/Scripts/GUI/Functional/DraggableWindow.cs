@@ -1,4 +1,4 @@
-﻿using DDF.Events;
+﻿using DDF.UI.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
