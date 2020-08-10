@@ -14,7 +14,7 @@ public class CharacterStats : MonoBehaviour {
     public Stats stats;
 
     #region Здоровье
-    private Value valueMaxHP;
+    private ValueReference valueMaxHP;
     private float maxHP;
     public float MaxHP {
         get {
@@ -40,8 +40,9 @@ public class CharacterStats : MonoBehaviour {
         }
     }//теукщее
     #endregion
+
     #region Мана
-    private Value valueMaxMP;
+    private ValueReference valueMaxMP;
     private float maxMP;
     public float MaxMP {
         get {
@@ -69,33 +70,11 @@ public class CharacterStats : MonoBehaviour {
     #endregion
 
     #region Сила
-    private Value valueStrength;
-    [SerializeField]
-    [ReadOnly]
-    private float currentStrength;
-    public float CurrentStrength {
-        get {
-            return currentStrength;
-        }
-        set {
-            currentStrength = value;
-        }
-    }//теукщее
+    private ValueReference valueStrength;
     #endregion
-
-    #region Сила
-    private Value valueIntelligence;
-    /*[SerializeField]
-    [ReadOnly]
-    private int currentStrength;
-    public int CurrentStrength {
-        get {
-            return currentStrength;
-        }
-        set {
-            currentStrength = value;
-        }
-    }*/
+    
+    #region Интелект
+    private ValueReference valueIntelligence;
     #endregion
 
     public bool dead = false;
@@ -115,6 +94,10 @@ public class CharacterStats : MonoBehaviour {
     void Start() {
         AssignValues();
 
+        valueStrength.onChange += ValueChange;
+
+        valueIntelligence.onChange += ValueChange;
+
         int temp = 0;
         stats.Get(valueMaxHP, out temp);
         CurrentHP = MaxHP = temp;
@@ -122,13 +105,11 @@ public class CharacterStats : MonoBehaviour {
         HPBar.UpdateBar(MaxHP);
 
         //currentHP = maxHP;
-        temp = 0;
         stats.Get(valueMaxMP, out temp);
         CurrentMP = MaxMP = temp;
         MPBar.SetMaxValue(MaxMP);
         MPBar.UpdateBar(MaxMP);
     }
-
 
     private void InitValues() {
         stats = new Stats();
@@ -198,6 +179,10 @@ public class CharacterStats : MonoBehaviour {
         }
     }
 
+    private void ValueChange() {
+
+	}
+
     #endregion
 
 
@@ -250,19 +235,15 @@ public class CharacterStats : MonoBehaviour {
 	#region HP
 	public void TakeDamage( float dmg ) {
         int uclon = Random.Range(1, 20);
-        //if (uclon > agility) {
-            CurrentHP -= dmg;
-            HPBar.UpdateBar(CurrentHP);
-        //} else {
-        //    Debug.Log("Miss");
-       // }
+        CurrentHP -= dmg;
+         HPBar.UpdateBar(CurrentHP);
     }
     public void RestoreHealth( float heal ) {
         CurrentHP += heal;
         HPBar.UpdateBar(CurrentHP);
     }
 
-    public void IncreaseHPLimitOn(float buf) {
+   /* public void IncreaseHPLimitOn(float buf) {
         MaxHP += buf;
         HPBar.SetMaxValue(MaxHP);
         HPBar.UpdateBar(CurrentHP);
@@ -271,7 +252,7 @@ public class CharacterStats : MonoBehaviour {
         MaxHP -= buf;
         HPBar.SetMaxValue(MaxHP);
         HPBar.UpdateBar(CurrentHP);
-    }
+    }*/
     #endregion
 
     #region MP
@@ -284,7 +265,7 @@ public class CharacterStats : MonoBehaviour {
         MPBar.UpdateBar(CurrentMP);
     }
 
-    public void IncreaseMPLimitOn( float buf ) {
+    /*public void IncreaseMPLimitOn( float buf ) {
         if (castrat) return;
         maxMP += buf;
         MPBar.SetMaxValue(maxMP);
@@ -295,66 +276,52 @@ public class CharacterStats : MonoBehaviour {
         maxMP -= buf;
         MPBar.SetMaxValue(maxMP);
         MPBar.UpdateBar(CurrentMP);
-    }
+    }*/
     #endregion
 
     private void AssignValues() {
         List<ValueReference> values = stats.valueList;
 
-        valueMaxHP = values[0].valueBase;
-        valueMaxMP = values[1].valueBase;
+        valueMaxHP = values[0];
+        valueMaxMP = values[1];
 
-        valueStrength = values[2].valueBase;
+        valueStrength = values[2];
 
-        valueIntelligence = values[4].valueBase;
+        valueIntelligence = values[4];
     }
 
     public void IncreaceStrength() {
         stats.Sum(valueStrength, 1);
         UpdateStats();
-
-        int temp = 0;
-        stats.Get(valueMaxHP, out temp);
-        MaxHP = temp;
-        HPBar.SetMaxValue(MaxHP);
-        HPBar.UpdateBar(CurrentHP);//надо будет менять на загружаемое значение
     }
     public void DecreaceStrength() {
-        stats.Sum(valueStrength, -1);
+        ((ValueIntReference)valueStrength).Sum(-1);
         UpdateStats();
-
-        int temp = 0;
-        stats.Get(valueMaxHP, out temp);
-        MaxHP = temp;
-        HPBar.SetMaxValue(MaxHP);
-        HPBar.UpdateBar(CurrentHP);//надо будет менять на загружаемое значение
     }
 
     public void IncreaceIntelligence() {
         stats.Sum(valueIntelligence, 1);
         UpdateStats();
-        int temp = 0;
-
-        stats.Get(valueMaxMP, out temp);
-        MaxMP = temp;
-        MPBar.SetMaxValue(MaxMP);
-        MPBar.UpdateBar(CurrentMP);//надо будет менять на загружаемое значение
     }
     public void DecreaceIntelligence() {
         stats.Sum(valueIntelligence, -1);
         UpdateStats();
+    }
+
+
+    private void UpdateStats() {
         int temp = 0;
+        stats.Get(valueMaxHP, out temp);
+        MaxHP = temp;
+        HPBar.SetMaxValue(MaxHP);
+        HPBar.UpdateBar(CurrentHP);//надо будет менять на загружаемое значение
 
         stats.Get(valueMaxMP, out temp);
         MaxMP = temp;
         MPBar.SetMaxValue(MaxMP);
         MPBar.UpdateBar(CurrentMP);//надо будет менять на загружаемое значение
-    }
 
-    private void UpdateStats() {
-        
 
-        
 
         /*
                 if (castrat) maxMP = 0;

@@ -38,7 +38,15 @@ namespace DDF.Character.Stats {
         public ValueIntReference( Value valBase, int val = 0 ) {
             valueBase = valBase;
             value = val;
+
+            onChange += Check;
         }
+
+        private void Check() {
+			if (value <= 0) {
+                value = 0;
+			}
+		}
 
         /// <summary>
         /// Получает текст имя + значение

@@ -57,6 +57,10 @@ namespace DDF.Character.Stats {
         }
 
 
+        public void Get( ValueReference valueref, out int state ) {
+            ValueIntReference valueIntReference = (ValueIntReference)valueref;
+            state = valueIntReference.value;
+        }
         /// <summary>
         /// Получение значения определённого стата.
         /// </summary>
@@ -147,6 +151,10 @@ namespace DDF.Character.Stats {
                 Add(value, sum);
             }
         }
+        public void Sum( ValueReference valueref, int sum ) {
+            ValueIntReference reference = (ValueIntReference)valueref;
+            reference.Sum(sum);
+        }
         /// <summary>
         /// Изменение значения у этого value.
         /// </summary>
@@ -159,6 +167,10 @@ namespace DDF.Character.Stats {
             } else {
                 Add(value, sum);
             }
+        }
+        public void Sum( ValueReference valueref, float sum ) {
+            ValueFloatReference reference = (ValueFloatReference)valueref;
+            reference.Sum(sum);
         }
 
 
