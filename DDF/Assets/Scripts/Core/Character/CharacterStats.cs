@@ -1,9 +1,102 @@
 ﻿using UnityEngine;
 using DDF.Atributes;
 using DDF.UI.Bar;
+using DDF.Character.Stats;
+using System.Collections.Generic;
+
 
 public class CharacterStats : MonoBehaviour {
 
+    public ValueStructure statsStructure;
+
+    public Stats stats;
+
+    #region Setup
+
+    private void Awake() {
+        InitValues();
+        InitFormulas();
+    }
+
+    private void InitValues() {
+        stats = new Stats();
+
+        List<Value> values = statsStructure.values;
+
+        for (int i = 0; i < values.Count; i++) {
+
+            Value value = values[i];
+
+            if (value is ValueFloat) {
+                stats.valueList.Add(new ValueFloatReference(value, 0f));
+
+            }
+            if (value is ValueInt) {
+                stats.valueList.Add(new ValueIntReference(value, 0));
+            }
+        }
+    }
+    private void InitFormulas() {
+        List<ValueReference> references = stats.valueList;
+        for (int i = 0; i < references.Count; i++) {
+
+            ValueReference reference = references[i];
+
+            Formula formula = reference.valueBase.formula;
+            Value value = reference.valueBase;
+
+            if (formula) {//если в стате есть формула
+                reference.Null();
+                if (formula is FormulaInt) {
+                    FormulaInt formulaInt = (FormulaInt)formula;
+                    stats.Sum(value, formulaInt.Calculate(stats));
+                }
+                if (formula is FormulaFloat) {
+                    FormulaFloat formulaInt = (FormulaFloat)formula;
+                    stats.Sum(value, formulaInt.Calculate(stats));
+                }
+
+                List<Value> valuesref = formula.GetRefernces();
+
+                for (int j = 0; j < valuesref.Count; j++) {
+                    stats.SubscribeOnRecalculate(ValueRecalculate, value, valuesref[i]);
+                }
+            }
+        }
+    }
+
+
+    private void ValueRecalculate( Value value ) {
+        ValueReference valueNull = stats.GetValueReference(value);
+        valueNull.Null();
+
+        List<ValueReference> references = stats.valueList;
+
+        for (int i = 0; i < references.Count; i++) {
+            ValueReference reference = references[i];
+
+            Formula formula = reference.valueBase.formula;
+
+            if (formula) {
+                if (formula is FormulaInt) {
+                    FormulaInt formulaInt = (FormulaInt)formula;
+
+                    stats.Sum(reference.valueBase, formulaInt.Calculate(stats));
+                }
+                if (formula is FormulaFloat) {
+                    FormulaFloat formulaInt = (FormulaFloat)formula;
+
+                    stats.Sum(reference.valueBase, formulaInt.Calculate(stats));
+                }
+            }
+        }
+    }
+
+    #endregion
+
+
+    //Здоровье
+    private float baseHP = 10;//базовое хп
     private float maxHP;
     public float MaxHP {
 		get {
@@ -15,7 +108,6 @@ public class CharacterStats : MonoBehaviour {
             if (maxHP < CurrentHP) CurrentHP = maxHP;
         }
     }// максимально возможное количесвто хп
-    private float baseHP = 10;//базовое хп
     [SerializeField]
     [ReadOnly]
     private float currentHP;
@@ -30,8 +122,35 @@ public class CharacterStats : MonoBehaviour {
         }
     }//теукщее
 
-    private float maxMP;
+    /*//Дополнительные пойнты для здоровья
+    private float baseAHP = 0;
+    private float maxAHP;
+    public float MaxAHP {
+        get {
+            return maxAHP;
+        }
+        set {
+            maxAHP = value;
+            if (maxAHP <= 0) maxAHP = 0;
+        }
+    }
+    [SerializeField]
+    [ReadOnly]
+    private float currentAHP;
+    public float CurrentAHP {
+        get {
+            return currentAHP;
+        }
+        set {
+            currentAHP = value;
+            if (currentAHP >= MaxAHP) currentAHP = MaxAHP;
+            if (currentAHP <= 0) currentAHP = 0;
+        }
+    }*/
+
+    //Мана
     private float baseMP = 5;
+    private float maxMP;
     [SerializeField]
     [ReadOnly]
     private float currentMP;
@@ -48,10 +167,12 @@ public class CharacterStats : MonoBehaviour {
                 currentMP = 0;
             }
         }
-    }//теукщее
+    }
 
     [SerializeField]
     private HealthBar HPBar;
+    //[SerializeField]
+    //private HealthBar APBar;
     [SerializeField]
     private ManaBar MPBar;
 
@@ -102,20 +223,16 @@ public class CharacterStats : MonoBehaviour {
         }
     }
 
-
 	#region HP
 	public void TakeDamage( float dmg ) {
         int uclon = Random.Range(1, 20);
         if (uclon > agility) {
             CurrentHP -= dmg;
             HPBar.UpdateBar(CurrentHP);
-
-            PrintStats();
         } else {
             Debug.Log("Miss");
         }
     }
-
     public void RestoreHealth( float heal ) {
         CurrentHP += heal;
         HPBar.UpdateBar(CurrentHP);
@@ -138,7 +255,6 @@ public class CharacterStats : MonoBehaviour {
         CurrentMP -= count;
         MPBar.UpdateBar(CurrentMP);
     }
-
     public void RestoreMana( float mana ) {
         CurrentMP += mana;
         MPBar.UpdateBar(CurrentMP);

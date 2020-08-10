@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI.Inventory.Stats {
-
+namespace DDF.Character.Stats {
     public class TextCharacterValue : MonoBehaviour {
 
         public Value trackValue;
 
-        public Character character;
+        public CharacterStats character;
         
         private void UpdateText() {
 
@@ -19,7 +18,7 @@ namespace DDF.UI.Inventory.Stats {
         }
 
 		private void Start() {
-            character.stats.Subscribe(UpdateText, trackValue);
+            character.stats.SubscribeOnChange(UpdateText, trackValue);
             UpdateText();
         }
 	}

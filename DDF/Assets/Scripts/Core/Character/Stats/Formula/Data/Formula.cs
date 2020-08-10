@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI.Inventory.Stats {
+namespace DDF.Character.Stats {
     public abstract class Formula : ScriptableObject {
-
         public abstract List<Value> GetRefernces();
     }
     public abstract class FormulaInt : Formula {

@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI.Inventory.Stats {
+namespace DDF.Character.Stats {
     public abstract class ValueReference {
         public Value valueBase;
 
+        /// <summary>
+        /// Событие, произошло изменение значаения.
+        /// </summary>
         public Action onChange;
+        /// <summary>
+        /// Событие, произошёл перерасчёт значения со всеми зависимастями.
+        /// </summary>
         public Action<Value> onRecalculate;
 
         public List<Value> dependent;
@@ -26,20 +32,26 @@ namespace DDF.UI.Inventory.Stats {
 
 
     public class ValueIntReference : ValueReference {
+
         public int value;
 
-        public ValueIntReference( Value _valueBase, int _value = 0 ) {
-            valueBase = _valueBase;
-            value = _value;
-
+        public ValueIntReference( Value valBase, int val = 0 ) {
+            valueBase = valBase;
+            value = val;
         }
 
+        /// <summary>
+        /// Получает текст имя + значение
+        /// </summary>
 		public override string Text {
 			get {
-                return valueBase.name + " " + value.ToString();
+                return valueBase.valueName + " " + value.ToString();
 			}
         }
 
+        /// <summary>
+        /// Обнуление значаения.
+        /// </summary>
 		public override void Null() {
             value = 0;
 
@@ -47,7 +59,10 @@ namespace DDF.UI.Inventory.Stats {
             base.RecalculateDependencies();
         }
 
-        internal void Sum( int sum ) {
+        /// <summary>
+        /// Изменение значения у этого value.
+        /// </summary>
+        public void Sum( int sum ) {
             value += sum;
 
             onChange?.Invoke();
@@ -64,7 +79,7 @@ namespace DDF.UI.Inventory.Stats {
 
         public override string Text {
             get {
-                return valueBase.name + " " + value.ToString();
+                return valueBase.valueName + " " + value.ToString();
             }
         }
 
