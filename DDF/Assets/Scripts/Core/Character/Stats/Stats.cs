@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DDF.Character.Stats {
     public class Stats {
@@ -18,6 +19,11 @@ namespace DDF.Character.Stats {
         /// <param name="value"></param>
         public void SubscribeOnChange( Action action, Value value ) {
             ValueReference valueReference = GetValueReference(value);
+
+            if(valueReference == null) {
+                Debug.LogError(value.valueName + " does not assign in stats");
+                return;
+			}
 
             valueReference.onChange += action;
         }
@@ -72,6 +78,22 @@ namespace DDF.Character.Stats {
         /// </summary>
         /// <param name="value"></param>
         /// <param name="state"></param>
+        public void Get( string value, out int state ) {
+            ValueReference valueReference = GetValueReference(value);
+
+            ValueIntReference valueIntReference = (ValueIntReference)valueReference;
+
+            if (valueIntReference == null) {
+                state = 0;
+            } else {
+                state = valueIntReference.value;
+            }
+        }
+        /// <summary>
+        /// Получение значения определённого стата.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="state"></param>
         public void Get( Value value, out float state ) {
             ValueReference valueReference = GetValueReference(value);
 
@@ -83,12 +105,32 @@ namespace DDF.Character.Stats {
                 state = valueFloatReference.value;
             }
         }
+        /// <summary>
+        /// Получение значения определённого стата.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="state"></param>
+        public void Get( string value, out float state ) {
+            ValueReference valueReference = GetValueReference(value);
+
+            ValueFloatReference valueFloatReference = (ValueFloatReference)valueReference;
+
+            if (valueFloatReference == null) {
+                state = 0;
+            } else {
+                state = valueFloatReference.value;
+            }
+        }
+
 
         /// <summary>
         /// Находит Value по ValueReference из списка valueList.
         /// </summary>
         public ValueReference GetValueReference( Value value ) {
             return valueList.Find(x => x.valueBase == value);
+        }
+        public ValueReference GetValueReference( string value ) {
+            return valueList.Find(x => x.valueBase.valueName.ToLower() == value.ToLower());
         }
 
 
@@ -120,11 +162,11 @@ namespace DDF.Character.Stats {
         }
 
 
-        private void Add( Value v, int sum ) {
-            valueList.Add(new ValueIntReference(v, sum));
+        private void Add( Value value, int sum ) {
+            valueList.Add(new ValueIntReference(value, sum));
         }
-        private void Add( Value v, float sum ) {
-            valueList.Add(new ValueFloatReference(v, sum));
+        private void Add( Value value, float sum ) {
+            valueList.Add(new ValueFloatReference(value, sum));
         }
     }
 }

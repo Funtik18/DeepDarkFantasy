@@ -18,10 +18,10 @@ namespace DDF.Character.Stats {
 
         public List<Value> dependent;
 
-        internal void RecalculateDependencies() {
+        public void RecalculateDependencies() {
 			if (dependent != null) {
-				foreach (Value v in dependent) {
-                    onRecalculate?.Invoke(v);
+				foreach (Value value in dependent) {
+                    onRecalculate?.Invoke(value);
                 }
 			}
 		}
@@ -56,7 +56,7 @@ namespace DDF.Character.Stats {
             value = 0;
 
             onChange?.Invoke();
-            base.RecalculateDependencies();
+            RecalculateDependencies();
         }
 
         /// <summary>
@@ -66,15 +66,15 @@ namespace DDF.Character.Stats {
             value += sum;
 
             onChange?.Invoke();
-            base.RecalculateDependencies();
+            RecalculateDependencies();
         }
     }
     public class ValueFloatReference : ValueReference {
         public float value;
 
-        public ValueFloatReference( Value _valueBase, float _value = 0 ) {
-            valueBase = _valueBase;
-            value = _value;
+        public ValueFloatReference( Value valBase, float val = 0 ) {
+            valueBase = valBase;
+            value = val;
         }
 
         public override string Text {
@@ -90,13 +90,11 @@ namespace DDF.Character.Stats {
             base.RecalculateDependencies();
         }
 
-
-        internal void Sum( float sum ) {
+        public void Sum( float sum ) {
             value += sum;
 
             onChange?.Invoke();
             base.RecalculateDependencies();
-
         }
     }
 }

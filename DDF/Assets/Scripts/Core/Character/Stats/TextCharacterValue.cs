@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.Character.Stats {
+    [RequireComponent(typeof(TMPro.TextMeshProUGUI))]
     public class TextCharacterValue : MonoBehaviour {
 
         public Value trackValue;
 
         public CharacterStats character;
-        
-        private void UpdateText() {
 
-            string str = character.stats.GetText(trackValue);
+        private TMPro.TextMeshProUGUI txt;
 
-            GetComponent<TMPro.TextMeshProUGUI>().text = str;
+		private void Awake() {
+            txt = GetComponent<TMPro.TextMeshProUGUI>();
 
         }
 
@@ -21,5 +21,12 @@ namespace DDF.Character.Stats {
             character.stats.SubscribeOnChange(UpdateText, trackValue);
             UpdateText();
         }
-	}
+
+        private void UpdateText() {
+
+            string str = character.stats.GetText(trackValue);
+
+            txt.text = str;
+        }
+    }
 }
