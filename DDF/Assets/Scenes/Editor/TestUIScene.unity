@@ -4636,7 +4636,7 @@ RectTransform:
   - {fileID: 2072526017}
   - {fileID: 1676011649}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8099,9 +8099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: 1bca3c0b5d427684a9896bd0265c5677, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &354634985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9964,7 +9961,7 @@ RectTransform:
   - {fileID: 1210382014}
   - {fileID: 534305913}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10877,7 +10874,7 @@ RectTransform:
   - {fileID: 2091111470}
   - {fileID: 2119126219}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -11518,9 +11515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: 0af13cb910f426941898ee922d0a6f16, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &467552659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12356,6 +12350,7 @@ GameObject:
   - component: {fileID: 484687799}
   - component: {fileID: 484687801}
   - component: {fileID: 484687800}
+  - component: {fileID: 484687802}
   m_Layer: 5
   m_Name: Stats
   m_TagString: Untagged
@@ -12423,6 +12418,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484687798}
   m_CullTransparentMesh: 0
+--- !u!114 &484687802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484687798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa6bf96c5d4bbd498f5e46dab44f8e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textsStats:
+  - {fileID: 709463547}
+  - {fileID: 558403713}
+  - {fileID: 1534184332}
+  - {fileID: 597066855}
+  - {fileID: 238927926}
 --- !u!1 &487587802
 GameObject:
   m_ObjectHideFlags: 0
@@ -12621,9 +12634,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: bcbdf689a68cb6b4e832faa2969f4717, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &495257491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15820,9 +15830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: f43d0d9e4ec81174f84fc0089e77aa29, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &629586953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18427,9 +18434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: 7cdea9c752fa5624c8585fcfdab516c7, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &723331617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19097,6 +19101,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0301ab63ed81c0043a1927a3e63c82bf, type: 3}
+--- !u!1 &754499526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 754499527}
+  m_Layer: 0
+  m_Name: EnemyStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &754499527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754499526}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2872913, y: 2.4238303, z: 109.05594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &757403617
 GameObject:
   m_ObjectHideFlags: 0
@@ -25647,7 +25681,7 @@ PrefabInstance:
     - target: {fileID: 2235644837920295749, guid: 9b8b50a2f4c17a547b8b946e5638ae3d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2235644837920295749, guid: 9b8b50a2f4c17a547b8b946e5638ae3d,
         type: 3}
@@ -27647,7 +27681,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: {fileID: 11400000, guid: f66b98e0c1a628a4a95d46ee7c841640, type: 2}
   currentHP: 0
-  txt: {fileID: 709463547}
   MP: {fileID: 11400000, guid: afaf424e75d572b4780faa36b80bfeb6, type: 2}
   currentMP: 0
   strength: {fileID: 11400000, guid: 8f9660c3a3afef34797a7abae7e6ff66, type: 2}
@@ -27662,6 +27695,7 @@ MonoBehaviour:
   castrat: 0
   HPBar: {fileID: 928730368}
   MPBar: {fileID: 926049102}
+  textsStats: {fileID: 484687802}
   Iam: {fileID: 0}
 --- !u!4 &1048853814
 Transform:
@@ -32675,7 +32709,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1048853813}
         m_TargetAssemblyTypeName: CharacterStats, Assembly-CSharp
-        m_MethodName: DecreaceIntelligence
+        m_MethodName: DecreaceAgility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33364,6 +33398,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220992490}
   m_CullTransparentMesh: 0
+--- !u!1 &1229513257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1229513258}
+  m_Layer: 0
+  m_Name: EnemyStats (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1229513258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229513257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2872913, y: 2.4238303, z: 109.05594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232807003
 GameObject:
   m_ObjectHideFlags: 0
@@ -34651,9 +34715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: 982d0517871f59247896c66947e1aab7, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &1271427463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38340,7 +38401,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1385088922
 MonoBehaviour:
@@ -42647,7 +42708,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1048853813}
         m_TargetAssemblyTypeName: CharacterStats, Assembly-CSharp
-        m_MethodName: IncreaceIntelligence
+        m_MethodName: IncreaceAgility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -44013,9 +44074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 0}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &1609610495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49250,9 +49308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: 8ef8c294f1899f34096f332abe621ca2, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &1771720387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51121,18 +51176,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1534184332}
-        m_TargetAssemblyTypeName: TextStat, Assembly-CSharp
-        m_MethodName: UpdateText
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1823904110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51221,9 +51264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735dabf27ff033749bdf314bfcc718fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackValue: {fileID: 11400000, guid: 5f0f97339dfdb5f4d9e8deb16412bc4c, type: 2}
-  character: {fileID: 0}
-  txt: {fileID: 0}
 --- !u!114 &1824556974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52760,18 +52800,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1048853813}
         m_TargetAssemblyTypeName: CharacterStats, Assembly-CSharp
         m_MethodName: IncreaceStrength
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1534184332}
-        m_TargetAssemblyTypeName: TextStat, Assembly-CSharp
-        m_MethodName: UpdateText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -63213,7 +63241,7 @@ RectTransform:
   - {fileID: 125138413}
   - {fileID: 2057008112}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
