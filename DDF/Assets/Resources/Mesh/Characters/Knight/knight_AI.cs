@@ -37,7 +37,7 @@ public class knight_AI : MonoBehaviour
         }
         if(GetComponentInChildren<CharacterStats>()!=null){
             stats = GetComponentInChildren<CharacterStats>();
-            mYHp = stats.CurrentHP;
+            mYHp = stats.CurrentHealthPoints;
         }
     }
 
@@ -56,7 +56,7 @@ public class knight_AI : MonoBehaviour
     }
 
     private void lookMySost(){
-        if(stats.CurrentHP <= 0){
+        if(stats.CurrentHealthPoints <= 0){
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
@@ -72,11 +72,11 @@ public class knight_AI : MonoBehaviour
             }
         }
 
-        if(mYHp>stats.CurrentHP && (mYHp-stats.CurrentHP ) >maxPain){
+        if(mYHp>stats.CurrentHealthPoints && (mYHp-stats.CurrentHealthPoints ) >maxPain){
             if(!hiting){
                 myanim.SetBool("Hit",true);
                 }
-            mYHp = stats.CurrentHP;
+            mYHp = stats.CurrentHealthPoints;
             if(!Agressive)
                 IseeSomething(stats.Iam);
         }

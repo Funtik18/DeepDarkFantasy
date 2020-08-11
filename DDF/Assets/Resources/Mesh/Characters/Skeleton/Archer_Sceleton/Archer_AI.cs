@@ -38,7 +38,7 @@ public class Archer_AI : MonoBehaviour
         }
         if(GetComponentInChildren<CharacterStats>()!=null){
             stats = GetComponentInChildren<CharacterStats>();
-            mYHp = stats.CurrentHP;
+            mYHp = stats.CurrentHealthPoints;
         }
     }
 
@@ -58,7 +58,7 @@ public class Archer_AI : MonoBehaviour
     }
 
     private void lookMySost(){
-        if(stats.CurrentHP <= 0){
+        if(stats.CurrentHealthPoints <= 0){
 
             GetComponent<IK_Controls>().rightHandObj = null;
             bowReady.GetComponent<bow>().shoot = true;
@@ -79,10 +79,10 @@ public class Archer_AI : MonoBehaviour
             }
         }
         
-        if(mYHp>stats.CurrentHP) {
-            if(!hiting && (mYHp-stats.CurrentHP ) >maxPain)
+        if(mYHp>stats.CurrentHealthPoints) {
+            if(!hiting && (mYHp-stats.CurrentHealthPoints ) >maxPain)
                 myanim.SetBool("Hit",true);
-            mYHp = stats.CurrentHP;
+            mYHp = stats.CurrentHealthPoints;
             if(!Agressive)
                 IseeSomething(stats.Iam);
         }

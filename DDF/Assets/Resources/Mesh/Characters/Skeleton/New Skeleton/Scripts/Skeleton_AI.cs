@@ -36,7 +36,7 @@ public class Skeleton_AI : MonoBehaviour
         }
         if(GetComponentInChildren<CharacterStats>()!=null){
             stats = GetComponentInChildren<CharacterStats>();
-            mYHp = stats.CurrentHP;
+            mYHp = stats.CurrentHealthPoints;
         }
     }
 
@@ -56,7 +56,7 @@ public class Skeleton_AI : MonoBehaviour
     }
 
     private void lookMySost(){
-        if(stats.CurrentHP <= 0){
+        if(stats.CurrentHealthPoints <= 0){
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
@@ -73,10 +73,10 @@ public class Skeleton_AI : MonoBehaviour
             }
         }
         
-        if(mYHp>stats.CurrentHP) {
-            if(!hiting && (mYHp-stats.CurrentHP ) >maxPain)
+        if(mYHp>stats.CurrentHealthPoints) {
+            if(!hiting && (mYHp-stats.CurrentHealthPoints ) >maxPain)
                 myanim.SetBool("Hit",true);
-            mYHp = stats.CurrentHP;
+            mYHp = stats.CurrentHealthPoints;
             if(!Agressive)
                 IseeSomething(stats.Iam);
         }
