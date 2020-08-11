@@ -4,18 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(TMPro.TextMeshProUGUI))]
-public class TextStat : MonoBehaviour {
-    public Stat stat;
+namespace DDF.Character.Stats {
+	[RequireComponent(typeof(TMPro.TextMeshProUGUI))]
+	public class TextStat : MonoBehaviour {
+		public Stat stat;
 
-    TMPro.TextMeshProUGUI txt;
+		TMPro.TextMeshProUGUI txt;
 
-	private void Awake() {
-		if (stat == null) return;
-		txt = GetComponent<TMPro.TextMeshProUGUI>();
-		UpdateText();
-	}
-	public void UpdateText() {
-		txt.text = stat.name + " = " + stat.amount;
+		private void Awake() {
+			txt = GetComponent<TMPro.TextMeshProUGUI>();
+			UpdateText();
+		}
+		public void UpdateText() {
+			if (stat == null) return;
+			txt.text = stat.name + " = " + stat.amount;
+		}
 	}
 }

@@ -19,6 +19,7 @@ public class CharacterStats : MonoBehaviour {
             maxHP = value;
             if (maxHP <= 0) maxHP = 0;
             if (maxHP < CurrentHP) CurrentHP = maxHP;
+            onChangeHP?.Invoke();
         }
     }// максимально возможное количесвто хп
     [SerializeField]
@@ -36,10 +37,7 @@ public class CharacterStats : MonoBehaviour {
         }
     }//теукщее
 
-    public TextStat txt;
     public Action onChangeHP;
-
-    
     #endregion
 
     #region Мана
@@ -54,6 +52,7 @@ public class CharacterStats : MonoBehaviour {
             maxMP = value;
             if (maxMP <= 0) maxMP = 0;
             if (maxMP < CurrentMP) CurrentMP = maxHP;
+            onChangeMP?.Invoke();
         }
     }
     [SerializeField]
@@ -67,10 +66,15 @@ public class CharacterStats : MonoBehaviour {
             currentMP = value;
             if (currentMP >= maxMP) currentMP = maxMP;
             if (currentMP <= 0) currentMP = 0;
+            onChangeMP?.Invoke();
         }
     }
+
+    public Action onChangeMP;
     #endregion
-    
+
+    private int statMin = 1;
+
     #region Сила
     [SerializeField] private Stat strength;
     [ReadOnly] public int currentStrength;
@@ -80,9 +84,12 @@ public class CharacterStats : MonoBehaviour {
 		}
 		set {
             currentStrength = value;
-            if (currentStrength < 0) currentStrength = 0;
+            if (currentStrength < statMin) currentStrength = statMin;
+            onChangeStrength?.Invoke();
         }
 	}
+
+    public Action onChangeStrength;
     #endregion
     #region Ловкость
     [SerializeField] private Stat agility;
@@ -93,9 +100,12 @@ public class CharacterStats : MonoBehaviour {
         }
         set {
             currentAgility = value;
-            if (currentAgility < 0) currentAgility = 0;
+            if (currentAgility < statMin) currentAgility = statMin;
+            onChangeAgility?.Invoke();
         }
     }
+
+    public Action onChangeAgility;
     #endregion
     #region Интелект
     [SerializeField] private Stat intelligence;
@@ -106,9 +116,12 @@ public class CharacterStats : MonoBehaviour {
         }
         set {
             currentIntelligence = value;
-            if (currentIntelligence < 0) currentIntelligence = 0;
+            if (currentIntelligence < statMin) currentIntelligence = statMin;
+            onChangeIntelligance?.Invoke();
         }
     }
+
+    public Action onChangeIntelligance;
     #endregion
 
     private float basemeleeDamage = 5;
@@ -127,24 +140,59 @@ public class CharacterStats : MonoBehaviour {
     private HealthBar HPBar;
     [SerializeField]
     private ManaBar MPBar;
+    [SerializeField]
+    private TextsStats textsStats;
 
 
     #region Setup
 
     void Start() {
+        //коопии статов
+        //GetCopyStats();
         //взяли дату
+        GetData();
+
+        onChangeHP = () => UpdateTXT();
+        onChangeMP = () => UpdateTXT();
+        onChangeStrength = () => UpdateTXT();
+        onChangeAgility = () => UpdateTXT();
+        onChangeIntelligance = () => UpdateTXT();
+
+        UpdateStats();
+
+        UpdateTXT();
+    }
+    public void UpdateTXT() {
+        textsStats.UpdateAllTxt();
+    }
+
+    private void GetData() {
         currentHP = MaxHP = HP.amount;
         currentMP = MaxMP = MP.amount;
         currentStrength = (int)strength.amount;
         currentAgility = (int)agility.amount;
         currentIntelligence = (int)intelligence.amount;
-
-        onChangeHP = () => txt.UpdateText();
-
-
-        UpdateStats();
     }
+    private void SetData() {
+        HP.amount = maxHP;
+        MP.amount = maxMP;
+        strength.amount = currentStrength;
+        agility.amount = currentAgility;
+        intelligence.amount = currentIntelligence;
+    }
+    private void SaveData() {
 
+	}
+    private void LoadData() {
+
+    }
+    private void GetCopyStats() {
+        HP = HP.GetStatCopy();
+        MP = MP.GetStatCopy();
+        strength = strength.GetStatCopy();
+        agility = agility.GetStatCopy();
+        intelligence = intelligence.GetStatCopy();
+    }
     #endregion
 
     /*//Дополнительные пойнты для здоровья
@@ -229,67 +277,55 @@ public class CharacterStats : MonoBehaviour {
     #region Stats
     private void UpdateStats() {
         //подсчёт
-        MaxHP = baseHP + Strength * 2;
-        MaxMP = baseMP + Intelligence * 2;
-        meleeDamage = basemeleeDamage + Strength * 2;
-        avoid = baseavoid + Agility / 2;
-        speed = basespeed + Agility / 2;
-        //сейф
-        HP.amount = maxHP;
-        MP.amount = maxMP;
-        strength.amount = currentStrength;
-        agility.amount = currentAgility;
-        intelligence.amount = currentIntelligence;
-        //
+        MakeFormules();
         
         if (castrat) maxMP = 0;
+
 
         HPBar.SetMaxValue(MaxHP);
         HPBar.UpdateBar(CurrentHP);//надо будет менять на загружаемое значение
 
         MPBar.SetMaxValue(MaxMP);
         MPBar.UpdateBar(CurrentMP);//надо будет менять на загружаемое значение
+
+        SetData();
+        UpdateTXT();
+    }
+    private void MakeFormules() {
+        MaxHP = baseHP + Strength * 2;
+        MaxMP = baseMP + Intelligence * 2;
+        meleeDamage = basemeleeDamage + Strength * 2;
+        avoid = baseavoid + Agility / 2;
+        speed = basespeed + Agility / 2;
     }
 
+
     public void IncreaceStrength() {
-        currentStrength++;
+        Strength++;
         UpdateStats();
     }
     public void DecreaceStrength() {
-        currentStrength--;
+        Strength--;
         UpdateStats();
     }
-    public int GetStrength() {
-        int temp = 0;
-        return temp;
-    }
 
-/*
     public void IncreaceAgility() {
-        agility++;
+        Agility++;
         UpdateStats();
     }
     public void DecreaceAgility() {
-        agility--;
+        Agility--;
         UpdateStats();
-    }
-    public int GetAgility() {
-        int temp = 0;
-        return temp;
     }
 
 
     public void IncreaceIntelligence() {
-        intelligence++;
+        Intelligence++;
         UpdateStats();
     }
     public void DecreaceIntelligence() {
-        intelligence--;
+        Intelligence--;
         UpdateStats();
     }
-    public int GetIntelligence() {
-        int temp = 0;
-        return temp;
-    }*/
     #endregion
 }
