@@ -49,11 +49,11 @@ public class Zombie_AI : MonoBehaviour
             if(_timer>=1.5f)
                 Ballte_mode();
         }else{
-            if(walk && !stats.dead && !endbattle)
+            if(walk && !stats.isDead && !endbattle)
                 {
                     move_to_point();
                 }else{
-                    if(curse.Count!=0 && !stats.dead && !hiting && !attacking)
+                    if(curse.Count!=0 && !stats.isDead && !hiting && !attacking)
                         move_to_body();
                 }
         }
@@ -64,7 +64,7 @@ public class Zombie_AI : MonoBehaviour
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
-            stats.dead = true;
+            stats.isDead = true;
             _timere+=Time.deltaTime;
 
             GetComponentInChildren<RayScan>().enabled = false;
@@ -80,7 +80,7 @@ public class Zombie_AI : MonoBehaviour
             endAnim();
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
-            stats.dead = true;
+            stats.isDead = true;
             Agressive = false;
             GetComponentInChildren<RayScan>().enabled = false;
             enemys.Clear();
@@ -88,7 +88,7 @@ public class Zombie_AI : MonoBehaviour
             //Debug.Log(_timere);
             if(_timere>=fall){
                 GetComponentInChildren<RayScan>().enabled = true;
-                stats.dead = false;
+                stats.isDead = false;
                 myanim.SetBool("Dead",false);
                 stats.CurrentHealthPoints = 60;
                 _timere = 0;
@@ -126,7 +126,7 @@ public class Zombie_AI : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        if(!stats.dead)
+        if(!stats.isDead)
             characterController.Move(moveDirection * Time.deltaTime);
     } 
 
@@ -173,7 +173,7 @@ public class Zombie_AI : MonoBehaviour
         } 
 
         if(enemy.GetComponent<CharacterStats>()!=null)
-        if(enemy.GetComponent<CharacterStats>().dead){
+        if(enemy.GetComponent<CharacterStats>().isDead){
             curse.Add(enemy);
             enemys.Remove(enemy);
             endbattle = true;
@@ -213,7 +213,7 @@ public class Zombie_AI : MonoBehaviour
             }
             if(!have){
                 if(other.GetComponent<CharacterStats>()!=null)
-                    if(!other.GetComponent<CharacterStats>().dead)
+                    if(!other.GetComponent<CharacterStats>().isDead)
                         enemys.Add(other);
             }
         }

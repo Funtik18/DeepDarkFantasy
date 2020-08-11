@@ -50,7 +50,7 @@ public class Dragon_AI : MonoBehaviour
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
-            stats.dead = true;
+            stats.isDead = true;
             _timere+=Time.deltaTime;
 
             GetComponentInChildren<RayScan>().enabled = false;
@@ -171,7 +171,7 @@ public class Dragon_AI : MonoBehaviour
             } 
 
         if(enemy.GetComponent<CharacterStats>()!=null)
-        if(enemy.GetComponent<CharacterStats>().dead){
+        if(enemy.GetComponent<CharacterStats>().isDead){
             enemys.Remove(enemy);
             endbattle = true;
         }   
@@ -222,7 +222,7 @@ public class Dragon_AI : MonoBehaviour
             }
             if(!have){
                 if(other.GetComponent<CharacterStats>()!=null)
-                    if(!other.GetComponent<CharacterStats>().dead)
+                    if(!other.GetComponent<CharacterStats>().isDead)
                         enemys.Add(other);
             }
         }

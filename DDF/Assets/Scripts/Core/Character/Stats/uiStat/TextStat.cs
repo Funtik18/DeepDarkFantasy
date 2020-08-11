@@ -55,8 +55,6 @@ namespace DDF.Character.Stats {
 		public void SetTrack(Stat stat, UnityAction increase = null, UnityAction decrease = null) {
 			currenStat = stat;
 
-			print(increase + " " + increaseButton);
-
 			if (increase != null && increaseButton != null)
 				increaseButton.onClick.AddListener(increase);
 			//else EnableIncrease = false;

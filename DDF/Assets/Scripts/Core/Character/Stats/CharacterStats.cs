@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
+
+/// <summary>
+/// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
+/// </summary>
 public class CharacterStats : Stats {
     [SerializeField]
     private TextsStats textsStats;
@@ -24,17 +28,18 @@ public class CharacterStats : Stats {
     }
 	protected override void Start() {
         base.Start();
-        
+
         onChangeSkillPoints = () => UpdateTXT();
 
-        onChangeHealthPoints = () => UpdateTXT();
-        onChangeManaPoints = () => UpdateTXT();
+        
+        onChangeHealthPoints = delegate { UpdateData(); UpdateTXT(); } ;
+        onChangeManaPoints = delegate { UpdateData(); UpdateTXT(); };
         onChangeStrength = () => UpdateTXT();
         onChangeAgility = () => UpdateTXT();
         onChangeIntelligance = () => UpdateTXT();
 
-        onChangePhysicalArmor = () => UpdateTXT();
-        onChangeMagicArmor = () => UpdateTXT();
+        onChangePhysicalArmor = delegate { UpdateData(); UpdateTXT(); };
+        onChangeMagicArmor = delegate { UpdateData(); UpdateTXT(); };
 
 
         //re init stats
@@ -42,19 +47,17 @@ public class CharacterStats : Stats {
         CurrentAgility = 5;
         CurrentIntelligence = 5;
 
+
         base.UpdateStats();
         CurrentHealthPoints = MaxHealthPoints;
         CurrentManaPoints = MaxManaPoints;
         UpdateUI();
-
     }
     private void UpdateTXT() {
-        UpdateData();
         textsStats.UpdateAllTXT();
     }
     protected override void UpdateStats() {
         base.UpdateStats();
-        if (castrat) MaxManaPoints = 0;
         UpdateUI();
     }
 	private void UpdateUI() {

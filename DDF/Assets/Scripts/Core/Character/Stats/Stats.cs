@@ -7,11 +7,31 @@ using UnityEngine.Events;
 
 namespace DDF.Character.Stats {
     public class Stats : MonoBehaviour {
-        [Header("Статы")]
 
-        public bool dead = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        [Header("Статы")]
+        //[SerializeField] [ReadOnly]
+        public bool isDead = false;
+        public bool IsDead {
+			get {
+                return isDead;
+			}
+			set {
+                isDead = value;
+                onChangeDead?.Invoke();
+            }
+		}
+        public Action onChangeDead;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool castrat = false;//не может владеть магией если true
 
+        //статы, лучше не использовать вне текущего класса.
         protected Stat HealthPoints;
         protected Stat ManaPoints;
         protected Stat Strength;
@@ -40,7 +60,7 @@ namespace DDF.Character.Stats {
             increaseActions = new Queue<UnityAction>();
             decreaseActions = new Queue<UnityAction>();
 
-            //запись ссылок статов для передачи
+            //запись ссылок статов и некоторых функций для передачи
             stats.Enqueue(HealthPoints);
             increaseActions.Enqueue(null);
             decreaseActions.Enqueue(null);
@@ -77,10 +97,18 @@ namespace DDF.Character.Stats {
         }
 
         #region Очки навыков
+        /// <summary>
+        /// Базовое значение для Очков Навыков.
+        /// </summary>
         private int baseSkillPoints = 10;
-        [SerializeField]
-        [ReadOnly]
+        /// <summary>
+        /// Максимально возможное значение для Очков Навыков.
+        /// </summary>
+        [SerializeField] [ReadOnly]
         private int maxSkillPoints;
+        /// <summary>
+        /// Максимально возможное значение для Очков Навыков.
+        /// </summary>
         public int MaxSkillPoints {
             get {
                 return maxSkillPoints;
@@ -92,9 +120,14 @@ namespace DDF.Character.Stats {
                 onChangeSkillPoints?.Invoke();
             }
         }
-        [SerializeField]
-        [ReadOnly]
+        /// <summary>
+        /// Текущее значение Очков Навыков.
+        /// </summary>
+        [SerializeField] [ReadOnly]
         private int currentSkillPoints;
+        /// <summary>
+        /// Текущее значение Очков Навыков.
+        /// </summary>
         public int CurrentSkillPoints {
             get {
                 return currentSkillPoints;
@@ -113,9 +146,18 @@ namespace DDF.Character.Stats {
         #endregion
 
         #region Здоровье
+        /// <summary>
+        /// Базовое значение для Здоровья.
+        /// </summary>
         private float baseHealthPoints = 10;
+        /// <summary>
+        /// Максимально возможное значение для Здоровья.
+        /// </summary>
         [SerializeField] [ReadOnly]
         private float maxHealthPoints;
+        /// <summary>
+        /// Максимально возможное значение для Здоровья.
+        /// </summary>
         public float MaxHealthPoints {
             get {
                 return maxHealthPoints;
@@ -126,9 +168,15 @@ namespace DDF.Character.Stats {
                 if (maxHealthPoints < CurrentHealthPoints) CurrentHealthPoints = maxHealthPoints;
                 onChangeHealthPoints?.Invoke();
             }
-        }// максимально возможное количесвто хп
+        }
+        /// <summary>
+        /// Текущее значение Здоровья.
+        /// </summary>
         [SerializeField] [ReadOnly]
         private float currentHealthPoints;
+        /// <summary>
+        /// Текущее значение Здоровья.
+        /// </summary>
         public float CurrentHealthPoints {
             get {
                 return currentHealthPoints;
@@ -136,19 +184,29 @@ namespace DDF.Character.Stats {
             set {
                 currentHealthPoints = value;
                 if (currentHealthPoints >= MaxHealthPoints) currentHealthPoints = MaxHealthPoints;
+                if (isDead) currentHealthPoints = 0;
                 if (currentHealthPoints <= 0) currentHealthPoints = 0;
                 onChangeHealthPoints?.Invoke();
             }
-        }//теукщее
+        }
         /// <summary>
         /// Событие, если значение изменилось.
         /// </summary>
         public Action onChangeHealthPoints;
         #endregion
         #region Мана
+        /// <summary>
+        /// Базовое значене для Маны.
+        /// </summary>
         private float baseManaPoints = 5;
+        /// <summary>
+        /// Максимально возможное значение для Маны.
+        /// </summary>
         [SerializeField] [ReadOnly]
         private float maxManaPoints;
+        /// <summary>
+        /// Максимально возможное значение для Маны.
+        /// </summary>
         public float MaxManaPoints {
             get {
                 return maxManaPoints;
@@ -156,13 +214,19 @@ namespace DDF.Character.Stats {
             set {
                 maxManaPoints = value;
                 if (maxManaPoints <= 0) maxManaPoints = 0;
-                if (castrat) maxHealthPoints = 0;
+                if (castrat) maxManaPoints = 0;
                 if (maxManaPoints < CurrentManaPoints) CurrentManaPoints = maxHealthPoints;
                 onChangeManaPoints?.Invoke();
             }
         }
+        /// <summary>
+        /// Текущее значение Маны.
+        /// </summary>
         [SerializeField] [ReadOnly]
         private float currentManaPoints;
+        /// <summary>
+        /// Текущее значение Маны.
+        /// </summary>
         public float CurrentManaPoints {
             get {
                 return currentManaPoints;
@@ -180,10 +244,18 @@ namespace DDF.Character.Stats {
         public Action onChangeManaPoints;
         #endregion
         #region Физическая броня
+        /// <summary>
+        /// Базовое значение Физической Брони.
+        /// </summary>
         private int basePhysicalArmor = 0;
-        [SerializeField]
-        [ReadOnly]
+        /// <summary>
+        /// Максимально возможное значение для Физической брони.
+        /// </summary>
+        [SerializeField] [ReadOnly]
         private int maxPhysicalArmor;
+        /// <summary>
+        /// Максимально возможное значение для Физической брони.
+        /// </summary>
         public int MaxPhysicalArmor {
             get {
                 return maxPhysicalArmor;
@@ -195,9 +267,14 @@ namespace DDF.Character.Stats {
                 onChangePhysicalArmor?.Invoke();
             }
         }
-        [SerializeField]
-        [ReadOnly]
+        /// <summary>
+        /// Текущее значение Физической Брони.
+        /// </summary>
+        [SerializeField] [ReadOnly]
         private int currentPhysicalArmor;
+        /// <summary>
+        /// Текущее значение Физической Брони.
+        /// </summary>
         public int CurrentPhysicalArmor {
             get {
                 return currentPhysicalArmor;
@@ -215,10 +292,18 @@ namespace DDF.Character.Stats {
         public Action onChangePhysicalArmor;
         #endregion
         #region Магическая броня
+        /// <summary>
+        /// Базовое значаение Магической Брони.
+        /// </summary>
         private int baseMagicArmor = 0;
-        [SerializeField]
-        [ReadOnly]
+        /// <summary>
+        /// Максимально возможное значение для Магической Брони.
+        /// </summary>
+        [SerializeField] [ReadOnly]
         private int maxMagicArmor;
+        /// <summary>
+        /// Максимально возможное значение для Магической Брони.
+        /// </summary>
         public int MaxMagicArmor {
             get {
                 return maxMagicArmor;
@@ -230,9 +315,14 @@ namespace DDF.Character.Stats {
                 onChangeMagicArmor?.Invoke();
             }
         }
-        [SerializeField]
-        [ReadOnly]
+        /// <summary>
+        /// Текущее значение Магической Брони.
+        /// </summary>
+        [SerializeField] [ReadOnly]
         private int currentMagicArmor;
+        /// <summary>
+        /// Текущее значение Магической Брони.
+        /// </summary>
         public int CurrentMagicArmor {
             get {
                 return currentMagicArmor;
@@ -251,11 +341,20 @@ namespace DDF.Character.Stats {
         #endregion
 
 
+        /// <summary>
+        /// Минимально возможное значаение стата.
+        /// </summary>
         private int statMin = 1;
 
         #region Сила
+        /// <summary>
+        /// Текущая Сила.
+        /// </summary>
         [SerializeField] [ReadOnly]
         private int currentStrength;
+        /// <summary>
+        /// Текущая Сила.
+        /// </summary>
         public int CurrentStrength {
             get {
                 return currentStrength;
@@ -272,8 +371,14 @@ namespace DDF.Character.Stats {
         public Action onChangeStrength;
         #endregion
         #region Ловкость
+        /// <summary>
+        /// Текущая Ловкость.
+        /// </summary>
         [SerializeField] [ReadOnly]
         private int currentAgility;
+        /// <summary>
+        /// Текущая Ловкость.
+        /// </summary>
         public int CurrentAgility {
             get {
                 return currentAgility;
@@ -290,8 +395,14 @@ namespace DDF.Character.Stats {
         public Action onChangeAgility;
         #endregion
         #region Интелект
+        /// <summary>
+        /// Текущий Интелект.
+        /// </summary>
         [SerializeField] [ReadOnly]
-        public int currentIntelligence;
+        private int currentIntelligence;
+        /// <summary>
+        /// Текущий Интелект.
+        /// </summary>
         public int CurrentIntelligence {
             get {
                 return currentIntelligence;
@@ -319,54 +430,101 @@ namespace DDF.Character.Stats {
         private float basespeed = 5;
         public float speed;
 
+        //Functions
+        public void Kill() {
+            IsDead = true;
+            UpdateStats();
+		}
+        public void ReBorn() {
+            IsDead = false;
+            UpdateStats();
+        }
+
+
         #region Stats
         #region HP
+        /// <summary>
+        /// Отнимает от текущего здоровья dmg.
+        /// </summary>
+        /// <param name="dmg"></param>
         public virtual void TakeDamage( float dmg ) {
             CurrentHealthPoints -= dmg;
         }
+        /// <summary>
+        /// Востанавливает определёное количество здоровья.
+        /// </summary>
+        /// <param name="heal"></param>
         public virtual void RestoreHealth( float heal ) {
             CurrentHealthPoints += heal;
         }
         #endregion
         #region MP
+        /// <summary>
+        /// Отнимает от текущей маны count.
+        /// </summary>
+        /// <param name="count"></param>
         public virtual void SpendMana( float count ) {
             CurrentManaPoints -= count;
         }
+        /// <summary>
+        /// Востанавливает определённое поличество маны
+        /// </summary>
+        /// <param name="mana"></param>
         public virtual void RestoreMana( float mana ) {
             CurrentManaPoints += mana;
 
         }
         #endregion
 
+        /// <summary>
+        /// Увеличение Силы на 1.
+        /// </summary>
         public void IncreaceStrength() {
             CurrentStrength++;
             UpdateStats();
         }
+        /// <summary>
+        /// Уменьшение Силы на 1.
+        /// </summary>
         public void DecreaceStrength() {
             CurrentStrength--;
             UpdateStats();
         }
 
+        /// <summary>
+        /// Увеличение Интелекта на 1.
+        /// </summary>
         public void IncreaceAgility() {
             CurrentAgility++;
             UpdateStats();
         }
+        /// <summary>
+        /// Уменьшение Ловкости на 1.
+        /// </summary>
         public void DecreaceAgility() {
             CurrentAgility--;
             UpdateStats();
         }
 
+        /// <summary>
+        /// Увеличение Интелекта на 1.
+        /// </summary>
         public void IncreaceIntelligence() {
             CurrentIntelligence++;
             UpdateStats();
         }
+        /// <summary>
+        /// Уменьшение Интелекта на 1.
+        /// </summary>
         public void DecreaceIntelligence() {
             CurrentIntelligence--;
             UpdateStats();
         }
 		#endregion
 
-
+        /// <summary>
+        /// Пересчитывает-перерисовывает статы.
+        /// </summary>
 		protected virtual void UpdateStats() {
             MakeFormules();
         }
@@ -390,6 +548,9 @@ namespace DDF.Character.Stats {
 			UpdateData();
 		}
 
+        /// <summary>
+        /// Записывает все значения в дату.
+        /// </summary>
         protected void UpdateData() {
 			//cash
 			StatRegularFloat maxHealth = ( (StatRegularFloat)HealthPoints );
