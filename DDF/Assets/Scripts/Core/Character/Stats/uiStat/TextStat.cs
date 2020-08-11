@@ -55,12 +55,15 @@ namespace DDF.Character.Stats {
 		public void SetTrack(Stat stat, UnityAction increase = null, UnityAction decrease = null) {
 			currenStat = stat;
 
+			print(increase + " " + increaseButton);
+
 			if (increase != null && increaseButton != null)
 				increaseButton.onClick.AddListener(increase);
-			else EnableIncrease = false;
+			//else EnableIncrease = false;
+
 			if (decrease != null && decreaseButton != null)
 				decreaseButton.onClick.AddListener(decrease);
-			else EnableDecrease = false;
+			//else EnableDecrease = false;
 		}
 		public void UpdateText() {
 			if (currenStat is StatFloat statFloat) {
@@ -76,18 +79,18 @@ namespace DDF.Character.Stats {
 				txt.text += " " + trackCurrentNum;
 			}
 			if (currenStat is StatRegularFloat statRegularFloat) {
-				float trackCurrentNum = statRegularFloat.amount;
-				float trackMax = statRegularFloat.max;
+				float amount = statRegularFloat.amount;
+				float currentInamount = statRegularFloat.currentInamount;
 
 				txt.text = currenStat.name;
-				txt.text += " "+ trackMax + "/" + trackCurrentNum;
+				txt.text += " " + currentInamount + "/" + amount;
 			}
 			if (currenStat is StatRegularInt statRegularInt) {
-				int trackCurrentNum = statRegularInt.amount;
-				int trackMax = statRegularInt.max;
+				int amount = statRegularInt.amount;
+				int currentInamount = statRegularInt.currentInamount;
 
 				txt.text = currenStat.name;
-				txt.text += " " + trackMax + "/" + trackCurrentNum;
+				txt.text += " " + currentInamount + "/" + amount;
 			}
 		}
 

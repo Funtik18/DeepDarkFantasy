@@ -49,6 +49,7 @@ public class CharacterStats : Stats {
 
     }
     private void UpdateTXT() {
+        UpdateData();
         textsStats.UpdateAllTXT();
     }
     protected override void UpdateStats() {

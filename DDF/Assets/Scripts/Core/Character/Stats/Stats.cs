@@ -32,8 +32,8 @@ namespace DDF.Character.Stats {
             Agility = new StatInt("Ловкость", 1);
             Intelligence = new StatInt("Интелект", 1);
 
-            PhysicalArmor = new StatRegularFloat("Физическая броня", 0, 0);
-            MagicArmor = new StatRegularFloat("Магическая броня", 0, 0);
+            PhysicalArmor = new StatRegularInt("Физическая броня", 0, 0);
+            MagicArmor = new StatRegularInt("Магическая броня", 0, 0);
 
 
             stats = new Queue<Stat>();
@@ -180,11 +180,11 @@ namespace DDF.Character.Stats {
         public Action onChangeManaPoints;
         #endregion
         #region Физическая броня
-        private float basePhysicalArmor = 0;
+        private int basePhysicalArmor = 0;
         [SerializeField]
         [ReadOnly]
-        private float maxPhysicalArmor;
-        public float MaxPhysicalArmor {
+        private int maxPhysicalArmor;
+        public int MaxPhysicalArmor {
             get {
                 return maxPhysicalArmor;
             }
@@ -197,8 +197,8 @@ namespace DDF.Character.Stats {
         }
         [SerializeField]
         [ReadOnly]
-        private float currentPhysicalArmor;
-        public float CurrentPhysicalArmor {
+        private int currentPhysicalArmor;
+        public int CurrentPhysicalArmor {
             get {
                 return currentPhysicalArmor;
             }
@@ -215,11 +215,11 @@ namespace DDF.Character.Stats {
         public Action onChangePhysicalArmor;
         #endregion
         #region Магическая броня
-        private float baseMagicArmor = 0;
+        private int baseMagicArmor = 0;
         [SerializeField]
         [ReadOnly]
-        private float maxMagicArmor;
-        public float MaxMagicArmor {
+        private int maxMagicArmor;
+        public int MaxMagicArmor {
             get {
                 return maxMagicArmor;
             }
@@ -232,8 +232,8 @@ namespace DDF.Character.Stats {
         }
         [SerializeField]
         [ReadOnly]
-        private float currentMagicArmor;
-        public float CurrentMagicArmor {
+        private int currentMagicArmor;
+        public int CurrentMagicArmor {
             get {
                 return currentMagicArmor;
             }
@@ -334,6 +334,7 @@ namespace DDF.Character.Stats {
         }
         public virtual void RestoreMana( float mana ) {
             CurrentManaPoints += mana;
+
         }
         #endregion
 
@@ -369,33 +370,55 @@ namespace DDF.Character.Stats {
 		protected virtual void UpdateStats() {
             MakeFormules();
         }
+
+        /// <summary>
+        /// 1 считаем формулы.2 записываем всё в дату
+        /// </summary>
         protected virtual void MakeFormules() {
-            //cash
-            StatFloat maxHealth = ( (StatFloat)HealthPoints );
-            StatFloat maxMana = ( (StatFloat)ManaPoints );
+			//formules
+			MaxSkillPoints = baseSkillPoints + CurrentIntelligence * 2;
 
-            StatInt currentStrength =( (StatInt)Strength );
-            StatInt currentAgility = ( (StatInt)Agility );
-            StatInt currentIntelligence = ( (StatInt)Intelligence );
+			MaxHealthPoints = baseHealthPoints + CurrentStrength * 2;
+			MaxManaPoints = baseManaPoints + CurrentIntelligence * 2;
 
-            //formules
-            MaxSkillPoints = baseSkillPoints + CurrentIntelligence * 2;
+			MaxMagicArmor = CurrentIntelligence * 2;
 
-            MaxHealthPoints = baseHealthPoints + CurrentStrength * 2;
-            MaxManaPoints = baseManaPoints + CurrentIntelligence * 2;
+			meleeDamage = basemeleeDamage + CurrentStrength * 2;
+			avoid = baseavoid + CurrentAgility / 2;
+			speed = basespeed + CurrentAgility / 2;
+
+			UpdateData();
+		}
+
+        protected void UpdateData() {
+			//cash
+			StatRegularFloat maxHealth = ( (StatRegularFloat)HealthPoints );
+			StatRegularFloat maxMana = ( (StatRegularFloat)ManaPoints );
+
+			StatInt currentStrength = ( (StatInt)Strength );
+			StatInt currentAgility = ( (StatInt)Agility );
+			StatInt currentIntelligence = ( (StatInt)Intelligence );
+
+			StatRegularInt currentPhysicalArmor = ( (StatRegularInt)PhysicalArmor );
+			StatRegularInt currentMagicArmor = ( (StatRegularInt)MagicArmor );
 
 
-            meleeDamage = basemeleeDamage + CurrentStrength * 2;
-            avoid = baseavoid + CurrentAgility / 2;
-            speed = basespeed + CurrentAgility / 2;
+			//UpdateData
+			maxHealth.amount = MaxHealthPoints;
+			maxHealth.currentInamount = CurrentHealthPoints;
 
-            //update DATA
-            maxHealth.amount = MaxHealthPoints;
-            maxMana.amount = MaxManaPoints;
+			maxMana.amount = MaxManaPoints;
+			maxMana.currentInamount = CurrentManaPoints;
 
-            currentStrength.amount = CurrentStrength;
-            currentAgility.amount = CurrentAgility;
-            currentIntelligence.amount = CurrentIntelligence;
-        }
-    }
+			currentStrength.amount = CurrentStrength;
+			currentAgility.amount = CurrentAgility;
+			currentIntelligence.amount = CurrentIntelligence;
+
+			currentPhysicalArmor.amount = MaxPhysicalArmor;
+			currentPhysicalArmor.currentInamount = CurrentPhysicalArmor;
+
+			currentMagicArmor.amount = MaxMagicArmor;
+			currentMagicArmor.currentInamount = CurrentMagicArmor;
+		}
+	}
 }

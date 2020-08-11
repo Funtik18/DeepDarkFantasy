@@ -9,29 +9,29 @@ namespace DDF.Character.Stats {
 	public class StatInt : Stat {
 		public int amount;
 
-		public StatInt(string newName, int value) {
+		public StatInt(string newName, int max ) {
 			name = newName;
-			amount = value;
+			amount = max;
 		}
 	}
 	public class StatFloat : Stat {
 		public float amount;
 
-		public StatFloat( string newName, float value ) {
+		public StatFloat( string newName, float max ) {
 			name = newName;
-			amount = value;
+			amount = max;
 		}
 	}
 	public class StatRegularInt : StatInt {
-		public int max;
-		public StatRegularInt( string newName, int value, int maximum ) : base(newName, value) {
-			max = maximum;
+		public int currentInamount;
+		public StatRegularInt( string newName, int value, int max ) : base(newName, max) {
+			currentInamount = value;
 		}
 	}
 	public class StatRegularFloat : StatFloat {
-		public float max;
-		public StatRegularFloat( string newName, float value, float maximum ) : base(newName, value) {
-			max = maximum;
+		public float currentInamount;
+		public StatRegularFloat( string newName, float value, float max ) : base(newName, max) {
+			currentInamount = value;
 		}
 	}
 }
