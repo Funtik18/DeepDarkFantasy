@@ -21,6 +21,8 @@ namespace DDF.Character.Stats {
         [SerializeField] private TextStat textStatMeleeDamage;
         [SerializeField] private TextStat textStatShotDamage;
         [SerializeField] private TextStat textStatMagicDamage;
+        [SerializeField] private TextStat textStatСhanceAvoid;
+
 
         private List<TextStat> textsStats;
         private Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
@@ -49,6 +51,8 @@ namespace DDF.Character.Stats {
 
             textStatСhanceCriticalStrike.SetTrack(GetStatByString("СhanceCriticalStrike"));
             textStatСhanceCriticalShot.SetTrack(GetStatByString("СhanceCriticalShot"));
+
+            textStatСhanceAvoid.SetTrack(GetStatByString("ChanceAvoid"));
             //to list
             textsStats.Add(textStatLevel);
             textsStats.Add(textStatLevelExperience);
@@ -69,6 +73,7 @@ namespace DDF.Character.Stats {
             textsStats.Add(textStatMagicDamage);
             textsStats.Add(textStatСhanceCriticalStrike);
             textsStats.Add(textStatСhanceCriticalShot);
+            textsStats.Add(textStatСhanceAvoid);
         }
         public void UpdateAllTXT() {
             for (int i = 0; i < textsStats.Count; i++) {

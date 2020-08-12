@@ -92,6 +92,7 @@ namespace DDF.Character.Stats {
             MagicDamage = new StatRegularFloat("Магический урон", 0, 0, "-");
             СhanceCriticalShot = new StatFloat("Шанс крит выстрела", 0, "%");
             СhanceCriticalStrike = new StatFloat("Шанс крит удара", 0, "%");
+            ChanceAvoid = new StatFloat("Шанс уклонения", 0, "%");
 
             //запись ссылок статов и некоторых функций для передачи
             stats = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
@@ -115,11 +116,12 @@ namespace DDF.Character.Stats {
             stats.Add("MagicDamage", new Tuple<Stat, UnityAction, UnityAction>(MagicDamage, null, null));
             stats.Add("СhanceCriticalStrike", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalStrike, null, null));
             stats.Add("СhanceCriticalShot", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalShot, null, null));
+            stats.Add("ChanceAvoid", new Tuple<Stat, UnityAction, UnityAction>(ChanceAvoid, null, null));
 
             //init stats
             CurrentLevel = 1;
             MaxLevelExperience = 1000;
-            CurrentSkillPoints = 3;
+            CurrentSkillPoints = 5;
 
             CurrentStrength = 1;
             CurrentAgility = 1;
@@ -134,6 +136,10 @@ namespace DDF.Character.Stats {
         /// Минимально возможный уровень.
         /// </summary>
         private int levelMin = 1;
+        /// <summary>
+        /// Минимально возможное значаение стата.
+        /// </summary>
+        private int statMin = 1;
 
         #region Уровень
         [Header("Уровень")]
@@ -457,11 +463,6 @@ namespace DDF.Character.Stats {
         #endregion
 
         
-
-        /// <summary>
-        /// Минимально возможное значаение стата.
-        /// </summary>
-        private int statMin = 1;
         [Header("Статы")]
         #region Сила
         /// <summary>
@@ -536,7 +537,6 @@ namespace DDF.Character.Stats {
         public Action onChangeIntelligance;
 		#endregion
 
-
 		#region Damage
 		#region MeleeDamage
 		/// <summary>
@@ -547,8 +547,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Максимально возможное значение Урона в ближнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private float maxMeleeDamage;
         /// <summary>
         /// Максимально возможное значение Урона в ближнем бою.
@@ -567,8 +566,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Минимальное значение Урона в ближнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private float minMeleeDamage;
         /// <summary>
         /// Минимальное значение Урона в ближнем бою.
@@ -597,8 +595,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Максимально возможное значение Урона в дальнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private float maxShotDamage;
         /// <summary>
         /// Максимально возможное значение Урона в дальнем бою.
@@ -617,8 +614,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Минимальное значение Урона в дальнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private float minShotDamage;
         /// <summary>
         /// Минимальное значение Урона в дальнем бою.
@@ -647,8 +643,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Максимально возможное значение Магического Урона.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private float maxMagicDamage;
         /// <summary>
         /// Максимально возможное значение Магического Урона.
@@ -667,8 +662,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Минимальное значение Магического Урона.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private float minMagicDamage;
         /// <summary>
         /// Минимальное значение Магического Урона.
@@ -734,69 +728,190 @@ namespace DDF.Character.Stats {
         /// </summary>
         public Action onChangeСhanceCriticalStrike;
         #endregion
-        private float baseavoid = 5;
-        private float avoid;
+        #region Шанс критического выстрела
+        /// <summary>
+        /// Базовое значение для Критического Выстрела.
+        /// </summary>
+        private float baseСhanceCriticalShot = 0;
+        /// <summary>
+        /// Максимально возможное значение для Критического Выстрела.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxСhanceCriticalShot = 100;
+        /// <summary>
+        /// Максимально возможное значение для Критического Выстрела.
+        /// </summary>
+        public float MaxСhanceCriticalShot {
+            get {
+                return maxСhanceCriticalShot;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Критического Выстрела.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float currentСhanceCriticalShot;
+        /// <summary>
+        /// Текущее значение Критического Выстрела.
+        /// </summary>
+        public float CurrentСhanceCriticalShot {
+            get {
+                return currentСhanceCriticalShot;
+            }
+            set {
+                currentСhanceCriticalShot = value;
+                if (currentСhanceCriticalShot >= MaxСhanceCriticalShot) currentСhanceCriticalShot = MaxСhanceCriticalShot;
+                if (currentСhanceCriticalShot <= 0) currentСhanceCriticalShot = 0;
+                onChangeСhanceCriticalShot?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeСhanceCriticalShot;
+        #endregion
+
+        #region Шанс Уклонения
+        /// <summary>
+        /// Базовое значение для Уклонения.
+        /// </summary>
+        private float baseChanceAvoid = 0;
+        /// <summary>
+        /// Максимально возможное значение для Уклонения.
+        /// </summary>
+        [SerializeField] [ReadOnly]
+        private float maxChanceAvoid = 100;
+        /// <summary>
+        /// Максимально возможное значение для Уклонения
+        /// </summary>
+        public float MaxChanceAvoid {
+            get {
+                return maxChanceAvoid;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Уклонения.
+        /// </summary>
+        [SerializeField] [ReadOnly]
+        private float currentChanceAvoid;
+        /// <summary>
+        /// Текущее значение Уклонения.
+        /// </summary>
+        public float CurrentChanceAvoid {
+            get {
+                return currentChanceAvoid;
+            }
+            set {
+                currentChanceAvoid = value;
+                if (currentChanceAvoid >= MaxChanceAvoid) currentChanceAvoid = MaxChanceAvoid;
+                if (currentChanceAvoid <= 0) currentChanceAvoid = 0;
+                onChangeChanceAvoid?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeChanceAvoid;
+        #endregion
 
         private float basespeed = 5;
         public float speed;
 
         #region Functions
-
+        /// <summary>
+        /// Убить объект.
+        /// </summary>
         public void Kill() {
             IsDead = true;
             UpdateStats();
 		}
+        /// <summary>
+        /// Возрадить объект.
+        /// </summary>
         public void ReBorn() {
             if (!IsDead) return;
             IsDead = false;
             CurrentHealthPoints = 1;
             UpdateStats();
         }
+
+        /// <summary>
+        /// Отобрать умение владеть магией.
+        /// </summary>
         public void Castrat() {
             ISCastrat = true;
             UpdateStats();
         }
+        /// <summary>
+        /// Вернуть владение магией.
+        /// </summary>
         public void ReCastrat() {
             ISCastrat = false;
             UpdateStats();
         }
         
+        /// <summary>
+        /// Повысить уровень.
+        /// </summary>
         public void IncreaseLevel() {
             CurrentLevel++;
             CurrentSkillPoints = CurrentSkillPoints + MaxSkillPoints;
             UpdateStats();
         }
+        /// <summary>
+        /// Понизить уровень.
+        /// </summary>
         public void DecreaseLevel() {
             CurrentLevel--;
             UpdateStats();
         }
 
+        /// <summary>
+        /// Повысить опыт на count.
+        /// </summary>
+        /// <param name="count"></param>
         public void IncreaseLevelExperience(int count) {
             CurrentLevelExperience += count;
             UpdateStats();
         }
+        /// <summary>
+        /// Понизить опыт на count.
+        /// </summary>
+        /// <param name="count"></param>
         public void DecreaseLevelExperience( int count ) {
             CurrentLevelExperience -= count;
             UpdateStats();
         }
 
+        /// <summary>
+        /// Повысить текущее количество очков навыков.
+        /// </summary>
         public void IncreaseSkillPoints() {
             CurrentSkillPoints++;
         }
+        /// <summary>
+        /// Понизить текущее количество очков навыков.
+        /// </summary>
         public void DecreaseSkillPoints() {
             CurrentSkillPoints--;
         }
-        public bool IsCanIncrease() {
+        /// <summary>
+        /// Есть ли ещё очки навыков.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSkillPointsExist() {
             if (CurrentSkillPoints > 0) return true;
             return false;
 		}
 
-
-        /// <summary>
-        /// Отнимает от текущего здоровья dmg.
-        /// </summary>
-        /// <param name="dmg"></param>
-        public virtual void TakeDamage( float dmg ) {
+		#region HP
+		/// <summary>
+		/// Отнимает от текущего здоровья dmg.
+		/// </summary>
+		/// <param name="dmg"></param>
+		public virtual void TakeDamage( float dmg ) {
             CurrentHealthPoints -= dmg;
         }
         /// <summary>
@@ -807,13 +922,13 @@ namespace DDF.Character.Stats {
             if (IsDead) return;
             CurrentHealthPoints += heal;
         }
-
-
-        /// <summary>
-        /// Отнимает от текущей маны count.
-        /// </summary>
-        /// <param name="count"></param>
-        public virtual void SpendMana( float count ) {
+		#endregion
+		#region MP
+		/// <summary>
+		/// Отнимает от текущей маны count.
+		/// </summary>
+		/// <param name="count"></param>
+		public virtual void SpendMana( float count ) {
             CurrentManaPoints -= count;
         }
         /// <summary>
@@ -824,102 +939,89 @@ namespace DDF.Character.Stats {
             CurrentManaPoints += mana;
 
         }
-
-
-        /// <summary>
-        /// Увеличение Силы на 1.
-        /// </summary>
-        public void IncreaseStrength() {
-            if (!IsCanIncrease()) return;
+		#endregion
+		#region Strength
+		/// <summary>
+		/// Увеличение Силы на 1.
+		/// </summary>
+		public void IncreaseStrength() {
+            if (!IsSkillPointsExist()) return;
             CurrentStrength++;
             DecreaseSkillPoints();
             UpdateStats();
         }
-        private bool lastpoint1 = true;
         /// <summary>
         /// Уменьшение Силы на 1.
         /// </summary>
         public void DecreaseStrength() {
+            if (CurrentStrength == statMin) return;
             CurrentStrength--;
-            if(CurrentStrength != statMin) {
-                IncreaseSkillPoints();
-                lastpoint1 = true;
-            } else {
-				if (lastpoint1) {
-                    IncreaseSkillPoints();
-                    lastpoint1 = false;
-                }
-            }
+            IncreaseSkillPoints();
             UpdateStats();
         }
-
-
-        /// <summary>
-        /// Увеличение Интелекта на 1.
-        /// </summary>
-        public void IncreaseAgility() {
-            if (!IsCanIncrease()) return;
+		#endregion
+		#region Agility
+		/// <summary>
+		/// Увеличение Интелекта на 1.
+		/// </summary>
+		public void IncreaseAgility() {
+            if (!IsSkillPointsExist()) return;
             CurrentAgility++;
             DecreaseSkillPoints();
             UpdateStats();
         }
-        private bool lastpoint2 = true;
         /// <summary>
         /// Уменьшение Ловкости на 1.
         /// </summary>
         public void DecreaseAgility() {
+            if (CurrentAgility == statMin) return;
             CurrentAgility--;
-            if (CurrentAgility != statMin) {
-                IncreaseSkillPoints();
-                lastpoint2 = true;
-            } else {
-                if (lastpoint2) {
-                    IncreaseSkillPoints();
-                    lastpoint2 = false;
-                }
-            }
+            IncreaseSkillPoints();
             UpdateStats();
         }
-
-
-        /// <summary>
-        /// Увеличение Интелекта на 1.
-        /// </summary>
-        public void IncreaseIntelligence() {
-            if (!IsCanIncrease()) return;
+		#endregion
+		#region Intelligence
+		/// <summary>
+		/// Увеличение Интелекта на 1.
+		/// </summary>
+		public void IncreaseIntelligence() {
+            if (!IsSkillPointsExist()) return;
             CurrentIntelligence++;
             DecreaseSkillPoints();
             UpdateStats();
         }
-        private bool lastpoint3 = true;
         /// <summary>
         /// Уменьшение Интелекта на 1.
         /// </summary>
         public void DecreaseIntelligence() {
+            if (CurrentIntelligence == statMin) return;
             CurrentIntelligence--;
-            if (CurrentIntelligence != statMin) {
-                IncreaseSkillPoints();
-                lastpoint3 = true;
-            } else {
-                if (lastpoint3) {
-                    IncreaseSkillPoints();
-                    lastpoint3 = false;
-                }
-            }
+            IncreaseSkillPoints();
             UpdateStats();
         }
-
-        public float GetMeleeDamage() {
+		#endregion
+		#region Damage
+		public float GetMeleeDamage() {
             DDFRandom random = new DDFRandom();
             float dmg = random.RandomBetween(MinMeleeDamage, MaxMeleeDamage);
             return dmg;
         }
-
+        public float GetShotDamage() {
+            DDFRandom random = new DDFRandom();
+            float dmg = random.RandomBetween(MinShotDamage, MaxShotDamage);
+            return dmg;
+        }
+        public float GetMagicDamage() {
+            DDFRandom random = new DDFRandom();
+            float dmg = random.RandomBetween(MinMagicDamage, MaxMagicDamage);
+            return dmg;
+        }
+		#endregion
 		#endregion
 
-        /// <summary>
-        /// Пересчитывает-перерисовывает статы.
-        /// </summary>
+		/// <summary>
+		/// Пересчитывает-перерисовывает статы.
+		/// </summary>
 		protected virtual void UpdateStats() {
             MakeFormules();
         }
@@ -946,10 +1048,9 @@ namespace DDF.Character.Stats {
             MaxMagicDamage = baseMagicDamage + CurrentIntelligence * 2;
             MinMagicDamage = 0;
 
-            CurrentСhanceCriticalStrike = baseСhanceCriticalStrike + ( (float)CurrentAgility ) / 2;
-
-            avoid = baseavoid + CurrentAgility / 2;
-			speed = basespeed + CurrentAgility / 2;
+            CurrentСhanceCriticalStrike = (float)Math.Round(baseСhanceCriticalStrike + ( (float)CurrentStrength ) / 2, 3);
+            CurrentСhanceCriticalShot= (float)Math.Round(baseСhanceCriticalShot + ( (float)CurrentAgility ) / 2, 3);
+            CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + ( (float)CurrentAgility ) / 1.5f, 3);
 
 			UpdateData();
 		}
@@ -978,6 +1079,7 @@ namespace DDF.Character.Stats {
             StatRegularFloat currentMagicDamage = ( (StatRegularFloat)MagicDamage );
             StatFloat currentСhanceCriticalStrike = ( (StatFloat)СhanceCriticalStrike );
             StatFloat currentСhanceCriticalShot = ( (StatFloat)СhanceCriticalShot );
+            StatFloat currentChanceAvoid = ( (StatFloat)ChanceAvoid );
 
             //UpdateData
             currentLevel.amount = CurrentLevel;
@@ -1014,6 +1116,9 @@ namespace DDF.Character.Stats {
 
             currentСhanceCriticalStrike.amount = CurrentСhanceCriticalStrike;
 
+            currentСhanceCriticalShot.amount = CurrentСhanceCriticalShot;
+
+            currentChanceAvoid.amount = CurrentChanceAvoid;
         }
 	}
 }
