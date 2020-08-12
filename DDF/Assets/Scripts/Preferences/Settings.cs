@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DDF.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -92,7 +93,7 @@ public class Settings : MonoBehaviour {
         }
 
         string data = JsonUtility.ToJson(options, true);
-        FileManager.SaveFile(fullPath, data);
+        //FileManager.SaveFile(fullPath, fullPath, data);
 
         gameOptions = options;
     }

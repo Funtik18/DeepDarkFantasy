@@ -1120,5 +1120,13 @@ namespace DDF.Character.Stats {
 
             currentChanceAvoid.amount = CurrentChanceAvoid;
         }
-	}
+
+        public void SaveStats() {
+            StatsJSON file = new StatsJSON(this);
+            file.SaveFile();
+		}
+        public void LoadStats() {
+            StatsJSON file = new StatsJSON(this);
+        }
+    }
 }
