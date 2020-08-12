@@ -20,6 +20,7 @@ namespace DDF.Character.Stats {
 			}
 			set {
                 isDead = value;
+                if (isDead) currentHealthPoints = 0;
                 onChangeDead?.Invoke();
             }
 		}
@@ -27,9 +28,20 @@ namespace DDF.Character.Stats {
 
 
         /// <summary>
-        /// 
+        /// Если true персонаж не может владеть магией
         /// </summary>
-        public bool castrat = false;//не может владеть магией если true
+        public bool isCastrat = false;
+        public bool ISCastrat {
+			get {
+                return isCastrat;
+			}
+			set {
+                isCastrat = value;
+                if (isCastrat) MaxManaPoints = 0;
+                onChangeCastrat?.Invoke();
+            }
+        }
+        public Action onChangeCastrat;
 
         //статы, лучше не использовать вне текущего класса.
         protected Stat HealthPoints;
@@ -184,7 +196,6 @@ namespace DDF.Character.Stats {
             set {
                 currentHealthPoints = value;
                 if (currentHealthPoints >= MaxHealthPoints) currentHealthPoints = MaxHealthPoints;
-                if (isDead) currentHealthPoints = 0;
                 if (currentHealthPoints <= 0) currentHealthPoints = 0;
                 onChangeHealthPoints?.Invoke();
             }
@@ -214,7 +225,7 @@ namespace DDF.Character.Stats {
             set {
                 maxManaPoints = value;
                 if (maxManaPoints <= 0) maxManaPoints = 0;
-                if (castrat) maxManaPoints = 0;
+                if (isCastrat) maxManaPoints = 0;
                 if (maxManaPoints < CurrentManaPoints) CurrentManaPoints = maxHealthPoints;
                 onChangeManaPoints?.Invoke();
             }
@@ -437,6 +448,15 @@ namespace DDF.Character.Stats {
 		}
         public void ReBorn() {
             IsDead = false;
+            RestoreHealth(1);
+            UpdateStats();
+        }
+        public void Castrat() {
+            ISCastrat = true;
+            UpdateStats();
+        }
+        public void ReCastrat() {
+            ISCastrat = false;
             UpdateStats();
         }
 
@@ -455,6 +475,7 @@ namespace DDF.Character.Stats {
         /// </summary>
         /// <param name="heal"></param>
         public virtual void RestoreHealth( float heal ) {
+            if (IsDead) return;
             CurrentHealthPoints += heal;
         }
         #endregion
