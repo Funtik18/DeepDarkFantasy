@@ -40,7 +40,7 @@ public class bow : MonoBehaviour
     public void Fire(){
         arW.transform.parent = null;
         arW.GetComponent<Rigidbody>().isKinematic = false;
-        arW.GetComponent<Rigidbody>().AddForce(transform.right*5000);
+        arW.GetComponent<Rigidbody>().AddForce(transform.up*5000);
         myanim.SetBool("shoot",shoot);
         shoot = false;
     }
