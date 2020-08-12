@@ -29,7 +29,7 @@ public class Blade : MonoBehaviour
 
     private void Start(){
         if(gameObject.transform.root.GetComponent<CharacterStats>() != null)
-        dmg = (int)gameObject.transform.root.GetComponent<CharacterStats>().meleeDamage;
+        dmg = (int)gameObject.transform.root.GetComponent<CharacterStats>().GetMeleeDamage();
         if(dmg<=0)
             dmg = 1;
     }

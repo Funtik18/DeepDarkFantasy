@@ -43,17 +43,6 @@ public class CharacterStats : Stats {
         onChangeMagicArmor = delegate { UpdateData(); UpdateTXT(); };
 
 
-        //re init stats
-        CurrentLevel = 1;
-        
-        MaxLevelExperience = 1000;
-        CurrentSkillPoints = 3;
-
-        CurrentStrength = 5;
-        CurrentAgility = 5;
-        CurrentIntelligence = 5;
-
-
         base.UpdateStats();
         CurrentHealthPoints = MaxHealthPoints;
         CurrentManaPoints = MaxManaPoints;

@@ -9,6 +9,8 @@ namespace DDF.Character.Stats {
 		[SerializeField]
 		private TMPro.TextMeshProUGUI txt;
 		[SerializeField]
+		private TMPro.TextMeshProUGUI txtAmount;
+		[SerializeField]
 		private Button increaseButton;
 		[SerializeField]
 		private Button decreaseButton;
@@ -62,33 +64,16 @@ namespace DDF.Character.Stats {
 			increaseButton.onClick.AddListener(stat.Item2);
 			decreaseButton.onClick.AddListener(stat.Item3);
 		}
-		public void UpdateText() {
-			if (currenStat is StatFloat statFloat) {
-				float trackCurrentNum = statFloat.amount;
+		public void UpdateText(string dop = "") {
+			txt.text = "";
+			txtAmount.text = "";
 
-				txt.text = currenStat.name;
-				txt.text += " " + trackCurrentNum;
-			}
-			if (currenStat is StatInt statInt) {
-				int trackCurrentNum = statInt.amount;
+			string[] txts = currenStat.Output().Split('|');
+			txt.text = txts[0];
 
-				txt.text = currenStat.name;
-				txt.text += " " + trackCurrentNum;
-			}
-			if (currenStat is StatRegularFloat statRegularFloat) {
-				float amount = statRegularFloat.amount;
-				float currentInamount = statRegularFloat.currentInamount;
+			txtAmount.text = txts[1];
 
-				txt.text = currenStat.name;
-				txt.text += " " + currentInamount + "/" + amount;
-			}
-			if (currenStat is StatRegularInt statRegularInt) {
-				int amount = statRegularInt.amount;
-				int currentInamount = statRegularInt.currentInamount;
-
-				txt.text = currenStat.name;
-				txt.text += " " + currentInamount + "/" + amount;
-			}
+			txts = null;
 		}
 
 		public void EnableIncreaseButton() {

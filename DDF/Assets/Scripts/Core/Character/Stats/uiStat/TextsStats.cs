@@ -16,6 +16,11 @@ namespace DDF.Character.Stats {
         [SerializeField] private TextStat textStatIntelligence;
         [SerializeField] private TextStat textStatPhysicalArmor;
         [SerializeField] private TextStat textStatMagicArmor;
+        [SerializeField] private TextStat textStatСhanceCriticalStrike;
+        [SerializeField] private TextStat textStatСhanceCriticalShot;
+        [SerializeField] private TextStat textStatMeleeDamage;
+        [SerializeField] private TextStat textStatShotDamage;
+        [SerializeField] private TextStat textStatMagicDamage;
 
         private List<TextStat> textsStats;
         private Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
@@ -38,6 +43,12 @@ namespace DDF.Character.Stats {
             textStatPhysicalArmor.SetTrack(GetStatByString("PhysicalArmor"));
             textStatMagicArmor.SetTrack(GetStatByString("MagicArmor"));
 
+            textStatMeleeDamage.SetTrack(GetStatByString("MeleeDamage"));
+            textStatShotDamage.SetTrack(GetStatByString("ShotDamage"));
+            textStatMagicDamage.SetTrack(GetStatByString("MagicDamage"));
+
+            textStatСhanceCriticalStrike.SetTrack(GetStatByString("СhanceCriticalStrike"));
+            textStatСhanceCriticalShot.SetTrack(GetStatByString("СhanceCriticalShot"));
             //to list
             textsStats.Add(textStatLevel);
             textsStats.Add(textStatLevelExperience);
@@ -52,6 +63,12 @@ namespace DDF.Character.Stats {
 
             textsStats.Add(textStatPhysicalArmor);
             textsStats.Add(textStatMagicArmor);
+
+            textsStats.Add(textStatMeleeDamage);
+            textsStats.Add(textStatShotDamage);
+            textsStats.Add(textStatMagicDamage);
+            textsStats.Add(textStatСhanceCriticalStrike);
+            textsStats.Add(textStatСhanceCriticalShot);
         }
         public void UpdateAllTXT() {
             for (int i = 0; i < textsStats.Count; i++) {

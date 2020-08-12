@@ -1,4 +1,5 @@
 ﻿using DDF.Atributes;
+using DDF.Randomizer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// 
         /// </summary>
-        [Header("Статы")]
+        [Header("Смерть")]
         //[SerializeField] [ReadOnly]
         public bool isDead = false;
         public bool IsDead {
@@ -52,11 +53,21 @@ namespace DDF.Character.Stats {
 
         protected Stat HealthPoints;
         protected Stat ManaPoints;
+
         protected Stat Strength;
         protected Stat Agility;
         protected Stat Intelligence;
+
         protected Stat PhysicalArmor;
         protected Stat MagicArmor;
+
+        protected Stat MeleeDamage;
+        protected Stat ShotDamage;
+        protected Stat MagicDamage;
+        protected Stat ChanceAvoid;
+        protected Stat Speed;
+        protected Stat СhanceCriticalShot;
+        protected Stat СhanceCriticalStrike;
 
         protected Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
 
@@ -76,6 +87,11 @@ namespace DDF.Character.Stats {
             PhysicalArmor = new StatRegularInt("Физическая броня", 0, 0);
             MagicArmor = new StatRegularInt("Магическая броня", 0, 0);
 
+            MeleeDamage = new StatRegularFloat("Урон в ближнем бою", 0, 0, "-");
+            ShotDamage = new StatRegularFloat("Урон в дальнем бою", 0, 0, "-");
+            MagicDamage = new StatRegularFloat("Магический урон", 0, 0, "-");
+            СhanceCriticalShot = new StatFloat("Шанс крит выстрела", 0, "%");
+            СhanceCriticalStrike = new StatFloat("Шанс крит удара", 0, "%");
 
             //запись ссылок статов и некоторых функций для передачи
             stats = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
@@ -93,6 +109,21 @@ namespace DDF.Character.Stats {
             
             stats.Add("PhysicalArmor", new Tuple<Stat, UnityAction, UnityAction>(PhysicalArmor, null, null));
             stats.Add("MagicArmor", new Tuple<Stat, UnityAction, UnityAction>(MagicArmor, null, null));
+
+            stats.Add("MeleeDamage", new Tuple<Stat, UnityAction, UnityAction>(MeleeDamage, null, null));
+            stats.Add("ShotDamage", new Tuple<Stat, UnityAction, UnityAction>(ShotDamage, null, null));
+            stats.Add("MagicDamage", new Tuple<Stat, UnityAction, UnityAction>(MagicDamage, null, null));
+            stats.Add("СhanceCriticalStrike", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalStrike, null, null));
+            stats.Add("СhanceCriticalShot", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalShot, null, null));
+
+            //init stats
+            CurrentLevel = 1;
+            MaxLevelExperience = 1000;
+            CurrentSkillPoints = 3;
+
+            CurrentStrength = 1;
+            CurrentAgility = 1;
+            CurrentIntelligence = 1;
         }
         protected virtual void Start() {
             //удаление не нужного
@@ -105,6 +136,7 @@ namespace DDF.Character.Stats {
         private int levelMin = 1;
 
         #region Уровень
+        [Header("Уровень")]
         /// <summary>
         /// Текущий Уровень.
         /// </summary>
@@ -147,9 +179,9 @@ namespace DDF.Character.Stats {
             }
             set {
                 maxLevelExperience = value;
-                if (maxLevelExperience <= 0) maxLevelExperience = 0;
+                /*if (maxLevelExperience <= 0) maxLevelExperience = 0;
                 if (maxLevelExperience < CurrentLevelExperience) CurrentLevelExperience = maxLevelExperience;
-                onChangeLevelExperience?.Invoke();
+                onChangeLevelExperience?.Invoke();*/
             }
         }
         /// <summary>
@@ -227,11 +259,13 @@ namespace DDF.Character.Stats {
         public Action onChangeSkillPoints;
         #endregion
 
+        
         #region Здоровье
         /// <summary>
         /// Базовое значение для Здоровья.
         /// </summary>
         private float baseHealthPoints = 10;
+        [Header("Жизнь")]
         /// <summary>
         /// Максимально возможное значение для Здоровья.
         /// </summary>
@@ -332,6 +366,7 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Максимально возможное значение для Физической брони.
         /// </summary>
+        [Header("Броня")]
         [SerializeField] [ReadOnly]
         private int maxPhysicalArmor;
         /// <summary>
@@ -421,12 +456,13 @@ namespace DDF.Character.Stats {
         public Action onChangeMagicArmor;
         #endregion
 
+        
 
         /// <summary>
         /// Минимально возможное значаение стата.
         /// </summary>
         private int statMin = 1;
-
+        [Header("Статы")]
         #region Сила
         /// <summary>
         /// Текущая Сила.
@@ -500,12 +536,205 @@ namespace DDF.Character.Stats {
         public Action onChangeIntelligance;
 		#endregion
 
-		#region Damage
-		private float basemeleeDamage = 5;
-        public float meleeDamage;
-		#endregion
 
-		private float baseavoid = 5;
+		#region Damage
+		#region MeleeDamage
+		/// <summary>
+		/// Базовое значение для Урона в ближнем бою.
+		/// </summary>
+		private float baseMeleeDamage = 10;
+        [Header("Урон")]
+        /// <summary>
+        /// Максимально возможное значение Урона в ближнем бою.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxMeleeDamage;
+        /// <summary>
+        /// Максимально возможное значение Урона в ближнем бою.
+        /// </summary>
+        public float MaxMeleeDamage {
+            get {
+                return maxMeleeDamage;
+            }
+            set {
+                maxMeleeDamage = value;
+                if (maxMeleeDamage <= 0) maxMeleeDamage = 0;
+                if (maxMeleeDamage < MinMeleeDamage) MinMeleeDamage = maxMeleeDamage;
+                onChangeMeleeDamage?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Минимальное значение Урона в ближнем бою.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float minMeleeDamage;
+        /// <summary>
+        /// Минимальное значение Урона в ближнем бою.
+        /// </summary>
+        public float MinMeleeDamage {
+            get {
+                return minMeleeDamage;
+            }
+            set {
+                minMeleeDamage = value;
+                if (minMeleeDamage >= MaxMeleeDamage) minMeleeDamage = MaxMeleeDamage;
+                if (minMeleeDamage <= 0) minMeleeDamage = 0;
+                onChangeMeleeDamage?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeMeleeDamage;
+        #endregion
+        #region ShotDamage
+        /// <summary>
+        /// Базовое значение для Урона в дальнем бою.
+        /// </summary>
+        private float baseShotDamage = 10;
+        /// <summary>
+        /// Максимально возможное значение Урона в дальнем бою.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxShotDamage;
+        /// <summary>
+        /// Максимально возможное значение Урона в дальнем бою.
+        /// </summary>
+        public float MaxShotDamage {
+            get {
+                return maxShotDamage;
+            }
+            set {
+                maxShotDamage = value;
+                if (maxShotDamage <= 0) maxShotDamage = 0;
+                if (maxShotDamage < MinShotDamage) MinShotDamage = maxShotDamage;
+                onChangeShotDamage?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Минимальное значение Урона в дальнем бою.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float minShotDamage;
+        /// <summary>
+        /// Минимальное значение Урона в дальнем бою.
+        /// </summary>
+        public float MinShotDamage {
+            get {
+                return minShotDamage;
+            }
+            set {
+                minShotDamage = value;
+                if (minShotDamage >= MaxShotDamage) minShotDamage = MaxShotDamage;
+                if (minShotDamage <= 0) minShotDamage = 0;
+                onChangeShotDamage?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeShotDamage;
+        #endregion
+        #region MagicDamage
+        /// <summary>
+        /// Базовое значение для Магического Урона.
+        /// </summary>
+        private float baseMagicDamage = 0;
+        /// <summary>
+        /// Максимально возможное значение Магического Урона.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxMagicDamage;
+        /// <summary>
+        /// Максимально возможное значение Магического Урона.
+        /// </summary>
+        public float MaxMagicDamage {
+            get {
+                return maxMagicDamage;
+            }
+            set {
+                maxMagicDamage = value;
+                if (maxMagicDamage <= 0) maxMagicDamage = 0;
+                if (maxMagicDamage < MinMagicDamage) MinMagicDamage = maxMagicDamage;
+                onChangeMagicDamage?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Минимальное значение Магического Урона.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float minMagicDamage;
+        /// <summary>
+        /// Минимальное значение Магического Урона.
+        /// </summary>
+        public float MinMagicDamage {
+            get {
+                return minMagicDamage;
+            }
+            set {
+                minMagicDamage = value;
+                if (minMagicDamage >= MaxMagicDamage) minMagicDamage = MaxMagicDamage;
+                if (minMagicDamage <= 0) minMagicDamage = 0;
+                onChangeMagicDamage?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeMagicDamage;
+        #endregion
+        #endregion
+        #region Шанс критического удара
+        /// <summary>
+        /// Базовое значение для Критического Удара.
+        /// </summary>
+        private float baseСhanceCriticalStrike = 0;
+        /// <summary>
+        /// Максимально возможное значение для Критического Удара.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxСhanceCriticalStrike = 100;
+        /// <summary>
+        /// Максимально возможное значение для Критического Удара.
+        /// </summary>
+        public float MaxСhanceCriticalStrike {
+            get {
+                return maxСhanceCriticalStrike;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Критического Удара.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float currentСhanceCriticalStrike;
+        /// <summary>
+        /// Текущее значение Критического Удара.
+        /// </summary>
+        public float CurrentСhanceCriticalStrike {
+            get {
+                return currentСhanceCriticalStrike;
+            }
+            set {
+                currentСhanceCriticalStrike = value;
+                if (currentСhanceCriticalStrike >= MaxСhanceCriticalStrike) currentСhanceCriticalStrike = MaxСhanceCriticalStrike;
+                if (currentСhanceCriticalStrike <= 0) currentСhanceCriticalStrike = 0;
+                onChangeСhanceCriticalStrike?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeСhanceCriticalStrike;
+        #endregion
+        private float baseavoid = 5;
         private float avoid;
 
         private float basespeed = 5;
@@ -680,6 +909,12 @@ namespace DDF.Character.Stats {
             UpdateStats();
         }
 
+        public float GetMeleeDamage() {
+            DDFRandom random = new DDFRandom();
+            float dmg = random.RandomBetween(MinMeleeDamage, MaxMeleeDamage);
+            return dmg;
+        }
+
 		#endregion
 
         /// <summary>
@@ -701,8 +936,19 @@ namespace DDF.Character.Stats {
 
 			MaxMagicArmor = CurrentIntelligence * 2;
 
-			meleeDamage = basemeleeDamage + CurrentStrength * 2;
-			avoid = baseavoid + CurrentAgility / 2;
+
+            MaxMeleeDamage = baseMeleeDamage + CurrentStrength * 2;
+            MinMeleeDamage = 0;
+
+            MaxShotDamage = baseShotDamage + CurrentAgility * 2;
+            MinShotDamage = 0;
+
+            MaxMagicDamage = baseMagicDamage + CurrentIntelligence * 2;
+            MinMagicDamage = 0;
+
+            CurrentСhanceCriticalStrike = baseСhanceCriticalStrike + ( (float)CurrentAgility ) / 2;
+
+            avoid = baseavoid + CurrentAgility / 2;
 			speed = basespeed + CurrentAgility / 2;
 
 			UpdateData();
@@ -727,6 +973,11 @@ namespace DDF.Character.Stats {
 			StatRegularInt currentPhysicalArmor = ( (StatRegularInt)PhysicalArmor );
 			StatRegularInt currentMagicArmor = ( (StatRegularInt)MagicArmor );
 
+            StatRegularFloat currentMeleeDamage = ( (StatRegularFloat)MeleeDamage );
+            StatRegularFloat currentShotDamage = ( (StatRegularFloat)ShotDamage );
+            StatRegularFloat currentMagicDamage = ( (StatRegularFloat)MagicDamage );
+            StatFloat currentСhanceCriticalStrike = ( (StatFloat)СhanceCriticalStrike );
+            StatFloat currentСhanceCriticalShot = ( (StatFloat)СhanceCriticalShot );
 
             //UpdateData
             currentLevel.amount = CurrentLevel;
@@ -751,6 +1002,18 @@ namespace DDF.Character.Stats {
 
 			currentMagicArmor.amount = MaxMagicArmor;
 			currentMagicArmor.currentInamount = CurrentMagicArmor;
-		}
+
+            currentMeleeDamage.amount = MaxMeleeDamage;
+            currentMeleeDamage.currentInamount = MinMeleeDamage;
+
+            currentShotDamage.amount = MaxShotDamage;
+            currentShotDamage.currentInamount = MinShotDamage;
+
+            currentMagicDamage.amount = MaxMagicDamage;
+            currentMagicDamage.currentInamount = MinMagicDamage;
+
+            currentСhanceCriticalStrike.amount = CurrentСhanceCriticalStrike;
+
+        }
 	}
 }
