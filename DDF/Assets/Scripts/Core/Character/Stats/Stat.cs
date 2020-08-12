@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace DDF.Character.Stats {
+﻿namespace DDF.Character.Stats {
 	public class Stat {
 		public string name;
 	}

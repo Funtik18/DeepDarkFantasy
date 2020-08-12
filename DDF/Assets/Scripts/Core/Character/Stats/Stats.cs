@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -44,6 +45,11 @@ namespace DDF.Character.Stats {
         public Action onChangeCastrat;
 
         //статы, лучше не использовать вне текущего класса.
+
+        protected Stat Level;
+        protected Stat LevelExperience;
+        protected Stat SkillPoints;
+
         protected Stat HealthPoints;
         protected Stat ManaPoints;
         protected Stat Strength;
@@ -52,11 +58,14 @@ namespace DDF.Character.Stats {
         protected Stat PhysicalArmor;
         protected Stat MagicArmor;
 
-        protected Queue<Stat> stats;
-        protected Queue<UnityAction> increaseActions;
-        protected Queue<UnityAction> decreaseActions;
+        protected Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
+
         protected virtual void Awake() {
             //инициализация статов
+            Level = new StatInt("Текущий уровень", 1);
+            LevelExperience = new StatRegularInt("Опыт", 0, 0);
+            SkillPoints = new StatInt("Доступные очки", 0);
+
             HealthPoints = new StatRegularFloat("Жизненые силы", 0, 0);
             ManaPoints = new StatRegularFloat("Магическая энергия", 0, 0);
 
@@ -68,46 +77,109 @@ namespace DDF.Character.Stats {
             MagicArmor = new StatRegularInt("Магическая броня", 0, 0);
 
 
-            stats = new Queue<Stat>();
-            increaseActions = new Queue<UnityAction>();
-            decreaseActions = new Queue<UnityAction>();
-
             //запись ссылок статов и некоторых функций для передачи
-            stats.Enqueue(HealthPoints);
-            increaseActions.Enqueue(null);
-            decreaseActions.Enqueue(null);
+            stats = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
 
-            stats.Enqueue(ManaPoints);
-            increaseActions.Enqueue(null);
-            decreaseActions.Enqueue(null);
-
-            stats.Enqueue(Strength);
-            increaseActions.Enqueue(IncreaceStrength);
-            decreaseActions.Enqueue(DecreaceStrength);
-
-            stats.Enqueue(Agility);
-            increaseActions.Enqueue(IncreaceAgility);
-            decreaseActions.Enqueue(DecreaceAgility);
-
-            stats.Enqueue(Intelligence);
-            increaseActions.Enqueue(IncreaceIntelligence);
-            decreaseActions.Enqueue(DecreaceIntelligence);
-
-            stats.Enqueue(PhysicalArmor);
-            increaseActions.Enqueue(null);
-            decreaseActions.Enqueue(null);
-
-            stats.Enqueue(MagicArmor);
-            increaseActions.Enqueue(null);
-            decreaseActions.Enqueue(null);
+            stats.Add("Level", new Tuple<Stat, UnityAction, UnityAction>(Level, null, null));
+            stats.Add("LevelExperience", new Tuple<Stat, UnityAction, UnityAction>(LevelExperience, null, null));
+            stats.Add("SkillPoints", new Tuple<Stat, UnityAction, UnityAction>(SkillPoints, null, null));
+            
+            stats.Add("HealthPoints", new Tuple<Stat, UnityAction, UnityAction>(HealthPoints, null, null));
+            stats.Add("ManaPoints", new Tuple<Stat, UnityAction, UnityAction>(ManaPoints, null, null));
+            
+            stats.Add("Strength", new Tuple<Stat, UnityAction, UnityAction>(Strength, IncreaseStrength, DecreaseStrength));
+            stats.Add("Agility", new Tuple<Stat, UnityAction, UnityAction>(Agility, IncreaseAgility, DecreaseAgility));
+            stats.Add("Intelligence", new Tuple<Stat, UnityAction, UnityAction>(Intelligence, IncreaseIntelligence, DecreaseIntelligence));
+            
+            stats.Add("PhysicalArmor", new Tuple<Stat, UnityAction, UnityAction>(PhysicalArmor, null, null));
+            stats.Add("MagicArmor", new Tuple<Stat, UnityAction, UnityAction>(MagicArmor, null, null));
         }
         protected virtual void Start() {
             //удаление не нужного
-            stats.Clear();
-            increaseActions.Clear();
-            decreaseActions.Clear();
+            //stats.Clear();
         }
 
+        /// <summary>
+        /// Минимально возможный уровень.
+        /// </summary>
+        private int levelMin = 1;
+
+        #region Уровень
+        /// <summary>
+        /// Текущий Уровень.
+        /// </summary>
+        [SerializeField] [ReadOnly]
+        private int currentLevel;
+        /// <summary>
+        /// Текущий Уровень.
+        /// </summary>
+        public int CurrentLevel {
+            get {
+                return currentLevel;
+            }
+            set {
+                currentLevel = value;
+                if (currentLevel < levelMin) currentLevel = levelMin;
+                onChangeLevel?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeLevel;
+        #endregion
+        #region Опыт
+        /// <summary>
+        /// Базовое значение для Опыта.
+        /// </summary>
+        private int baseLevelExperience = 0;
+        /// <summary>
+        /// Максимально возможное значение для Опыта.
+        /// </summary>
+        [SerializeField] [ReadOnly]
+        private int maxLevelExperience;
+        /// <summary>
+        /// Максимально возможное значение для Опыта.
+        /// </summary>
+        public int MaxLevelExperience {
+            get {
+                return maxLevelExperience;
+            }
+            set {
+                maxLevelExperience = value;
+                if (maxLevelExperience <= 0) maxLevelExperience = 0;
+                if (maxLevelExperience < CurrentLevelExperience) CurrentLevelExperience = maxLevelExperience;
+                onChangeLevelExperience?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Текущее значение Опыта.
+        /// </summary>
+        [SerializeField] [ReadOnly]
+        private int currentLevelExperience;
+        /// <summary>
+        /// Текущее значение Опыта.
+        /// </summary>
+        public int CurrentLevelExperience {
+            get {
+                return currentLevelExperience;
+            }
+            set {
+                currentLevelExperience = value;
+                if (currentLevelExperience >= MaxLevelExperience) {
+                    currentLevelExperience = MaxLevelExperience;
+                    IncreaseLevel();
+                    CurrentLevelExperience = CurrentLevelExperience - maxLevelExperience;
+                }
+                if (currentLevelExperience <= 0) currentLevelExperience = 0;
+                onChangeLevelExperience?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeLevelExperience;
+        #endregion
         #region Очки навыков
         /// <summary>
         /// Базовое значение для Очков Навыков.
@@ -128,7 +200,6 @@ namespace DDF.Character.Stats {
             set {
                 maxSkillPoints = value;
                 if (maxSkillPoints <= 0) maxSkillPoints = 0;
-                if (maxSkillPoints < CurrentSkillPoints) CurrentSkillPoints = maxSkillPoints;
                 onChangeSkillPoints?.Invoke();
             }
         }
@@ -146,7 +217,6 @@ namespace DDF.Character.Stats {
             }
             set {
                 currentSkillPoints = value;
-                if (currentSkillPoints >= MaxSkillPoints) currentSkillPoints = MaxSkillPoints;
                 if (currentSkillPoints <= 0) currentSkillPoints = 0;
                 onChangeSkillPoints?.Invoke();
             }
@@ -441,14 +511,16 @@ namespace DDF.Character.Stats {
         private float basespeed = 5;
         public float speed;
 
-        //Functions
+        #region Functions
+
         public void Kill() {
             IsDead = true;
             UpdateStats();
 		}
         public void ReBorn() {
+            if (!IsDead) return;
             IsDead = false;
-            RestoreHealth(1);
+            CurrentHealthPoints = 1;
             UpdateStats();
         }
         public void Castrat() {
@@ -459,10 +531,38 @@ namespace DDF.Character.Stats {
             ISCastrat = false;
             UpdateStats();
         }
+        
+        public void IncreaseLevel() {
+            CurrentLevel++;
+            CurrentSkillPoints = CurrentSkillPoints + MaxSkillPoints;
+            UpdateStats();
+        }
+        public void DecreaseLevel() {
+            CurrentLevel--;
+            UpdateStats();
+        }
+
+        public void IncreaseLevelExperience(int count) {
+            CurrentLevelExperience += count;
+            UpdateStats();
+        }
+        public void DecreaseLevelExperience( int count ) {
+            CurrentLevelExperience -= count;
+            UpdateStats();
+        }
+
+        public void IncreaseSkillPoints() {
+            CurrentSkillPoints++;
+        }
+        public void DecreaseSkillPoints() {
+            CurrentSkillPoints--;
+        }
+        public bool IsCanIncrease() {
+            if (CurrentSkillPoints > 0) return true;
+            return false;
+		}
 
 
-        #region Stats
-        #region HP
         /// <summary>
         /// Отнимает от текущего здоровья dmg.
         /// </summary>
@@ -478,8 +578,8 @@ namespace DDF.Character.Stats {
             if (IsDead) return;
             CurrentHealthPoints += heal;
         }
-        #endregion
-        #region MP
+
+
         /// <summary>
         /// Отнимает от текущей маны count.
         /// </summary>
@@ -495,52 +595,91 @@ namespace DDF.Character.Stats {
             CurrentManaPoints += mana;
 
         }
-        #endregion
+
 
         /// <summary>
         /// Увеличение Силы на 1.
         /// </summary>
-        public void IncreaceStrength() {
+        public void IncreaseStrength() {
+            if (!IsCanIncrease()) return;
             CurrentStrength++;
+            DecreaseSkillPoints();
             UpdateStats();
         }
+        private bool lastpoint1 = true;
         /// <summary>
         /// Уменьшение Силы на 1.
         /// </summary>
-        public void DecreaceStrength() {
+        public void DecreaseStrength() {
             CurrentStrength--;
+            if(CurrentStrength != statMin) {
+                IncreaseSkillPoints();
+                lastpoint1 = true;
+            } else {
+				if (lastpoint1) {
+                    IncreaseSkillPoints();
+                    lastpoint1 = false;
+                }
+            }
             UpdateStats();
         }
+
 
         /// <summary>
         /// Увеличение Интелекта на 1.
         /// </summary>
-        public void IncreaceAgility() {
+        public void IncreaseAgility() {
+            if (!IsCanIncrease()) return;
             CurrentAgility++;
+            DecreaseSkillPoints();
             UpdateStats();
         }
+        private bool lastpoint2 = true;
         /// <summary>
         /// Уменьшение Ловкости на 1.
         /// </summary>
-        public void DecreaceAgility() {
+        public void DecreaseAgility() {
             CurrentAgility--;
+            if (CurrentAgility != statMin) {
+                IncreaseSkillPoints();
+                lastpoint2 = true;
+            } else {
+                if (lastpoint2) {
+                    IncreaseSkillPoints();
+                    lastpoint2 = false;
+                }
+            }
             UpdateStats();
         }
+
 
         /// <summary>
         /// Увеличение Интелекта на 1.
         /// </summary>
-        public void IncreaceIntelligence() {
+        public void IncreaseIntelligence() {
+            if (!IsCanIncrease()) return;
             CurrentIntelligence++;
+            DecreaseSkillPoints();
             UpdateStats();
         }
+        private bool lastpoint3 = true;
         /// <summary>
         /// Уменьшение Интелекта на 1.
         /// </summary>
-        public void DecreaceIntelligence() {
+        public void DecreaseIntelligence() {
             CurrentIntelligence--;
+            if (CurrentIntelligence != statMin) {
+                IncreaseSkillPoints();
+                lastpoint3 = true;
+            } else {
+                if (lastpoint3) {
+                    IncreaseSkillPoints();
+                    lastpoint3 = false;
+                }
+            }
             UpdateStats();
         }
+
 		#endregion
 
         /// <summary>
@@ -555,7 +694,7 @@ namespace DDF.Character.Stats {
         /// </summary>
         protected virtual void MakeFormules() {
 			//formules
-			MaxSkillPoints = baseSkillPoints + CurrentIntelligence * 2;
+			MaxSkillPoints = CurrentIntelligence;
 
 			MaxHealthPoints = baseHealthPoints + CurrentStrength * 2;
 			MaxManaPoints = baseManaPoints + CurrentIntelligence * 2;
@@ -573,8 +712,12 @@ namespace DDF.Character.Stats {
         /// Записывает все значения в дату.
         /// </summary>
         protected void UpdateData() {
-			//cash
-			StatRegularFloat maxHealth = ( (StatRegularFloat)HealthPoints );
+            //cash
+            StatInt currentLevel = ( (StatInt)Level );
+            StatRegularInt currentLevelExperience = ( (StatRegularInt)LevelExperience );
+            StatInt currentSkillPoints = ( (StatInt)SkillPoints );
+
+            StatRegularFloat maxHealth = ( (StatRegularFloat)HealthPoints );
 			StatRegularFloat maxMana = ( (StatRegularFloat)ManaPoints );
 
 			StatInt currentStrength = ( (StatInt)Strength );
@@ -585,8 +728,15 @@ namespace DDF.Character.Stats {
 			StatRegularInt currentMagicArmor = ( (StatRegularInt)MagicArmor );
 
 
-			//UpdateData
-			maxHealth.amount = MaxHealthPoints;
+            //UpdateData
+            currentLevel.amount = CurrentLevel;
+
+            currentLevelExperience.amount = MaxLevelExperience;
+            currentLevelExperience.currentInamount= CurrentLevelExperience;
+
+            currentSkillPoints.amount = CurrentSkillPoints;
+
+            maxHealth.amount = MaxHealthPoints;
 			maxHealth.currentInamount = CurrentHealthPoints;
 
 			maxMana.amount = MaxManaPoints;

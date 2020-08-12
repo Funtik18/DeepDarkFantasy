@@ -1,4 +1,5 @@
 ﻿using DDF.Help;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ namespace DDF.Character.Stats {
 		private Button increaseButton;
 		[SerializeField]
 		private Button decreaseButton;
+
+		private UnityAction onIncrease;
+		private UnityAction onDecrease;
 
 		private CanvasGroup increaseCanvasGroup;
 		private CanvasGroup decreaseCanvasGroup;
@@ -52,16 +56,11 @@ namespace DDF.Character.Stats {
 			increaseCanvasGroup = increaseButton.GetComponent<CanvasGroup>();
 			decreaseCanvasGroup = decreaseButton.GetComponent<CanvasGroup>();
 		}
-		public void SetTrack(Stat stat, UnityAction increase = null, UnityAction decrease = null) {
-			currenStat = stat;
+		public void SetTrack( Tuple<Stat, UnityAction, UnityAction> stat) {
+			currenStat = stat.Item1;
 
-			if (increase != null && increaseButton != null)
-				increaseButton.onClick.AddListener(increase);
-			//else EnableIncrease = false;
-
-			if (decrease != null && decreaseButton != null)
-				decreaseButton.onClick.AddListener(decrease);
-			//else EnableDecrease = false;
+			increaseButton.onClick.AddListener(stat.Item2);
+			decreaseButton.onClick.AddListener(stat.Item3);
 		}
 		public void UpdateText() {
 			if (currenStat is StatFloat statFloat) {

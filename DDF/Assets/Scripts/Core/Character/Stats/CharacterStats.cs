@@ -18,13 +18,14 @@ public class CharacterStats : Stats {
     private HealthBar HPBar;
     [SerializeField]
     private ManaBar MPBar;
-	[SerializeField]
+    [SerializeField]
+    private LevelBar LevelBar;
 
 
-	#region Setup
-	protected override void Awake() {
+    #region Setup
+    protected override void Awake() {
         base.Awake();
-        textsStats.Init(stats, increaseActions, decreaseActions);
+        textsStats.Init(stats);
     }
 	protected override void Start() {
         base.Start();
@@ -43,6 +44,11 @@ public class CharacterStats : Stats {
 
 
         //re init stats
+        CurrentLevel = 1;
+        
+        MaxLevelExperience = 1000;
+        CurrentSkillPoints = 3;
+
         CurrentStrength = 5;
         CurrentAgility = 5;
         CurrentIntelligence = 5;
