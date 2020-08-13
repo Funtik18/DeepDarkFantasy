@@ -18,10 +18,10 @@ namespace DDF.Character.Stats {
         [SerializeField] private TextStat textStatMagicArmor;
         [SerializeField] private TextStat textStatСhanceCriticalStrike;
         [SerializeField] private TextStat textStatСhanceCriticalShot;
+        [SerializeField] private TextStat textStatСhanceAvoid;
         [SerializeField] private TextStat textStatMeleeDamage;
         [SerializeField] private TextStat textStatShotDamage;
         [SerializeField] private TextStat textStatMagicDamage;
-        [SerializeField] private TextStat textStatСhanceAvoid;
 
 
         private List<TextStat> textsStats;
@@ -31,28 +31,29 @@ namespace DDF.Character.Stats {
             stats = curstats;
 
             //track
-            textStatLevel.SetTrack(GetStatByString("Level"));
-            textStatLevelExperience.SetTrack(GetStatByString("LevelExperience"));
-            textStatSkillPoints.SetTrack(GetStatByString("SkillPoints"));
+            textStatLevel?.SetTrack(GetStatByString("Level"));
+            textStatLevelExperience?.SetTrack(GetStatByString("LevelExperience"));
+            textStatSkillPoints?.SetTrack(GetStatByString("SkillPoints"));
 
-            textStatHealthPoints.SetTrack(GetStatByString("HealthPoints"));
-            textStatManaPoints.SetTrack(GetStatByString("ManaPoints"));
+            textStatHealthPoints?.SetTrack(GetStatByString("HealthPoints"));
+            textStatManaPoints?.SetTrack(GetStatByString("ManaPoints"));
 
-            textStatStrength.SetTrack(GetStatByString("Strength"));
-            textStatAgility.SetTrack(GetStatByString("Agility"));
-            textStatIntelligence.SetTrack(GetStatByString("Intelligence"));
+            textStatStrength?.SetTrack(GetStatByString("Strength"));
+            textStatAgility?.SetTrack(GetStatByString("Agility"));
+            textStatIntelligence?.SetTrack(GetStatByString("Intelligence"));
 
-            textStatPhysicalArmor.SetTrack(GetStatByString("PhysicalArmor"));
-            textStatMagicArmor.SetTrack(GetStatByString("MagicArmor"));
+            textStatPhysicalArmor?.SetTrack(GetStatByString("PhysicalArmor"));
+            textStatMagicArmor?.SetTrack(GetStatByString("MagicArmor"));
 
-            textStatMeleeDamage.SetTrack(GetStatByString("MeleeDamage"));
-            textStatShotDamage.SetTrack(GetStatByString("ShotDamage"));
-            textStatMagicDamage.SetTrack(GetStatByString("MagicDamage"));
+            textStatMeleeDamage?.SetTrack(GetStatByString("MeleeDamage"));
+            textStatShotDamage?.SetTrack(GetStatByString("ShotDamage"));
+            textStatMagicDamage?.SetTrack(GetStatByString("MagicDamage"));
 
-            textStatСhanceCriticalStrike.SetTrack(GetStatByString("СhanceCriticalStrike"));
-            textStatСhanceCriticalShot.SetTrack(GetStatByString("СhanceCriticalShot"));
+            textStatСhanceCriticalStrike?.SetTrack(GetStatByString("СhanceCriticalStrike"));
+            textStatСhanceCriticalShot?.SetTrack(GetStatByString("СhanceCriticalShot"));
 
-            textStatСhanceAvoid.SetTrack(GetStatByString("ChanceAvoid"));
+            textStatСhanceAvoid?.SetTrack(GetStatByString("ChanceAvoid"));
+
             //to list
             textsStats.Add(textStatLevel);
             textsStats.Add(textStatLevelExperience);
@@ -77,7 +78,7 @@ namespace DDF.Character.Stats {
         }
         public void UpdateAllTXT() {
             for (int i = 0; i < textsStats.Count; i++) {
-                textsStats[i].UpdateText();
+                textsStats[i]?.UpdateText();
             }
         }
 

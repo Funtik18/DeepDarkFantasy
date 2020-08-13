@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DDF.Character.Stats;
 using UnityEngine;
 
 public class arrow : MonoBehaviour

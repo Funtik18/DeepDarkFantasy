@@ -11,10 +11,7 @@ using UnityEngine.Events;
 namespace DDF.Character.Stats {
     public class Stats : MonoBehaviour {
 
-        #region Perks
-        protected Perk Savant;
-        protected Perk Cupboard;
-        #endregion
+        public Perks.Perks perks;
 
         //статы, лучше не использовать вне текущего класса.
 
@@ -42,8 +39,6 @@ namespace DDF.Character.Stats {
 
         protected Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
 
-        protected List<Perk> perks;
-
         protected virtual void Awake() {
             //инициализация статов
             Level = new StatInt("Текущий уровень", 1);
@@ -67,16 +62,7 @@ namespace DDF.Character.Stats {
             СhanceCriticalStrike = new StatFloat("Шанс крит удара", 0, "%");
             ChanceAvoid = new StatFloat("Шанс уклонения", 0, "%");
 
-
-            //Perks
-            Savant = new PerkInt(Intelligence, 3);
-            Cupboard = new PerkInt(Strength, 3);
-
-            perks = new List<Perk>();
-            perks.Add(Savant);
-            perks.Add(Cupboard);
-
-            //запись ссылок статов и некоторых функций для передачи
+            #region запись ссылок статов и некоторых функций для передачи
             stats = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
 
             stats.Add("Level", new Tuple<Stat, UnityAction, UnityAction>(Level, null, null));
@@ -99,14 +85,8 @@ namespace DDF.Character.Stats {
             stats.Add("СhanceCriticalStrike", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalStrike, null, null));
             stats.Add("СhanceCriticalShot", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalShot, null, null));
             stats.Add("ChanceAvoid", new Tuple<Stat, UnityAction, UnityAction>(ChanceAvoid, null, null));
+            #endregion
 
-
-
-
-
-            for (int i = 0; i < perks.Count; i++) {
-                perks[i].Calculate();
-            }
 
             //init stats
             CurrentLevel = 1;
@@ -135,8 +115,7 @@ namespace DDF.Character.Stats {
         /// 
         /// </summary>
         [Header("Смерть")]
-        [SerializeField]
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private bool isDead = false;
         public bool IsDead {
             get {
@@ -154,7 +133,8 @@ namespace DDF.Character.Stats {
         /// <summary>
         /// Если true персонаж не может владеть магией
         /// </summary>
-        public bool isCastrat = false;
+        [SerializeField] [ReadOnly]
+        private bool isCastrat = false;
         public bool ISCastrat {
             get {
                 return isCastrat;

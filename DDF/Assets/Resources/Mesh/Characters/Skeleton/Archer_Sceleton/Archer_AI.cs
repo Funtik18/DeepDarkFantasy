@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DDF.Atributes;
-
+using DDF.Character.Stats;
 
 public class Archer_AI : MonoBehaviour
 {

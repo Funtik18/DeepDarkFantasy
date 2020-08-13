@@ -21,7 +21,9 @@ namespace DDF.Character.Stats {
 		private CanvasGroup increaseCanvasGroup;
 		private CanvasGroup decreaseCanvasGroup;
 
+		[SerializeField]
 		private bool enableIncrease = true;
+		[SerializeField]
 		private bool enableDecrease = true;
 
 		private Stat currenStat;
@@ -55,14 +57,20 @@ namespace DDF.Character.Stats {
 
 
 		private void Awake() {
-			increaseCanvasGroup = increaseButton.GetComponent<CanvasGroup>();
-			decreaseCanvasGroup = decreaseButton.GetComponent<CanvasGroup>();
+			if (increaseButton) {
+				increaseCanvasGroup = increaseButton.GetComponent<CanvasGroup>();
+				EnableIncrease = enableIncrease;
+			}
+			if (decreaseButton) {
+				decreaseCanvasGroup = decreaseButton.GetComponent<CanvasGroup>();
+				EnableDecrease = enableDecrease;
+			}
 		}
 		public void SetTrack( Tuple<Stat, UnityAction, UnityAction> stat) {
 			currenStat = stat.Item1;
 
-			increaseButton.onClick.AddListener(stat.Item2);
-			decreaseButton.onClick.AddListener(stat.Item3);
+			increaseButton?.onClick.AddListener(stat.Item2);
+			decreaseButton?.onClick.AddListener(stat.Item3);
 		}
 		public void UpdateText(string dop = "") {
 			txt.text = "";
