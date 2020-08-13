@@ -44,13 +44,13 @@ public class Skeleton_AI : MonoBehaviour
     void Update()
     {
             lookMySost();
-        if(Agressive && !stats.isDead){
+        if(Agressive && !stats.IsDead){
             //walk = false;
             _timer+=Time.deltaTime;
             if(_timer>=1.5f)
                 Ballte_mode();
         }else{
-            if(walk && !endbattle && !stats.isDead)
+            if(walk && !endbattle && !stats.IsDead)
                 move_to_point();
         }
     }
@@ -60,7 +60,7 @@ public class Skeleton_AI : MonoBehaviour
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
-            stats.isDead = true;
+            stats.IsDead = true;
             _timere+=Time.deltaTime;
 
             GetComponentInChildren<RayScan>().enabled = false;
@@ -111,7 +111,7 @@ public class Skeleton_AI : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-        if(!stats.isDead)
+        if(!stats.IsDead)
             characterController.Move(moveDirection * Time.deltaTime);
     } 
 
@@ -178,7 +178,7 @@ public class Skeleton_AI : MonoBehaviour
         } 
 
         if(enemy.GetComponent<CharacterStats>()!=null)
-        if(enemy.GetComponent<CharacterStats>().isDead){
+        if(enemy.GetComponent<CharacterStats>().IsDead){
             enemys.Remove(enemy);
             endbattle = true;
         }    
@@ -226,7 +226,7 @@ public class Skeleton_AI : MonoBehaviour
             }
             if(!have){
                 if(other.GetComponent<CharacterStats>()!=null)
-                    if(!other.GetComponent<CharacterStats>().isDead)
+                    if(!other.GetComponent<CharacterStats>().IsDead)
                         enemys.Add(other);
             }
         }

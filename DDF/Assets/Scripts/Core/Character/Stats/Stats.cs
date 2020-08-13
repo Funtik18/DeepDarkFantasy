@@ -1,4 +1,5 @@
 ﻿using DDF.Atributes;
+using DDF.Character.Perks;
 using DDF.Randomizer;
 using System;
 using System.Collections;
@@ -10,40 +11,10 @@ using UnityEngine.Events;
 namespace DDF.Character.Stats {
     public class Stats : MonoBehaviour {
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Header("Смерть")]
-        //[SerializeField] [ReadOnly]
-        public bool isDead = false;
-        public bool IsDead {
-			get {
-                return isDead;
-			}
-			set {
-                isDead = value;
-                if (isDead) currentHealthPoints = 0;
-                onChangeDead?.Invoke();
-            }
-		}
-        public Action onChangeDead;
-
-
-        /// <summary>
-        /// Если true персонаж не может владеть магией
-        /// </summary>
-        public bool isCastrat = false;
-        public bool ISCastrat {
-			get {
-                return isCastrat;
-			}
-			set {
-                isCastrat = value;
-                if (isCastrat) MaxManaPoints = 0;
-                onChangeCastrat?.Invoke();
-            }
-        }
-        public Action onChangeCastrat;
+        #region Perks
+        protected Perk Savant;
+        protected Perk Cupboard;
+        #endregion
 
         //статы, лучше не использовать вне текущего класса.
 
@@ -71,6 +42,8 @@ namespace DDF.Character.Stats {
 
         protected Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
 
+        protected List<Perk> perks;
+
         protected virtual void Awake() {
             //инициализация статов
             Level = new StatInt("Текущий уровень", 1);
@@ -93,6 +66,15 @@ namespace DDF.Character.Stats {
             СhanceCriticalShot = new StatFloat("Шанс крит выстрела", 0, "%");
             СhanceCriticalStrike = new StatFloat("Шанс крит удара", 0, "%");
             ChanceAvoid = new StatFloat("Шанс уклонения", 0, "%");
+
+
+            //Perks
+            Savant = new PerkInt(Intelligence, 3);
+            Cupboard = new PerkInt(Strength, 3);
+
+            perks = new List<Perk>();
+            perks.Add(Savant);
+            perks.Add(Cupboard);
 
             //запись ссылок статов и некоторых функций для передачи
             stats = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
@@ -118,14 +100,22 @@ namespace DDF.Character.Stats {
             stats.Add("СhanceCriticalShot", new Tuple<Stat, UnityAction, UnityAction>(СhanceCriticalShot, null, null));
             stats.Add("ChanceAvoid", new Tuple<Stat, UnityAction, UnityAction>(ChanceAvoid, null, null));
 
+
+
+
+
+            for (int i = 0; i < perks.Count; i++) {
+                perks[i].Calculate();
+            }
+
             //init stats
             CurrentLevel = 1;
             MaxLevelExperience = 1000;
             CurrentSkillPoints = 5;
 
-            CurrentStrength = 1;
-            CurrentAgility = 1;
-            CurrentIntelligence = 1;
+            CurrentStrength = (Strength as StatInt).amount;
+            CurrentAgility = ( Agility as StatInt ).amount;
+            CurrentIntelligence = ( Intelligence as StatInt ).amount;
         }
         protected virtual void Start() {
             //удаление не нужного
@@ -140,6 +130,42 @@ namespace DDF.Character.Stats {
         /// Минимально возможное значаение стата.
         /// </summary>
         private int statMin = 1;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Header("Смерть")]
+        [SerializeField]
+        [ReadOnly]
+        private bool isDead = false;
+        public bool IsDead {
+            get {
+                return isDead;
+            }
+            set {
+                isDead = value;
+                if (isDead) currentHealthPoints = 0;
+                onChangeDead?.Invoke();
+            }
+        }
+        public Action onChangeDead;
+
+
+        /// <summary>
+        /// Если true персонаж не может владеть магией
+        /// </summary>
+        public bool isCastrat = false;
+        public bool ISCastrat {
+            get {
+                return isCastrat;
+            }
+            set {
+                isCastrat = value;
+                if (isCastrat) MaxManaPoints = 0;
+                onChangeCastrat?.Invoke();
+            }
+        }
+        public Action onChangeCastrat;
 
         #region Уровень
         [Header("Уровень")]
@@ -205,7 +231,6 @@ namespace DDF.Character.Stats {
             set {
                 currentLevelExperience = value;
                 if (currentLevelExperience >= MaxLevelExperience) {
-                    currentLevelExperience = MaxLevelExperience;
                     IncreaseLevel();
                     CurrentLevelExperience = CurrentLevelExperience - maxLevelExperience;
                 }
@@ -814,9 +839,14 @@ namespace DDF.Character.Stats {
         /// Событие, если значение изменилось.
         /// </summary>
         public Action onChangeChanceAvoid;
-        #endregion
+		#endregion
 
-        private float basespeed = 5;
+
+
+
+
+
+		private float basespeed = 5;
         public float speed;
 
         #region Functions
@@ -872,7 +902,7 @@ namespace DDF.Character.Stats {
         /// Повысить опыт на count.
         /// </summary>
         /// <param name="count"></param>
-        public void IncreaseLevelExperience(int count) {
+        public virtual void IncreaseLevelExperience(int count) {
             CurrentLevelExperience += count;
             UpdateStats();
         }
@@ -880,7 +910,7 @@ namespace DDF.Character.Stats {
         /// Понизить опыт на count.
         /// </summary>
         /// <param name="count"></param>
-        public void DecreaseLevelExperience( int count ) {
+        public virtual void DecreaseLevelExperience( int count ) {
             CurrentLevelExperience -= count;
             UpdateStats();
         }

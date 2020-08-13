@@ -2,10 +2,6 @@
 using DDF.Atributes;
 using DDF.UI.Bar;
 using DDF.Character.Stats;
-using System;
-using System.Collections.Generic;
-using UnityEngine.Events;
-
 
 /// <summary>
 /// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
@@ -27,7 +23,7 @@ public class CharacterStats : Stats {
         base.Awake();
         textsStats.Init(stats);
     }
-	protected override void Start() {
+    protected override void Start() {
         base.Start();
 
         onChangeSkillPoints = () => UpdateTXT();
@@ -46,6 +42,7 @@ public class CharacterStats : Stats {
         base.UpdateStats();
         CurrentHealthPoints = MaxHealthPoints;
         CurrentManaPoints = MaxManaPoints;
+
         UpdateUI();
     }
     private void UpdateTXT() {
@@ -56,6 +53,9 @@ public class CharacterStats : Stats {
         UpdateUI();
     }
 	private void UpdateUI() {
+        LevelBar.SetMaxValue(MaxLevelExperience);
+        LevelBar.UpdateBar(CurrentLevelExperience);//надо будет менять на загружаемое значение
+
         HPBar.SetMaxValue(MaxHealthPoints);
         HPBar.UpdateBar(CurrentHealthPoints);//надо будет менять на загружаемое значение
 
@@ -109,6 +109,16 @@ public class CharacterStats : Stats {
     }
 
     #region Stats
+    #region Exp
+    public override void IncreaseLevelExperience( int count ) {
+        base.IncreaseLevelExperience(count);
+        LevelBar.UpdateBar(CurrentLevelExperience);
+    }
+    public override void DecreaseLevelExperience( int count ) {
+        base.DecreaseLevelExperience(count);
+        LevelBar.UpdateBar(CurrentLevelExperience);
+    }
+    #endregion
     #region HP
     public override void TakeDamage( float dmg ) {
         base.TakeDamage(dmg);

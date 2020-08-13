@@ -1,9 +1,9 @@
 ﻿namespace DDF.Character.Stats {
 	public class Stat {
-		public string name;
+		public string statName;
 
 		public virtual string Output() {
-			return name;
+			return statName;
 		}
 	}
 	public class StatInt : Stat {
@@ -12,12 +12,12 @@
 		string regex = "";
 
 		public StatInt(string newName, int max, string _regex = "" ) {
-			name = newName;
+			statName = newName;
 			amount = max;
 			regex = _regex;
 		}
 		public override string Output() {
-			return name + "|" + amount + regex;
+			return statName + "|" + amount + regex;
 		}
 	}
 	public class StatFloat : Stat {
@@ -26,12 +26,12 @@
 		string regex = "";
 
 		public StatFloat( string newName, float max, string _regex = "" ) {
-			name = newName;
+			statName = newName;
 			amount = max;
 			regex = _regex;
 		}
 		public override string Output() {
-			return name + "|" + amount + regex;
+			return statName + "|" + amount + regex;
 		}
 	}
 	public class StatRegularInt : StatInt {
@@ -44,7 +44,7 @@
 			regex = _regex;
 		}
 		public override string Output() {
-			return name + "|" + currentInamount + regex + amount;
+			return statName + "|" + currentInamount + regex + amount;
 		}
 	}
 	public class StatRegularFloat : StatFloat {
@@ -57,7 +57,7 @@
 			regex = _regex;
 		}
 		public override string Output() {
-			return name + "|" + currentInamount + regex + amount;
+			return statName + "|" + currentInamount + regex + amount;
 		}
 	}
 }

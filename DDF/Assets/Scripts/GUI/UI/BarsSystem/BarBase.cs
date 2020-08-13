@@ -17,7 +17,7 @@ namespace DDF.UI.Bar {
 		private Image imagebackground;
 		protected CanvasGroup canvasGroup;
 
-		protected float maxvalue = 100;
+		public float maxvalue = 100;
 
 		protected float lastvalue = 0;
 

@@ -50,7 +50,7 @@ public class knight_AI : MonoBehaviour
             if(_timer>=2.5f)
                 Ballte_mode();
         }else{
-            if(walk && !stats.isDead && !endbattle)
+            if(walk && !stats.IsDead && !endbattle)
                 move_to_point();
         }
     }
@@ -60,7 +60,7 @@ public class knight_AI : MonoBehaviour
             enemys.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
-            stats.isDead = true;
+            stats.IsDead = true;
             _timere+=Time.deltaTime;
 
             GetComponentInChildren<RayScan>().enabled = false;
@@ -109,7 +109,7 @@ public class knight_AI : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-        if(!stats.isDead)
+        if(!stats.IsDead)
         characterController.Move(moveDirection * Time.deltaTime);
     } 
 
@@ -189,7 +189,7 @@ public class knight_AI : MonoBehaviour
             } 
 
         if(enemy.GetComponent<CharacterStats>()!=null)
-        if(enemy.GetComponent<CharacterStats>().isDead){
+        if(enemy.GetComponent<CharacterStats>().IsDead) {
             enemys.Remove(enemy);
             endbattle = true;
         }    
@@ -237,7 +237,7 @@ public class knight_AI : MonoBehaviour
             }
             if(!have){
                 if(other.GetComponent<CharacterStats>()!=null)
-                    if(!other.GetComponent<CharacterStats>().isDead)
+                    if(!other.GetComponent<CharacterStats>().IsDead)
                         enemys.Add(other);
             }
         }
