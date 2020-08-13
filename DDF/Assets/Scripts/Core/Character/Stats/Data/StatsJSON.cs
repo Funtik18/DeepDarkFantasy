@@ -19,7 +19,7 @@ namespace DDF.Character.Stats {
         public int magicArmor;
 
         public StatsJSON(Stats stats) {
-            level = stats.CurrentLevel;
+            /*level = stats.Level.amount;
             levelExperience = stats.CurrentLevelExperience;
             skillPoints = stats.CurrentSkillPoints;
             healthPoints = stats.CurrentHealthPoints;
@@ -28,7 +28,7 @@ namespace DDF.Character.Stats {
             agility = stats.CurrentAgility;
             intelligence = stats.CurrentIntelligence;
             physicalArmor = stats.CurrentPhysicalArmor;
-            magicArmor = stats.CurrentMagicArmor;
+            magicArmor = stats.CurrentMagicArmor;*/
 		}
 
         public void SaveFile() {

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace DDF.UI.Customization {
     public class Pages : MonoBehaviour {
+		public int startIndex = 0;
         public List<Page> pages;
 		private Page currentPage;
 		[SerializeField][ReadOnly]
@@ -38,7 +39,7 @@ namespace DDF.UI.Customization {
 			}
 		}
 		private void Start() {
-			CurrentIndex = 0;
+			CurrentIndex = startIndex;
 			DisablePages();
 			UpdatePage();
 		}

@@ -10,15 +10,25 @@ namespace DDF.Character.Perks {
 			perkName = newName;
 		}
 
+		public virtual string Output() {
+			return perkName;
+		}
+
 		public abstract void Calculate();
 	}
 	public class PerkInt : Perk {
 		private StatInt stat;
-		private int amount;
+		public int amount;
+		public int cost;
 
-		public PerkInt(string newName, Stat trackStat, int value) : base(newName) {
+		public PerkInt(string newName, Stat trackStat, int value, int value2) : base(newName) {
 			stat = trackStat as StatInt;
 			amount = value;
+			cost = value2;
+		}
+
+		public override string Output() {
+			return perkName + "|" + cost;
 		}
 
 		public override void Calculate() {
@@ -27,12 +37,17 @@ namespace DDF.Character.Perks {
 	}
 	public class PerkFloat : Perk {
 		private StatFloat stat;
-		private float amount;
+		public float amount;
+		public int cost;
 
 
-		public PerkFloat(string newName, Stat trackStat, float value ) : base(newName) {
+		public PerkFloat(string newName, Stat trackStat, float value, int value2 ) : base(newName) {
 			stat = trackStat as StatFloat;
 			amount = value;
+			cost = value2;
+		}
+		public override string Output() {
+			return perkName + "|" + cost;
 		}
 
 		public override void Calculate() {
@@ -42,8 +57,9 @@ namespace DDF.Character.Perks {
 	public class ComplexPerk : Perk {
 		List<PerkInt> intPerks;
 		List<PerkFloat> floatPerks;
+		public int cost;
 
-		public ComplexPerk(string newName, List<Perk> perks) : base(newName) {
+		public ComplexPerk(string newName, List<Perk> perks, int value2 ) : base(newName) {
 			for (int i = 0; i < perks.Count; i++) {
 				if(perks[i] is PerkInt perkInt) {
 					intPerks.Add(perkInt);
@@ -52,6 +68,11 @@ namespace DDF.Character.Perks {
 					floatPerks.Add(perkFloat);
 				}
 			}
+			cost = value2;
+		}
+
+		public override string Output() {
+			return perkName + "|" + cost;
 		}
 
 		public override void Calculate() {

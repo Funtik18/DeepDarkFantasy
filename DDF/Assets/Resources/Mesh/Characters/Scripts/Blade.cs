@@ -13,22 +13,22 @@ public class Blade : MonoBehaviour
 
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other) {
-        CharacterStats cS = other.gameObject.GetComponent<CharacterStats>();
+        CharacterEntity cS = other.gameObject.GetComponent<CharacterEntity>();
         string myname = gameObject.transform.root.name;
         string hisname = other.name;
         if(myname != hisname)
             if(active){
                 if(moveSpeed>1){
                     if(cS != null){
-                        cS.TakeDamage((int)moveSpeed%dmg,gameObject.transform.root.gameObject);
+                        //cS.TakeDamage((int)moveSpeed%dmg,gameObject.transform.root.gameObject);
                     }    
                 } 
             }
     }
 
     private void Start(){
-        if(gameObject.transform.root.GetComponent<CharacterStats>() != null)
-        dmg = (int)gameObject.transform.root.GetComponent<CharacterStats>().GetMeleeDamage();
+        if(gameObject.transform.root.GetComponent<CharacterEntity>() != null)
+        dmg = (int)gameObject.transform.root.GetComponent<CharacterEntity>().GetMeleeDamage();
         if(dmg<=0)
             dmg = 1;
     }

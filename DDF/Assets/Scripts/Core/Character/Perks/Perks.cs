@@ -3,31 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.Character.Perks {
-
     public class Perks {
+
+        public Entity entity;
+
         #region Perks
-        protected Perk Savant;
-        protected Perk Cupboard;
+        protected PerkInt Savant;
+        protected PerkInt Cupboard;
         #endregion
 
-        protected Dictionary<string, Perk> perks;
+        private Dictionary<string, Perk> mainPerks;
 
-        public Perks() {
-
-            Savant = new PerkInt(Intelligence, 3);
-            Cupboard = new PerkInt(Strength, 3);
-
-            Add("Savant", Savant);
-            Add("Cupboard", Cupboard);
-        }
-        private void Add(string perkName, Perk perk) {
-            perks.Add(perkName, perk);
+        public Perks(Entity newEntity) {
+            mainPerks = new Dictionary<string, Perk>();
+            entity = newEntity;
         }
 
-        public Perk GetPerk(string perkName) {
+        public virtual void Init() {
+            Savant = new PerkInt("Савант", entity.stats.Intelligence, 3, -2);
+            Cupboard = new PerkInt("Шкаф", entity.stats.Strength, 3, -1);
+
+            mainPerks.Add("Savant", Savant);
+            mainPerks.Add("Cupboard", Cupboard);
+        }
+        private Perk GetPerk(string perkName) {
             Perk perk;
-            perks.TryGetValue(perkName, out perk);
+            mainPerks.TryGetValue(perkName, out perk);
             return perk;
+		}
+        public Dictionary<string, Perk> GetAllPerks() {
+            return mainPerks;
+		}
+
+
+
+
+        /// <summary>
+        /// Добавляет перк текущей сущности.
+        /// </summary>
+        /// <param name="perkName"></param>
+        public virtual void AddPerk(string perkName) {
+            entity.currentPerks.Add(GetPerk(perkName));
         }
+        public virtual void AddPerk( Perk perk ) {
+            entity.currentPerks.Add(perk);
+        }
+        public virtual void RemovePerk( string perkName ) {
+            entity.currentPerks.Remove(GetPerk(perkName));
+        }
+        public virtual void RemovePerk( Perk perk ) {
+            entity.currentPerks.Remove(perk);
+        }
+
     }
 }

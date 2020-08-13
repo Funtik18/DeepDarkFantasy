@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TextPerk : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+namespace DDF.Character.Perks {
+    public class TextPerk : MonoBehaviour {
+        public Button button;
+		public Image image;
+		public TMPro.TextMeshProUGUI txt;
+		public TMPro.TextMeshProUGUI txtAmount;
+		public Perk perk;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+		public void UpdateText( string dop = "" ) {
+			txt.text = "";
+			txtAmount.text = "";
+
+			string[] txts = perk.Output().Split('|');
+			txt.text = txts[0];
+
+			txtAmount.text = txts[1];
+		}
+	}
 }

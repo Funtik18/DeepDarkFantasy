@@ -5,7 +5,7 @@ using DDF.UI.Bar;
 /// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
 /// </summary>
 namespace DDF.Character.Stats {
-    public class CharacterStats : Stats {
+    public class CharacterEntity : Entity {
         [SerializeField]
         private TextsStats textsStats;
 
@@ -20,7 +20,7 @@ namespace DDF.Character.Stats {
         #region Setup
         protected override void Awake() {
             base.Awake();
-            textsStats.Init(stats);
+            textsStats.Init(statsRef);
         }
         protected override void Start() {
             base.Start();
@@ -90,22 +90,6 @@ namespace DDF.Character.Stats {
                 if (currentAHP <= 0) currentAHP = 0;
             }
         }*/
-
-
-        [HideInInspector]
-        public GameObject Iam;
-        /// <summary>
-        /// Delete
-        /// </summary>
-        public void TakeDamage( float dmg, GameObject place ) {
-            /*int uclon = Random.Range(1, 20);
-            if (uclon > agility) {
-                currentHP -= dmg;
-                Iam = place;
-            } else {
-                Debug.Log("Miss");
-            }*/
-        }
 
         #region Stats
         #region Exp

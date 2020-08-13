@@ -1,18 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿namespace DDF.Character.Abilities {
+    public class Abilities {
+        private Ability Pyrokinesis;
 
-public class Abilities : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+        public Abilities( Stats.Stats newStats ) { }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Init() {
+            Pyrokinesis = new Ability("Пирокинез");
+        }
     }
 }

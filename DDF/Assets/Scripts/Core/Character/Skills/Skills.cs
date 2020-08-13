@@ -1,18 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Skills : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
+﻿namespace DDF.Character.Skills {
+    public class Skills {
         
-    }
+        public Skills( Stats.Stats newStats ) { }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Init() {
+
+		}
     }
 }

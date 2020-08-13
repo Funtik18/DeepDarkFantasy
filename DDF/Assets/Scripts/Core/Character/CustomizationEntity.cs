@@ -3,17 +3,21 @@ using DDF.Character.Stats;
 
 using UnityEngine;
 using System.Collections.Generic;
+using DDF.Character.Perks;
 
 namespace DDF.Character.Stats {
-    public class CustomizationStats : Stats {
+    public class CustomizationEntity : Entity {
         [SerializeField]
         private List<TextsStats> textsStats;
+        [SerializeField]
+        private TextsPerks textsPerks;
         #region Setup
         protected override void Awake() {
             base.Awake();
 			for (int i = 0; i < textsStats.Count; i++) {
-                textsStats[i].Init(stats);
+                textsStats[i].Init(statsRef);
             }
+            textsPerks.Init(perks.GetAllPerks());
         }
         protected override void Start() {
             base.Start();
