@@ -8,9 +8,18 @@ namespace DDF.Character.Perks {
         public Entity entity;
 
         #region Perks
-        protected PerkInt Savant;
+        protected ComplexPerk Talented;
         protected PerkInt Cupboard;
+        protected PerkInt Prompt;
+        protected PerkInt Savant;
         #endregion
+        private PerkInt increaceStrength;
+        private PerkInt increaceAgility;
+        private PerkInt increaceIntelligence;
+
+        private PerkInt decreaceStrength;
+        private PerkInt decreaceAgility;
+        private PerkInt decreaceIntelligence;
 
         private Dictionary<string, Perk> mainPerks;
 
@@ -20,11 +29,26 @@ namespace DDF.Character.Perks {
         }
 
         public virtual void Init() {
-            Savant = new PerkInt("Савант", entity.stats.Intelligence, 3, -2);
-            Cupboard = new PerkInt("Шкаф", entity.stats.Strength, 3, -1);
+            #region Perks помогаторы
+            increaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, 1, 0);
+            increaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, 1, 0);
+            increaceIntelligence = new PerkInt(entity.stats.Intelligence.statName, entity.stats.Intelligence, 1, 0);
 
-            mainPerks.Add("Savant", Savant);
+            decreaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, -1, 0);
+            decreaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, -1, 0);
+            decreaceIntelligence = new PerkInt(entity.stats.Intelligence.statName, entity.stats.Intelligence, -1, 0);
+            #endregion
+
+
+            Talented = new ComplexPerk("Талантливый", new List<Perk>() { increaceStrength, increaceAgility, increaceIntelligence }, -3);
+            Cupboard = new PerkInt("Шкаф", entity.stats.Strength, 3, -2);
+            Prompt = new PerkInt("Проворный", entity.stats.Agility, 3, -2);
+            Savant = new PerkInt("Савант", entity.stats.Intelligence, 3, -2);
+
+            //mainPerks.Add("Talented", Talented);
             mainPerks.Add("Cupboard", Cupboard);
+            mainPerks.Add("Prompt", Prompt);
+            mainPerks.Add("Savant", Savant);
         }
         private Perk GetPerk(string perkName) {
             Perk perk;

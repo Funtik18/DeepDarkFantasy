@@ -10,10 +10,8 @@ namespace DDF.Character.Perks {
 			perkName = newName;
 		}
 
-		public virtual string Output() {
-			return perkName;
-		}
-
+		public abstract string PerkNameAndCost();
+		public abstract string PerkBuffs();
 		public abstract void Calculate();
 	}
 	public class PerkInt : Perk {
@@ -27,13 +25,17 @@ namespace DDF.Character.Perks {
 			cost = value2;
 		}
 
-		public override string Output() {
+		public override string PerkNameAndCost() {
 			return perkName + "|" + cost;
+		}
+		public override string PerkBuffs() {
+			return stat.statName + "|" + amount;
 		}
 
 		public override void Calculate() {
 			stat.amount += amount;
 		}
+
 	}
 	public class PerkFloat : Perk {
 		private StatFloat stat;
@@ -46,8 +48,11 @@ namespace DDF.Character.Perks {
 			amount = value;
 			cost = value2;
 		}
-		public override string Output() {
+		public override string PerkNameAndCost() {
 			return perkName + "|" + cost;
+		}
+		public override string PerkBuffs() {
+			return stat.statName + "|" + amount;
 		}
 
 		public override void Calculate() {
@@ -57,9 +62,13 @@ namespace DDF.Character.Perks {
 	public class ComplexPerk : Perk {
 		List<PerkInt> intPerks;
 		List<PerkFloat> floatPerks;
+		List<ComplexPerk> complexPerks;
 		public int cost;
 
 		public ComplexPerk(string newName, List<Perk> perks, int value2 ) : base(newName) {
+			intPerks = new List<PerkInt>();
+			floatPerks = new List<PerkFloat>();
+			complexPerks = new List<ComplexPerk>();
 			for (int i = 0; i < perks.Count; i++) {
 				if(perks[i] is PerkInt perkInt) {
 					intPerks.Add(perkInt);
@@ -67,12 +76,28 @@ namespace DDF.Character.Perks {
 				if (perks[i] is PerkFloat perkFloat) {
 					floatPerks.Add(perkFloat);
 				}
+				if (perks[i] is ComplexPerk complexPerk) {
+					complexPerks.Add(complexPerk);
+				}
 			}
 			cost = value2;
 		}
 
-		public override string Output() {
+		public override string PerkNameAndCost() {
 			return perkName + "|" + cost;
+		}
+		public override string PerkBuffs() {
+			string output = "";
+			for (int i = 0; i < intPerks.Count; i++) {
+				output += intPerks[i].perkName + "|" + intPerks[i].amount + "\n";
+			}
+			for (int i = 0; i < floatPerks.Count; i++) {
+				output += floatPerks[i].perkName + "|" + floatPerks[i].amount + "\n";
+			}
+			for (int i = 0; i < complexPerks.Count; i++) {
+				output += complexPerks[i].perkName + "|" /*+ complexPerks[i].amount*/ + "\n";
+			}
+			return output;
 		}
 
 		public override void Calculate() {
@@ -81,6 +106,9 @@ namespace DDF.Character.Perks {
 			}
 			for (int i = 0; i < floatPerks.Count; i++) {
 				floatPerks[i].Calculate();
+			}
+			for (int i = 0; i < complexPerks.Count; i++) {
+				complexPerks[i].Calculate();
 			}
 		}
 	}

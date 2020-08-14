@@ -10,7 +10,7 @@ namespace DDF.Character.Stats {
         [SerializeField]
         private List<TextsStats> textsStats;
         [SerializeField]
-        private TextsPerks textsPerks;
+        private TextsPerksCustomization textsPerks;
         #region Setup
         protected override void Awake() {
             base.Awake();
