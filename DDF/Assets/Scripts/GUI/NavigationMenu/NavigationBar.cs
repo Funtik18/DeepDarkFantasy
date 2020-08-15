@@ -6,34 +6,31 @@ namespace DDF.UI.GUI {
     public class NavigationBar : MonoBehaviour {
         public NavigationText text;
 
-        public List<NavigationButton> buttons;
+        public List<NavigationPage> pages;
 
-		private List<string> pages;
 		public int startPage;
 		private int currentPage;
 		private void Awake() {
-			pages = new List<string>();
-			pages.Add("Инвентарь");
-			pages.Add("Местоположение");
-			pages.Add("Задания");
-			pages.Add("Алхимя");
-			pages.Add("Журнал");
-			pages.Add("Глюсари");
-			for (int i = 0; i < buttons.Count; i++) {
-				buttons[i].id = i;
-				buttons[i].onGetThis = SetCurrentPage;
-				buttons[i].onClick = OnClick;
+
+			for (int i = 0; i < pages.Count; i++) {
+				pages[i].pageId = i;
+				pages[i].onClick = SetCurrentPage;
 			}
 
-			currentPage = startPage;
+			SetCurrentPage(startPage);
 		}
-		public void SetCurrentPage( NavigationButton navigationButton ) {
-			NavigationButton navigation = navigationButton;
+		public void SetCurrentPage( int currentId ) {
+			currentPage = currentId;
+			NavigationPage page = pages[currentPage];
+			text.SetText(page.pageName, page.navigationButton.curentColor);
+			CloseAllPages();
+			page.OpenPage();
+		}
 
-			currentPage = navigation.id;
-			text.SetText(pages[currentPage], navigation.curentColor);
-		}
-		public void OnClick() {
+		public void CloseAllPages() {
+			for (int i = 0; i < pages.Count; i++) {
+				pages[i].ClosePage();
+			}
 		}
 	}
 }

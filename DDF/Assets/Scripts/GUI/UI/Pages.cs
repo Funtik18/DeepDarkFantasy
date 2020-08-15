@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace DDF.UI.Customization {
+namespace DDF.UI {
     public class Pages : MonoBehaviour {
 		public int startIndex = 0;
         public List<Page> pages;

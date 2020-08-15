@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace DDF.UI.Customization {
+namespace DDF.UI {
 	[RequireComponent(typeof(CanvasGroup))]
     public class Page : MonoBehaviour {
         public RectTransform page;

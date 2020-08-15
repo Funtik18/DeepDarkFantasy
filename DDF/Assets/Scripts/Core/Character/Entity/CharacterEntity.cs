@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using DDF.UI.Bar;
 using System.Collections.Generic;
+using DDF.Inputs;
+using DDF.UI.GUI;
 
 /// <summary>
 /// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
@@ -12,6 +14,9 @@ namespace DDF.Character.Stats {
         private CanvasGroup GUINavigator;
 
         [SerializeField]
+        private NavigationBar navigation;
+
+        [SerializeField]
         private List<TextsStats> textsStats;
 
         [SerializeField]
@@ -21,11 +26,13 @@ namespace DDF.Character.Stats {
         [SerializeField]
         private LevelBar LevelBar;
 
-        
-
 
         #region Setup
         protected override void Awake() {
+            InputManager.onGUIOpen = OpenGUI;
+            InputManager.onGUIClose = CloseGUI;
+
+
             base.Awake();
 			foreach (var item in textsStats) {
                 item.Init(statsRef);
@@ -76,23 +83,16 @@ namespace DDF.Character.Stats {
         }
 		#endregion
 
-
-		private void Update() {
-            UI();
+        private void OpenGUI(int pageId) {
+            Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
+            ChoosePage(pageId);
+        }
+        private void CloseGUI() {
+            Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator, false);
         }
 
-		public void UI() {
-
-            if (Input.GetButtonDown("Inventory")) {
-
-                if (GameProcess.State == GameState.stream) {
-                    GameProcess.Pause();
-                    Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
-                } else {
-                    Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator, false);
-                    GameProcess.Resume();
-                }
-            }
+        private void ChoosePage(int pageId) {
+            navigation.SetCurrentPage(pageId);
         }
 
 
