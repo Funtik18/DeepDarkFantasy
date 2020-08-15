@@ -1,5 +1,6 @@
 ﻿using DDF.UI.Inventory.Items;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
@@ -15,10 +16,13 @@ namespace DDF.UI.Inventory {
 		public bool is3dOr2d = true;
 		[Tooltip("Если тру то в этом контейнере возможно положить только один предиет размером с контейнер.")]
 		public bool isRestrictions = false;
-		public ItemType storageType;
+		public List<ItemType> storageTypes;
 		public string InventoryName = "Inventory";
         public InventoryView view;
+		[SerializeField]
         public InventoryContainer container;
+		public List<Item> currentItems;
+
 
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
