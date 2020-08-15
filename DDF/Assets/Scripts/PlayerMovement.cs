@@ -18,8 +18,11 @@ public class PlayerMovement : MonoBehaviour
     public float moveAmount;
     public float rotationSpeed;
 
+    public GameObject uI_Canvas;
+
 
     private Animator Animator;
+    private bool pause_Game;
 
     public void Start()
     {
@@ -29,8 +32,12 @@ public class PlayerMovement : MonoBehaviour
     public void FixedUpdate()
     {
         MoveUpdate();
+        
     }
 
+    private void Update() {
+        UI();
+    }
 
     public void MoveUpdate()
     {
@@ -84,5 +91,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void UI(){
+
+        if(Input.GetButtonDown("Inventory")){
+
+            if(!pause_Game){
+
+                uI_Canvas.SetActive(true);
+                Time.timeScale = 0f;
+                pause_Game = true;
+
+            }else{
+
+                uI_Canvas.SetActive(false);
+                Time.timeScale = 1f;
+                pause_Game = false;
+
+            }
+        }
+         
     }
 }
