@@ -7,6 +7,10 @@ using System.Collections.Generic;
 /// </summary>
 namespace DDF.Character.Stats {
     public class CharacterEntity : Entity {
+
+        [SerializeField]
+        private CanvasGroup GUINavigator;
+
         [SerializeField]
         private List<TextsStats> textsStats;
 
@@ -16,6 +20,8 @@ namespace DDF.Character.Stats {
         private ManaBar MPBar;
         [SerializeField]
         private LevelBar LevelBar;
+
+        
 
 
         #region Setup
@@ -68,7 +74,27 @@ namespace DDF.Character.Stats {
 
             UpdateTXT();
         }
-        #endregion
+		#endregion
+
+
+		private void Update() {
+            UI();
+        }
+
+		public void UI() {
+
+            if (Input.GetButtonDown("Inventory")) {
+
+                if (GameProcess.State == GameState.stream) {
+                    GameProcess.Pause();
+                    Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
+                } else {
+                    Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator, false);
+                    GameProcess.Resume();
+                }
+            }
+        }
+
 
         /*//Дополнительные пойнты для здоровья
         private float baseAHP = 0;
