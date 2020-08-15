@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DDF.UI.Bar;
+using System.Collections.Generic;
 
 /// <summary>
 /// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
@@ -7,7 +8,7 @@ using DDF.UI.Bar;
 namespace DDF.Character.Stats {
     public class CharacterEntity : Entity {
         [SerializeField]
-        private TextsStats textsStats;
+        private List<TextsStats> textsStats;
 
         [SerializeField]
         private HealthBar HPBar;
@@ -20,7 +21,9 @@ namespace DDF.Character.Stats {
         #region Setup
         protected override void Awake() {
             base.Awake();
-            textsStats.Init(statsRef);
+			foreach (var item in textsStats) {
+                item.Init(statsRef);
+            }
         }
         protected override void Start() {
             base.Start();
@@ -45,7 +48,9 @@ namespace DDF.Character.Stats {
             UpdateUI();
         }
         private void UpdateTXT() {
-            textsStats.UpdateAllTXT();
+            foreach (var item in textsStats) {
+                item.UpdateAllTXT();
+            }
         }
         protected override void UpdateStats() {
             base.UpdateStats();
