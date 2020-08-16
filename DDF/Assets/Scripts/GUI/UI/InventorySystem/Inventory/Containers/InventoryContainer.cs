@@ -361,16 +361,16 @@ namespace DDF.UI.Inventory {
             Inventory whereNow = overSeer.whereNow.inventory;
 
             if (whereNow.isRestrictions) {
-                Item item = overSeer.rootModel.referenceItem;
-                Vector2 size = item.GetSize();
+                InventoryModel model = overSeer.rootModel;
+                Item item = model.referenceItem;
                 List<ItemType> storageTypes = whereNow.storageTypes;
                 if (storageTypes.Count == 0) { 
-                    ItemPlaceOnSlotRestriction(whereNow.container);
+                    ItemPlaceOnSlotRestriction(overSeer.from, overSeer.whereNow, item, model);
                     return;
                 } else {
                     for (int i = 0; i < storageTypes.Count; i++) {
                         if (item.CompareItemType(storageTypes[i]) == 1) {
-                            ItemPlaceOnSlotRestriction(whereNow.container);
+                            ItemPlaceOnSlotRestriction(overSeer.from, overSeer.whereNow, item, model);
                             return;
                         }
                     }
@@ -395,9 +395,10 @@ namespace DDF.UI.Inventory {
         }
 
         private void ItemBackToRootSlot(bool isRestrictions  = false) {
-            Item item = overSeer.rootModel.referenceItem;
+            InventoryModel model = overSeer.rootModel;
+            Item item = model.referenceItem;
             if (isRestrictions) {
-                overSeer.from.ItemPlaceOnSlotRestriction(overSeer.from);
+                overSeer.from.ItemPlaceOnSlotRestriction(overSeer.whereNow, overSeer.from, item, model);
             } else {
                 overSeer.from.AddItemOnPosition(item, overSeer.rootSlot);
             }
@@ -418,23 +419,26 @@ namespace DDF.UI.Inventory {
 
             ReloadHightLight();
         }
-        private void ItemPlaceOnSlotRestriction(InventoryContainer container, bool recalculatePos = true) {
-            Item item = overSeer.rootModel.referenceItem;
-            List<InventorySlot> slots = container.slotsList;
+        private void ItemPlaceOnSlotRestriction( InventoryContainer from, InventoryContainer to, Item item, InventoryModel model, bool recalculatePos = true) {
+            List<InventorySlot> slots = to.slotsList;
 
             for (int i = 0; i < slots.Count; i++) {
                 slots[i].AssignItem(item);
             }
-            container.currentItems.Add(item);
+            to.currentItems.Add(item);
 
-            overSeer.buffer.SetParent(container.grid.dragParent);
+
+            from.currentModels.Remove(model);
 
             RectTransform rect = slots[0].GetComponent<RectTransform>();
-            overSeer.buffer.position = rect.TransformPoint(rect.rect.center);
+            model.transform.SetParent(to.grid.dragParent);
+            model.transform.position = rect.TransformPoint(rect.rect.center);
+
+            to.currentModels.Add(model);
 
             if (recalculatePos) {
-                if(container.inventory.isRestrictions)
-                    grid.RecalculateCellPosition(overSeer.buffer, container.size);
+                if(to.inventory.isRestrictions)
+                    grid.RecalculateCellPosition(overSeer.buffer, to.size);
                 else
                     grid.RecalculateCellPosition(overSeer.buffer, item.GetSize());
             }
