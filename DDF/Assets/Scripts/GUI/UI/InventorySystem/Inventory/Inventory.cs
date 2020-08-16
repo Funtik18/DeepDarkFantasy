@@ -12,7 +12,14 @@ namespace DDF.UI.Inventory {
 		[Tooltip("Если тру то в этом контейнере возможно положить только один предиет размером с контейнер.")]
 		public bool isRestrictions = false;
 		public bool isGUI = true;
-		
+
+		[HideInInspector] public bool isFull;
+		[HideInInspector] public bool IsEmpty {
+			get {
+				return currentItems.Count == 0;
+			}
+		}
+
 		public List<ItemType> storageTypes;
 		public string InventoryName = "Inventory";
 		[HideInInspector]public InventoryOverSeer overSeer;

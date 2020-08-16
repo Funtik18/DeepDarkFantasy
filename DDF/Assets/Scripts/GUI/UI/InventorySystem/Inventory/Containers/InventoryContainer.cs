@@ -20,7 +20,7 @@ namespace DDF.UI.Inventory {
         private InventoryOverSeer overSeer { get { return inventory.overSeer; } }
         private InventoryView view { get { return inventory.view; } }
 
-        protected InventoryGrid grid;
+		protected InventoryGrid grid;
         private int width, height;
         private Vector2Int size;
 
@@ -137,7 +137,9 @@ namespace DDF.UI.Inventory {
                 }
             }
 
-            if (AddItemXY(clone)) {
+            inventory.isFull = AddItemXY(clone);
+
+            if (inventory.isFull) {
                 ItemType type = clone.GetItemType();
                 if (type is PouchType) {
                     PouchType pouchType = type as PouchType;
@@ -361,6 +363,11 @@ namespace DDF.UI.Inventory {
             Inventory whereNow = overSeer.whereNow.inventory;
 
             if (whereNow.isRestrictions) {
+				if (!whereNow.IsEmpty) {
+                    ItemBackToRootSlot(overSeer.from.inventory.isRestrictions);
+                    return;
+                }
+
                 InventoryModel model = overSeer.rootModel;
                 Item item = model.referenceItem;
                 List<ItemType> storageTypes = whereNow.storageTypes;
@@ -395,17 +402,35 @@ namespace DDF.UI.Inventory {
         }
 
         private void ItemBackToRootSlot(bool isRestrictions  = false) {
+            InventoryContainer from = overSeer.from;
             InventoryModel model = overSeer.rootModel;
             Item item = model.referenceItem;
             if (isRestrictions) {
-                overSeer.from.ItemPlaceOnSlotRestriction(overSeer.whereNow, overSeer.from, item, model);
+                List<InventorySlot> slots = from.slotsList;
+
+                for (int i = 0; i < slots.Count; i++) {
+                    slots[i].AssignItem(item);
+                }
+
+                RectTransform rect = slots[0].GetComponent<RectTransform>();
+                model.transform.SetParent(from.grid.dragParent);
+                model.transform.position = rect.TransformPoint(rect.rect.center);
+
+                if (isRestrictions) {
+                    grid.RecalculateCellPosition(overSeer.buffer, from.size);
+                }
+
+                overSeer.isDrag = false;
+
             } else {
-                overSeer.from.AddItemOnPosition(item, overSeer.rootSlot);
+                from.AddItemOnPosition(item, overSeer.rootSlot);
             }
-            overSeer.from.currentItems.Add(item);
+            from.currentItems.Add(item);
+
+            print(from.currentItems.Count);
 
             overSeer.isDrag = false;
-            ReloadHightLight();
+            from.ReloadHightLight();
         }
         private void ItemPlaceOnSlot( InventoryContainer from, InventoryContainer to, Item item, InventoryModel model) {
             to.AddItemOnPosition(item, overSeer.lastSlot);
