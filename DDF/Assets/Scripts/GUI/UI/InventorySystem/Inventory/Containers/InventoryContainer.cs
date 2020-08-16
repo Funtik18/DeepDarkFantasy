@@ -384,7 +384,7 @@ namespace DDF.UI.Inventory {
                 }
                 //+
                 if (actionSelection == 1) {//можно
-                    ItemPlaceOnSlot();
+                    ItemPlaceOnSlot(overSeer.from, overSeer.whereNow, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<InventoryModel>());
                 }
 
                 if (actionSelection == 2) {//обмен
@@ -406,12 +406,13 @@ namespace DDF.UI.Inventory {
             overSeer.isDrag = false;
             ReloadHightLight();
         }
-        private void ItemPlaceOnSlot() {
-            Item item = overSeer.rootModel.referenceItem;
-            overSeer.whereNow.AddItemOnPosition(item, overSeer.lastSlot);
-            overSeer.whereNow.currentItems.Add(item);
+        private void ItemPlaceOnSlot( InventoryContainer from, InventoryContainer to, Item item, InventoryModel model) {
+            to.AddItemOnPosition(item, overSeer.lastSlot);
+            to.currentItems.Add(item);
 
-            overSeer.buffer.SetParent(overSeer.whereNow.grid.dragParent);
+            overSeer.from.currentModels.Remove(model);
+            model.transform.SetParent(to.grid.dragParent);
+            to.currentModels.Add(model);
 
             overSeer.isDrag = false;
 
@@ -608,19 +609,6 @@ namespace DDF.UI.Inventory {
             return slots;
         }
 
-
-        /*private InventoryModel FindModelByItem(Item item) {
-            List<InventoryModel> models = grid.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
-            InventoryModel model = null;
-            for (int i = 0; i < models.Count; i++) {
-                if (models[i].reference == item.GetId()) {
-                    model = models[i];
-                    break;
-                }
-            }
-            return model;
-        }*/
-
         private InventoryModel FindModelByItem( Item item ) {
             InventoryModel model = null;
             for (int i = 0; i < currentModels.Count; i++) {
@@ -724,48 +712,7 @@ namespace DDF.UI.Inventory {
             unionItems.Clear();
             slots.Clear();
         }
-        private void SelectLandingModels( InventorySlot slot, Vector2 size ) {
-            List<InventorySlot> slots = TakeSlotsBySize(slot, size);
-            List<Item> unionItems = TakeUnionSlots(slots);
 
-            if (unionItems.Count == 0) {
-                if (slots.Count == size.x * size.y) {
-                    SelectSlots(slots, view.hoverColor);
-
-                    actionSelection = 1;
-                } else {
-                    SelectSlots(slots, view.invalidColor);
-
-                    actionSelection = -1;
-                }
-            } else if (unionItems.Count == 1) {
-                List<InventorySlot> diffrentItemSlots = FindItemSlots(unionItems[0]);
-
-                SelectSlots(diffrentItemSlots, view.replaceColor);
-                SelectSlots(slots, view.replaceColor);
-
-                actionSelection = 2;
-            } else {
-
-                for (int i = 0; i < unionItems.Count; i++) {
-                    InventoryModel model = FindModelByItem(unionItems[i]);
-                    model.Hightlight.color = view.invalidColor;
-                }
-                /*for (int i = 0; i < unionItems.Count; i++) {
-                    List<InventorySlot> diffrentItemSlots = FindItemSlots(unionItems[i]);
-
-                    SelectSlots(diffrentItemSlots, view.invalidColor);
-                }*/
-                SelectSlots(slots, view.invalidColor);
-
-                actionSelection = -1;
-            }
-
-            unionItems.Clear();
-            slots.Clear();
-        }
-
-        
 
         /// <summary>
         /// Подсвечивает слоты с предметами.
@@ -774,13 +721,6 @@ namespace DDF.UI.Inventory {
             for (int i = 0; i < slotsList.Count; i++) {
                 if(!slotsList[i].isEmpty())
                     SelectSlot(slotsList[i], view.baseColor);
-            }
-        }
-        private void SelectAllNotEmptyModels() {
-            List<InventoryModel> models = grid.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
-
-            for (int i = 0; i < models.Count; i++) {
-                models[i].Hightlight.color = view.baseColor;
             }
         }
 
