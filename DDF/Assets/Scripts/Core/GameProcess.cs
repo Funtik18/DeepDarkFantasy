@@ -12,7 +12,7 @@ namespace DDF {
 			}
 		}
         public static void Pause() {
-            Time.timeScale = 0f;
+            Time.timeScale = 0.2f;
             state = GameState.pause;
         }
         public static void Resume() {
