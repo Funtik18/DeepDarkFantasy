@@ -33,6 +33,9 @@ namespace DDF.Character.Stats {
             InputManager.onGUIOpen = OpenGUI;
             InputManager.onGUIClose = CloseGUI;
 
+            InputManager.onUIOpen = OpenUI;
+            InputManager.onUIClose = CloseUI;
+
 
             base.Awake();
 			foreach (var item in textsStats) {
@@ -92,7 +95,13 @@ namespace DDF.Character.Stats {
         private void CloseGUI() {
             InventoryOverSeerGUI._instance.Hide();
             Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator, false);
-            InventoryOverSeerGUI._instance.Hide();
+        }
+
+        private void OpenUI() {
+            InventoryOverSeerUI._instance.Show();
+        }
+        private void CloseUI() {
+            InventoryOverSeerUI._instance.Hide();
         }
 
         private void ChoosePage(int pageId) {

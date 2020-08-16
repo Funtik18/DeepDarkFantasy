@@ -4,7 +4,6 @@ using System;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
-
     public class InventoryGrid : MonoBehaviour {
         [HideInInspector]
         public Inventory inventory;
@@ -87,7 +86,7 @@ namespace DDF.UI.Inventory {
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public RectTransform CreateModelByItem( Item item ) {
+		public InventoryModel CreateModelByItem( Item item ) {
 
             GameObject obj = Instantiate(modelPrefab);
             obj.name = item.name;
@@ -108,7 +107,7 @@ namespace DDF.UI.Inventory {
             rect.localScale = Vector3.one;
             rect.rotation = Quaternion.Euler(item.IconOrientation.x, item.IconOrientation.y, item.IconOrientation.z);
 
-            return rect;
+            return model;
         }
 
 

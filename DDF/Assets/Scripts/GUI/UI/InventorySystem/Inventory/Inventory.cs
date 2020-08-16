@@ -20,20 +20,19 @@ namespace DDF.UI.Inventory {
         public InventoryContainer container;
 		public List<Item> currentItems;
 
+		[HideInInspector]public CanvasGroup canvasGroup;
 
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
 		}
 		private void Awake() {
+			canvasGroup = GetComponent<CanvasGroup>();
 			if (inventoryID == "")
 				CreateNewID();
 			if(isGUI)
 				overSeer = InventoryOverSeerGUI._instance;
 			else
 				overSeer = InventoryOverSeerUI._instance;
-		}
-
-		private void OnEnable() {
 		}
 
 		private void Start() {

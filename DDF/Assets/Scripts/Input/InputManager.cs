@@ -7,14 +7,22 @@ namespace DDF.Inputs {
 		public static Action<int> onGUIOpen;
 		public static Action onGUIClose;
 
+		public static Action onUIOpen;
+		public static Action onUIClose;
+
+
 		public static Action onUse;
 
 
-		private void Start() {
-			onGUIClose?.Invoke();
-		}
+		private bool isCloseOnFirstTime = true;
 
 		private void Update() {
+			if(isCloseOnFirstTime == true) {
+				onGUIClose?.Invoke();
+				isCloseOnFirstTime = false;
+			}
+
+
 			if (Input.GetButtonDown("InventoryPage")) {
 				OpenGUIPage(0);
 			}
@@ -35,6 +43,7 @@ namespace DDF.Inputs {
 			}
 
 			if (Input.GetButtonDown("Use")) {
+
 				onUse?.Invoke();
 				onUse = null;
 			}
@@ -48,9 +57,11 @@ namespace DDF.Inputs {
 			if (GameProcess.State == GameState.stream) {
 				GameProcess.Pause();
 				onGUIOpen?.Invoke(pageId);
+				onUIClose?.Invoke();
 				return;
 			}
 			CloseGUI();
+			onUIOpen?.Invoke();
 		}
 		private void CloseGUI() {
 			if (GameProcess.State == GameState.pause) {
@@ -58,9 +69,8 @@ namespace DDF.Inputs {
 				GameProcess.Resume();
 			}
 		}
-
 		private void CloseUI() {
-
+			onUIClose?.Invoke();
 		}
 	}
 }

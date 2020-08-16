@@ -14,7 +14,6 @@ namespace DDF.UI.Inventory {
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(InventoryGrid))]
     [DisallowMultipleComponent]
-    [AddComponentMenu("Inventory/Container", 2)]
     public class InventoryContainer : MonoBehaviour {
 
         private Inventory inventory;
@@ -28,11 +27,14 @@ namespace DDF.UI.Inventory {
         [HideInInspector] public InventorySlot[,] slotsArray;
         [HideInInspector] public List<InventorySlot> slotsList;
 
-        private List<Item> currentItems; 
+        private List<Item> currentItems;
+        private List<InventoryModel> currentModels;
+
 
         #region Settup
 
         public void Init() {
+            currentModels = new List<InventoryModel>();
 
             inventory = GetComponentInParent<Inventory>();
 
@@ -145,8 +147,6 @@ namespace DDF.UI.Inventory {
                     newpouch.CreateNewID();
                     pouchType.inventoryReference = newpouch.inventoryID;
                 }
-
-                
 
             } else {
                 Debug.LogError(item.name + " Can not assign this item");
@@ -492,7 +492,10 @@ namespace DDF.UI.Inventory {
                             neighbors[i].AssignItem(item);
 
                             if (i == 0) {
-                                overSeer.buffer = grid.CreateModelByItem(item);
+                                InventoryModel newModel = grid.CreateModelByItem(item);
+                                currentModels.Add(newModel);
+
+                                overSeer.buffer = newModel.transform as RectTransform;
 
                                 AddItemOnPosition(item, neighbors[i], false);
                                 grid.RecalculateCellProportion(overSeer.buffer, item.GetSize());
@@ -606,12 +609,23 @@ namespace DDF.UI.Inventory {
         }
 
 
-        private InventoryModel FindModelByItem(Item item) {
+        /*private InventoryModel FindModelByItem(Item item) {
             List<InventoryModel> models = grid.dragParent.GetComponentsInChildren<InventoryModel>().ToList();
             InventoryModel model = null;
             for (int i = 0; i < models.Count; i++) {
                 if (models[i].reference == item.GetId()) {
                     model = models[i];
+                    break;
+                }
+            }
+            return model;
+        }*/
+
+        private InventoryModel FindModelByItem( Item item ) {
+            InventoryModel model = null;
+            for (int i = 0; i < currentModels.Count; i++) {
+                if(currentModels[i].reference == item.GetId()) {
+                    model = currentModels[i];
                     break;
                 }
             }

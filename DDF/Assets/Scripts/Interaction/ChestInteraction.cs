@@ -14,17 +14,25 @@ namespace DDF.Environment {
 
 
 		private Inventory insInventory = null;
+		private bool isCreated = false;
 
 		private void Start() {
 
 		}
 
 		private void OpenChest() {
-			insInventory = Help.HelpFunctions.TransformSeer.CreateObjectInParent(DinamicUI._instance.transform, chestPrefab.gameObject, chestPrefab.name).GetComponent<Inventory>();
-			insInventory.currentItems = startItems;
+			if (isCreated == false) {
+				insInventory = Help.HelpFunctions.TransformSeer.CreateObjectInParent(DinamicUI._instance.transform, chestPrefab.gameObject, chestPrefab.name).GetComponent<Inventory>();
+				insInventory.currentItems = startItems;
+				isCreated = true;
+			} else {
+				Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(insInventory.canvasGroup, true);
+			}
 		}
 		private void CloseChest() {
-
+			if (isCreated) {
+				Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(insInventory.canvasGroup);
+			}
 		}
 
 		public override void OpenCase() {
@@ -38,7 +46,8 @@ namespace DDF.Environment {
 		}
 		public override void CloseCase() {
 			base.CloseCase();
-			InputManager.onUse = CloseChest;
+			InputManager.onUse = null;
+			CloseChest();
 		}
 	}
 }
