@@ -23,8 +23,6 @@ public class MessageBox : WindowBase {
     private WindowBase btn2;
     private WindowBase btn1;
 
-    private UIManager instanceUI;
-
     
 	protected override void OnEnable() {
         base.OnEnable();
@@ -55,17 +53,17 @@ public class MessageBox : WindowBase {
 
         DetermineType(buttons);
 
-        UIManager._instance.BlackBlank.Show();
+        //UIManager._instance.BlackBlank.Show();
         this.ShowDialoge();
     }
 
     public override void Close() {
         base.Close();
 
-        UIManager._instance.BlackBlank.Close();
+        //UIManager._instance.BlackBlank.Close();
     }
     private void Dispose() {
-        UIManager._instance.DisposeWindow(this);
+        //UIManager._instance.DisposeWindow(this);
     }
 
     /// <summary>

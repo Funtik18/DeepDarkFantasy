@@ -7,13 +7,15 @@ namespace DDF.Inputs {
 		public static Action<int> onGUIOpen;
 		public static Action onGUIClose;
 
+		public static Action onUse;
+
+
 		private void Start() {
 			onGUIClose?.Invoke();
 		}
 
 		private void Update() {
 			if (Input.GetButtonDown("InventoryPage")) {
-				print("+");
 				OpenGUIPage(0);
 			}
 			if (Input.GetButtonDown("MapPage")) {
@@ -31,8 +33,15 @@ namespace DDF.Inputs {
 			if (Input.GetButtonDown("GlossariesPage")) {
 				OpenGUIPage(5);
 			}
+
+			if (Input.GetButtonDown("Use")) {
+				onUse?.Invoke();
+				onUse = null;
+			}
+
 			if (Input.GetButtonDown("ESC")) {
-				CloseAllPages();
+				CloseGUI();
+				CloseUI();
 			}
 		}
 		private void OpenGUIPage(int pageId) {
@@ -41,13 +50,17 @@ namespace DDF.Inputs {
 				onGUIOpen?.Invoke(pageId);
 				return;
 			}
-			CloseAllPages();
+			CloseGUI();
 		}
-		private void CloseAllPages() {
+		private void CloseGUI() {
 			if (GameProcess.State == GameState.pause) {
 				onGUIClose?.Invoke();
 				GameProcess.Resume();
 			}
+		}
+
+		private void CloseUI() {
+
 		}
 	}
 }

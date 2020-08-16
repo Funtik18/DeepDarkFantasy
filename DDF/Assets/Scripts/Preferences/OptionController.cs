@@ -10,7 +10,7 @@ public class OptionController : WindowBase {
 	/// OptionController - взаимодействие с ui и принятие нового разрешения
 	/// </summary>
 
-	public static OptionController _instace;
+/*	public static OptionController _instace;
 
 	public TMPro.TMP_Dropdown display;//delete
 	public  TMPro.TMP_Dropdown quality;//delete
@@ -145,9 +145,9 @@ public class OptionController : WindowBase {
 
 	private IEnumerator CancelSettings() {
 		if (CheckChanges()) {//если есть изменения 
-			MessageBox box = UIManager._instance.InstanceWindow();
+			//MessageBox box = UIManager._instance.InstanceWindow();
 
-			box.ShowDialoge("Dispose changes?", "ATTENTION", MessageBoxButtons.YesNo);
+			//box.ShowDialoge("Dispose changes?", "ATTENTION", MessageBoxButtons.YesNo);
 
 			DialogResult result = box.GetResult();
 			while (result == DialogResult.None) {
@@ -204,5 +204,5 @@ public class OptionController : WindowBase {
 
 		return false;
 	}
-
+	*/
 }

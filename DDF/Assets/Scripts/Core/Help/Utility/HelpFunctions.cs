@@ -40,6 +40,19 @@ namespace DDF.Help {
 
 				return newobj;
 			}
+			public static T CreateObjectInParent<T>( Transform parent, T obj, string ObjName = "NewGameObject" ) {
+				GameObject newobj = Instantiate(obj as GameObject);
+				newobj.name = ObjName;
+
+				Transform temp = newobj.transform;
+
+				temp.SetParent(parent);
+				temp.localPosition = Vector3.zero;
+				temp.localScale = Vector3.one;
+				temp.localRotation = Quaternion.identity;
+
+				return newobj.GetComponent<T>();
+			}
 			public static GameObject CreateObject( GameObject obj ) {
 				GameObject newobj = Instantiate(obj);
 				Transform temp = newobj.transform;

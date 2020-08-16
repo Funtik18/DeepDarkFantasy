@@ -17,11 +17,11 @@ namespace DDF.UI.Inventory {
     [AddComponentMenu("Inventory/Container", 2)]
     public class InventoryContainer : MonoBehaviour {
 
-        private InventoryOverSeer overSeer;
-        [SerializeField] private Inventory inventory;
+        private Inventory inventory;
+        private InventoryOverSeer overSeer { get { return inventory.overSeer; } }
         private InventoryView view { get { return inventory.view; } }
 
-        private InventoryGrid grid;
+        protected InventoryGrid grid;
         private int width, height;
         private Vector2Int size;
 
@@ -33,13 +33,13 @@ namespace DDF.UI.Inventory {
         #region Settup
 
         public void Init() {
+
+            inventory = GetComponentInParent<Inventory>();
+
             grid = GetComponent<InventoryGrid>();
             grid.inventory = inventory;
 
             grid.Init();
-
-            overSeer = InventoryOverSeer._instance;
-            overSeer.RegistrationContainer(inventory);
 
             width = grid.width;
             height = grid.height;
@@ -61,6 +61,8 @@ namespace DDF.UI.Inventory {
                 AddItem(item);
             }
             copy.Clear();
+
+            overSeer.RegistrationContainer(inventory);
         }
 
         private void ListToGridArray() {
@@ -187,48 +189,13 @@ namespace DDF.UI.Inventory {
 
             currentItems.Remove(item);
         }
-        #endregion
 
-        #region UIInteraction
-        private void ToolTipShow() {
-
-            if (overSeer.lastSlot.isEmpty()) return;
-            RectTransform rectPos;
-
-            Item item = overSeer.lastSlot.Item;
-            List<InventorySlot> slots = TakeSlotsByItem(item);
-            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-            //ToolTip._instance.SetItem(item);
-
-            slots.Clear();
-
-            overSeer.OrderRefresh();
-
-            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
-            ToolTip._instance.ShowToolTip();
+        public void ShowContainer() {
+            grid.ShowModels();
         }
-        private void ToolTipHide() => ToolTip._instance.HideToolTip();
-
-
-        private void MenuOptionsShow() {
-            if (overSeer.lastSlot.isEmpty()) return;
-            RectTransform rectPos;
-
-            Item item = overSeer.lastSlot.Item;
-            List<InventorySlot> slots = TakeSlotsByItem(item);
-            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-
-            slots.Clear();
-
-            MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
-
-            overSeer.OrderRefresh();
-
-            MenuOptions._instance.SetCurrentItem(item);
-            MenuOptions._instance.OpenMenu();
+        public void HideContainer() {
+            grid.HideModels();
         }
-        private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();
-
         #endregion
 
         #region Events
@@ -256,14 +223,13 @@ namespace DDF.UI.Inventory {
             DeselectAllSlots();
             SelectAllNotEmptySlots();
         }
-        #region Slot Events
 
-        public void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
+        #region Slot Events
+        public virtual void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
             overSeer.lastSlot = slot;
             overSeer.whereNow = this;
 
             if (MenuOptions._instance.IsHide && !overSeer.isDrag) ToolTipShow();
-
 
             if (overSeer.isDrag) {//передвигает от фром
                 if(overSeer.whereNow != null) {
@@ -345,7 +311,6 @@ namespace DDF.UI.Inventory {
             overSeer.whereNow = null;
         }
         private void OnBeginDrag( PointerEventData eventData ) {
-            if (overSeer.DisableWorldDragging) return;
             if (!MenuOptions._instance.IsHide) return;
             if (overSeer.rootSlot.isEmpty()) return;
 
@@ -369,20 +334,15 @@ namespace DDF.UI.Inventory {
         }
 
 		private void OnDrag( PointerEventData eventData ) {
-            if (overSeer.DisableWorldDragging) return;
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
             Vector2 mousePos2D = Input.mousePosition;
 
-            if (inventory.is3dOr2d == true) {
-                overSeer.buffer.position = mousePos2D;
-            } else {
-                overSeer.buffer.position = grid.RectSetPositionToWorld(mousePos2D);
-            }
+            overSeer.buffer.position = mousePos2D;
+                //overSeer.buffer.position = grid.RectSetPositionToWorld(mousePos2D);
         }
         private void OnEndDrag( PointerEventData eventData ) {//если дропнул на тот же слот откуда взял или дропнул не известно куда
-            if (overSeer.DisableWorldDragging) return;
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
@@ -419,7 +379,7 @@ namespace DDF.UI.Inventory {
                 }
             } else {
                 //+
-                if (actionSelection == -1 || overSeer.DisableWorldDropping) {//нельзя
+                if (actionSelection == -1 ) {//нельзя
                     ItemBackToRootSlot();
                 }
                 //+
@@ -457,16 +417,6 @@ namespace DDF.UI.Inventory {
 
             ReloadHightLight();
         }
-
-        private void ItemBackToRootSlotRestriction() {
-            Item item = overSeer.rootModel.referenceItem;
-            overSeer.from.AddItemOnPosition(item, overSeer.rootSlot);
-            overSeer.from.currentItems.Add(item);
-
-            overSeer.isDrag = false;
-
-            ReloadHightLight();
-        }
         private void ItemPlaceOnSlotRestriction(InventoryContainer container, bool recalculatePos = true) {
             Item item = overSeer.rootModel.referenceItem;
             List<InventorySlot> slots = container.slotsList;
@@ -493,7 +443,6 @@ namespace DDF.UI.Inventory {
             ReloadHightLight();
         }
 
-       
         /// <summary>
         /// Добавление предмета на определёную позицию в инвентаре.
         /// При перетаскивании
@@ -643,8 +592,8 @@ namespace DDF.UI.Inventory {
             }
             return neighbors;
         }
-        
-        private List<InventorySlot> TakeSlotsByItem( Item item ) {
+
+        protected List<InventorySlot> TakeSlotsByItem( Item item ) {
             string id = item.GetId();
             List<InventorySlot> slots = new List<InventorySlot>();
 
@@ -821,7 +770,49 @@ namespace DDF.UI.Inventory {
             }
         }
 
-		#endregion
-		#endregion
-	}
+        #endregion
+        #endregion
+
+        #region UIInteraction
+        private void ToolTipShow() {
+
+            if (overSeer.lastSlot.isEmpty()) return;
+            RectTransform rectPos;
+
+            Item item = overSeer.lastSlot.Item;
+            List<InventorySlot> slots = TakeSlotsByItem(item);
+            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
+            //ToolTip._instance.SetItem(item);
+
+            slots.Clear();
+
+            overSeer.OrderRefresh();
+
+            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
+            ToolTip._instance.ShowToolTip();
+        }
+        private void ToolTipHide() => ToolTip._instance.HideToolTip();
+
+
+        private void MenuOptionsShow() {
+            if (overSeer.lastSlot.isEmpty()) return;
+            RectTransform rectPos;
+
+            Item item = overSeer.lastSlot.Item;
+            List<InventorySlot> slots = TakeSlotsByItem(item);
+            rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
+
+            slots.Clear();
+
+            MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
+
+            overSeer.OrderRefresh();
+
+            MenuOptions._instance.SetCurrentItem(item);
+            MenuOptions._instance.OpenMenu();
+        }
+        private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();
+
+        #endregion
+    }
 }

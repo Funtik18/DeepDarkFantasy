@@ -14,13 +14,13 @@ namespace DDF.Environment {
             interaction.currentEventExit.AddListener(delegate { CloseCase(); });
         }
         
-		public void OpenCase() {
+		public virtual void OpenCase() {
             hint.OpenHint();
         }
-        public void StayCase() {
+        public virtual void StayCase() {
             hint.LookAtCamera(Camera.main);
 		}
-        public void CloseCase() {
+        public virtual void CloseCase() {
             hint.CloseHint();
         }
     }

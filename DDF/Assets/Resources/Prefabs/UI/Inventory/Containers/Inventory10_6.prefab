@@ -8874,14 +8874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6471062490cde449b06c65767ff6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 5881990477943027906}
   slotsList: []
-  currentItems:
-  - {fileID: 11400000, guid: eb081c8a6ab5dde4c8aefebca1141fd4, type: 2}
-  - {fileID: 11400000, guid: c91568ab7fa4582438ea6df026b1f7c9, type: 2}
-  - {fileID: 11400000, guid: efd5b903b4205684aadd824fc9900206, type: 2}
-  - {fileID: 11400000, guid: a7c8f200da18f0446aaa6654fb949fe3, type: 2}
-  - {fileID: 11400000, guid: 5db7ef29696fab34cb314331ac0d200e, type: 2}
 --- !u!1 &5881990477943027910
 GameObject:
   m_ObjectHideFlags: 0
@@ -8973,12 +8966,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  is3dOr2d: 1
   isRestrictions: 0
-  storageType: {fileID: 0}
+  isGUI: 1
+  storageTypes: []
   InventoryName: Inventory
+  overSeer: {fileID: 0}
   view: {fileID: 5881990478111525363}
   container: {fileID: 5881990476501761579}
+  currentItems: []
 --- !u!1 &5881990478111525362
 GameObject:
   m_ObjectHideFlags: 0

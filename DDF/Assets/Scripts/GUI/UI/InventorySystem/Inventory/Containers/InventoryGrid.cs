@@ -46,11 +46,19 @@ namespace DDF.UI.Inventory {
             dragParent = temp.transform;
         }
 
-		#region Construction
-		/// <summary>
-		/// Генерирует сетку.
-		/// </summary>
-		public void ConstructGrid() {
+        public void ShowModels() {
+            HelpFunctions.CanvasGroupSeer.EnableGameObject(dragParent.GetComponent<CanvasGroup>());
+		}
+        public void HideModels() {
+            HelpFunctions.CanvasGroupSeer.DisableGameObject(dragParent.GetComponent<CanvasGroup>());
+        }
+
+
+        #region Construction
+        /// <summary>
+        /// Генерирует сетку.
+        /// </summary>
+        public void ConstructGrid() {
             DisposeGrid();
 
             for (int y = 0; y < height; y++) {

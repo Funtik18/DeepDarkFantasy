@@ -181,7 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6471062490cde449b06c65767ff6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 5247587236438445574}
   slotsList: []
 --- !u!1 &5247587236438445568
 GameObject:
@@ -244,10 +243,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  is3dOr2d: 1
   isRestrictions: 1
+  isGUI: 1
   storageTypes: []
   InventoryName: RING
+  overSeer: {fileID: 0}
   view: {fileID: 5247587235021298257}
   container: {fileID: 5247587235335998568}
   currentItems: []

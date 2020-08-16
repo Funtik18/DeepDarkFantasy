@@ -434,7 +434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6471062490cde449b06c65767ff6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 626906127838458214}
   slotsList: []
 --- !u!1 &626906127682110083
 GameObject:
@@ -822,10 +821,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  is3dOr2d: 1
   isRestrictions: 1
+  isGUI: 1
   storageTypes: []
   InventoryName: BRACELET
+  overSeer: {fileID: 0}
   view: {fileID: 626906126984402504}
   container: {fileID: 626906127655775022}
   currentItems: []

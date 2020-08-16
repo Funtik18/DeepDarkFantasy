@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace DDF.Environment {
+	[RequireComponent(typeof(BoxCollider))]
 	public class Interaction : MonoBehaviour, IInteraction {
 
 		public UnityEvent currentEventEnter = new UnityEvent();

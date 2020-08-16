@@ -16,8 +16,6 @@ namespace DDF.UI.GUI {
 				pages[i].pageId = i;
 				pages[i].onClick = SetCurrentPage;
 			}
-
-			SetCurrentPage(startPage);
 		}
 		public void SetCurrentPage( int currentId ) {
 			currentPage = currentId;

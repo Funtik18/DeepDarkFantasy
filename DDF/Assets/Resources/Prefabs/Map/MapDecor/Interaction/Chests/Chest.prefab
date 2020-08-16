@@ -30,7 +30,7 @@ RectTransform:
   m_GameObject: {fileID: 603488152844471481}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0025, y: 0.0025, z: 1}
+  m_LocalScale: {x: 0.001, y: 0.001, z: 1}
   m_Children:
   - {fileID: 603488154519610137}
   m_Father: {fileID: 3498533186555084160}
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f536d5aac89564d94ce75ef7e9aeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBillBoard: 1
 --- !u!1 &603488153115951979
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +345,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3498533186555084160}
-  - component: {fileID: 797901792724224187}
+  - component: {fileID: 467453176}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -370,7 +371,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &797901792724224187
+--- !u!114 &467453176
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -379,11 +380,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 797901792724224186}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f755fdd3d96156418f90dc8f8b2707f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e034be4960effc49a8b0e5a18ecd179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interaction: {fileID: 6400112807414212260}
   hint: {fileID: 603488152844471483}
+  chestPrefab: {fileID: 6945794026427863132, guid: 1c67658dad6b1f847b2f0c95d48b423d,
+    type: 3}
 --- !u!1 &6915826008936446595
 GameObject:
   m_ObjectHideFlags: 0

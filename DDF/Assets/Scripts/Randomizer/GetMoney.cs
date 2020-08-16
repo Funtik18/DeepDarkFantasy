@@ -6,12 +6,12 @@ using DDF.UI.Inventory.Items;
 
 namespace DDF.Randomizer {
     public class GetMoney : MonoBehaviour {
-        private Inventory main;
+       /* private Inventory main;
 
 		public Item money;
 
 		private void Start() {
-			main = InventoryOverSeer._instance.mainInventory;
+			main = InventoryOverSeerGUI._instance.mainInventory;
 
 			money = Resources.Load<Item>("Prefabs/ASSETS/Items/Gold");
 		}
@@ -19,6 +19,6 @@ namespace DDF.Randomizer {
 		public void AddMoney() {
 			main.container.AddItem(money);
 		}
-
+		*/
 	}
 }

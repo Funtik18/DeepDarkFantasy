@@ -55,7 +55,7 @@ namespace DDF.UI.Inventory {
 			if (type is PouchType) {
 				string findId = ( type as PouchType ).inventoryReference;
 				print(findId);
-				List<Inventory> inventories = InventoryOverSeer._instance.containers;
+				List<Inventory> inventories = InventoryOverSeerGUI._instance.containers;
 				Inventory finder = inventories.Find(x => x.inventoryID == findId);
 
 				if(finder == null) {

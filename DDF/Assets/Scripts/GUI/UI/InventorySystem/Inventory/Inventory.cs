@@ -9,17 +9,14 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public string inventoryID;
 
-		/// <summary>
-		/// если тру то 3д если фалсе то 2д.
-		/// </summary>
-		[HideInInspector]
-		public bool is3dOr2d = true;
 		[Tooltip("Если тру то в этом контейнере возможно положить только один предиет размером с контейнер.")]
 		public bool isRestrictions = false;
+		public bool isGUI = true;
+		
 		public List<ItemType> storageTypes;
 		public string InventoryName = "Inventory";
-        public InventoryView view;
-		[SerializeField]
+		[HideInInspector]public InventoryOverSeer overSeer;
+		public InventoryView view;
         public InventoryContainer container;
 		public List<Item> currentItems;
 
@@ -30,10 +27,24 @@ namespace DDF.UI.Inventory {
 		private void Awake() {
 			if (inventoryID == "")
 				CreateNewID();
+			if(isGUI)
+				overSeer = InventoryOverSeerGUI._instance;
+			else
+				overSeer = InventoryOverSeerUI._instance;
+		}
+
+		private void OnEnable() {
 		}
 
 		private void Start() {
 			container.Init();
+		}
+
+		public void ShowInventory() {
+			container.ShowContainer();
+		}
+		public void HideInventory() {
+			container.HideContainer();
 		}
 	}
 }

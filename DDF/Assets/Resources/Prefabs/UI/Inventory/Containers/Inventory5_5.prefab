@@ -4165,7 +4165,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 6945794026427863132}
   slotsList: []
-  currentItems: []
 --- !u!1 &6945794026261193068
 GameObject:
   m_ObjectHideFlags: 0
@@ -4224,7 +4223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HoverHightlight: 1
-  SolidItemSlot: 0
+  SolidHightlight: 0
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   highlightColor: {r: 0.49803922, g: 0.8745098, b: 0.49803922, a: 1}
   replaceColor: {r: 0.8745098, g: 0.8745098, b: 0.24705882, a: 1}
@@ -4325,9 +4324,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: d2ab4bd6-44c7-436a-90bc-51716187fe20
-  InventoryName: Chest
+  is3dOr2d: 1
+  isRestrictions: 0
+  storageTypes: []
+  InventoryName: CHEST
   view: {fileID: 6945794026261193069}
   container: {fileID: 6945794025724794549}
+  currentItems: []
 --- !u!225 &7234421191067288898
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4336,9 +4339,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6945794026427863128}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &7158821195057903195
 GameObject:

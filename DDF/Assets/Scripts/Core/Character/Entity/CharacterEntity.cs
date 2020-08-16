@@ -3,6 +3,7 @@ using DDF.UI.Bar;
 using System.Collections.Generic;
 using DDF.Inputs;
 using DDF.UI.GUI;
+using DDF.UI.Inventory;
 
 /// <summary>
 /// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
@@ -84,11 +85,14 @@ namespace DDF.Character.Stats {
 		#endregion
 
         private void OpenGUI(int pageId) {
-            Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
             ChoosePage(pageId);
+            Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
+            InventoryOverSeerGUI._instance.Show();
         }
         private void CloseGUI() {
+            InventoryOverSeerGUI._instance.Hide();
             Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator, false);
+            InventoryOverSeerGUI._instance.Hide();
         }
 
         private void ChoosePage(int pageId) {

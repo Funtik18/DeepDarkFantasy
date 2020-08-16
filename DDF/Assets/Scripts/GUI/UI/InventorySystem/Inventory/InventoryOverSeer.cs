@@ -1,20 +1,13 @@
-﻿  using DDF.UI.Inventory.Items;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
-
     public class InventoryOverSeer : MonoBehaviour {
-        public static InventoryOverSeer _instance;
+		public static InventoryOverSeer _instance { get; private set; }
 
-		[Header("Toggles")]
-		public bool DisableWorldDragging;
-		public bool DisableWorldDropping;
+		[HideInInspector] public List<Inventory> containers;
 
-		[HideInInspector] public Canvas mainCanvas;
-		
-		public Inventory mainInventory;
 
 		[HideInInspector] public RectTransform buffer;
 
@@ -26,43 +19,31 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public bool isDrag = false;
 
-
-		[HideInInspector] public List<Inventory> containers;
-
-
 		[HideInInspector] public InventoryContainer from;//откуда взяли
 		[HideInInspector] public InventoryContainer whereNow;//где сейчас находимся
 
-		[HideInInspector] public RenderMode renderMode;
-
-		private void Awake() {
-			_instance = this;
-
-			mainCanvas = GetComponentInParent<Canvas>();
+		protected virtual void Awake() {
 			containers = new List<Inventory>();
+		}
 
-			renderMode = mainCanvas.renderMode;
-
+		public void Show() {
+			for (int i = 0; i < containers.Count; i++) {
+				containers[i].ShowInventory();
+			}
+		}
+		public void Hide() {
+			for(int i = 0; i < containers.Count; i++) {
+				containers[i].HideInventory();
+			}
 		}
 
 		public void OrderRefresh() {
 			DragParents._instance.transform.SetAsLastSibling();
 			ToolTip._instance.transform.SetAsLastSibling();
 			MenuOptions._instance.transform.SetAsLastSibling();
-
 		}
 
 		public void RegistrationContainer( Inventory container ) {
-			if(renderMode == RenderMode.ScreenSpaceOverlay) {//3d
-				container.is3dOr2d = true;
-			}
-			if (renderMode == RenderMode.ScreenSpaceCamera) {//2d
-				container.is3dOr2d = false;
-			}
-			if (renderMode == RenderMode.WorldSpace) {//does not mater
-				container.is3dOr2d = false;
-			}
-
 			containers.Add(container);
 		}
 	}
