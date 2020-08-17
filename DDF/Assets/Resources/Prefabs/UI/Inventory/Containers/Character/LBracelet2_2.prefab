@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 626906127838458215}
   - component: {fileID: 626906127838458212}
   - component: {fileID: 626906127838458214}
+  - component: {fileID: -7132866783604478065}
   m_Layer: 5
   m_Name: LBracelet2_2
   m_TagString: Untagged
@@ -257,6 +258,18 @@ MonoBehaviour:
   container: {fileID: 626906127655775022}
   currentItems: []
   canvasGroup: {fileID: 0}
+--- !u!225 &-7132866783604478065
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626906127838458208}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1261535845408444844
 GameObject:
   m_ObjectHideFlags: 0

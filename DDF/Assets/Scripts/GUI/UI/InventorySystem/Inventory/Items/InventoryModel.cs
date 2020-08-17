@@ -65,11 +65,15 @@ namespace DDF.UI.Inventory {
 		}
 
 		public string reference = HelpFunctions.Crypto.GetNewGuid();
-    
-        public void RefreshModel() {
+
+        [HideInInspector] public CanvasGroup canvasGroup;
+        private void Awake() {
+            canvasGroup = GetComponent<CanvasGroup>();
+		}
+
+		public void RefreshModel() {
             StackCount = item.itemStackCount;
 
         }
-
     }
 }

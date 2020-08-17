@@ -43,14 +43,6 @@ namespace DDF.UI.Inventory {
             dragParent = temp.transform;
         }
 
-        public void ShowModels() {
-            HelpFunctions.CanvasGroupSeer.EnableGameObject(dragParent.GetComponent<CanvasGroup>());
-		}
-        public void HideModels() {
-            HelpFunctions.CanvasGroupSeer.DisableGameObject(dragParent.GetComponent<CanvasGroup>());
-        }
-
-
         #region Construction
         /// <summary>
         /// Генерирует сетку.

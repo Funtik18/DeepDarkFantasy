@@ -47,10 +47,12 @@ namespace DDF.UI.Inventory {
 		}
 
 		public void ShowInventory() {
+			Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup, true);
 			container.ShowContainer();
 		}
 		public void HideInventory() {
 			container.HideContainer();
+			Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
 		}
 	}
 }

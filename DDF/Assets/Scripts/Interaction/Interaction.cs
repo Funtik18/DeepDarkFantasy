@@ -11,15 +11,21 @@ namespace DDF.Environment {
 		public UnityEvent currentEventStay = new UnityEvent();
 		public UnityEvent currentEventExit = new UnityEvent();
 
+		public bool isInField = false;
+
+
 		public virtual void OnTriggerEnter( Collider other ) {
+			isInField = true;
 			currentEventEnter?.Invoke();
 		}
 
 		public virtual void OnTriggerStay( Collider other ) {
+			isInField = true;
 			currentEventStay?.Invoke();
 		}
 
 		public virtual void OnTriggerExit( Collider other ) {
+			isInField = false;
 			currentEventExit?.Invoke();
 		}
 

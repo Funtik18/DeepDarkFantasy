@@ -933,6 +933,7 @@ GameObject:
   - component: {fileID: 5024696630928426298}
   - component: {fileID: 5024696630928426301}
   - component: {fileID: 5024696630928426299}
+  - component: {fileID: 1227298207051632863}
   m_Layer: 5
   m_Name: LHand2_3
   m_TagString: Untagged
@@ -995,6 +996,18 @@ MonoBehaviour:
   container: {fileID: 5024696630590162529}
   currentItems: []
   canvasGroup: {fileID: 0}
+--- !u!225 &1227298207051632863
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5024696630928426297}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5024696632018271820
 GameObject:
   m_ObjectHideFlags: 0

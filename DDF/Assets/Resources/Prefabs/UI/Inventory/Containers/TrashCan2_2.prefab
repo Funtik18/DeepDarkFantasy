@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 3766785711593234107}
   - component: {fileID: 3766785711593234108}
   - component: {fileID: 3766785711593234109}
+  - component: {fileID: 6349704231782881036}
   m_Layer: 5
   m_Name: TrashCan2_2
   m_TagString: Untagged
@@ -562,6 +563,18 @@ MonoBehaviour:
   container: {fileID: 3766785710967821252}
   currentItems: []
   canvasGroup: {fileID: 0}
+--- !u!225 &6349704231782881036
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766785711593234111}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4421693338227519217
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,28 +1,18 @@
 ﻿using System;
-using UnityEngine;
-
 
 namespace DDF.Inputs {
-    public class InputManager : MonoBehaviour {
-		public static Action<int> onGUIOpen;
-		public static Action onGUIClose;
+    public class InputManager {
 
-		public static Action onUIOpen;
-		public static Action onUIClose;
+		public static readonly string ButtonUse = "Use";
 
-		public static Action onUse;
+		public static readonly string ButtonInventoryPage = "InventoryPage";
 
-
-		private bool isCloseOnFirstTime = true;
+		public static readonly string ButtonESC = "ESC";
 
 		private void Update() {
-			if(isCloseOnFirstTime == true) {//костыль
-				onGUIClose?.Invoke();
-				isCloseOnFirstTime = false;
-			}
 
-
-			if (Input.GetButtonDown("InventoryPage")) {
+/*
+			if (Input.GetButtonDown("")) {
 				OpenGUIPage(0);
 			}
 			if (Input.GetButtonDown("MapPage")) {
@@ -39,36 +29,8 @@ namespace DDF.Inputs {
 			}
 			if (Input.GetButtonDown("GlossariesPage")) {
 				OpenGUIPage(5);
-			}
-
-			if (Input.GetButtonDown("Use")) {
-				onUse?.Invoke();
-				onUse = null;
-			}
-
-			if (Input.GetButtonDown("ESC")) {
-				CloseGUI();
-				CloseUI();
-			}
+			}*/
 		}
-		private void OpenGUIPage(int pageId) {
-			if (GameProcess.State == GameState.stream) {
-				GameProcess.Pause();
-				onGUIOpen?.Invoke(pageId);
-				onUIClose?.Invoke();
-				return;
-			}
-			CloseGUI();
-			onUIOpen?.Invoke();
-		}
-		private void CloseGUI() {
-			if (GameProcess.State == GameState.pause) {
-				onGUIClose?.Invoke();
-				GameProcess.Resume();
-			}
-		}
-		private void CloseUI() {
-			onUIClose?.Invoke();
-		}
+		
 	}
 }

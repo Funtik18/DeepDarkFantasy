@@ -30,13 +30,6 @@ namespace DDF.Character.Stats {
 
         #region Setup
         protected override void Awake() {
-            InputManager.onGUIOpen = OpenGUI;
-            InputManager.onGUIClose = CloseGUI;
-
-            InputManager.onUIOpen = OpenUI;
-            InputManager.onUIClose = CloseUI;
-
-
             base.Awake();
 			foreach (var item in textsStats) {
                 item.Init(statsRef);
@@ -63,8 +56,18 @@ namespace DDF.Character.Stats {
             CurrentManaPoints = MaxManaPoints;
 
             UpdateUI();
+            CloseGUI();
         }
-        private void UpdateTXT() {
+		private void Update() {
+			if (Input.GetButtonDown(InputManager.ButtonInventoryPage)) {
+                if (GameProcess.State == GameState.stream) {
+                    OpenGUI(navigation.startPage);
+                }else if (GameProcess.State == GameState.pause) {
+                    CloseGUI();
+                }
+            }
+		}
+		private void UpdateTXT() {
             foreach (var item in textsStats) {
                 item.UpdateAllTXT();
             }
@@ -88,20 +91,15 @@ namespace DDF.Character.Stats {
 		#endregion
 
         private void OpenGUI(int pageId) {
+            GameProcess.Pause();
             ChoosePage(pageId);
             Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
             InventoryOverSeerGUI._instance.Show();
         }
         private void CloseGUI() {
             InventoryOverSeerGUI._instance.Hide();
-            Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator, false);
-        }
-
-        private void OpenUI() {
-            InventoryOverSeerUI._instance.Show();
-        }
-        private void CloseUI() {
-            InventoryOverSeerUI._instance.Hide();
+            Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator);
+            GameProcess.Resume();
         }
 
         private void ChoosePage(int pageId) {

@@ -8,6 +8,8 @@ namespace DDF.Environment {
         [SerializeField]
         private HintInteraction hint;
 
+        protected bool IsInField { get { return interaction.isInField; } }
+
         private void Awake() {
             interaction.currentEventEnter.AddListener(delegate { OpenCase(); });
             interaction.currentEventStay.AddListener(delegate { StayCase(); });

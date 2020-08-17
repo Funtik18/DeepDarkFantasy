@@ -8688,6 +8688,7 @@ GameObject:
   - component: {fileID: 5881990477943027905}
   - component: {fileID: 5881990477943027904}
   - component: {fileID: 5881990477943027906}
+  - component: {fileID: -6726365396711385832}
   m_Layer: 5
   m_Name: Inventory10_6
   m_TagString: Untagged
@@ -8777,6 +8778,18 @@ MonoBehaviour:
   container: {fileID: 5881990476501761579}
   currentItems: []
   canvasGroup: {fileID: 0}
+--- !u!225 &-6726365396711385832
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881990477943027910}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5881990478111525362
 GameObject:
   m_ObjectHideFlags: 0

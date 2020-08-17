@@ -197,10 +197,14 @@ namespace DDF.UI.Inventory {
         }
 
         public void ShowContainer() {
-            grid.ShowModels();
+            for(int i = 0; i < currentModels.Count; i++) {
+                Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(currentModels[i].canvasGroup);
+            }
         }
         public void HideContainer() {
-            grid.HideModels();
+            for (int i = 0; i < currentModels.Count; i++) {
+                Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(currentModels[i].canvasGroup);
+            }
         }
         #endregion
 

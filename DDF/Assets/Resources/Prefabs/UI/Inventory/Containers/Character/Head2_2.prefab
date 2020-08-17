@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 2375481522624853703}
   - component: {fileID: 2375481522624853700}
   - component: {fileID: 2375481522624853702}
+  - component: {fileID: -6491836890519169080}
   m_Layer: 5
   m_Name: Head2_2
   m_TagString: Untagged
@@ -583,6 +584,18 @@ MonoBehaviour:
   container: {fileID: 2375481520998515112}
   currentItems: []
   canvasGroup: {fileID: 0}
+--- !u!225 &-6491836890519169080
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375481522624853752}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3465895098013001300
 GameObject:
   m_ObjectHideFlags: 0
