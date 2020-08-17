@@ -32,6 +32,10 @@ namespace DDF.Environment {
 						OpenChest();
 					}
 				}
+				if (Input.GetButtonDown(InputManager.ButtonESC)) {
+					CloseChest();
+					clicks = 0;
+				}
 			}
 		}
 
