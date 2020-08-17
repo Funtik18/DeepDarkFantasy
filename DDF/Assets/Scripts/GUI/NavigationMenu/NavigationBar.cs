@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DDF.UI.Inventory;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,11 @@ namespace DDF.UI.GUI {
 		}
 		public void SetCurrentPage( int currentId ) {
 			currentPage = currentId;
+			if(currentPage == 0) {
+				InventoryOverSeerGUI._instance.Show();
+			} else {
+				InventoryOverSeerGUI._instance.Hide();
+			}
 			NavigationPage page = pages[currentPage];
 			text.SetText(page.pageName, page.navigationButton.curentColor);
 			CloseAllPages();

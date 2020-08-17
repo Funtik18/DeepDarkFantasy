@@ -129,8 +129,6 @@ namespace DDF.UI.Inventory {
         public int AddItem( Item item, bool enableModel) {
             Item clone = item.GetItemCopy();
 
-
-
             for (int i = 0; i < currentItems.Count; i++) {
                 if (currentItems[i].CompareItem(clone) == 1) {
                     //если true значит смог найти такой же предмет и положить туда количество
@@ -294,6 +292,7 @@ namespace DDF.UI.Inventory {
         float clicktime = 0;
         float clickdelay = 0.5f;
         public void OnPointerLeftClick( PointerEventData eventData, InventorySlot slot ) {
+            if (slot.isEmpty()) return;
 			#region DoubleClick
 			clicked++;
             if (clicked == 1) clicktime = Time.time;

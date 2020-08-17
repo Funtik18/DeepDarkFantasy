@@ -17514,8 +17514,6 @@ MonoBehaviour:
   maxChanceAvoid: 100
   currentChanceAvoid: 0
   speed: 0
-  GUINavigator: {fileID: 733846464}
-  navigation: {fileID: 616398152}
   textsStats:
   - {fileID: 354459747}
   - {fileID: 168056039}
@@ -18427,6 +18425,16 @@ PrefabInstance:
       propertyPath: mainInventory
       value: 
       objectReference: {fileID: 1722238048}
+    - target: {fileID: 8703700249970012366, guid: 79d238c3ff4cdb745b5cc77d50b3ec9e,
+        type: 3}
+      propertyPath: GUINavigator
+      value: 
+      objectReference: {fileID: 733846464}
+    - target: {fileID: 8703700249970012366, guid: 79d238c3ff4cdb745b5cc77d50b3ec9e,
+        type: 3}
+      propertyPath: navigation
+      value: 
+      objectReference: {fileID: 616398152}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79d238c3ff4cdb745b5cc77d50b3ec9e, type: 3}
 --- !u!114 &6073907762518798719 stripped

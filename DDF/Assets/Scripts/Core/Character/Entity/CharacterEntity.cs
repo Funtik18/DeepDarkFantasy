@@ -12,12 +12,6 @@ namespace DDF.Character.Stats {
     public class CharacterEntity : Entity {
 
         [SerializeField]
-        private CanvasGroup GUINavigator;
-
-        [SerializeField]
-        private NavigationBar navigation;
-
-        [SerializeField]
         private List<TextsStats> textsStats;
 
         [SerializeField]
@@ -56,17 +50,9 @@ namespace DDF.Character.Stats {
             CurrentManaPoints = MaxManaPoints;
 
             UpdateUI();
-            CloseGUI();
+            InventoryOverSeerGUI._instance.CloseGUI();
         }
-		private void Update() {
-			if (Input.GetButtonDown(InputManager.ButtonInventoryPage)) {
-                if (GameProcess.State == GameState.stream) {
-                    OpenGUI(navigation.startPage);
-                }else if (GameProcess.State == GameState.pause) {
-                    CloseGUI();
-                }
-            }
-		}
+		
 		private void UpdateTXT() {
             foreach (var item in textsStats) {
                 item.UpdateAllTXT();
@@ -90,21 +76,7 @@ namespace DDF.Character.Stats {
         }
 		#endregion
 
-        private void OpenGUI(int pageId) {
-            GameProcess.Pause();
-            ChoosePage(pageId);
-            Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
-            InventoryOverSeerGUI._instance.Show();
-        }
-        private void CloseGUI() {
-            InventoryOverSeerGUI._instance.Hide();
-            Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator);
-            GameProcess.Resume();
-        }
-
-        private void ChoosePage(int pageId) {
-            navigation.SetCurrentPage(pageId);
-        }
+        
 
 
         /*//Дополнительные пойнты для здоровья

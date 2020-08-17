@@ -31,10 +31,10 @@ namespace DDF.Environment {
 					} else {
 						OpenChest();
 					}
-				}
-				if (Input.GetButtonDown(InputManager.ButtonESC)) {
-					CloseChest();
-					clicks = 0;
+					if (Input.GetButtonDown(InputManager.ButtonESC)) {
+						CloseChest();
+						clicks = 0;
+					}
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace DDF.Environment {
 			}
 		}
 		private void CloseChest() {
-			insInventory.HideInventory();
+			insInventory?.HideInventory();
 		}
 		private void EmptiedChest() {
 			Inventory inventory = InventoryOverSeerGUI._instance.mainInventory;
