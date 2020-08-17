@@ -17,6 +17,8 @@ namespace DDF.UI.Inventory {
         public GameObject dragParentPrefab;
 
         [HideInInspector]
+        public DragParents rootDragParents;
+        [HideInInspector]
         public Transform dragParent;
 
         public int width = 10;
@@ -36,11 +38,7 @@ namespace DDF.UI.Inventory {
 
             ConstructGrid();
 
-            GameObject obj = DragParents._instance.gameObject;
-			if (obj == null) {
-				Debug.LogError("ERROR");
-            }
-            GameObject temp = HelpFunctions.TransformSeer.CreateObjectInParent(obj.transform, dragParentPrefab);
+            GameObject temp = HelpFunctions.TransformSeer.CreateObjectInParent(rootDragParents.transform, dragParentPrefab);
             temp.name = inventory.InventoryName + "-DragParent";
             dragParent = temp.transform;
         }

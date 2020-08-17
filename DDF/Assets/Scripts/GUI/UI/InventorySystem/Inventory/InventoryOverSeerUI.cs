@@ -9,7 +9,8 @@ namespace DDF.UI.Inventory {
 
 		protected override void Awake() {
 			base.Awake();
-			if(_instance == null)
+			DragParentsUI.Init();
+			if (_instance == null)
 				_instance = this;
 		}
 	}

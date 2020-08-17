@@ -40,6 +40,10 @@ namespace DDF.UI.Inventory {
 
             grid = GetComponent<InventoryGrid>();
             grid.inventory = inventory;
+            if (inventory.isGUI)
+                grid.rootDragParents = DragParentsGUI._instance; 
+            else
+                grid.rootDragParents = DragParentsUI._instance;
 
             grid.Init();
 

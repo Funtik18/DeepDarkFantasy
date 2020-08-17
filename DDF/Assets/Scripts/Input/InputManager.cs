@@ -10,14 +10,13 @@ namespace DDF.Inputs {
 		public static Action onUIOpen;
 		public static Action onUIClose;
 
-
 		public static Action onUse;
 
 
 		private bool isCloseOnFirstTime = true;
 
 		private void Update() {
-			if(isCloseOnFirstTime == true) {
+			if(isCloseOnFirstTime == true) {//костыль
 				onGUIClose?.Invoke();
 				isCloseOnFirstTime = false;
 			}
@@ -43,7 +42,6 @@ namespace DDF.Inputs {
 			}
 
 			if (Input.GetButtonDown("Use")) {
-
 				onUse?.Invoke();
 				onUse = null;
 			}

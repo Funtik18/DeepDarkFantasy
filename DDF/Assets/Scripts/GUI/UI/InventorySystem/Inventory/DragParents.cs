@@ -6,10 +6,5 @@ namespace DDF.UI.Inventory {
     /// </summary>
     public class DragParents : MonoBehaviour {
         public static DragParents _instance { get; private set; }
-
-        public static void Init() {
-            if(_instance == null)
-                _instance = FindObjectOfType<DragParents>();
-        }
     }
 }

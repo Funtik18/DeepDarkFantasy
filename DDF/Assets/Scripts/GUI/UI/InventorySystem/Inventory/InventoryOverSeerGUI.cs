@@ -15,6 +15,7 @@ namespace DDF.UI.Inventory {
 
 		protected override void Awake() {
 			base.Awake();
+			DragParentsGUI.Init();
 			if (_instance == null)
 				_instance = this;
 		}

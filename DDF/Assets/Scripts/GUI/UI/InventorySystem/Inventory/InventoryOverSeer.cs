@@ -38,7 +38,7 @@ namespace DDF.UI.Inventory {
 		}
 
 		public void OrderRefresh() {
-			DragParents._instance.transform.SetAsLastSibling();
+			//DragParents._instance.transform.SetAsLastSibling();
 			ToolTip._instance.transform.SetAsLastSibling();
 			MenuOptions._instance.transform.SetAsLastSibling();
 		}
