@@ -64,7 +64,7 @@ namespace DDF.UI.Inventory {
             List<Item> copy = new List<Item>(currentItems);
             currentItems.Clear();
             foreach (var item in copy) {
-                AddItem(item);
+                AddItem(item, true);
             }
             copy.Clear();
 
@@ -126,7 +126,7 @@ namespace DDF.UI.Inventory {
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public void AddItem( Item item ) {
+        public int AddItem( Item item, bool enableModel) {
             Item clone = item.GetItemCopy();
 
             for (int i = 0; i < currentItems.Count; i++) {
@@ -136,27 +136,18 @@ namespace DDF.UI.Inventory {
                         //обновляем модель
                         InventoryModel model = FindModelByItem(currentItems[i]);
                         model.RefreshModel();
-                        return;
+                        return 1;
                     }
                 }
             }
 
-            inventory.isFull = AddItemXY(clone);
+            int output = AddItemXY(clone, enableModel);
 
-            if (inventory.isFull) {
-                ItemType type = clone.GetItemType();
-                if (type is PouchType) {
-                    PouchType pouchType = type as PouchType;
-                    Inventory pouchPrefab = pouchType.inventory;
-                    Inventory newpouch = HelpFunctions.TransformSeer.CreateObjectInParent(GetComponentInParent<Canvas>().transform, pouchPrefab.gameObject, pouchPrefab.InventoryName).GetComponent<Inventory>();
-                    
-                    newpouch.CreateNewID();
-                    pouchType.inventoryReference = newpouch.inventoryID;
-                }
-
-            } else {
-                Debug.LogError(item.name + " Can not assign this item");
+            if(output == 0) {
+                inventory.isFull = true;
             }
+
+            return output;
         }
         #region ItemWork
         private bool IncreaseItemCount(Item item, uint count) {
@@ -194,16 +185,23 @@ namespace DDF.UI.Inventory {
             slots.Clear();
 
             currentItems.Remove(item);
+
+            ReloadHightLight();
+        }
+        public void DeleteModel( Item item ) {
+            InventoryModel model = FindModelByItem(item);
+            currentModels.Remove(model);
+            Help.HelpFunctions.TransformSeer.DestroyObject(model.gameObject);
         }
 
         public void ShowContainer() {
             for(int i = 0; i < currentModels.Count; i++) {
-                Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(currentModels[i].canvasGroup);
+                currentModels[i].ShowModel();
             }
         }
         public void HideContainer() {
             for (int i = 0; i < currentModels.Count; i++) {
-                Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(currentModels[i].canvasGroup);
+                currentModels[i].HideModel();
             }
         }
         #endregion
@@ -509,7 +507,7 @@ namespace DDF.UI.Inventory {
             SelectAllNotEmptySlots();
         }
 
-        private bool AddItemXY( Item item ) {
+        private int AddItemXY( Item item, bool enableModel) {
 
             Vector2 size = item.GetSize();
 
@@ -523,7 +521,6 @@ namespace DDF.UI.Inventory {
 
                     if (neighbors.Count > 0) {
 
-
                         for (int i = 0; i < neighbors.Count; i++) {//добавление
 
                             neighbors[i].HighlightColor = view.baseColor;
@@ -532,6 +529,9 @@ namespace DDF.UI.Inventory {
                             if (i == 0) {
                                 InventoryModel newModel = grid.CreateModelByItem(item);
                                 currentModels.Add(newModel);
+
+                                if (enableModel) newModel.ShowModel();
+                                else newModel.HideModel();
 
                                 overSeer.buffer = newModel.transform as RectTransform;
 
@@ -542,12 +542,11 @@ namespace DDF.UI.Inventory {
                         neighbors.Clear();
 
                         currentItems.Add(item);
-
-                        return true;
+                        return 1;
                     }
                 }
             }
-            return false;
+            return 0;
         }
         #endregion
         #endregion

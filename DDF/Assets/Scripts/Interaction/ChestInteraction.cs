@@ -12,16 +12,14 @@ namespace DDF.Environment {
 	/// TODO: почему то когда выходишь при открытом ui а потом входишь и пытаешься его ещё раз окрыть, то открывается с второго нажатия.
 	/// </summary>
 	public class ChestInteraction : CaseInteraction {
-		public Inventory chestPrefab;
+		public ChestInventory chestPrefab;
 
 		public List<Item> startItems;
 
-		public Button closeButton;
-		private Inventory insInventory = null;
+		private ChestInventory insInventory = null;
 		private bool isCreated = false;
 
 		private int clicks = 0;
-
 
 		private void Update() {
 			if (IsInField) {
@@ -39,9 +37,12 @@ namespace DDF.Environment {
 
 		private void OpenChest() {
 			if (isCreated == false) {
-				insInventory = Help.HelpFunctions.TransformSeer.CreateObjectInParent(DinamicUI._instance.transform, chestPrefab.gameObject, chestPrefab.name).GetComponent<Inventory>();
+				insInventory = Help.HelpFunctions.TransformSeer.CreateObjectInParent(DinamicUI._instance.transform, chestPrefab.gameObject, chestPrefab.name).GetComponent<ChestInventory>();
 				insInventory.currentItems = startItems;
-				//closeButton?.onClick.AddListener(() => CloseChest());
+
+				insInventory.buttonClose?.onClick.AddListener(() => CloseChest());
+				insInventory.buttonTakeAll?.onClick.AddListener(() => EmptiedChest());
+
 				isCreated = true;
 			} else {
 				insInventory.ShowInventory();
@@ -49,6 +50,21 @@ namespace DDF.Environment {
 		}
 		private void CloseChest() {
 			insInventory.HideInventory();
+		}
+		private void EmptiedChest() {
+			Inventory inventory = InventoryOverSeerGUI._instance.mainInventory;
+			List<Item> items = new List<Item>();
+			for(int i = 0; i < insInventory.currentItems.Count; i++) {
+				int result = inventory.AddItem(insInventory.currentItems[i], false);
+				if(result == 1) {
+					items.Add(insInventory.currentItems[i]);
+				} else {
+					Debug.LogError("error");
+				}
+			}
+			for(int i = 0; i< items.Count; i++) {
+				insInventory.DeleteItem(items[i]);
+			}
 		}
 
 		public override void OpenCase() {

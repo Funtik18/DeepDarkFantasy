@@ -1,5 +1,4 @@
-﻿using DDF.Help;
-using DDF.UI.Inventory.Items;
+﻿using DDF.UI.Inventory.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,16 +63,22 @@ namespace DDF.UI.Inventory {
             }
 		}
 
-		public string reference = HelpFunctions.Crypto.GetNewGuid();
+		public string reference = Help.HelpFunctions.Crypto.GetNewGuid();
 
-        [HideInInspector] public CanvasGroup canvasGroup;
+        [HideInInspector] private CanvasGroup canvasGroup;
         private void Awake() {
             canvasGroup = GetComponent<CanvasGroup>();
 		}
 
-		public void RefreshModel() {
-            StackCount = item.itemStackCount;
+        public void ShowModel() {
+            Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup);
+		}
+        public void HideModel() {
+            Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
+        }
 
+        public void RefreshModel() {
+            StackCount = item.itemStackCount;
         }
     }
 }

@@ -27,12 +27,12 @@ namespace DDF.UI.Inventory {
         public InventoryContainer container;
 		public List<Item> currentItems;
 
-		[HideInInspector]public CanvasGroup canvasGroup;
+		[HideInInspector]private CanvasGroup canvasGroup;
 
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
 		}
-		private void Awake() {
+		protected void Awake() {
 			canvasGroup = GetComponent<CanvasGroup>();
 			if (inventoryID == "")
 				CreateNewID();
@@ -42,8 +42,20 @@ namespace DDF.UI.Inventory {
 				overSeer = InventoryOverSeerUI._instance;
 		}
 
-		private void Start() {
+		protected void Start() {
 			container.Init();
+		}
+
+		public int AddItem(Item item, bool enableModel = true) {
+			int result = container.AddItem(item, enableModel);
+			return result;
+		}
+		public void AddItems() {
+
+		}
+		public void DeleteItem(Item item) {
+			container.DeleteItem(item);
+			container.DeleteModel(item);
 		}
 
 		public void ShowInventory() {
