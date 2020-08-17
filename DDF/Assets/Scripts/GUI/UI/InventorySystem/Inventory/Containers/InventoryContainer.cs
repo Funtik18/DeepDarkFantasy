@@ -129,6 +129,8 @@ namespace DDF.UI.Inventory {
         public int AddItem( Item item, bool enableModel) {
             Item clone = item.GetItemCopy();
 
+
+
             for (int i = 0; i < currentItems.Count; i++) {
                 if (currentItems[i].CompareItem(clone) == 1) {
                     //если true значит смог найти такой же предмет и положить туда количество
@@ -150,6 +152,12 @@ namespace DDF.UI.Inventory {
             return output;
         }
         #region ItemWork
+        private void ItemSetup( Item item ) {
+			if (!inventory.isGUI) {
+                List<ItemTag> tags = item.GetItemType().tags;
+
+			}
+		}
         private bool IncreaseItemCount(Item item, uint count) {
             if (item.itemStackSize == -1) {//объект "бесконечный", деньги
                 item.itemStackCount += count;
@@ -293,7 +301,11 @@ namespace DDF.UI.Inventory {
             if (clicked > 1 && Time.time - clicktime < clickdelay) {
                 clicked = 0;
                 clicktime = 0;
-                Debug.Log("Double CLick: " + slot.gameObject.name);
+				if (!inventory.isGUI) {
+                    Item item = slot.Item;
+                    InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
+                    inventory.DeleteItem(item);
+                }
 
             } else if (clicked > 2 || Time.time - clicktime > 1) clicked = 0;
 			#endregion
