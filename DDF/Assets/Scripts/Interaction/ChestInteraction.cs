@@ -45,7 +45,7 @@ namespace DDF.Environment {
 				insInventory.currentItems = startItems;
 
 				insInventory.buttonClose?.onClick.AddListener(() => CloseChest());
-				insInventory.buttonTakeAll?.onClick.AddListener(() => EmptiedChest());
+				insInventory.buttonTakeAll?.onClick.AddListener(delegate { EmptiedChest(); CloseChest(); });
 
 				isCreated = true;
 			} else {
