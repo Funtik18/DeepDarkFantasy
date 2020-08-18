@@ -1,44 +1,39 @@
-﻿using DDF.Help;
+﻿using DDF.Atributes;
+using DDF.Help;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.Character.Effects {
-    public class Effect : MonoBehaviour {
+	[Serializable]
+    public class Effect {
         public string effectName;
 
 		public float actionTime = 5f;
+		[ReadOnly]
+		public float actionCurrentTime = 0f;
 		public float actionDelay = 0.5f;
 
-		private Coroutine routine;
-
 		private CoroutineObject coroutineObject;
-		private Func<IEnumerator> routine;
+		private Action effect;
 
 		public bool isEffectProcessing { get { return coroutineObject.IsProcessing; } }
 
-		private void Awake() {
-
-			routine += EffectExecution;
-
-			coroutineObject = new CoroutineObject(this, routine);
-		}
-		private void Update() {
-			print(isEffectProcessing);
+		public Effect(string _effectName, MonoBehaviour owner, Action effect, float duration, float often) {
+			effectName = _effectName;
+			actionTime = duration;
+			actionDelay = often;
+			coroutineObject = new CoroutineObject(owner, EffectExecution);
 		}
 
 		private IEnumerator EffectExecution() {
 
-			while (true) {
+			while (actionCurrentTime <= actionTime) {
+				effect?.Invoke();
 				yield return new WaitForSeconds(actionDelay);
-
+				actionCurrentTime += actionDelay;
 			}
-
-			print("-");
-			yield return break;
-			print("-----");
-
 		}
 
 
