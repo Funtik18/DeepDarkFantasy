@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     public class ItemType : ScriptableObject {
+        [Tooltip("Главное событие")]
+        [HideInInspector] public ItemTag primaryTag;
         [Tooltip("Все возможные события с предметом.")]
-        public List<ItemTag> tags = new List<ItemTag>();
+        [HideInInspector] public List<ItemTag> tags;
     }
 }

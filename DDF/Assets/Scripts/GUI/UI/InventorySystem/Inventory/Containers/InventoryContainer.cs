@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace DDF.UI.Inventory {
@@ -129,6 +130,8 @@ namespace DDF.UI.Inventory {
         public int AddItem( Item item, bool enableModel) {
             Item clone = item.GetItemCopy();
 
+            ItemTagSetup(clone);
+
             for (int i = 0; i < currentItems.Count; i++) {
                 if (currentItems[i].CompareItem(clone) == 1) {
                     //если true значит смог найти такой же предмет и положить туда количество
@@ -150,12 +153,70 @@ namespace DDF.UI.Inventory {
             return output;
         }
         #region ItemWork
-        private void ItemSetup( Item item ) {
-			if (!inventory.isGUI) {
-                List<ItemTag> tags = item.GetItemType().tags;
+        private void ItemTagSetup( Item item ) {
+            List<ItemTag> tags = item.tags;
+            
 
-			}
-		}
+            ItemType itemType = item.GetItemType();
+
+
+            if (itemType is ConsumableType) {
+                ConsumableType consumable = itemType as ConsumableType;
+                if (consumable.conumable == Consumable.Food) {
+                    AssignTag<TagEat>(tags);
+                }
+                if (consumable.conumable == Consumable.Potion) {
+                    AssignTag<TagDrink>(tags);
+                }
+            }
+            if (itemType is ArmorType || itemType is WeaponType) {
+                AssignTag<TagEquip>(tags);
+            }
+
+            //общие
+            if (inventory.isGUI) {
+                FreeTag<TagTake>(tags);
+                AssignTag<TagThrow>(tags);
+                if (itemType is ArmorType || itemType is WeaponType) {
+                    item.primaryTag = GetTag<TagEquip>(tags);
+                }
+                if (itemType is ConsumableType) {
+                    ConsumableType consumable = itemType as ConsumableType;
+                    if (consumable.conumable == Consumable.Food) {
+                        item.primaryTag = GetTag<TagEat>(tags);
+                    }
+                    if (consumable.conumable == Consumable.Potion) {
+                        item.primaryTag = GetTag<TagDrink>(tags);
+                    }
+                }
+            } else {
+                AssignTag<TagTake>(tags);
+                FreeTag<TagThrow>(tags);
+
+                item.primaryTag = GetTag<TagTake>(tags);
+            }
+            
+            
+            tags.Sort();
+        }
+        private void AssignTag<T>( List<ItemTag> tags ) {
+            bool result = tags.OfType<T>().Any();
+            if (result == false) {
+                tags.Add(ItemsTags._instance.GetTag<T>());
+            }
+        }
+
+        private void FreeTag<T>( List<ItemTag> tags ) {
+            bool result = tags.OfType<T>().Any();
+            if (result == true) {
+                tags.Remove(GetTag<T>(tags));
+            }
+        }
+        private ItemTag GetTag<T>( List<ItemTag> tags ) {
+            return tags[tags.FindIndex(x => x is T)];
+
+        }
+
         private bool IncreaseItemCount(Item item, uint count) {
             if (item.itemStackSize == -1) {//объект "бесконечный", деньги
                 item.itemStackCount += count;
@@ -241,32 +302,34 @@ namespace DDF.UI.Inventory {
         #region Slot Events
         public virtual void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
             overSeer.lastSlot = slot;
-            overSeer.whereNow = this;
+            overSeer.whereNow = inventory;
 
             if (MenuOptions._instance.IsHide && !overSeer.isDrag) ToolTipShow();
 
             if (overSeer.isDrag) {//передвигает от фром
                 if(overSeer.whereNow != null) {
-					if (view.SolidHightlight) {
+                    Inventory whereNow = overSeer.whereNow;
+                    InventoryContainer whereNowcontainer = whereNow.container;
+                    if (view.SolidHightlight) {
                         if (inventory.isRestrictions) {
                             Item item = overSeer.rootModel.referenceItem;
-                            Inventory whereNow = overSeer.whereNow.inventory;
+                            
                             List<ItemType> storageTypes = whereNow.storageTypes;
                             if(storageTypes.Count == 0) {
-                                overSeer.whereNow.SelectAllSlots(whereNow.view.highlightColor);
+                                whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                 return;
 							} else {
                                 for (int i = 0; i < whereNow.storageTypes.Count; i++) {
                                     if (item.CompareItemType(whereNow.storageTypes[i]) == 1) {
-                                        overSeer.whereNow.SelectAllSlots(whereNow.view.highlightColor);
+                                        whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                         return;
                                     }
                                 }
-                                overSeer.whereNow.SelectAllSlots(whereNow.view.invalidColor);
+                                whereNowcontainer.SelectAllSlots(whereNow.view.invalidColor);
                             }
                         }
                     } else {
-                        overSeer.whereNow.HoverLanding();//и подсвечивает тот контейнер на который указывает
+                        whereNowcontainer.HoverLanding();//и подсвечивает тот контейнер на который указывает
                     }
                 }
             } else {
@@ -293,23 +356,26 @@ namespace DDF.UI.Inventory {
         float clickdelay = 0.5f;
         public void OnPointerLeftClick( PointerEventData eventData, InventorySlot slot ) {
             if (slot.isEmpty()) return;
-			#region DoubleClick
-			clicked++;
+
+            overSeer.from = inventory;
+
+            #region DoubleClick
+            clicked++;
             if (clicked == 1) clicktime = Time.time;
 
             if (clicked > 1 && Time.time - clicktime < clickdelay) {
                 clicked = 0;
                 clicktime = 0;
-				if (!inventory.isGUI) {
-                    Item item = slot.Item;
-                    InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
-                    inventory.DeleteItem(item);
-                }
 
+                Item item = slot.Item;
+                MenuOptions._instance.DetermineAction(item.primaryTag)?.Invoke(item);
+            
             } else if (clicked > 2 || Time.time - clicktime > 1) clicked = 0;
-			#endregion
+            #endregion
 
-			MenuOptionsHide();
+            overSeer.from = null;
+
+            MenuOptionsHide();
         }
         public void OnPointerMiddleClick( PointerEventData eventData, InventorySlot slot ) { }
         public void OnPointerRightClick( PointerEventData eventData, InventorySlot slot ) {
@@ -333,7 +399,7 @@ namespace DDF.UI.Inventory {
             if (!MenuOptions._instance.IsHide) return;
             if (overSeer.rootSlot.isEmpty()) return;
 
-            overSeer.from = this;
+            overSeer.from = inventory;
 
             overSeer.isDrag = true;
 
@@ -377,15 +443,15 @@ namespace DDF.UI.Inventory {
             if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
-            Inventory whereNow = overSeer.whereNow.inventory;
+            Inventory whereNow = overSeer.whereNow;
             if (whereNow.isDisposer) {//удаление из инвентаря
-                ItemPlaceOnSlot(overSeer.from, overSeer.whereNow, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<InventoryModel>());
-                overSeer.whereNow.inventory.DeleteItem(overSeer.rootModel.referenceItem);
+                ItemPlaceOnSlot(overSeer.from.container, overSeer.whereNow.container, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<InventoryModel>());
+                overSeer.whereNow.DeleteItem(overSeer.rootModel.referenceItem);
                 return;
             }
             if (whereNow.isRestrictions) {
 				if (!whereNow.IsEmpty) {
-                    ItemBackToRootSlot(overSeer.from.inventory.isRestrictions);
+                    ItemBackToRootSlot(overSeer.from.isRestrictions);
                     return;
                 }
 
@@ -393,16 +459,16 @@ namespace DDF.UI.Inventory {
                 Item item = model.referenceItem;
                 List<ItemType> storageTypes = whereNow.storageTypes;
                 if (storageTypes.Count == 0) { 
-                    ItemPlaceOnSlotRestriction(overSeer.from, overSeer.whereNow, item, model);
+                    ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                     return;
                 } else {
                     for (int i = 0; i < storageTypes.Count; i++) {
                         if (item.CompareItemType(storageTypes[i]) == 1) {
-                            ItemPlaceOnSlotRestriction(overSeer.from, overSeer.whereNow, item, model);
+                            ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                             return;
                         }
                     }
-                    ItemBackToRootSlot(overSeer.from.inventory.isRestrictions);
+                    ItemBackToRootSlot(overSeer.from.isRestrictions);
                     return;
                 }
             } else {
@@ -412,7 +478,7 @@ namespace DDF.UI.Inventory {
                 }
                 //+
                 if (actionSelection == 1) {//можно
-                    ItemPlaceOnSlot(overSeer.from, overSeer.whereNow, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<InventoryModel>());
+                    ItemPlaceOnSlot(overSeer.from.container, overSeer.whereNow.container, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<InventoryModel>());
                 }
 
                 if (actionSelection == 2) {//обмен
@@ -423,7 +489,7 @@ namespace DDF.UI.Inventory {
         }
 
         private void ItemBackToRootSlot(bool isRestrictions  = false) {
-            InventoryContainer from = overSeer.from;
+            InventoryContainer from = overSeer.from.container;
             InventoryModel model = overSeer.rootModel;
             Item item = model.referenceItem;
             if (isRestrictions) {
@@ -455,7 +521,7 @@ namespace DDF.UI.Inventory {
             to.AddItemOnPosition(item, overSeer.lastSlot);
             to.currentItems.Add(item);
 
-            overSeer.from.currentModels.Remove(model);
+            overSeer.from.container.currentModels.Remove(model);
             model.transform.SetParent(to.grid.dragParent);
             to.currentModels.Add(model);
 
@@ -811,7 +877,7 @@ namespace DDF.UI.Inventory {
 
             overSeer.OrderRefresh();
 
-            MenuOptions._instance.SetCurrentItem(item);
+            MenuOptions._instance.SetCurrentItem(item, inventory);
             MenuOptions._instance.OpenMenu();
         }
         private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();

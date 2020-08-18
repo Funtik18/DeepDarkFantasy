@@ -1,12 +1,15 @@
-﻿using DDF.Help;
+﻿using DDF.Character.Stats;
+using DDF.Help;
 using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace DDF.UI.Inventory {
+
 	[RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(CanvasGroup))]
+	[RequireComponent(typeof(ItemsTags))]
 	public class MenuOptions : MonoBehaviour {
 
         public static MenuOptions _instance;
@@ -22,15 +25,15 @@ namespace DDF.UI.Inventory {
 		public bool IsHide { get { return isHide; } }
 
 		private Item currentItem;
-		
+		private Inventory currentInventory;
 
 
 		private void Awake() {
 			_instance = this;
+			ItemsTags.Init();
 		}
 		private void Start() {
 			canvasGroup = GetComponent<CanvasGroup>();
-
 			options = new List<MenuOption>();
 		}
 
@@ -47,9 +50,7 @@ namespace DDF.UI.Inventory {
 
 			options.Add(option);
 		}
-		private void OptionUse() {
-			print("Use with " + currentItem.name);
-		}
+		
 		private void OptionOpen() {
 			ItemType type = currentItem.GetItemType();
 			if (type is PouchType) {
@@ -81,47 +82,67 @@ namespace DDF.UI.Inventory {
 		}
 
 
-		private void Option2() {
-			print("-");
-		}
-		private void Option3() {
-			print("+-");
-		}
-		private void DefaultOption() {
-			print("default");
-		}
+		
 
 
 		public void SetPosition(Vector3 position ) {
 			transform.position = position;
 		}
 
-		public void SetCurrentItem( Item item ) {
+		public void SetCurrentItem( Item item, Inventory from ) {
 			currentItem = item;
+			currentInventory = from;
 		}
 
-		public UnityAction DetermineAction(string tag) {
-
+		public UnityAction<Item> DetermineAction(ItemTag tag) {
 			switch (tag) {
-				case "Use": return OptionUse;
-				case "Open": return OptionOpen;
-				case "Division": return OptionDivision;
+				case TagTake t: return OptionTake;
+				case TagThrow t: return OptionThrow;
+				case TagEquip t: return OptionEquip;
+				case TagTakeOff t: return OptionTakeOff;
+				case TagEat t: return OptionEat;
+				case TagDrink t: return OptionDrink;
 
 				default: return DefaultOption;
 			}
 		}
+		private void OptionTake( Item item ) {
+			InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
+			InventoryOverSeerUI._instance.from.DeleteItem(item);
+		}
+		private void OptionThrow( Item item ) {
+			currentInventory.DeleteItem(item);
+		}
+		private void OptionEquip( Item item ) {
+			InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+		}
+		private void OptionTakeOff( Item item ) {
+			InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+		}
+		private void OptionEat( Item item ) {
+
+			//CharacterEntity._instance.RestoreHealth()
+			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+		}
+		private void OptionDrink(Item item) {
+			
+		}
+
+		private void DefaultOption(Item item) {
+			Debug.LogError("default");
+		}
+
 
 		public void OpenMenu() {
 
 			HelpFunctions.TransformSeer.DestroyChildrenInParent(transform);
 			options.Clear();
 
-			List<ItemTag> tags = currentItem.GetItemType().tags;
+			List<ItemTag> tags = currentItem.tags;
 			for (int i = 0; i < tags.Count; i++) {
+				UnityAction<Item> call = DetermineAction(tags[i]);
 
-				UnityAction call = DetermineAction(tags[i].name);
-
-				AddNewOption(tags[i].tag, delegate { call?.Invoke(); CloseMenu(); });
+				AddNewOption(tags[i].tagName, delegate { call?.Invoke(currentItem); CloseMenu(); });
 			}
 
 			HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup, true);

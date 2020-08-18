@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5340509740392580745}
   - component: {fileID: 5340509740392580790}
   - component: {fileID: 5340509740392580791}
+  - component: {fileID: 3464116577975666448}
   m_Layer: 5
   m_Name: InventoryMenuOptions
   m_TagString: Untagged
@@ -104,3 +105,22 @@ MonoBehaviour:
   optionPrefab: {fileID: 6413200954793385910, guid: c27758f5bc22451448ddcc6a4b42f91b,
     type: 3}
   options: []
+--- !u!114 &3464116577975666448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5340509740392580747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2beaac25bdb6f94e884807aa3995ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagTake: {fileID: 11400000, guid: ccb69fc759d25a24b904b2db9cb4b571, type: 2}
+  tagThrow: {fileID: 11400000, guid: bab46bf472ffb6041ad98e7d0a4b2f90, type: 2}
+  tagEquip: {fileID: 11400000, guid: dd09a9b21c2f0374ea13d9f151098aee, type: 2}
+  takeOff: {fileID: 11400000, guid: 1b6f241dd342a7f4d9c7590f39b2078c, type: 2}
+  tagEat: {fileID: 11400000, guid: a62ccaa16e3a7c144b91c3d4fafdcf87, type: 2}
+  tagDrink: {fileID: 11400000, guid: a5b818343a38a5e44a39a03e2f454498, type: 2}
+  mainTags: []

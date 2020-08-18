@@ -19,8 +19,8 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public bool isDrag = false;
 
-		[HideInInspector] public InventoryContainer from;//откуда взяли
-		[HideInInspector] public InventoryContainer whereNow;//где сейчас находимся
+		[HideInInspector] public Inventory from;//откуда взяли
+		[HideInInspector] public Inventory whereNow;//где сейчас находимся
 
 		protected virtual void Awake() {
 			containers = new List<Inventory>();

@@ -14,6 +14,9 @@ namespace DDF.Character {
         private Abilities.Abilities abilities;
         private Skills.Skills skills;
 
+        
+        
+        
         public List<Perk> currentPerks;
 
         [HideInInspector] public Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> statsRef;

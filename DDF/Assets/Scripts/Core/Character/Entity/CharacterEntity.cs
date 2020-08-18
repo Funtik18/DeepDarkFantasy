@@ -11,6 +11,8 @@ using DDF.UI.Inventory;
 namespace DDF.Character.Stats {
     public class CharacterEntity : Entity {
 
+        public static CharacterEntity _instance;
+
         [SerializeField]
         private List<TextsStats> textsStats;
 
@@ -24,6 +26,7 @@ namespace DDF.Character.Stats {
 
         #region Setup
         protected override void Awake() {
+            _instance = this;
             base.Awake();
 			foreach (var item in textsStats) {
                 item.Init(statsRef);

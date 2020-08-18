@@ -1,12 +1,22 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace DDF.UI.Inventory.Items {
     
-    [CreateAssetMenu(fileName ="Data",menuName = "DDF/Inventory/ItemTag/Tag")]
     [Serializable]
-    public class ItemTag : ScriptableObject{
-        public string tag;
+	public class ItemTag : ScriptableObject, IComparable {
+        public string tagName;
+
+		public int CompareTo( object obj ) {
+            ItemTag tag = obj as ItemTag;
+            if(tag.GetType() == GetType()) {
+                return 1;
+			}
+            return 0;
+        }
+
+		public ItemTag GetCopy() {
+            return Instantiate(this);
+        }
     }
 }

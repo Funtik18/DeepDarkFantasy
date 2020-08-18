@@ -2,6 +2,7 @@
 using DDF.Atributes;
 #endif
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
@@ -48,6 +49,8 @@ namespace DDF.UI.Inventory.Items {
         [Header("Misc")]
         [SerializeField]
         private ItemType itemType;
+        public ItemTag primaryTag { get { return itemType.primaryTag; } set { itemType.primaryTag = value; } }
+        public List<ItemTag> tags { get { return itemType.tags; } }
 
         [SerializeField]
         private string itemID = System.Guid.NewGuid().ToString();
