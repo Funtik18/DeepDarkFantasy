@@ -575,6 +575,7 @@ MonoBehaviour:
   inventoryID: 
   isRestrictions: 1
   isGUI: 1
+  isDisposer: 0
   isFull: 0
   storageTypes:
   - {fileID: 11400000, guid: b8c76f16c589c1b448836f599ba42489, type: 2}
@@ -583,7 +584,6 @@ MonoBehaviour:
   view: {fileID: 2375481522474236868}
   container: {fileID: 2375481520998515112}
   currentItems: []
-  canvasGroup: {fileID: 0}
 --- !u!225 &-6491836890519169080
 CanvasGroup:
   m_ObjectHideFlags: 0

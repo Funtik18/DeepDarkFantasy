@@ -55,6 +55,8 @@ namespace DDF.Character {
             statsRef.Add("СhanceCriticalStrike", new Tuple<Stat, UnityAction, UnityAction>(stats.СhanceCriticalStrike, null, null));
             statsRef.Add("СhanceCriticalShot", new Tuple<Stat, UnityAction, UnityAction>(stats.СhanceCriticalShot, null, null));
             statsRef.Add("ChanceAvoid", new Tuple<Stat, UnityAction, UnityAction>(stats.ChanceAvoid, null, null));
+            statsRef.Add("Speed", new Tuple<Stat, UnityAction, UnityAction>(stats.Speed, null, null));
+            
             #endregion
         }
 		protected virtual void Start() {
@@ -66,6 +68,8 @@ namespace DDF.Character {
             CurrentStrength = stats.Strength.amount;
             CurrentAgility = stats.Agility.amount;
             CurrentIntelligence = stats.Intelligence.amount;
+
+            CurrentSpeed = MaxSpeed;
         }
 
 
@@ -814,10 +818,56 @@ namespace DDF.Character {
         public Action onChangeChanceAvoid;
         #endregion
 
-
-
-        private float basespeed = 5;
-        public float speed;
+        #region Скорость
+        /// <summary>
+        /// Базовое значение для Скорости.
+        /// </summary>
+        private float baseSpeed = 5;
+        /// <summary>
+        /// Максимально возможное значение для Скорости.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxSpeed;
+        /// <summary>
+        /// Максимально возможное значение для Скорости.
+        /// </summary>
+        public float MaxSpeed {
+            get {
+                return maxSpeed;
+            }
+            set {
+                maxSpeed = value;
+                if (maxSpeed <= 0) maxSpeed = 0;
+                if (maxSpeed < CurrentSpeed) CurrentSpeed = maxSpeed;
+                onChangeSpeed?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Текущее значение Скорости.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float currentSpeed;
+        /// <summary>
+        /// Текущее значение Скорости.
+        /// </summary>
+        public float CurrentSpeed {
+            get {
+                return currentSpeed;
+            }
+            set {
+                currentSpeed = value;
+                if (currentSpeed >= MaxSpeed) currentSpeed = MaxSpeed;
+                if (currentSpeed <= 0) currentSpeed = 0;
+                onChangeSpeed?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeSpeed;
+        #endregion
 
         #region Functions
         /// <summary>
@@ -1065,6 +1115,8 @@ namespace DDF.Character {
             CurrentСhanceCriticalShot = (float)Math.Round(baseСhanceCriticalShot + ( (float)CurrentAgility ) / 2, 3);
             CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + ( (float)CurrentAgility ) / 1.5f, 3);
 
+            MaxSpeed = baseSpeed + CurrentAgility * 2;
+
             UpdateData();
         }
 
@@ -1111,6 +1163,9 @@ namespace DDF.Character {
             stats.СhanceCriticalShot.amount = CurrentСhanceCriticalShot;
 
             stats.ChanceAvoid.amount = CurrentChanceAvoid;
+
+            stats.Speed.amount = MaxSpeed;
+            stats.Speed.currentInamount = CurrentSpeed;
         }
     }
 }

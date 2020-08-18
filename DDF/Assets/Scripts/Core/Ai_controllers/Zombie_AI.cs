@@ -157,7 +157,7 @@ public class Zombie_AI : MonoBehaviour
         if(min>sparing_distance && !attacking)
             {
                 GetComponent<Animator>().applyRootMotion = true;
-                myanim.SetFloat("X",stats.speed);
+                myanim.SetFloat("X",stats.CurrentSpeed);
                 //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
             }
             else
@@ -258,7 +258,7 @@ public class Zombie_AI : MonoBehaviour
             //Debug.Log(hit.transform.name+" "+nap);
         }
             //float dist = Vector3.Distance(transform.position,Wvc);
-            myanim.SetFloat("X",stats.speed);
+            myanim.SetFloat("X",stats.CurrentSpeed);
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
 
@@ -278,7 +278,7 @@ public class Zombie_AI : MonoBehaviour
              Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
             GetComponent<Animator>().applyRootMotion = true;
-            myanim.SetFloat("X",stats.speed);
+            myanim.SetFloat("X",stats.CurrentSpeed);
         }
         else{
             myanim.SetBool("jump_strafe",true);

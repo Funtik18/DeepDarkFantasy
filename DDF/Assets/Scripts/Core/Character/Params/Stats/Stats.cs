@@ -1,12 +1,4 @@
-﻿using DDF.Atributes;
-using DDF.Character.Perks;
-using DDF.Randomizer;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 namespace DDF.Character.Stats {
     public class Stats {
@@ -30,7 +22,7 @@ namespace DDF.Character.Stats {
         [HideInInspector] public StatRegularFloat ShotDamage;
         [HideInInspector] public StatRegularFloat MagicDamage;
         [HideInInspector] public StatFloat ChanceAvoid;
-        [HideInInspector] public StatFloat Speed;
+        [HideInInspector] public StatRegularFloat Speed;
         [HideInInspector] public StatFloat СhanceCriticalShot;
         [HideInInspector] public StatFloat СhanceCriticalStrike;
 		#endregion
@@ -57,6 +49,8 @@ namespace DDF.Character.Stats {
             СhanceCriticalShot = new StatFloat("Шанс крит выстрела", 0, "%");
             СhanceCriticalStrike = new StatFloat("Шанс крит удара", 0, "%");
             ChanceAvoid = new StatFloat("Шанс уклонения", 0, "%");
+
+            Speed = new StatRegularFloat("Скорость", 0, 0);
         }
 
         public void SaveStats() {

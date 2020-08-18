@@ -141,7 +141,7 @@ public class Monster_AI : MonoBehaviour
         {
             GetComponent<Animator>().applyRootMotion = true;
             //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
-            myanim.SetFloat("X",stats.speed);
+            myanim.SetFloat("X",stats.CurrentSpeed);
             //myanim.SetFloat("Y",Mathf.Abs(startPoint.z-nowPoint.z));
         }
         else
@@ -154,7 +154,7 @@ public class Monster_AI : MonoBehaviour
             else
                 if(min>sparing_distance && !attacking)
                 {
-                    myanim.SetFloat("X",stats.speed);
+                    myanim.SetFloat("X",stats.CurrentSpeed);
                     //transform.position = Vector3.MoveTowards(transform.position,Wvc,speed*Time.deltaTime);
                 }
                 else
@@ -280,7 +280,7 @@ public class Monster_AI : MonoBehaviour
             Debug.Log(hit.transform.name+" "+nap);
         }
             //float dist = Vector3.Distance(transform.position,Wvc);
-            myanim.SetFloat("X",stats.speed);
+            myanim.SetFloat("X",stats.CurrentSpeed);
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
 

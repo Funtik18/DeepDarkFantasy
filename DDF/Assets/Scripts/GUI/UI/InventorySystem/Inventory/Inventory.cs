@@ -12,6 +12,8 @@ namespace DDF.UI.Inventory {
 		[Tooltip("Если тру то в этом контейнере возможно положить только один предиет размером с контейнер.")]
 		public bool isRestrictions = false;
 		public bool isGUI = true;
+		public bool isDisposer = false;
+
 
 		[HideInInspector] public bool isFull;
 		[HideInInspector] public bool IsEmpty {

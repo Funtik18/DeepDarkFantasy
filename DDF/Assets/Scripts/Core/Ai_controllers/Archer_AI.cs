@@ -157,12 +157,12 @@ public class Archer_AI : MonoBehaviour
         if((min>sparing_distance))
         {
             GetComponent<Animator>().applyRootMotion = true;
-            myanim.SetFloat("X",stats.speed);
+            myanim.SetFloat("X",stats.CurrentSpeed);
         }
          else
             if((min<sparing_distance-20))
             {
-                myanim.SetFloat("X",stats.speed*-1);
+                myanim.SetFloat("X",stats.CurrentSpeed * -1);
             }
             else
             {
@@ -283,7 +283,7 @@ public class Archer_AI : MonoBehaviour
             //Debug.Log(hit.transform.name+" "+nap);
         }
             //float dist = Vector3.Distance(transform.position,Wvc);
-            myanim.SetFloat("X",stats.speed);
+            myanim.SetFloat("X",stats.CurrentSpeed);
             Quaternion targetRotation = Quaternion.LookRotation(Wvc - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
 

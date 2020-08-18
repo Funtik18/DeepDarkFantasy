@@ -378,7 +378,11 @@ namespace DDF.UI.Inventory {
             if (!overSeer.isDrag) return;
 
             Inventory whereNow = overSeer.whereNow.inventory;
-
+            if (whereNow.isDisposer) {//удаление из инвентаря
+                ItemPlaceOnSlot(overSeer.from, overSeer.whereNow, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<InventoryModel>());
+                overSeer.whereNow.inventory.DeleteItem(overSeer.rootModel.referenceItem);
+                return;
+            }
             if (whereNow.isRestrictions) {
 				if (!whereNow.IsEmpty) {
                     ItemBackToRootSlot(overSeer.from.inventory.isRestrictions);
@@ -443,8 +447,6 @@ namespace DDF.UI.Inventory {
                 from.AddItemOnPosition(item, overSeer.rootSlot);
             }
             from.currentItems.Add(item);
-
-            print(from.currentItems.Count);
 
             overSeer.isDrag = false;
             from.ReloadHightLight();
