@@ -1,12 +1,12 @@
 ﻿#if UNITY_EDITOR
 using DDF.Atributes;
+using DDF.Events;
 #endif
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
-    [AddComponentMenu("DDF/Inventory/Item", 1)]
     [CreateAssetMenu(fileName = "Data", menuName = "DDF/Inventory/Item", order = 1)]
     public class Item : ScriptableObject {
         [Header("Information")]
@@ -44,8 +44,14 @@ namespace DDF.UI.Inventory.Items {
 
         [Header("Stats")]
 
-        [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
 
+        [Header("Events")]
+        public List<VoidEvent> voidEvents;
+        public List<IntEvent> intEvents;
+        public List<FloatEvent> floatEvents;
+        public int power = 10;
+
+        [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
         [Header("Misc")]
         [SerializeField]
         private ItemType itemType;

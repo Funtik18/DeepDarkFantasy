@@ -2,6 +2,7 @@
 using DDF.Character.Effects;
 using DDF.Character.Perks;
 using DDF.Character.Stats;
+using DDF.Events;
 using DDF.Randomizer;
 using System;
 using System.Collections.Generic;

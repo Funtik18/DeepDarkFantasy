@@ -21,7 +21,12 @@ MonoBehaviour:
   itemWidth: 2
   itemHeight: 2
   itemStackCount: 1
-  itemStackSize: 3
+  itemStackSize: 1
+  voidEvents: []
+  intEvents: []
+  floatEvents:
+  - {fileID: 11400000, guid: cdfaa03f669dae243a68ce324f3916a9, type: 2}
+  power: 10
   itemType: {fileID: 11400000, guid: 5922f8a4ab981284ab752e9174defd85, type: 2}
   itemID: 636aa335-938e-44c0-b240-bdf831f0c236
   onlyOne: 0

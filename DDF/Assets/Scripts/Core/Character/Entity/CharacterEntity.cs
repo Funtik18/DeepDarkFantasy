@@ -52,9 +52,9 @@ namespace DDF.Character.Stats {
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
-            effects.AddEffect("EffectRestoreHealth");
-            effects.AddEffect("EffectTakeDamage");
-            effects.UpdateEffects();
+            //effects.AddEffect("EffectRestoreHealth");
+            //effects.AddEffect("EffectTakeDamage");
+           // effects.UpdateEffects();
             UpdateUI();
             InventoryOverSeerGUI._instance.CloseGUI();
         }

@@ -114,18 +114,21 @@ namespace DDF.UI.Inventory {
 			currentInventory.DeleteItem(item);
 		}
 		private void OptionEquip( Item item ) {
-			InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
 		private void OptionTakeOff( Item item ) {
-			InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
 		private void OptionEat( Item item ) {
-
 			//CharacterEntity._instance.RestoreHealth()
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
-		private void OptionDrink(Item item) {
-			
+		private void OptionDrink( Item item ) {
+			print("+");
+
+			foreach (var e in item.floatEvents) {
+				e.Raise(item.power);
+			}
 		}
 
 		private void DefaultOption(Item item) {

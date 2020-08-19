@@ -1,4 +1,5 @@
-﻿using DDF.Help;
+﻿using DDF.Events;
+using DDF.Help;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,30 @@ namespace DDF.Character.Effects {
 		public EffectFloat EffectRestoreHealth;
 		public EffectFloat EffectTakeDamage;
 
+		private FloatListener floatListener;
+		private VoidListener voidListener;
+
 		private Dictionary<string, Effect> mainEffects;
 		public Effects( Entity newEntity ) {
 			mainEffects = new Dictionary<string, Effect>();
 			entity = newEntity;
 		}
 		public void Init() {
-			EffectDeath = new Effect("Смерть", entity, new EffectTime(1f, 0f, 1f));
+
+			//voidListener = new VoidListener();
+			//voidListener.GameEvent = Resources.Load<VoidEvent>("Prefabs/ASSETS/ItemsEvents/VoidEvent_Print");
+			//voidListener = Print);
+
+
+			floatListener = new FloatListener();
+			floatListener.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RestoreHealth");
+			floatListener.GameEvent.RegisterListener(floatListener);
+			floatListener.AddEvent(Print);
+			floatListener.AddEvent(Print);
+			floatListener.AddEvent(Print);
+
+
+			/*EffectDeath = new Effect("Смерть", entity, new EffectTime(1f, 0f, 1f));
 			EffectDeath.Subscribe(DeathEffect, null, null);
 
 			EffectRestoreHealth = new EffectFloat("Востановление", entity, new EffectTime(10f, 0f, 0.5f), 1);
@@ -33,8 +51,12 @@ namespace DDF.Character.Effects {
 			mainEffects.Add("EffectRestoreHealth", EffectRestoreHealth);
 			mainEffects.Add("EffectTakeDamage", EffectTakeDamage);
 
-			coroutineObject = new CoroutineObject(entity, Wait);
+			coroutineObject = new CoroutineObject(entity, Wait);*/
 		}
+		private void Print(float v) {
+			Debug.LogError("s = " + v);
+		}
+
 
 		private IEnumerator Wait() {
 			while (true) {
