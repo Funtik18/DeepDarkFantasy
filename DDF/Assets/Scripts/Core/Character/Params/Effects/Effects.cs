@@ -11,100 +11,61 @@ namespace DDF.Character.Effects {
 
 		private CoroutineObject coroutineObject;
 
-		public Effect EffectDeath;
-		public EffectFloat EffectRestoreHealth;
-		public EffectFloat EffectTakeDamage;
-
 		private FloatListener listenerRestoreHealth;
-		private VoidListener voidListener;
+		private FloatListener listenerRegenerateHealth;
 
-		private Dictionary<string, Effect> mainEffects;
+		private FloatListener listenerRestoreMana;
+		private FloatListener listenerRegenerateMana;
+
+		//public Dictionary<string, EventTime> currentEffects;
+
+		public List<object> effects;
+
 		public Effects( Entity newEntity ) {
-			mainEffects = new Dictionary<string, Effect>();
+			effects = new List<object>();
 			entity = newEntity;
 		}
 		public void Init() {
 
-			//voidListener = new VoidListener();
-			//voidListener.GameEvent = Resources.Load<VoidEvent>("Prefabs/ASSETS/ItemsEvents/VoidEvent_Print");
-			//voidListener = Print);
-
-
-			listenerRestoreHealth = new FloatListener();
+			listenerRestoreHealth = new FloatListener(entity);
 			listenerRestoreHealth.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RestoreHealth");
 			listenerRestoreHealth.GameEvent.RegisterListener(listenerRestoreHealth);
 			listenerRestoreHealth.AddEvent(entity.RestoreHealth);
 
+			listenerRegenerateHealth = new FloatListener(entity, new EventTime(10, 1, 1));
+			listenerRegenerateHealth.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RegenerateHealth");
+			listenerRegenerateHealth.GameEvent.RegisterListener(listenerRegenerateHealth);
+			listenerRegenerateHealth.AddEvent(entity.RestoreHealth);
 
-			/*EffectDeath = new Effect("Смерть", entity, new EffectTime(1f, 0f, 1f));
-			EffectDeath.Subscribe(DeathEffect, null, null);
+			listenerRestoreMana = new FloatListener(entity);
+			listenerRestoreMana.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RestoreMana");
+			listenerRestoreMana.GameEvent.RegisterListener(listenerRestoreMana);
+			listenerRestoreMana.AddEvent(entity.RestoreMana);
 
-			EffectRestoreHealth = new EffectFloat("Востановление", entity, new EffectTime(10f, 0f, 0.5f), 1);
-			EffectRestoreHealth.Subscribe(RestoreHealthEffect, null, null);
+			listenerRegenerateMana = new FloatListener(entity, new EventTime(10, 1, 1));
+			listenerRegenerateMana.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RegenerateMana");
+			listenerRegenerateMana.GameEvent.RegisterListener(listenerRegenerateMana);
+			listenerRegenerateMana.AddEvent(entity.RestoreMana);
+			listenerRegenerateMana.AddEvent(Add);
 
-			EffectTakeDamage = new EffectFloat("Отрава", entity, new EffectTime(10f, 0f, 0.5f), 2);
-			EffectTakeDamage.Subscribe(TakeDamage, null, null);
+			//effects.Add(listenerRestoreHealth);
+			///effects.Add(listenerRegenerateHealth);
+			//effects.Add(listenerRestoreMana);
+			//effects.Add(listenerRegenerateMana);
 
-			mainEffects.Add("EffectDeath", EffectDeath);
-			mainEffects.Add("EffectRestoreHealth", EffectRestoreHealth);
-			mainEffects.Add("EffectTakeDamage", EffectTakeDamage);
-
-			coroutineObject = new CoroutineObject(entity, Wait);*/
+			//coroutineObject = new CoroutineObject(entity, Wait);
 		}
-		private void Print(float v) {
-			Debug.LogError("s = " + v);
+		private void Add(float temp) {
+			effects.Add(listenerRegenerateMana);
 		}
-
-
 		private IEnumerator Wait() {
 			while (true) {
-				if (entity.currentEffects.Count == 0) break;
-				for (int i = 0; i < entity.currentEffects.Count; i++) {
-					if (entity.currentEffects[i].isEffectProcessing) {
-						yield return null;
-					} else {
-						RemoveEffect(entity.currentEffects[i]);
-					}
+				if (effects.Count == 0) break;
+				yield return null;
+				for(int i =0; i< effects.Count; i++) {
+
 				}
 			}
-		}
-
-		public void UpdateEffects() {
-			for (int i = 0; i < entity.currentEffects.Count; i++) {
-				entity.currentEffects[i]?.StartEffect();
-			}
-			coroutineObject.Start();
-		}
-
-
-		private Effect GetEffect( string effectName ) {
-			Effect effect;
-			mainEffects.TryGetValue(effectName, out effect);
-			return effect;
-		}
-		public Dictionary<string, Effect> GetAllEffects() {
-			return mainEffects;
-		}
-
-		public void AddEffect(string effectName) {
-			entity.currentEffects.Add(GetEffect(effectName));
-		}
-		public void AddEffect( Effect effect ) {
-			entity.currentEffects.Add(effect);
-		}
-
-		public void RemoveEffect( string effectName ) {
-			entity.currentEffects.Remove(GetEffect(effectName));
-		}
-		public void RemoveEffect( Effect effect ) {
-			entity.currentEffects.Remove(effect);
-		}
-
-		private void TakeDamage() {
-			entity.TakeDamage(2);
-		}
-		private void TakeDamage(float damage) {
-			entity.TakeDamage(damage);
 		}
 	}
 }

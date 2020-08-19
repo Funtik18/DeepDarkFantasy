@@ -1,4 +1,6 @@
 ﻿using DDF.Events;
+using DDF.Help;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,17 +18,20 @@ namespace DDF.Events {
         private E gameEvent;
 		public E GameEvent { get => this.gameEvent; set => this.gameEvent = value; }
 
-        [SerializeField] public UER unityEventResponse;
+		private T item;
+		
+		[SerializeField] protected UER unityEventResponse;
+
+		protected MonoBehaviour owner;
+		protected CoroutineObject coroutineObject;
+		protected EventTime eventTime;
+		public bool isEffectProcessing { get { return coroutineObject.IsProcessing; } }
 
 		private void OnEnable() {
-			if (gameEvent == null) return;
-
-			GameEvent.RegisterListener(this);
+			GameEvent?.RegisterListener(this);
 		}
 		private void OnDisable() {
-			if (gameEvent == null) return;
-
-			GameEvent.UnRegisterListener(this);
+			GameEvent?.UnRegisterListener(this);
 		}
 
 		public void AddEvent(UnityAction<T> call ) {
@@ -39,8 +44,49 @@ namespace DDF.Events {
 			unityEventResponse.RemoveAllListeners();
 		}
 
-		public void OnEventRaised( T item ) {
-			unityEventResponse?.Invoke(item);
+		public void OnEventRaised( T newitem ) {
+			item = newitem;
+			if (owner != null) {
+				if (eventTime == null) eventTime = new EventTime(0.1f, 0.1f, 0);
+				coroutineObject = new CoroutineObject(owner, EffectExecution);
+				coroutineObject.Start();
+			} else {
+				unityEventResponse?.Invoke(item);
+			}
+		}
+		protected virtual IEnumerator EffectExecution() {
+			//onStartEffect?.Invoke();
+			while (eventTime.actionCurrentStep < eventTime.actionTime) {
+				unityEventResponse?.Invoke(item);
+				yield return new WaitForSeconds(eventTime.actionDelay);
+				eventTime.actionCurrentStep += eventTime.actionStep;
+			}
+			//onEndEffect?.Invoke();
+		}
+	}
+	[Serializable]
+	public class EventTime {
+		/// <summary>
+		/// Когда закончиться.
+		/// </summary>
+		public float actionTime;
+		/// <summary>
+		/// Задержка.
+		/// </summary>
+		public float actionDelay;
+		/// <summary>
+		/// Шаг.
+		/// </summary>
+		public float actionStep;
+		/// <summary>
+		/// Текущий шаг.
+		/// </summary>
+		public float actionCurrentStep;
+
+		public EventTime( float _actionTime, float _actionStep, float _actionDelay ) {
+			actionTime = _actionTime;
+			actionStep = _actionStep;
+			actionDelay = _actionDelay;
 		}
 	}
 }

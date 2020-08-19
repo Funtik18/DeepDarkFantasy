@@ -18,7 +18,7 @@ namespace DDF.Character {
         public Effects.Effects effects;
 
         public List<Perk> currentPerks;
-        public List<Effect> currentEffects;
+        //public List<Effect> currentEffects;
 
         [HideInInspector] public Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> statsRef;
         protected virtual void Awake() {
@@ -37,7 +37,7 @@ namespace DDF.Character {
             effects.Init();
 
             currentPerks = new List<Perk>();
-            currentEffects = new List<Effect>();
+           // currentEffects = new List<Effect>();
 
             #region запись ссылок статов и некоторых функций для передачи
             statsRef = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();

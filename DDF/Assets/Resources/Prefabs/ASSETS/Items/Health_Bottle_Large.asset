@@ -24,10 +24,10 @@ MonoBehaviour:
   itemStackSize: 1
   stat: 0
   events:
-    intEvents:
-    - intEvent: {fileID: 0}
-      value: 0
-    floatEvents: []
+    intEvents: []
+    floatEvents:
+    - floatEvent: {fileID: 11400000, guid: cdfaa03f669dae243a68ce324f3916a9, type: 2}
+      value: -10
     boolEvents: []
     voidEvents: []
   itemType: {fileID: 11400000, guid: 5922f8a4ab981284ab752e9174defd85, type: 2}

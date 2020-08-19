@@ -31,8 +31,6 @@ namespace DDF.Editor {
             }
 
 
-
-
             #region Stack
             //maxi
             if (cashMaxStackCount != cashMax) {//проверка на 0
