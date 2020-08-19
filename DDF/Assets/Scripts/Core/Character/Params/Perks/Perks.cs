@@ -28,7 +28,7 @@ namespace DDF.Character.Perks {
             entity = newEntity;
         }
 
-        public virtual void Init() {
+        public void Init() {
             #region Perks помогаторы
             increaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, 1, 0);
             increaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, 1, 0);

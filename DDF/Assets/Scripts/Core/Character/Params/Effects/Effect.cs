@@ -2,46 +2,66 @@
 using DDF.Help;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.Character.Effects {
 	[Serializable]
     public class Effect {
-        public string effectName;
-
-		public float actionTime = 5f;
-		[ReadOnly]
-		public float actionCurrentTime = 0f;
-		public float actionDelay = 0.5f;
+		[SerializeField]
+		protected string effectName;
+		[SerializeField]
+		protected EffectTime effectTime;
 
 		private CoroutineObject coroutineObject;
-		private Action effect;
+
+		protected Action onStartEffect;
+		protected Funk mainFunk;
+		protected Action onEndEffect;
+
+		public delegate void Funk();
+
 
 		public bool isEffectProcessing { get { return coroutineObject.IsProcessing; } }
 
-		public Effect(string _effectName, MonoBehaviour owner, Action effect, float duration, float often) {
+		public Effect(string _effectName, MonoBehaviour owner, EffectTime neweffectTime) {
 			effectName = _effectName;
-			actionTime = duration;
-			actionDelay = often;
+			effectTime = neweffectTime;
 			coroutineObject = new CoroutineObject(owner, EffectExecution);
 		}
-
-		private IEnumerator EffectExecution() {
-
-			while (actionCurrentTime <= actionTime) {
-				effect?.Invoke();
-				yield return new WaitForSeconds(actionDelay);
-				actionCurrentTime += actionDelay;
-			}
+		public void Subscribe( Funk onMain, Action onStart = null, Action onEnd = null) {
+			onStartEffect = onStart;
+			mainFunk = onMain;
+			onEndEffect = onEnd;
 		}
 
+		protected virtual IEnumerator EffectExecution() {
+			onStartEffect?.Invoke();
+			while (effectTime.actionCurrentTime <= effectTime.actionTime) {
+				mainFunk();
+				yield return new WaitForSeconds(effectTime.actionDelay);
+				effectTime.actionCurrentTime += effectTime.actionDelay;
+			}
+			onEndEffect?.Invoke();
+		}
 
-		public void StartEffect() {
+		public virtual void StartEffect() {
 			coroutineObject.Start();
 		}
-		public void StopEffect() {
+		public virtual void StopEffect() {
 			coroutineObject.Stop();
+		}
+	}
+	[Serializable]
+	public struct EffectTime {
+		public float actionTime;
+		[ReadOnly]
+		public float actionCurrentTime;
+		public float actionDelay;
+
+		public EffectTime(float _actionTime, float _actionCurrentTime, float _actionDelay ) {
+			actionTime = _actionTime;
+			actionCurrentTime = _actionCurrentTime;
+			actionDelay = _actionDelay;
 		}
 	}
 }

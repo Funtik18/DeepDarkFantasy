@@ -1,4 +1,5 @@
 ﻿using DDF.Atributes;
+using DDF.Character.Effects;
 using DDF.Character.Perks;
 using DDF.Character.Stats;
 using DDF.Randomizer;
@@ -13,11 +14,10 @@ namespace DDF.Character {
         public Perks.Perks perks;
         private Abilities.Abilities abilities;
         private Skills.Skills skills;
+        public Effects.Effects effects;
 
-        
-        
-        
         public List<Perk> currentPerks;
+        public List<Effect> currentEffects;
 
         [HideInInspector] public Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> statsRef;
         protected virtual void Awake() {
@@ -26,14 +26,17 @@ namespace DDF.Character {
             perks = new Perks.Perks(this);
             abilities = new Abilities.Abilities(stats);
             skills = new Skills.Skills(stats);
+            effects = new Effects.Effects(this);
 
             stats.Init();
             
             perks.Init();
             abilities.Init();
             skills.Init();
+            effects.Init();
 
             currentPerks = new List<Perk>();
+            currentEffects = new List<Effect>();
 
             #region запись ссылок статов и некоторых функций для передачи
             statsRef = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
@@ -294,7 +297,7 @@ namespace DDF.Character {
             set {
                 currentHealthPoints = value;
                 if (currentHealthPoints >= MaxHealthPoints) currentHealthPoints = MaxHealthPoints;
-                if (currentHealthPoints <= 0) currentHealthPoints = 0;
+                if (currentHealthPoints <= 0) IsDead = true;
                 onChangeHealthPoints?.Invoke();
             }
         }
@@ -877,7 +880,7 @@ namespace DDF.Character {
         /// Убить объект.
         /// </summary>
         public void Kill() {
-            IsDead = true;
+            TakeDamage(CurrentHealthPoints);
             UpdateStats();
         }
         /// <summary>
@@ -1083,7 +1086,6 @@ namespace DDF.Character {
         }
 
         #endregion
-
 
         /// <summary>
         /// Пересчитывает-перерисовывает статы.
