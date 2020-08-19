@@ -43,13 +43,12 @@ namespace DDF.UI.Inventory.Items {
         public int itemStackSize = 1;//дефолтное любое, кроме нуля
 
         [Header("Stats")]
-
+        public int stat;
 
         [Header("Events")]
-        public List<VoidEvent> voidEvents;
-        public List<IntEvent> intEvents;
-        public List<FloatEvent> floatEvents;
-        public int power = 10;
+        
+        public ItemEvents events;
+
 
         [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
         [Header("Misc")]
@@ -118,6 +117,61 @@ namespace DDF.UI.Inventory.Items {
                 return 1;
             }
             return 0;
+        }
+    }
+
+    [Serializable]
+    public class ItemEvents {
+        public List<ItemIntEvent> intEvents;
+        public List<ItemFloatEvent> floatEvents;
+        public List<ItemBoolEvent> boolEvents;
+        public List<ItemVoidEvent> voidEvents;
+
+        public void EventsExecute() {
+            ListEventExecute(intEvents);
+            ListEventExecute(floatEvents);
+            ListEventExecute(boolEvents);
+            ListEventExecute(voidEvents);
+        }
+        private void ListEventExecute<T>(List<T> events ) where T : ItemEvent {
+            for (int i = 0; i < events.Count; i++) {
+                events[i].Execute();
+            }
+        }
+    }
+    public abstract class ItemEvent {
+        public abstract void Execute();
+    }
+    [Serializable]
+    public class ItemIntEvent : ItemEvent {
+        public IntEvent intEvent;
+        public int value;
+
+        public override void Execute() {
+            intEvent?.Raise(value);
+        }
+    }
+    [Serializable]
+    public class ItemFloatEvent : ItemEvent {
+        public FloatEvent floatEvent;
+        public float value;
+        public override void Execute() {
+            floatEvent?.Raise(value);
+        }
+    }
+    [Serializable]
+    public class ItemBoolEvent : ItemEvent {
+        public BoolEvent boolEvent;
+        public bool value;
+        public override void Execute() {
+            boolEvent?.Raise(value);
+        }
+    }
+    [Serializable]
+    public class ItemVoidEvent : ItemEvent {
+        public VoidEvent voidEvent;
+        public override void Execute() {
+            voidEvent?.Raise();
         }
     }
 }

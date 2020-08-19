@@ -32,6 +32,12 @@ namespace DDF.Events {
 		public void AddEvent(UnityAction<T> call ) {
 			unityEventResponse.AddListener(call);
 		}
+		public void RemoveEvent( UnityAction<T> call ) {
+			unityEventResponse.RemoveListener(call);
+		}
+		public void RemoveAllEvents() {
+			unityEventResponse.RemoveAllListeners();
+		}
 
 		public void OnEventRaised( T item ) {
 			unityEventResponse?.Invoke(item);

@@ -15,7 +15,7 @@ namespace DDF.Character.Effects {
 		public EffectFloat EffectRestoreHealth;
 		public EffectFloat EffectTakeDamage;
 
-		private FloatListener floatListener;
+		private FloatListener listenerRestoreHealth;
 		private VoidListener voidListener;
 
 		private Dictionary<string, Effect> mainEffects;
@@ -30,12 +30,10 @@ namespace DDF.Character.Effects {
 			//voidListener = Print);
 
 
-			floatListener = new FloatListener();
-			floatListener.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RestoreHealth");
-			floatListener.GameEvent.RegisterListener(floatListener);
-			floatListener.AddEvent(Print);
-			floatListener.AddEvent(Print);
-			floatListener.AddEvent(Print);
+			listenerRestoreHealth = new FloatListener();
+			listenerRestoreHealth.GameEvent = Resources.Load<FloatEvent>("Prefabs/ASSETS/ItemsEvents/FloatEvent_RestoreHealth");
+			listenerRestoreHealth.GameEvent.RegisterListener(listenerRestoreHealth);
+			listenerRestoreHealth.AddEvent(entity.RestoreHealth);
 
 
 			/*EffectDeath = new Effect("Смерть", entity, new EffectTime(1f, 0f, 1f));
@@ -100,18 +98,6 @@ namespace DDF.Character.Effects {
 		}
 		public void RemoveEffect( Effect effect ) {
 			entity.currentEffects.Remove(effect);
-		}
-
-
-		private void DeathEffect() {
-			entity.TakeDamage(entity.CurrentHealthPoints);
-		}
-
-		private void RestoreHealthEffect() {
-			entity.RestoreHealth(1);
-		}
-		private void RestoreHealthEffect(float heal) {
-			entity.RestoreHealth(heal);
 		}
 
 		private void TakeDamage() {

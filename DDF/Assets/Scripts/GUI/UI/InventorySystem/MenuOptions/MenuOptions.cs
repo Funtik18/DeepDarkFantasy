@@ -124,11 +124,8 @@ namespace DDF.UI.Inventory {
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
 		private void OptionDrink( Item item ) {
-			print("+");
-
-			foreach (var e in item.floatEvents) {
-				e.Raise(item.power);
-			}
+			item.events.EventsExecute();
+			InventoryOverSeerGUI._instance.mainInventory.DeleteItem(item);
 		}
 
 		private void DefaultOption(Item item) {
