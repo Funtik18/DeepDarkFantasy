@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using DDF.Help;
+using UnityEngine;
 
 namespace DDF.Events {
     public class IntListener : BaseGameEventListener<int, IntEvent, UnityIntEvent> {
-		public IntListener( MonoBehaviour newowner = null, EventTime neweventTime = null ) {
+		public IntListener( MonoBehaviour newowner) {
 			unityEventResponse = new UnityIntEvent();
 			owner = newowner;
-			eventTime = neweventTime;
+			coroutineObject = new CoroutineObject(owner, EffectExecution);
 		}
 	}
 }

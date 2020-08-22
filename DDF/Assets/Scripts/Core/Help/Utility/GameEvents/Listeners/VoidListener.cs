@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using DDF.Help;
+using UnityEngine;
 
 namespace DDF.Events {
 	public class VoidListener : BaseGameEventListener<Void, VoidEvent, UnityVoidEvent> {
-		public VoidListener( MonoBehaviour newowner = null, EventTime neweventTime = null ) {
+		public VoidListener( MonoBehaviour newowner) {
 			unityEventResponse = new UnityVoidEvent();
 			owner = newowner;
-			eventTime = neweventTime;
+			coroutineObject = new CoroutineObject(owner, EffectExecution);
 		}
 	}
 }

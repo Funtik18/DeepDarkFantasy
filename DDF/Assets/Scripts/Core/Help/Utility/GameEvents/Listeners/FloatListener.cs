@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using DDF.Help;
+using UnityEngine;
 
 namespace DDF.Events {
 	public class FloatListener : BaseGameEventListener<float, FloatEvent, UnityFloatEvent> {
-		public FloatListener(MonoBehaviour newowner = null, EventTime neweventTime = null) {
+		public FloatListener(MonoBehaviour newowner) {
 			unityEventResponse = new UnityFloatEvent();
 			owner = newowner;
-			eventTime = neweventTime;
+			coroutineObject = new CoroutineObject(owner, EffectExecution);
 		}
 	}
 }

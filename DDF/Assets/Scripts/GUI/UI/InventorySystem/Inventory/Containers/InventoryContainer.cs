@@ -1,4 +1,5 @@
-﻿using DDF.Events;
+﻿using DDF.Character.Effects;
+using DDF.Events;
 using DDF.Help;
 using DDF.UI.Inventory.Items;
 using System;
@@ -131,6 +132,7 @@ namespace DDF.UI.Inventory {
             Item clone = item.GetItemCopy();
 
             ItemTagSetup(clone);
+            ItemEffectSetup(clone);
 
             for (int i = 0; i < currentItems.Count; i++) {
                 if (currentItems[i].CompareItem(clone) == 1) {
@@ -153,6 +155,10 @@ namespace DDF.UI.Inventory {
             return output;
         }
         #region ItemWork
+        private void ItemEffectSetup( Item item ) {
+            
+
+        }
         private void ItemTagSetup( Item item ) {
             List<ItemTag> tags = item.tags;
             
@@ -368,7 +374,7 @@ namespace DDF.UI.Inventory {
                 clicktime = 0;
 
                 Item item = slot.Item;
-                MenuOptions._instance.DetermineAction(item.primaryTag)?.Invoke(item);
+                MenuOptions._instance.DetermineAction(item.primaryTag)?.Invoke(item, inventory);
             
             } else if (clicked > 2 || Time.time - clicktime > 1) clicked = 0;
             #endregion

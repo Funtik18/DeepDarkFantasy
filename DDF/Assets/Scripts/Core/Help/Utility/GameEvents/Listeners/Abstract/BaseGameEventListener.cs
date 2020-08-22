@@ -13,29 +13,29 @@ namespace DDF.Events {
 	/// <typeparam name="T">T-type</typeparam>
 	/// <typeparam name="E">E-event</typeparam>
 	/// <typeparam name="UER">UER-unity event</typeparam>
-    public abstract class BaseGameEventListener<T, E, UER> : MonoBehaviour, IGameEventListener<T> where E: BaseGameEvent<T> where UER : UnityEvent<T> {
+    public abstract class BaseGameEventListener<T, E, UER> : EventListener<T> where E: BaseGameEvent<T> where UER : UnityEvent<T> {
         [SerializeField]
         private E gameEvent;
 		public E GameEvent { get => this.gameEvent; set => this.gameEvent = value; }
 
 		private T item;
-		
+
 		[SerializeField] protected UER unityEventResponse;
 
-		protected MonoBehaviour owner;
-		protected CoroutineObject coroutineObject;
-		protected EventTime eventTime;
-		public bool isEffectProcessing { get { return coroutineObject.IsProcessing; } }
-
-		private void OnEnable() {
+		/*private void OnEnable() {
 			GameEvent?.RegisterListener(this);
 		}
 		private void OnDisable() {
 			GameEvent?.UnRegisterListener(this);
-		}
+		}*/
 
 		public void AddEvent(UnityAction<T> call ) {
 			unityEventResponse.AddListener(call);
+		}
+		public override void AddActions( UnityAction call0, UnityAction call1, UnityAction call2 ) {
+			OnStartEvent = call0;
+			OnUpdateEvent = call1;
+			OnEndEvent = call2;
 		}
 		public void RemoveEvent( UnityAction<T> call ) {
 			unityEventResponse.RemoveListener(call);
@@ -44,49 +44,28 @@ namespace DDF.Events {
 			unityEventResponse.RemoveAllListeners();
 		}
 
-		public void OnEventRaised( T newitem ) {
+		public override void OnEventRaised( T newitem ) {
 			item = newitem;
 			if (owner != null) {
-				if (eventTime == null) eventTime = new EventTime(0.1f, 0.1f, 0);
-				coroutineObject = new CoroutineObject(owner, EffectExecution);
+				//if (eventTime.actionCurrentStep == 0) eventTime = new EventTime(0.1f, 0.1f, 0, 0);
+				eventTime = new EventTime(1f, 1f, 1f, 0);
 				coroutineObject.Start();
 			} else {
 				unityEventResponse?.Invoke(item);
 			}
 		}
 		protected virtual IEnumerator EffectExecution() {
-			//onStartEffect?.Invoke();
+			//OnStartEvent?.Invoke();
 			while (eventTime.actionCurrentStep < eventTime.actionTime) {
+				Debug.LogError(" = " + eventTime.actionTime + "/" + eventTime.actionCurrentStep);
+
 				unityEventResponse?.Invoke(item);
+			///OnUpdateEvent?.Invoke();
 				yield return new WaitForSeconds(eventTime.actionDelay);
 				eventTime.actionCurrentStep += eventTime.actionStep;
 			}
-			//onEndEffect?.Invoke();
+			//OnEndEvent?.Invoke();
 		}
 	}
-	[Serializable]
-	public class EventTime {
-		/// <summary>
-		/// Когда закончиться.
-		/// </summary>
-		public float actionTime;
-		/// <summary>
-		/// Задержка.
-		/// </summary>
-		public float actionDelay;
-		/// <summary>
-		/// Шаг.
-		/// </summary>
-		public float actionStep;
-		/// <summary>
-		/// Текущий шаг.
-		/// </summary>
-		public float actionCurrentStep;
-
-		public EventTime( float _actionTime, float _actionStep, float _actionDelay ) {
-			actionTime = _actionTime;
-			actionStep = _actionStep;
-			actionDelay = _actionDelay;
-		}
-	}
+	
 }

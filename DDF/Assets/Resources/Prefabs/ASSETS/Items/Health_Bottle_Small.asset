@@ -23,13 +23,8 @@ MonoBehaviour:
   itemStackCount: 1
   itemStackSize: 3
   stat: 0
-  events:
-    intEvents: []
-    floatEvents:
-    - floatEvent: {fileID: 11400000, guid: 0b88bd708b306e14a82f4a26b956b101, type: 2}
-      value: 1
-    boolEvents: []
-    voidEvents: []
+  effects:
+  - {fileID: 11400000, guid: 736ec9e61356c6d4096cb380103fee17, type: 2}
   itemType: {fileID: 11400000, guid: 5922f8a4ab981284ab752e9174defd85, type: 2}
   itemID: e8fce46c-3a86-43ba-b7a7-af8dab233400
   onlyOne: 0

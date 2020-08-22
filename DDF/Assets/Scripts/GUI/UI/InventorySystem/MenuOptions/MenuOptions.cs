@@ -1,6 +1,7 @@
 ﻿using DDF.Character.Stats;
 using DDF.Help;
 using DDF.UI.Inventory.Items;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -94,21 +95,21 @@ namespace DDF.UI.Inventory {
 			currentInventory = from;
 		}
 
-		public UnityAction<Item> DetermineAction(ItemTag tag) {
+		public UnityAction<Item, Inventory> DetermineAction(ItemTag tag) {
 			switch (tag) {
 				case TagTake t: return OptionTake;
-				case TagThrow t: return OptionThrow;
-				case TagEquip t: return OptionEquip;
-				case TagTakeOff t: return OptionTakeOff;
-				case TagEat t: return OptionEat;
+				//case TagThrow t: return OptionThrow;
+				//case TagEquip t: return OptionEquip;
+				//case TagTakeOff t: return OptionTakeOff;
+				//case TagEat t: return OptionEat;
 				case TagDrink t: return OptionDrink;
 
 				default: return DefaultOption;
 			}
 		}
-		private void OptionTake( Item item ) {
+		private void OptionTake( Item item, Inventory inventory ) {
 			InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
-			InventoryOverSeerUI._instance.from.DeleteItem(item);
+			inventory.DeleteItem(item);
 		}
 		private void OptionThrow( Item item ) {
 			currentInventory.DeleteItem(item);
@@ -123,12 +124,11 @@ namespace DDF.UI.Inventory {
 			//CharacterEntity._instance.RestoreHealth()
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
-		private void OptionDrink( Item item ) {
-			item.events.EventsExecute();
-			InventoryOverSeerGUI._instance.mainInventory.DeleteItem(item);
+		private void OptionDrink( Item item, Inventory inventory ) {
+			CharacterEntity._instance.Drink(item, inventory);
 		}
 
-		private void DefaultOption(Item item) {
+		private void DefaultOption(Item item, Inventory inventory) {
 			Debug.LogError("default");
 		}
 
@@ -140,9 +140,9 @@ namespace DDF.UI.Inventory {
 
 			List<ItemTag> tags = currentItem.tags;
 			for (int i = 0; i < tags.Count; i++) {
-				UnityAction<Item> call = DetermineAction(tags[i]);
+				UnityAction<Item, Inventory> call = DetermineAction(tags[i]);
 
-				AddNewOption(tags[i].tagName, delegate { call?.Invoke(currentItem); CloseMenu(); });
+				AddNewOption(tags[i].tagName, delegate { call?.Invoke(currentItem, currentInventory); CloseMenu(); });
 			}
 
 			HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup, true);

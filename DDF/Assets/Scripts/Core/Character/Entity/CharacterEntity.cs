@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DDF.Inputs;
 using DDF.UI.GUI;
 using DDF.UI.Inventory;
+using DDF.Character.Effects;
 
 /// <summary>
 /// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
@@ -13,8 +14,13 @@ namespace DDF.Character.Stats {
 
         public static CharacterEntity _instance;
 
+        private Inventory mainInventory;
+
         [SerializeField]
         private List<TextsStats> textsStats;
+
+        [SerializeField]
+        private TextsEffects textsEffects;
 
         [SerializeField]
         private HealthBar HPBar;
@@ -31,6 +37,7 @@ namespace DDF.Character.Stats {
 			foreach (var item in textsStats) {
                 item.Init(statsRef);
             }
+            textsEffects.Init(currentEffects);
         }
         protected override void Start() {
             base.Start();
@@ -59,11 +66,7 @@ namespace DDF.Character.Stats {
             InventoryOverSeerGUI._instance.CloseGUI();
         }
 		
-		private void UpdateTXT() {
-            foreach (var item in textsStats) {
-                item.UpdateAllTXT();
-            }
-        }
+		
         protected override void UpdateStats() {
             base.UpdateStats();
             UpdateUI();
@@ -80,9 +83,15 @@ namespace DDF.Character.Stats {
 
             UpdateTXT();
         }
-		#endregion
+        private void UpdateTXT() {
+            foreach (var item in textsStats) {
+                item.UpdateAllTXT();
+            }
+            textsEffects.UpdateAllTXT();
+        }
+        #endregion
 
-        
+
 
 
         /*//Дополнительные пойнты для здоровья

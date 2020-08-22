@@ -4,6 +4,8 @@ using DDF.Character.Perks;
 using DDF.Character.Stats;
 using DDF.Events;
 using DDF.Randomizer;
+using DDF.UI.Inventory;
+using DDF.UI.Inventory.Items;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,10 +20,14 @@ namespace DDF.Character {
         public Effects.Effects effects;
 
         public List<Perk> currentPerks;
-        //public List<Effect> currentEffects;
+        public List<Effect> currentEffects;
 
         [HideInInspector] public Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> statsRef;
         protected virtual void Awake() {
+            currentEffects = new List<Effect>();
+            currentPerks = new List<Perk>();
+
+
             stats = new Stats.Stats();
 
             perks = new Perks.Perks(this);
@@ -34,10 +40,8 @@ namespace DDF.Character {
             perks.Init();
             abilities.Init();
             skills.Init();
-            effects.Init();
 
-            currentPerks = new List<Perk>();
-           // currentEffects = new List<Effect>();
+            
 
             #region запись ссылок статов и некоторых функций для передачи
             statsRef = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
@@ -1077,16 +1081,42 @@ namespace DDF.Character {
 
 		#endregion
 
+		#region 
+        public virtual void Drink( Item item, Inventory inventory) {
+            for (int i = 0; i < item.effects.Count; i++) {
+                AddEffect(Instantiate(item.effects[i]));
+            }
+            inventory.DeleteItem(item);
+        }
+
+
+		#endregion
+
 
 		#region Perks
-        
-        protected virtual void UpdatePerks() {
+
+		protected virtual void UpdatePerks() {
 			for (int i = 0; i < currentPerks.Count; i++) {
                 currentPerks[i].Calculate();
 			}
         }
 
+		#endregion
+
+		#region Effects
+		public void AddEffect(Effect effect) {
+            effect.Init(this);
+            effect.onDelete = ( x ) => RemoveEffect(x);
+            currentEffects.Add(effect);
+        }
+        public void RemoveEffect( Effect effect ) {
+            currentEffects.Remove(effect);
+        }
+
         #endregion
+
+
+
 
         /// <summary>
         /// Пересчитывает-перерисовывает статы.

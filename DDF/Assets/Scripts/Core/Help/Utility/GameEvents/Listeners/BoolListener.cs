@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using DDF.Help;
+using UnityEngine;
 
 namespace DDF.Events {
 	public class BoolListener : BaseGameEventListener<bool, BoolEvent, UnityBoolEvent> {
-		public BoolListener( MonoBehaviour newowner = null, EventTime neweventTime = null ) {
+		public BoolListener( MonoBehaviour newowner) {
 			unityEventResponse = new UnityBoolEvent();
 			owner = newowner;
-			eventTime = neweventTime;
+			coroutineObject = new CoroutineObject(owner, EffectExecution);
 		}
 	}
 }
