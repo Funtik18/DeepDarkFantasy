@@ -82,10 +82,6 @@ namespace DDF.UI.Inventory {
 			division.OpenDivision();
 		}
 
-
-		
-
-
 		public void SetPosition(Vector3 position ) {
 			transform.position = position;
 		}
@@ -99,7 +95,7 @@ namespace DDF.UI.Inventory {
 			switch (tag) {
 				case TagTake t: return OptionTake;
 				//case TagThrow t: return OptionThrow;
-				//case TagEquip t: return OptionEquip;
+				case TagEquip t: return OptionEquip;
 				//case TagTakeOff t: return OptionTakeOff;
 				//case TagEat t: return OptionEat;
 				case TagDrink t: return OptionDrink;
@@ -108,14 +104,13 @@ namespace DDF.UI.Inventory {
 			}
 		}
 		private void OptionTake( Item item, Inventory inventory ) {
-			InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
-			inventory.DeleteItem(item);
+			CharacterEntity._instance.Take(item, inventory);
 		}
 		private void OptionThrow( Item item ) {
 			currentInventory.DeleteItem(item);
 		}
-		private void OptionEquip( Item item ) {
-			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+		private void OptionEquip( Item item, Inventory inventory ) {
+			CharacterEntity._instance.Take(item, inventory);
 		}
 		private void OptionTakeOff( Item item ) {
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);

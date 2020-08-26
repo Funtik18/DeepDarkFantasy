@@ -10,6 +10,7 @@ namespace DDF.UI.Inventory {
 		public static new InventoryOverSeerGUI _instance { get; private set; }
 
 		public Inventory mainInventory;
+		public Equipment mainEquipment;
 
 		[Header("Toggles")]
 		public bool DisableWorldDragging;

@@ -1081,7 +1081,16 @@ namespace DDF.Character {
 
 		#endregion
 
-		#region 
+		#region
+        public virtual void Take( Item item, Inventory inventory ) {
+            InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
+            inventory.DeleteItem(item);
+        }
+        public virtual void Equip( Item item, Inventory inventory ) {
+            if(InventoryOverSeerGUI._instance.mainEquipment.Equip(item))
+                inventory.DeleteItem(item);
+        }
+
         public virtual void Drink( Item item, Inventory inventory) {
             for (int i = 0; i < item.effects.Count; i++) {
                 AddEffect(Instantiate(item.effects[i]));

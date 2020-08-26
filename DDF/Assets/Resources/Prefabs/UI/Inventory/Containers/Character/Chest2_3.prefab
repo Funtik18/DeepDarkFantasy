@@ -1002,14 +1002,15 @@ MonoBehaviour:
   inventoryID: 
   isRestrictions: 1
   isGUI: 1
+  isDisposer: 0
   isFull: 0
-  storageTypes: []
+  storageTypes:
+  - {fileID: 11400000, guid: 27f1f7d7bd1430244ba60fa82fb766b1, type: 2}
   InventoryName: CHEST
   overSeer: {fileID: 0}
   view: {fileID: 5848552876337488494}
   container: {fileID: 5848552877358046418}
   currentItems: []
-  canvasGroup: {fileID: 0}
 --- !u!225 &-355194973337212091
 CanvasGroup:
   m_ObjectHideFlags: 0

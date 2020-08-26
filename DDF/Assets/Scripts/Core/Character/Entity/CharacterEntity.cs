@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using DDF.UI.Bar;
 using System.Collections.Generic;
-using DDF.Inputs;
-using DDF.UI.GUI;
 using DDF.UI.Inventory;
 using DDF.Character.Effects;
 
@@ -15,6 +13,7 @@ namespace DDF.Character.Stats {
         public static CharacterEntity _instance;
 
         private Inventory mainInventory;
+        private Equipment mainEquipment;
 
         [SerializeField]
         private List<TextsStats> textsStats;
