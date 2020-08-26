@@ -3,6 +3,7 @@ using DDF.UI.Bar;
 using System.Collections.Generic;
 using DDF.UI.Inventory;
 using DDF.Character.Effects;
+using DDF.Character.Perks;
 
 namespace DDF.Character.Stats {
     /// <summary>
@@ -15,6 +16,9 @@ namespace DDF.Character.Stats {
 
         [SerializeField]
         private List<TextsStats> textsStats;
+
+        [SerializeField]
+        private TextsPerks textsPerks;
 
         [SerializeField]
         private TextsEffects textsEffects;
@@ -34,10 +38,20 @@ namespace DDF.Character.Stats {
 			foreach (var item in textsStats) {
                 item.Init(this);
             }
+            textsPerks.Init(currentPerks);
             textsEffects.Init(currentEffects);
+
         }
-        protected override void Start() {
-            base.Start();
+        protected void Start() {
+
+            base.InitStartPerks();
+            base.UpdatePerks();
+
+            base.InitStartStats();
+            base.UpdateStats();
+
+            CurrentHealthPoints = MaxHealthPoints;
+            CurrentManaPoints = MaxManaPoints;
 
             onChangeSkillPoints = () => UpdateTXT();
 
@@ -49,19 +63,14 @@ namespace DDF.Character.Stats {
 
             onChangePhysicalArmor = delegate { UpdateData(); UpdateTXT(); };
             onChangeMagicArmor = delegate { UpdateData(); UpdateTXT(); };
-
-
-            base.UpdateStats();
-            CurrentHealthPoints = MaxHealthPoints;
-            CurrentManaPoints = MaxManaPoints;
+            
+            
 
             UpdateUI();
             InventoryOverSeerGUI._instance.CloseGUI();
             mainInventory = InventoryOverSeerGUI._instance.mainInventory;
             mainEquipment = InventoryOverSeerGUI._instance.mainEquipment;
         }
-		
-		
         protected override void UpdateStats() {
             base.UpdateStats();
             UpdateUI();
@@ -83,38 +92,9 @@ namespace DDF.Character.Stats {
                 item.UpdateAllTXT();
             }
             textsEffects.UpdateAllTXT();
+            textsPerks.UpdateAllTXT();
         }
         #endregion
-
-
-
-
-        /*//Дополнительные пойнты для здоровья
-        private float baseAHP = 0;
-        private float maxAHP;
-        public float MaxAHP {
-            get {
-                return maxAHP;
-            }
-            set {
-                maxAHP = value;
-                if (maxAHP <= 0) maxAHP = 0;
-            }
-        }
-        [SerializeField]
-        [ReadOnly]
-        private float currentAHP;
-        public float CurrentAHP {
-            get {
-                return currentAHP;
-            }
-            set {
-                currentAHP = value;
-                if (currentAHP >= MaxAHP) currentAHP = MaxAHP;
-                if (currentAHP <= 0) currentAHP = 0;
-            }
-        }*/
-
         #region Stats
         #region Exp
         public override void IncreaseLevelExperience( int count ) {

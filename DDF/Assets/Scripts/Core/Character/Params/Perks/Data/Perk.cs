@@ -59,16 +59,16 @@ namespace DDF.Character.Perks {
 			stat.amount += amount;
 		}
 	}
-	public class ComplexPerk : Perk {
+	public class PerkComplex : Perk {
 		List<PerkInt> intPerks;
 		List<PerkFloat> floatPerks;
-		List<ComplexPerk> complexPerks;
+		List<PerkComplex> complexPerks;
 		public int cost;
 
-		public ComplexPerk(string newName, List<Perk> perks, int value2 ) : base(newName) {
+		public PerkComplex(string newName, List<Perk> perks, int value2 ) : base(newName) {
 			intPerks = new List<PerkInt>();
 			floatPerks = new List<PerkFloat>();
-			complexPerks = new List<ComplexPerk>();
+			complexPerks = new List<PerkComplex>();
 			for (int i = 0; i < perks.Count; i++) {
 				if(perks[i] is PerkInt perkInt) {
 					intPerks.Add(perkInt);
@@ -76,7 +76,7 @@ namespace DDF.Character.Perks {
 				if (perks[i] is PerkFloat perkFloat) {
 					floatPerks.Add(perkFloat);
 				}
-				if (perks[i] is ComplexPerk complexPerk) {
+				if (perks[i] is PerkComplex complexPerk) {
 					complexPerks.Add(complexPerk);
 				}
 			}

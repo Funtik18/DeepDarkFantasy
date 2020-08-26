@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace DDF.Character.Stats {
-
     public class TextsStats : MonoBehaviour {
         [SerializeField] private TextStat textStatLevel;
         [SerializeField] private TextStat textStatLevelExperience;

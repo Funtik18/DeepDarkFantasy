@@ -5,10 +5,10 @@ using UnityEngine;
 namespace DDF.Character.Perks {
     public class Perks {
 
-        public Entity entity;
+        private Entity entity;
 
         #region Perks
-        protected ComplexPerk Talented;
+        protected PerkComplex Talented;
         protected PerkInt Cupboard;
         protected PerkInt Prompt;
         protected PerkInt Savant;
@@ -29,7 +29,7 @@ namespace DDF.Character.Perks {
         }
 
         public void Init() {
-           /* #region Perks помогаторы
+            #region Perks помогаторы
             increaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, 1, 0);
             increaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, 1, 0);
             increaceIntelligence = new PerkInt(entity.stats.Intelligence.statName, entity.stats.Intelligence, 1, 0);
@@ -40,7 +40,7 @@ namespace DDF.Character.Perks {
             #endregion
 
 
-            Talented = new ComplexPerk("Талантливый", new List<Perk>() { increaceStrength, increaceAgility, increaceIntelligence }, -3);
+            Talented = new PerkComplex("Талантливый", new List<Perk>() { increaceStrength, increaceAgility, increaceIntelligence }, -3);
             Cupboard = new PerkInt("Шкаф", entity.stats.Strength, 3, -2);
             Prompt = new PerkInt("Проворный", entity.stats.Agility, 3, -2);
             Savant = new PerkInt("Савант", entity.stats.Intelligence, 3, -2);
@@ -48,7 +48,7 @@ namespace DDF.Character.Perks {
             //mainPerks.Add("Talented", Talented);
             mainPerks.Add("Cupboard", Cupboard);
             mainPerks.Add("Prompt", Prompt);
-            mainPerks.Add("Savant", Savant);*/
+            mainPerks.Add("Savant", Savant);
         }
         private Perk GetPerk(string perkName) {
             Perk perk;
@@ -60,24 +60,29 @@ namespace DDF.Character.Perks {
 		}
 
 
-
-
         /// <summary>
         /// Добавляет перк текущей сущности.
         /// </summary>
-        /// <param name="perkName"></param>
         public virtual void AddPerk(string perkName) {
             entity.currentPerks.Add(GetPerk(perkName));
         }
+        /// <summary>
+        /// Добавляет перк текущей сущности.
+        /// </summary>
         public virtual void AddPerk( Perk perk ) {
             entity.currentPerks.Add(perk);
         }
+        /// <summary>
+        /// Удаляет перк у текущей сущности.
+        /// </summary>
         public virtual void RemovePerk( string perkName ) {
             entity.currentPerks.Remove(GetPerk(perkName));
         }
+        /// <summary>
+        /// Удаляет перк у текущей сущности.
+        /// </summary>
         public virtual void RemovePerk( Perk perk ) {
             entity.currentPerks.Remove(perk);
         }
-
     }
 }

@@ -12,9 +12,9 @@ namespace DDF.UI.Inventory {
 		public Inventory mainInventory;
 		public Equipment mainEquipment;
 
-		[Header("Toggles")]
+		/*[Header("Toggles")]
 		public bool DisableWorldDragging;
-		public bool DisableWorldDropping;
+		public bool DisableWorldDropping;*/
 
 		private bool isOpen = false;
 

@@ -26,7 +26,7 @@ namespace DDF.Character.Stats {
 		[SerializeField]
 		private bool enableDecrease = true;
 
-		private Stat currenStat;
+		private Stat currentStat;
 
 		public bool EnableIncrease {
 			get {
@@ -67,7 +67,7 @@ namespace DDF.Character.Stats {
 			}
 		}
 		public void SetTrack(Stat currentStat, UnityAction currentActionIncrease = null, UnityAction currentActionDecrease = null) {
-			currenStat = currentStat;
+			this.currentStat = currentStat;
 
 			increaseButton?.onClick.AddListener(currentActionIncrease);
 			decreaseButton?.onClick.AddListener(currentActionDecrease);
@@ -76,7 +76,7 @@ namespace DDF.Character.Stats {
 			txt.text = "";
 			txtAmount.text = "";
 
-			string[] txts = currenStat.Output().Split('|');
+			string[] txts = currentStat.Output().Split('|');
 			txt.text = txts[0];
 
 			txtAmount.text = txts[1];

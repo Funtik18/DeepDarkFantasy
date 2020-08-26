@@ -19,8 +19,8 @@ namespace DDF.Character.Stats {
             }
             textsPerks.Init(perks.GetAllPerks());
         }
-        protected override void Start() {
-            base.Start();
+        protected void Start() {
+            //base.Start();
 
             onChangeSkillPoints = () => UpdateTXT();
 

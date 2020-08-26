@@ -37,14 +37,12 @@ namespace DDF.Character {
             currentPerks = new List<Perk>();
 
             stats = new Stats.Stats();
-
             perks = new Perks.Perks(this);
             abilities = new Abilities.Abilities(stats);
             skills = new Skills.Skills(stats);
             effects = new Effects.Effects(this);
 
             stats.Init();
-            
             perks.Init();
             abilities.Init();
             skills.Init();
@@ -52,7 +50,8 @@ namespace DDF.Character {
         /// <summary>
         /// Первая инициализация всех статов
         /// </summary>
-		protected virtual void Start() {
+
+        protected void InitStartStats() {
             CurrentLevel = 1;
             MaxLevelExperience = 1000;
             CurrentSkillPoints = 5;
@@ -63,6 +62,12 @@ namespace DDF.Character {
 
             CurrentSpeed = MaxSpeed;
         }
+        protected void InitStartPerks() {
+            //perks.AddPerk("Cupboard");
+            perks.AddPerk("Prompt");
+            //perks.AddPerk("Savant");
+        }
+
 
         /// <summary>
         /// Минимально возможный уровень.
@@ -1079,17 +1084,6 @@ namespace DDF.Character {
 
 		#endregion
 
-
-		#region Perks
-
-		/*protected virtual void UpdatePerks() {
-			for (int i = 0; i < currentPerks.Count; i++) {
-                currentPerks[i].Calculate();
-			}
-        }*/
-
-		#endregion
-
 		#region Effects
         /// <summary>
         /// Добавляет и сразу запускает эффект.
@@ -1113,6 +1107,13 @@ namespace DDF.Character {
         /// </summary>
         protected virtual void UpdateStats() {
             MakeFormules();
+            UpdateData();
+        }
+
+        protected virtual void UpdatePerks() {
+            for (int i = 0; i < currentPerks.Count; i++) {
+                currentPerks[i].Calculate();
+            }
         }
 
         /// <summary>
@@ -1142,8 +1143,6 @@ namespace DDF.Character {
             CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + ( (float)CurrentAgility ) / 1.5f, 3);
 
             MaxSpeed = baseSpeed + CurrentAgility * 2;
-
-            UpdateData();
         }
 
         /// <summary>
