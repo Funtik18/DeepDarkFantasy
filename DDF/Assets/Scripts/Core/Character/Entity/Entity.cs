@@ -47,24 +47,18 @@ namespace DDF.Character {
             abilities.Init();
             skills.Init();
         }
-        /// <summary>
-        /// Первая инициализация всех статов
-        /// </summary>
-
+        
         protected void InitStartStats() {
             CurrentLevel = 1;
             MaxLevelExperience = 1000;
             CurrentSkillPoints = 5;
 
-            CurrentStrength = stats.Strength.amount;
-            CurrentAgility = stats.Agility.amount;
-            CurrentIntelligence = stats.Intelligence.amount;
-
             CurrentSpeed = MaxSpeed;
         }
         protected void InitStartPerks() {
-            //perks.AddPerk("Cupboard");
-            perks.AddPerk("Prompt");
+            perks.AddPerk("Talented");
+            perks.AddPerk("Cupboard");
+            //perks.AddPerk("Prompt");
             //perks.AddPerk("Savant");
         }
 
@@ -448,28 +442,21 @@ namespace DDF.Character {
         public Action onChangeMagicArmor;
         #endregion
 
-
-        [Header("Статы")]
         #region Сила
-        /// <summary>
-        /// Текущая Сила.
-        /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentStrength;
         /// <summary>
         /// Текущая Сила.
         /// </summary>
         public int CurrentStrength {
             get {
-                return currentStrength;
+                return stats.Strength.amount;
             }
             set {
-                currentStrength = value;
-                if (currentStrength < statMin) currentStrength = statMin;
+                stats.Strength.amount = value;
+                if (stats.Strength.amount < statMin) stats.Strength.amount = statMin;
                 onChangeStrength?.Invoke();
             }
         }
+
         /// <summary>
         /// Событие, если значение изменилось.
         /// </summary>
@@ -479,19 +466,13 @@ namespace DDF.Character {
         /// <summary>
         /// Текущая Ловкость.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentAgility;
-        /// <summary>
-        /// Текущая Ловкость.
-        /// </summary>
         public int CurrentAgility {
             get {
-                return currentAgility;
+                return stats.Agility.amount;
             }
             set {
-                currentAgility = value;
-                if (currentAgility < statMin) currentAgility = statMin;
+                stats.Agility.amount = value;
+                if (stats.Agility.amount < statMin) stats.Agility.amount = statMin;
                 onChangeAgility?.Invoke();
             }
         }
@@ -504,19 +485,13 @@ namespace DDF.Character {
         /// <summary>
         /// Текущий Интелект.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentIntelligence;
-        /// <summary>
-        /// Текущий Интелект.
-        /// </summary>
         public int CurrentIntelligence {
             get {
-                return currentIntelligence;
+                return stats.Intelligence.amount;
             }
             set {
-                currentIntelligence = value;
-                if (currentIntelligence < statMin) currentIntelligence = statMin;
+                stats.Intelligence.amount = value;
+                if (stats.Intelligence.amount < statMin) stats.Intelligence.amount = statMin;
                 onChangeIntelligance?.Invoke();
             }
         }
@@ -1000,6 +975,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseStrength() {
             if (CurrentStrength == statMin) return;
+            if (!stats.Strength.IsCanDecreace) return;
             CurrentStrength--;
             IncreaseSkillPoints();
             UpdateStats();
@@ -1020,6 +996,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseAgility() {
             if (CurrentAgility == statMin) return;
+            if (!stats.Agility.IsCanDecreace) return;
             CurrentAgility--;
             IncreaseSkillPoints();
             UpdateStats();
@@ -1040,6 +1017,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseIntelligence() {
             if (CurrentIntelligence == statMin) return;
+            if (!stats.Intelligence.IsCanDecreace) return;
             CurrentIntelligence--;
             IncreaseSkillPoints();
             UpdateStats();
@@ -1109,7 +1087,6 @@ namespace DDF.Character {
             MakeFormules();
             UpdateData();
         }
-
         protected virtual void UpdatePerks() {
             for (int i = 0; i < currentPerks.Count; i++) {
                 currentPerks[i].Calculate();

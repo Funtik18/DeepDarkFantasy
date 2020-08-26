@@ -743,7 +743,7 @@ PrefabInstance:
     - target: {fileID: 4793342762217752615, guid: 09002dc0a8ef3354a91bc5fe617a9ffd,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4793342762217752615, guid: 09002dc0a8ef3354a91bc5fe617a9ffd,
         type: 3}
@@ -2101,7 +2101,7 @@ PrefabInstance:
     - target: {fileID: 1689941310883974961, guid: 8ad7da14cc9a9414b98d65a06d02ba5f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1689941310883974961, guid: 8ad7da14cc9a9414b98d65a06d02ba5f,
         type: 3}
@@ -4694,7 +4694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512890f10015bc34292680d7a61b1c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPerk: {fileID: 8283457601719191530, guid: 11dad9fb44128404ab35fb6a55867606,
+  prefabPerk: {fileID: 510917074106525570, guid: 11dad9fb44128404ab35fb6a55867606,
     type: 3}
   container: {fileID: 1315672919}
 --- !u!222 &1597820493
@@ -11172,7 +11172,7 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -12401,7 +12401,7 @@ PrefabInstance:
     - target: {fileID: 515333971249280471, guid: 95c50cf2be77b37458112b4de5aa8bd6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 515333971249280471, guid: 95c50cf2be77b37458112b4de5aa8bd6,
         type: 3}
@@ -13441,7 +13441,7 @@ PrefabInstance:
     - target: {fileID: 3495307592331777787, guid: cb3c5d4a5996dc64094068ad4869f17d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3495307592331777787, guid: cb3c5d4a5996dc64094068ad4869f17d,
         type: 3}
@@ -13944,7 +13944,7 @@ PrefabInstance:
     - target: {fileID: 1689941310883974961, guid: 8ad7da14cc9a9414b98d65a06d02ba5f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1689941310883974961, guid: 8ad7da14cc9a9414b98d65a06d02ba5f,
         type: 3}
@@ -15066,7 +15066,7 @@ PrefabInstance:
     - target: {fileID: 6689128262901010809, guid: c13f534373c481e4d9714c1198730b48,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6689128262901010809, guid: c13f534373c481e4d9714c1198730b48,
         type: 3}
@@ -15429,7 +15429,7 @@ PrefabInstance:
     - target: {fileID: 2323542650840751216, guid: 2ccd2a545ef2aee4b9be454f29d96f3c,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2323542650840751216, guid: 2ccd2a545ef2aee4b9be454f29d96f3c,
         type: 3}
@@ -15687,7 +15687,7 @@ PrefabInstance:
     - target: {fileID: 5101517578231941598, guid: 2414378ccba6a7840a20e8f2c53b27e1,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5101517578231941598, guid: 2414378ccba6a7840a20e8f2c53b27e1,
         type: 3}
@@ -16175,7 +16175,7 @@ PrefabInstance:
     - target: {fileID: 5409249330940114412, guid: a1a6ffd32197ffc4facf0c0bfa12766e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5409249330940114412, guid: a1a6ffd32197ffc4facf0c0bfa12766e,
         type: 3}
@@ -16723,7 +16723,7 @@ PrefabInstance:
     - target: {fileID: 1830109236680997244, guid: 223d7d573eb4e784f9fb43e619d8a1ea,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1830109236680997244, guid: 223d7d573eb4e784f9fb43e619d8a1ea,
         type: 3}
@@ -16922,9 +16922,6 @@ MonoBehaviour:
   currentPhysicalArmor: 0
   maxMagicArmor: 0
   currentMagicArmor: 0
-  currentStrength: 0
-  currentAgility: 0
-  currentIntelligence: 0
   maxMeleeDamage: 0
   minMeleeDamage: 0
   maxShotDamage: 0
@@ -16942,6 +16939,7 @@ MonoBehaviour:
   textsStats:
   - {fileID: 354459747}
   - {fileID: 168056039}
+  textsPerks: {fileID: 1597820492}
   textsEffects: {fileID: 1960568454}
   HPBar: {fileID: 287358629}
   MPBar: {fileID: 857571796}
@@ -17175,7 +17173,7 @@ PrefabInstance:
     - target: {fileID: 821669882860455540, guid: 05b13988efef933419854fb7f0e1ae1e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 821669882860455540, guid: 05b13988efef933419854fb7f0e1ae1e,
         type: 3}
@@ -19130,7 +19128,7 @@ PrefabInstance:
     - target: {fileID: 7260155252188675743, guid: 416b6fb4dcdbb2644ae0deab203e8350,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7260155252188675743, guid: 416b6fb4dcdbb2644ae0deab203e8350,
         type: 3}
@@ -19334,7 +19332,7 @@ PrefabInstance:
     - target: {fileID: 6543777817235503506, guid: 37d19b2a6f7e84540833e1f7824c859f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6543777817235503506, guid: 37d19b2a6f7e84540833e1f7824c859f,
         type: 3}
@@ -19836,7 +19834,7 @@ PrefabInstance:
     - target: {fileID: 8444676927459290531, guid: 324f56f64c218cb45b2f7b0486b9be04,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8444676927459290531, guid: 324f56f64c218cb45b2f7b0486b9be04,
         type: 3}

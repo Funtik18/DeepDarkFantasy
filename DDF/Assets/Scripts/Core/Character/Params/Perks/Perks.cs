@@ -45,7 +45,7 @@ namespace DDF.Character.Perks {
             Prompt = new PerkInt("Проворный", entity.stats.Agility, 3, -2);
             Savant = new PerkInt("Савант", entity.stats.Intelligence, 3, -2);
 
-            //mainPerks.Add("Talented", Talented);
+            mainPerks.Add("Talented", Talented);
             mainPerks.Add("Cupboard", Cupboard);
             mainPerks.Add("Prompt", Prompt);
             mainPerks.Add("Savant", Savant);

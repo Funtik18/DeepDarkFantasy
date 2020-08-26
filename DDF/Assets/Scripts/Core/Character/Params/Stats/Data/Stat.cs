@@ -1,4 +1,7 @@
-﻿namespace DDF.Character.Stats {
+﻿using DDF.Character.Perks;
+using System.Collections.Generic;
+
+namespace DDF.Character.Stats {
 	public class Stat {
 		public string statName;
 
@@ -11,13 +14,39 @@
 
 		string regex = "";
 
+		/// <summary>
+		/// Костыль спасающий от выхода за ноль при распределении доступных очков.
+		/// </summary>
+		public bool IsCanDecreace {
+			get {
+				return ( amount - calculateExtra() ) <= 1 ? false : true ;
+			}
+		}
+		List<PerkInt> extra;
+
 		public StatInt(string newName, int max, string _regex = "" ) {
 			statName = newName;
 			amount = max;
 			regex = _regex;
+
+			extra = new List<PerkInt>();
+		}
+		public void AddExtra( PerkInt perk ) {
+			extra.Add(perk);
 		}
 		public override string Output() {
-			return statName + "|" + amount + regex;
+			int extr = calculateExtra();
+			if (extr != 0)
+				return statName + "|" + (amount - extr) + "<color=lightblue>(+" + extr + ")</color> = " + amount + regex;
+			else
+				return statName + "|" + amount + regex;
+		}
+		private int calculateExtra() {
+			int extr = 0;
+			for (int i = 0; i < extra.Count; i++) {
+				extr += extra[i].amount;
+			}
+			return extr;
 		}
 	}
 	public class StatFloat : Stat {

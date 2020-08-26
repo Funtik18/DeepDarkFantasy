@@ -18,11 +18,12 @@ namespace DDF.Character.Perks {
 		private StatInt stat;
 		public int amount;
 		public int cost;
-
+		
 		public PerkInt(string newName, Stat trackStat, int value, int value2) : base(newName) {
 			stat = trackStat as StatInt;
 			amount = value;
 			cost = value2;
+
 		}
 
 		public override string PerkNameAndCost() {
@@ -33,9 +34,9 @@ namespace DDF.Character.Perks {
 		}
 
 		public override void Calculate() {
+			stat.AddExtra(this);
 			stat.amount += amount;
 		}
-
 	}
 	public class PerkFloat : Perk {
 		private StatFloat stat;

@@ -4,7 +4,7 @@ namespace DDF.Character.Stats {
     public class Stats {
 
 		#region Stats
-		[HideInInspector ]public StatInt Level;
+		[HideInInspector] public StatInt Level;
         [HideInInspector] public StatRegularInt LevelExperience;
         [HideInInspector] public StatInt SkillPoints;
 

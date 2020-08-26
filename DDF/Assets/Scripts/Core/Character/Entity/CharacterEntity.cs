@@ -53,19 +53,12 @@ namespace DDF.Character.Stats {
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
-            onChangeSkillPoints = () => UpdateTXT();
 
-            onChangeHealthPoints = delegate { UpdateData(); UpdateTXT(); };
-            onChangeManaPoints = delegate { UpdateData(); UpdateTXT(); };
             onChangeStrength = () => UpdateTXT();
             onChangeAgility = () => UpdateTXT();
             onChangeIntelligance = () => UpdateTXT();
 
-            onChangePhysicalArmor = delegate { UpdateData(); UpdateTXT(); };
-            onChangeMagicArmor = delegate { UpdateData(); UpdateTXT(); };
             
-            
-
             UpdateUI();
             InventoryOverSeerGUI._instance.CloseGUI();
             mainInventory = InventoryOverSeerGUI._instance.mainInventory;
