@@ -25,10 +25,11 @@ namespace DDF.Character.Stats {
         [HideInInspector] public StatRegularFloat Speed;
         [HideInInspector] public StatFloat СhanceCriticalShot;
         [HideInInspector] public StatFloat СhanceCriticalStrike;
-		#endregion
-
-		public virtual void Init() {
-            //инициализация статов
+        #endregion
+        /// <summary>
+        /// Инициализация статов.
+        /// </summary>
+        public virtual void Init() {
             Level = new StatInt("Текущий уровень", 1);
             LevelExperience = new StatRegularInt("Опыт", 0, 0);
             SkillPoints = new StatInt("Доступные очки", 0);

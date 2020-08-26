@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.Character.Effects {
-
+	/// <summary>
+	/// Класс предназначен для слежением за effects на протежении всей игры.
+	/// </summary>
 	public class Effects {
 
 		private Entity entity;
@@ -26,7 +28,7 @@ namespace DDF.Character.Effects {
 			while (true) {
 				for (int i = 0; i < effects.Count; i++) {
 					if (effects[i].IsEffectProcessing) {
-						Debug.LogError(effects[i].Output());
+						//Debug.LogError(effects[i].Output());
 					} else {
 						effects[i].Execute();
 					}

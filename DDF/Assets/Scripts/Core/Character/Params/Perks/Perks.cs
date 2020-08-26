@@ -29,7 +29,7 @@ namespace DDF.Character.Perks {
         }
 
         public void Init() {
-            #region Perks помогаторы
+           /* #region Perks помогаторы
             increaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, 1, 0);
             increaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, 1, 0);
             increaceIntelligence = new PerkInt(entity.stats.Intelligence.statName, entity.stats.Intelligence, 1, 0);
@@ -48,7 +48,7 @@ namespace DDF.Character.Perks {
             //mainPerks.Add("Talented", Talented);
             mainPerks.Add("Cupboard", Cupboard);
             mainPerks.Add("Prompt", Prompt);
-            mainPerks.Add("Savant", Savant);
+            mainPerks.Add("Savant", Savant);*/
         }
         private Perk GetPerk(string perkName) {
             Perk perk;

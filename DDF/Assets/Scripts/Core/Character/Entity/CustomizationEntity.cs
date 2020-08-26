@@ -15,7 +15,7 @@ namespace DDF.Character.Stats {
         protected override void Awake() {
             base.Awake();
 			for (int i = 0; i < textsStats.Count; i++) {
-                textsStats[i].Init(statsRef);
+                textsStats[i].Init(this);
             }
             textsPerks.Init(perks.GetAllPerks());
         }

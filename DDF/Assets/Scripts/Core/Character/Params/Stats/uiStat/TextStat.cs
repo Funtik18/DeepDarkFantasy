@@ -66,11 +66,11 @@ namespace DDF.Character.Stats {
 				EnableDecrease = enableDecrease;
 			}
 		}
-		public void SetTrack( Tuple<Stat, UnityAction, UnityAction> stat) {
-			currenStat = stat.Item1;
+		public void SetTrack(Stat currentStat, UnityAction currentActionIncrease = null, UnityAction currentActionDecrease = null) {
+			currenStat = currentStat;
 
-			increaseButton?.onClick.AddListener(stat.Item2);
-			decreaseButton?.onClick.AddListener(stat.Item3);
+			increaseButton?.onClick.AddListener(currentActionIncrease);
+			decreaseButton?.onClick.AddListener(currentActionDecrease);
 		}
 		public void UpdateText(string dop = "") {
 			txt.text = "";

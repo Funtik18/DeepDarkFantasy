@@ -23,36 +23,35 @@ namespace DDF.Character.Stats {
         [SerializeField] private TextStat textStatShotDamage;
         [SerializeField] private TextStat textStatMagicDamage;
 
-
         private List<TextStat> textsStats;
-        private Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> stats;
-        public void Init( Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> curstats ) {
+        public void Init( Entity currentEntity ) {
+            Stats stats = currentEntity.stats;
+
             textsStats = new List<TextStat>();
-            stats = curstats;
 
             //track
-            textStatLevel?.SetTrack(GetStatByString("Level"));
-            textStatLevelExperience?.SetTrack(GetStatByString("LevelExperience"));
-            textStatSkillPoints?.SetTrack(GetStatByString("SkillPoints"));
+            textStatLevel?.SetTrack(stats.Level);
+            textStatLevelExperience?.SetTrack(stats.LevelExperience);
+            textStatSkillPoints?.SetTrack(stats.SkillPoints);
 
-            textStatHealthPoints?.SetTrack(GetStatByString("HealthPoints"));
-            textStatManaPoints?.SetTrack(GetStatByString("ManaPoints"));
+            textStatHealthPoints?.SetTrack(stats.HealthPoints);
+            textStatManaPoints?.SetTrack(stats.ManaPoints);
 
-            textStatStrength?.SetTrack(GetStatByString("Strength"));
-            textStatAgility?.SetTrack(GetStatByString("Agility"));
-            textStatIntelligence?.SetTrack(GetStatByString("Intelligence"));
+            textStatStrength?.SetTrack(stats.Strength, currentEntity.IncreaseStrength, currentEntity.DecreaseStrength);
+            textStatAgility?.SetTrack(stats.Agility, currentEntity.IncreaseAgility, currentEntity.DecreaseAgility);
+            textStatIntelligence?.SetTrack(stats.Intelligence, currentEntity.IncreaseIntelligence, currentEntity.DecreaseIntelligence);
 
-            textStatPhysicalArmor?.SetTrack(GetStatByString("PhysicalArmor"));
-            textStatMagicArmor?.SetTrack(GetStatByString("MagicArmor"));
+            textStatPhysicalArmor?.SetTrack(stats.PhysicalArmor);
+            textStatMagicArmor?.SetTrack(stats.MagicArmor);
 
-            textStatMeleeDamage?.SetTrack(GetStatByString("MeleeDamage"));
-            textStatShotDamage?.SetTrack(GetStatByString("ShotDamage"));
-            textStatMagicDamage?.SetTrack(GetStatByString("MagicDamage"));
+            textStatMeleeDamage?.SetTrack(stats.MeleeDamage);
+            textStatShotDamage?.SetTrack(stats.ShotDamage);
+            textStatMagicDamage?.SetTrack(stats.MagicDamage);
 
-            textStatСhanceCriticalStrike?.SetTrack(GetStatByString("СhanceCriticalStrike"));
-            textStatСhanceCriticalShot?.SetTrack(GetStatByString("СhanceCriticalShot"));
+            textStatСhanceCriticalStrike?.SetTrack(stats.СhanceCriticalStrike);
+            textStatСhanceCriticalShot?.SetTrack(stats.СhanceCriticalShot);
 
-            textStatСhanceAvoid?.SetTrack(GetStatByString("ChanceAvoid"));
+            textStatСhanceAvoid?.SetTrack(stats.ChanceAvoid);
 
             //to list
             textsStats.Add(textStatLevel);
@@ -80,12 +79,6 @@ namespace DDF.Character.Stats {
             for (int i = 0; i < textsStats.Count; i++) {
                 textsStats[i]?.UpdateText();
             }
-        }
-
-        private Tuple<Stat, UnityAction, UnityAction> GetStatByString( string id ) {
-            Tuple<Stat, UnityAction, UnityAction> tuple;
-            stats.TryGetValue(id, out tuple);
-            return tuple;
         }
     }
 }

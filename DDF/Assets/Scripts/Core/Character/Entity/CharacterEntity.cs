@@ -34,7 +34,7 @@ namespace DDF.Character.Stats {
             _instance = this;
             base.Awake();
 			foreach (var item in textsStats) {
-                item.Init(statsRef);
+                item.Init(this);
             }
             textsEffects.Init(currentEffects);
         }
@@ -42,7 +42,6 @@ namespace DDF.Character.Stats {
             base.Start();
 
             onChangeSkillPoints = () => UpdateTXT();
-
 
             onChangeHealthPoints = delegate { UpdateData(); UpdateTXT(); };
             onChangeManaPoints = delegate { UpdateData(); UpdateTXT(); };
@@ -58,9 +57,6 @@ namespace DDF.Character.Stats {
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
-            //effects.AddEffect("EffectRestoreHealth");
-            //effects.AddEffect("EffectTakeDamage");
-           // effects.UpdateEffects();
             UpdateUI();
             InventoryOverSeerGUI._instance.CloseGUI();
         }

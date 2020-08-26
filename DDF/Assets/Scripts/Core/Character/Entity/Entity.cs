@@ -13,16 +13,22 @@ using UnityEngine.Events;
 
 namespace DDF.Character {
     public class Entity : MonoBehaviour {
-        [HideInInspector] public Stats.Stats stats;
-        public Perks.Perks perks;
-        private Abilities.Abilities abilities;
-        private Skills.Skills skills;
-        public Effects.Effects effects;
+        [HideInInspector]
+        public Stats.Stats stats;
+        protected Perks.Perks perks;
+        protected Abilities.Abilities abilities;
+        protected Skills.Skills skills;
+        protected Effects.Effects effects;
 
+        /// <summary>
+        /// Текущие перки.
+        /// </summary>
         public List<Perk> currentPerks;
+        /// <summary>
+        /// Текущие-действующие эффекты.
+        /// </summary>
         public List<Effect> currentEffects;
 
-        [HideInInspector] public Dictionary<string, Tuple<Stat, UnityAction, UnityAction>> statsRef;
         protected virtual void Awake() {
             currentEffects = new List<Effect>();
             currentPerks = new List<Perk>();
@@ -40,38 +46,11 @@ namespace DDF.Character {
             perks.Init();
             abilities.Init();
             skills.Init();
-
-            
-
-            #region запись ссылок статов и некоторых функций для передачи
-            statsRef = new Dictionary<string, Tuple<Stat, UnityAction, UnityAction>>();
-
-            statsRef.Add("Level", new Tuple<Stat, UnityAction, UnityAction>(stats.Level, null, null));
-            statsRef.Add("LevelExperience", new Tuple<Stat, UnityAction, UnityAction>(stats.LevelExperience, null, null));
-            statsRef.Add("SkillPoints", new Tuple<Stat, UnityAction, UnityAction>(stats.SkillPoints, null, null));
-
-            statsRef.Add("HealthPoints", new Tuple<Stat, UnityAction, UnityAction>(stats.HealthPoints, null, null));
-            statsRef.Add("ManaPoints", new Tuple<Stat, UnityAction, UnityAction>(stats.ManaPoints, null, null));
-
-            statsRef.Add("Strength", new Tuple<Stat, UnityAction, UnityAction>(stats.Strength, IncreaseStrength, DecreaseStrength));
-            statsRef.Add("Agility", new Tuple<Stat, UnityAction, UnityAction>(stats.Agility, IncreaseAgility, DecreaseAgility));
-            statsRef.Add("Intelligence", new Tuple<Stat, UnityAction, UnityAction>(stats.Intelligence, IncreaseIntelligence, DecreaseIntelligence));
-
-            statsRef.Add("PhysicalArmor", new Tuple<Stat, UnityAction, UnityAction>(stats.PhysicalArmor, null, null));
-            statsRef.Add("MagicArmor", new Tuple<Stat, UnityAction, UnityAction>(stats.MagicArmor, null, null));
-
-            statsRef.Add("MeleeDamage", new Tuple<Stat, UnityAction, UnityAction>(stats.MeleeDamage, null, null));
-            statsRef.Add("ShotDamage", new Tuple<Stat, UnityAction, UnityAction>(stats.ShotDamage, null, null));
-            statsRef.Add("MagicDamage", new Tuple<Stat, UnityAction, UnityAction>(stats.MagicDamage, null, null));
-            statsRef.Add("СhanceCriticalStrike", new Tuple<Stat, UnityAction, UnityAction>(stats.СhanceCriticalStrike, null, null));
-            statsRef.Add("СhanceCriticalShot", new Tuple<Stat, UnityAction, UnityAction>(stats.СhanceCriticalShot, null, null));
-            statsRef.Add("ChanceAvoid", new Tuple<Stat, UnityAction, UnityAction>(stats.ChanceAvoid, null, null));
-            statsRef.Add("Speed", new Tuple<Stat, UnityAction, UnityAction>(stats.Speed, null, null));
-            
-            #endregion
         }
+        /// <summary>
+        /// Первая инициализация всех статов
+        /// </summary>
 		protected virtual void Start() {
-            //init stats
             CurrentLevel = 1;
             MaxLevelExperience = 1000;
             CurrentSkillPoints = 5;
@@ -82,7 +61,6 @@ namespace DDF.Character {
 
             CurrentSpeed = MaxSpeed;
         }
-
 
         /// <summary>
         /// Минимально возможный уровень.
@@ -111,7 +89,6 @@ namespace DDF.Character {
             }
         }
         public Action onChangeDead;
-
 
         /// <summary>
         /// Если true персонаж не может владеть магией
@@ -1098,33 +1075,35 @@ namespace DDF.Character {
             inventory.DeleteItem(item);
         }
 
-
 		#endregion
 
 
 		#region Perks
 
-		protected virtual void UpdatePerks() {
+		/*protected virtual void UpdatePerks() {
 			for (int i = 0; i < currentPerks.Count; i++) {
                 currentPerks[i].Calculate();
 			}
-        }
+        }*/
 
 		#endregion
 
 		#region Effects
+        /// <summary>
+        /// Добавляет и сразу запускает эффект.
+        /// </summary>
 		public void AddEffect(Effect effect) {
             effect.Init(this);
             effect.onDelete = ( x ) => RemoveEffect(x);
             currentEffects.Add(effect);
         }
+        /// <summary>
+        /// Удаление эффекта.
+        /// </summary>
         public void RemoveEffect( Effect effect ) {
             currentEffects.Remove(effect);
         }
-
         #endregion
-
-
 
 
         /// <summary>
