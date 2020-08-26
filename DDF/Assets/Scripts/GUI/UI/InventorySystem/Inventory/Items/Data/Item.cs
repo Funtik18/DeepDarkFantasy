@@ -47,7 +47,7 @@ namespace DDF.UI.Inventory.Items {
         [Header("Stats")]
         public int stat;
 
-        [Header("Events")]
+        [Header("Effects")]
 
         public List<Effect> effects;
 

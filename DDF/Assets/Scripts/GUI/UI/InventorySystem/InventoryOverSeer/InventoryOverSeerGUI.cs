@@ -16,6 +16,8 @@ namespace DDF.UI.Inventory {
 		public bool DisableWorldDragging;
 		public bool DisableWorldDropping;
 
+		private bool isOpen = false;
+
 		protected override void Awake() {
 			base.Awake();
 			DragParentsGUI.Init();
@@ -25,11 +27,14 @@ namespace DDF.UI.Inventory {
 
 		private void Update() {
 			if (Input.GetButtonDown(InputManager.ButtonInventoryPage)) {
-				if (GameProcess.State == GameState.stream) {
+				if (isOpen) {
+					CloseGUI();
+				} else {
 					OpenGUI(navigation.startPage);
-				} else if (GameProcess.State == GameState.pause) {
-					InventoryOverSeerGUI._instance.CloseGUI();
 				}
+			}
+			if (Input.GetButtonDown(InputManager.ButtonESC) && isOpen) {
+				CloseGUI();
 			}
 		}
 		[SerializeField]
@@ -44,12 +49,14 @@ namespace DDF.UI.Inventory {
 			GameProcess.Pause();
 			ChoosePage(pageId);
 			Help.HelpFunctions.CanvasGroupSeer.EnableGameObject(GUINavigator, true);
-			InventoryOverSeerGUI._instance.Show();
+			Show();
+			isOpen = true;
 		}
 		public void CloseGUI() {
-			InventoryOverSeerGUI._instance.Hide();
+			Hide();
 			Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(GUINavigator);
 			GameProcess.Resume();
+			isOpen = false;
 		}
 	}
 }

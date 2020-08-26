@@ -25,12 +25,17 @@ namespace DDF.UI.Inventory {
 		protected virtual void Awake() {
 			containers = new List<Inventory>();
 		}
-
+		/// <summary>
+		/// Показывает все контейнеры и их содержимое.
+		/// </summary>
 		public void Show() {
 			for (int i = 0; i < containers.Count; i++) {
 				containers[i].ShowInventory();
 			}
 		}
+		/// <summary>
+		/// Прячет все контейнеры и их содержимое.
+		/// </summary>
 		public void Hide() {
 			for(int i = 0; i < containers.Count; i++) {
 				containers[i].HideInventory();

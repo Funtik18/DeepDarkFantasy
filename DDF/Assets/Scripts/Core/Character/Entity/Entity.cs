@@ -20,6 +20,9 @@ namespace DDF.Character {
         protected Skills.Skills skills;
         protected Effects.Effects effects;
 
+        protected Inventory mainInventory;
+        protected Equipment mainEquipment;
+
         /// <summary>
         /// Текущие перки.
         /// </summary>
@@ -32,7 +35,6 @@ namespace DDF.Character {
         protected virtual void Awake() {
             currentEffects = new List<Effect>();
             currentPerks = new List<Perk>();
-
 
             stats = new Stats.Stats();
 

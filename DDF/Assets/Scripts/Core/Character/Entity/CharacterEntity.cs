@@ -4,16 +4,14 @@ using System.Collections.Generic;
 using DDF.UI.Inventory;
 using DDF.Character.Effects;
 
-/// <summary>
-/// Note: если onChange руглярка то нужно апдейтить дату по новой, тк current
-/// </summary>
 namespace DDF.Character.Stats {
+    /// <summary>
+    /// Весь UI этой сущности.
+    /// </summary>
     public class CharacterEntity : Entity {
 
         public static CharacterEntity _instance;
 
-        private Inventory mainInventory;
-        private Equipment mainEquipment;
 
         [SerializeField]
         private List<TextsStats> textsStats;
@@ -59,6 +57,8 @@ namespace DDF.Character.Stats {
 
             UpdateUI();
             InventoryOverSeerGUI._instance.CloseGUI();
+            mainInventory = InventoryOverSeerGUI._instance.mainInventory;
+            mainEquipment = InventoryOverSeerGUI._instance.mainEquipment;
         }
 		
 		
