@@ -3,6 +3,7 @@ using DDF.Help;
 using DDF.UI.Inventory.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -107,10 +108,10 @@ namespace DDF.UI.Inventory {
 			CharacterEntity._instance.Take(item, inventory);
 		}
 		private void OptionThrow( Item item ) {
-			currentInventory.DeleteItem(item);
+			//currentInventory.DeleteItem(item);
 		}
 		private void OptionEquip( Item item, Inventory inventory ) {
-			CharacterEntity._instance.Take(item, inventory);
+			CharacterEntity._instance.Equip(item, inventory);
 		}
 		private void OptionTakeOff( Item item ) {
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
@@ -149,5 +150,77 @@ namespace DDF.UI.Inventory {
 
 			isHide = true;
 		}
+
+
+		#region Tags work
+		/// <summary>
+		/// Даём айтему тэги по типу.(хлеб нужно есть, воду надо пить)
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="isGUI"></param>
+		public void ItemTagSetup( Item item, bool isGUI = true ) {
+			List<ItemTag> tags = item.tags;
+
+
+			ItemType itemType = item.GetItemType();
+
+
+			if (itemType is ConsumableType) {
+				ConsumableType consumable = itemType as ConsumableType;
+				if (consumable.conumable == Consumable.Food) {
+					AssignTag<TagEat>(tags);
+				}
+				if (consumable.conumable == Consumable.Potion) {
+					AssignTag<TagDrink>(tags);
+				}
+			}
+			if (itemType is ArmorType || itemType is WeaponType) {
+				AssignTag<TagEquip>(tags);
+			}
+
+			//общие
+			if (isGUI) {
+				FreeTag<TagTake>(tags);
+				AssignTag<TagThrow>(tags);
+				if (itemType is ArmorType || itemType is WeaponType) {
+					item.primaryTag = GetTag<TagEquip>(tags);
+				}
+				if (itemType is ConsumableType) {
+					ConsumableType consumable = itemType as ConsumableType;
+					if (consumable.conumable == Consumable.Food) {
+						item.primaryTag = GetTag<TagEat>(tags);
+					}
+					if (consumable.conumable == Consumable.Potion) {
+						item.primaryTag = GetTag<TagDrink>(tags);
+					}
+				}
+			} else {
+				AssignTag<TagTake>(tags);
+				FreeTag<TagThrow>(tags);
+
+				item.primaryTag = GetTag<TagTake>(tags);
+			}
+
+
+			tags.Sort();
+		}
+		private void AssignTag<T>( List<ItemTag> tags ) {
+			bool result = tags.OfType<T>().Any();
+			if (result == false) {
+				tags.Add(ItemsTags._instance.GetTag<T>());
+			}
+		}
+
+		private void FreeTag<T>( List<ItemTag> tags ) {
+			bool result = tags.OfType<T>().Any();
+			if (result == true) {
+				tags.Remove(GetTag<T>(tags));
+			}
+		}
+		private ItemTag GetTag<T>( List<ItemTag> tags ) {
+			return tags[tags.FindIndex(x => x is T)];
+
+		}
+		#endregion
 	}
 }

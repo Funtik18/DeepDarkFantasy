@@ -32,7 +32,6 @@ namespace DDF.UI.Inventory {
         private List<Item> currentItems;
         private List<InventoryModel> currentModels;
 
-
         #region Settup
 
         public void Init() {
@@ -131,8 +130,7 @@ namespace DDF.UI.Inventory {
         public int AddItem( Item item, bool enableModel) {
             Item clone = item.GetItemCopy();
 
-            ItemTagSetup(clone);
-            ItemEffectSetup(clone);
+            MenuOptions._instance.ItemTagSetup(clone, inventory.isGUI);
 
             for (int i = 0; i < currentItems.Count; i++) {
                 if (currentItems[i].CompareItem(clone) == 1) {
@@ -155,74 +153,6 @@ namespace DDF.UI.Inventory {
             return output;
         }
         #region ItemWork
-        private void ItemEffectSetup( Item item ) {
-            
-
-        }
-        private void ItemTagSetup( Item item ) {
-            List<ItemTag> tags = item.tags;
-            
-
-            ItemType itemType = item.GetItemType();
-
-
-            if (itemType is ConsumableType) {
-                ConsumableType consumable = itemType as ConsumableType;
-                if (consumable.conumable == Consumable.Food) {
-                    AssignTag<TagEat>(tags);
-                }
-                if (consumable.conumable == Consumable.Potion) {
-                    AssignTag<TagDrink>(tags);
-                }
-            }
-            if (itemType is ArmorType || itemType is WeaponType) {
-                AssignTag<TagEquip>(tags);
-            }
-
-            //общие
-            if (inventory.isGUI) {
-                FreeTag<TagTake>(tags);
-                AssignTag<TagThrow>(tags);
-                if (itemType is ArmorType || itemType is WeaponType) {
-                    item.primaryTag = GetTag<TagEquip>(tags);
-                }
-                if (itemType is ConsumableType) {
-                    ConsumableType consumable = itemType as ConsumableType;
-                    if (consumable.conumable == Consumable.Food) {
-                        item.primaryTag = GetTag<TagEat>(tags);
-                    }
-                    if (consumable.conumable == Consumable.Potion) {
-                        item.primaryTag = GetTag<TagDrink>(tags);
-                    }
-                }
-            } else {
-                AssignTag<TagTake>(tags);
-                FreeTag<TagThrow>(tags);
-
-                item.primaryTag = GetTag<TagTake>(tags);
-            }
-            
-            
-            tags.Sort();
-        }
-        private void AssignTag<T>( List<ItemTag> tags ) {
-            bool result = tags.OfType<T>().Any();
-            if (result == false) {
-                tags.Add(ItemsTags._instance.GetTag<T>());
-            }
-        }
-
-        private void FreeTag<T>( List<ItemTag> tags ) {
-            bool result = tags.OfType<T>().Any();
-            if (result == true) {
-                tags.Remove(GetTag<T>(tags));
-            }
-        }
-        private ItemTag GetTag<T>( List<ItemTag> tags ) {
-            return tags[tags.FindIndex(x => x is T)];
-
-        }
-
         private bool IncreaseItemCount(Item item, uint count) {
             if (item.itemStackSize == -1) {//объект "бесконечный", деньги
                 item.itemStackCount += count;
@@ -494,7 +424,10 @@ namespace DDF.UI.Inventory {
             }
         }
 
-
+        /// <summary>
+        /// TODO: проредить
+        /// </summary>
+        /// <param name="isRestrictions"></param>
         private void ItemBackToRootSlot(bool isRestrictions  = false) {
             InventoryContainer from = overSeer.from.container;
             InventoryModel model = overSeer.rootModel;

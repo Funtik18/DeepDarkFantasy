@@ -1049,7 +1049,7 @@ namespace DDF.Character {
             inventory.DeleteItem(item);
         }
         public virtual void Equip( Item item, Inventory inventory ) {
-            if(InventoryOverSeerGUI._instance.mainEquipment.Equip(item))
+            if(mainEquipment.Equip(item))
                 inventory.DeleteItem(item);
         }
 
