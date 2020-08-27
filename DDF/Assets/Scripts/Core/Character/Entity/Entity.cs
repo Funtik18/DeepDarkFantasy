@@ -1043,16 +1043,29 @@ namespace DDF.Character {
 
 		#endregion
 
-		#region
+		#region Actions
         public virtual void Take( Item item, Inventory inventory ) {
             InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
             inventory.DeleteItem(item);
         }
         public virtual void Equip( Item item, Inventory inventory ) {
-            if(mainEquipment.Equip(item))
-                inventory.DeleteItem(item);
+            Item equipedItem = mainEquipment.Equip(item);
+            if (equipedItem == null) return;
+            inventory.DeleteItem(item);
+            //tags
+            List<ItemTag> tags = equipedItem.tags;
+            tags.Clear();
+            //TODO: закешить
+            MenuOptions._instance.AssignTag<TagTakeOff>(tags);
+            MenuOptions._instance.AssignTag<TagThrow>(tags);
+            equipedItem.primaryTag = MenuOptions._instance.GetTag<TagTakeOff>(tags);
         }
+        public virtual void TakeOff( Item item, Inventory inventory ) {
 
+            Item dropedItem = mainEquipment.TakeOff(item);
+            if (dropedItem == null) return;
+            mainInventory.AddItem(dropedItem);
+        }
         public virtual void Drink( Item item, Inventory inventory) {
             for (int i = 0; i < item.effects.Count; i++) {
                 AddEffect(Instantiate(item.effects[i]));

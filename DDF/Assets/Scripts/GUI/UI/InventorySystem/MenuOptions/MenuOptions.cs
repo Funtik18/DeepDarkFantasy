@@ -95,10 +95,10 @@ namespace DDF.UI.Inventory {
 		public UnityAction<Item, Inventory> DetermineAction(ItemTag tag) {
 			switch (tag) {
 				case TagTake t: return OptionTake;
-				//case TagThrow t: return OptionThrow;
+				case TagThrow t: return OptionThrow;
 				case TagEquip t: return OptionEquip;
-				//case TagTakeOff t: return OptionTakeOff;
-				//case TagEat t: return OptionEat;
+				case TagTakeOff t: return OptionTakeOff;
+				case TagEat t: return OptionEat;
 				case TagDrink t: return OptionDrink;
 
 				default: return DefaultOption;
@@ -107,16 +107,19 @@ namespace DDF.UI.Inventory {
 		private void OptionTake( Item item, Inventory inventory ) {
 			CharacterEntity._instance.Take(item, inventory);
 		}
-		private void OptionThrow( Item item ) {
+		private void OptionThrow( Item item, Inventory inventory ) {
+			Debug.LogError("+");
+
 			//currentInventory.DeleteItem(item);
 		}
 		private void OptionEquip( Item item, Inventory inventory ) {
 			CharacterEntity._instance.Equip(item, inventory);
 		}
-		private void OptionTakeOff( Item item ) {
-			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
+		private void OptionTakeOff( Item item, Inventory inventory ) {
+			CharacterEntity._instance.TakeOff(item, inventory);
+
 		}
-		private void OptionEat( Item item ) {
+		private void OptionEat( Item item, Inventory inventory ) {
 			//CharacterEntity._instance.RestoreHealth()
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
@@ -160,10 +163,7 @@ namespace DDF.UI.Inventory {
 		/// <param name="isGUI"></param>
 		public void ItemTagSetup( Item item, bool isGUI = true ) {
 			List<ItemTag> tags = item.tags;
-
-
 			ItemType itemType = item.GetItemType();
-
 
 			if (itemType is ConsumableType) {
 				ConsumableType consumable = itemType as ConsumableType;
@@ -204,20 +204,20 @@ namespace DDF.UI.Inventory {
 
 			tags.Sort();
 		}
-		private void AssignTag<T>( List<ItemTag> tags ) {
+		public void AssignTag<T>( List<ItemTag> tags ) {
 			bool result = tags.OfType<T>().Any();
 			if (result == false) {
 				tags.Add(ItemsTags._instance.GetTag<T>());
 			}
 		}
 
-		private void FreeTag<T>( List<ItemTag> tags ) {
+		public void FreeTag<T>( List<ItemTag> tags ) {
 			bool result = tags.OfType<T>().Any();
 			if (result == true) {
 				tags.Remove(GetTag<T>(tags));
 			}
 		}
-		private ItemTag GetTag<T>( List<ItemTag> tags ) {
+		public ItemTag GetTag<T>( List<ItemTag> tags ) {
 			return tags[tags.FindIndex(x => x is T)];
 
 		}

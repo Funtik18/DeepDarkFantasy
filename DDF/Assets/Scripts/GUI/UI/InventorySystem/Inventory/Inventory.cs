@@ -48,9 +48,8 @@ namespace DDF.UI.Inventory {
 			container.Init();
 		}
 
-		public int AddItem(Item item, bool enableModel = true) {
-			int result = container.AddItem(item, enableModel);
-			return result;
+		public Item AddItem(Item item, bool enableModel = true) {
+			return container.AddItem(item, enableModel);
 		}
 		public void AddItems() {
 

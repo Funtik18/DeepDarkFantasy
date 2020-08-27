@@ -47,6 +47,8 @@ namespace DDF.UI.Inventory {
 
 		private List<Inventory> rings;
 
+		private List<Inventory> allSlots;
+
 		private void Awake() {
 			rings = new List<Inventory>();
 			rings.Add(lRing0Equipment);
@@ -59,33 +61,54 @@ namespace DDF.UI.Inventory {
 			rings.Add(rRing2Equipment);
 			rings.Add(rRing3Equipment);
 			rings.Add(rRing4Equipment);
+
+			allSlots = new List<Inventory>();
+			allSlots.Add(headEquipment);
+			allSlots.Add(chestEquipment);
+			allSlots.Add(lHandEquipment);
+			allSlots.Add(rHandEquipment);
+			allSlots.Add(lBracletEquipment);
+			allSlots.Add(rBracletEquipment);
+			allSlots.Add(legEquipment);
+			allSlots.Add(feetEquipment);
+			allSlots.AddRange(rings);
 		}
 
-		public bool Equip(Item item ) {
-			if (CompareTypes(headEquipment, item)) return true;
-			if (CompareTypes(chestEquipment, item)) return true;
-			if (CompareTypes(lHandEquipment, item)) return true;
-			if (CompareTypes(rHandEquipment, item)) return true;
-			if (CompareTypes(lBracletEquipment, item)) return true;
-			if (CompareTypes(rBracletEquipment, item)) return true;
-			if (CompareTypes(legEquipment, item)) return true;
-			if (CompareTypes(feetEquipment, item)) return true;
-
-			for(int i = 0; i < rings.Count; i++) {
-				if (CompareTypes(rings[i], item)) return true;
+		public Item Equip(Item item ) {
+			for (int i = 0; i < allSlots.Count; i++) {
+				Item clone = CompareTypesEquip(allSlots[i], item);
+				if (clone != null) return clone;
 			}
-			return false;
+			return null;
 		}
-		private bool CompareTypes( Inventory inventory, Item item ) {
+		public Item TakeOff( Item item ) {
+			for(int i = 0; i < allSlots.Count; i++) {
+				Item clone = CompareTypesTakeoff(allSlots[i], item);
+				if (clone != null) return clone;
+			}
+			return null;
+		}
+
+		private Item CompareTypesEquip( Inventory inventory, Item item ) {
 			if (inventory.IsEmpty) {
 				for (int i = 0; i < inventory.storageTypes.Count; i++) {
 					if (item.CompareItemType(inventory.storageTypes[i]) == 1) {
-						inventory.AddItem(item);
-						return true;
+						Item addeditem = inventory.AddItem(item);
+						return addeditem;
 					}
 				}
 			}
-			return false;
+			return null;
+		}
+		private Item CompareTypesTakeoff( Inventory inventory, Item item ) {
+			if (!inventory.IsEmpty) {
+				if (inventory.currentItems.Contains(item)) {
+					Item clone = item.GetItemCopy();
+					inventory.DeleteItem(item);
+					return clone;
+				}
+			}
+			return null;
 		}
 	}
 }

@@ -113,7 +113,7 @@ namespace DDF.UI.Inventory {
         public void OnPointerClick( PointerEventData eventData ) {
             //if (InvalidateClick) return;
             //if (TouchHover && Time.unscaledTime - HoverStartTime > MinHoverTime) return;
-            if(eventData.button == PointerEventData.InputButton.Left) {
+            if (eventData.button == PointerEventData.InputButton.Left) {
                 OnLeftClick.Invoke(eventData, this);
             }
             if (eventData.button == PointerEventData.InputButton.Middle) {

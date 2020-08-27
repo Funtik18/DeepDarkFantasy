@@ -127,7 +127,7 @@ namespace DDF.UI.Inventory {
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public int AddItem( Item item, bool enableModel) {
+        public Item AddItem( Item item, bool enableModel) {
             Item clone = item.GetItemCopy();
 
             MenuOptions._instance.ItemTagSetup(clone, inventory.isGUI);
@@ -139,7 +139,7 @@ namespace DDF.UI.Inventory {
                         //обновляем модель
                         InventoryModel model = FindModelByItem(currentItems[i]);
                         model.RefreshModel();
-                        return 1;
+                        return clone;
                     }
                 }
             }
@@ -150,7 +150,7 @@ namespace DDF.UI.Inventory {
                 inventory.isFull = true;
             }
 
-            return output;
+            return clone;
         }
         #region ItemWork
         private bool IncreaseItemCount(Item item, uint count) {
@@ -293,24 +293,16 @@ namespace DDF.UI.Inventory {
         public void OnPointerLeftClick( PointerEventData eventData, InventorySlot slot ) {
             if (slot.isEmpty()) return;
 
-            overSeer.from = inventory;
+            int clickCount = eventData.clickCount;
+            if (clickCount == 1) {
 
-            #region DoubleClick
-            clicked++;
-            if (clicked == 1) clicktime = Time.time;
-
-            if (clicked > 1 && Time.time - clicktime < clickdelay) {
-                clicked = 0;
-                clicktime = 0;
-
+			} 
+            else if (clickCount == 2) {
                 Item item = slot.Item;
                 MenuOptions._instance.DetermineAction(item.primaryTag)?.Invoke(item, inventory);
-            
-            } else if (clicked > 2 || Time.time - clicktime > 1) clicked = 0;
-            #endregion
+            } else if (clickCount > 2) {
 
-            overSeer.from = null;
-
+			}
             MenuOptionsHide();
         }
         public void OnPointerMiddleClick( PointerEventData eventData, InventorySlot slot ) { }

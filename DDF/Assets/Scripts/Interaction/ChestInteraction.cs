@@ -59,8 +59,8 @@ namespace DDF.Environment {
 			Inventory inventory = InventoryOverSeerGUI._instance.mainInventory;
 			List<Item> items = new List<Item>();
 			for(int i = 0; i < insInventory.currentItems.Count; i++) {
-				int result = inventory.AddItem(insInventory.currentItems[i], false);
-				if(result == 1) {
+				Item item = inventory.AddItem(insInventory.currentItems[i], false);
+				if(item != null) {
 					items.Add(insInventory.currentItems[i]);
 				} else {
 					Debug.LogError("error");
