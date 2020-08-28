@@ -1,16 +1,12 @@
 ﻿using DDF.Atributes;
 using DDF.Character.Effects;
 using DDF.Character.Perks;
-using DDF.Character.Stats;
-using DDF.Events;
-using DDF.IO;
 using DDF.Randomizer;
 using DDF.UI.Inventory;
 using DDF.UI.Inventory.Items;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace DDF.Character {
     public class Entity : MonoBehaviour {
@@ -57,7 +53,7 @@ namespace DDF.Character {
             CurrentSpeed = MaxSpeed;
         }
         protected void InitStartEffects() {
-            effects.AddEffect(Instantiate(Resources.Load<Effect>(FileManager.EFFECTS_PATH + "/EffectRegenerateHealth")));
+            effects.AddEffect("EffectRegenerateHealth");
 		}
         protected void InitStartPerks() {
             perks.AddPerk("Talented");

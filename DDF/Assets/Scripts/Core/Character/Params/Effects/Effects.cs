@@ -1,10 +1,9 @@
-﻿using DDF.Events;
-using DDF.Help;
-using DDF.UI.Inventory;
-using DDF.UI.Inventory.Items;
-using System.Collections;
+﻿using DDF.Help;
+using DDF.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.Events;
 
 namespace DDF.Character.Effects {
 	/// <summary>
@@ -15,10 +14,17 @@ namespace DDF.Character.Effects {
 		private Entity entity;
 		private List<Effect> currEffects;
 		private CoroutineObject coroutineObject;
-		
+
+		public UnityAction<Effect> effectOnStart;
+		public UnityAction<Effect> effectOnUpdate;
+		public UnityAction<Effect> effectOnEnd;
+		public UnityAction<Effect> effectOnDelete;
+
 		public Effects( Entity newEntity ) {
 			entity = newEntity;
 			currEffects = entity.currentEffects;
+
+			effectOnDelete += (x) => RemoveEffect(x);
 
 			coroutineObject = new CoroutineObject(entity, EffectMonitoring);
 			coroutineObject.Start();
@@ -28,10 +34,19 @@ namespace DDF.Character.Effects {
 		/// Добавляет и сразу запускает эффект.
 		/// </summary>
 		public void AddEffect(Effect effect) {
-			Debug.LogError(effect.effectName);
 			effect.Init(entity);
-			effect.onDelete = (x) => RemoveEffect(x);
+			effect.onStart = effectOnStart;
+			effect.onUpdate = effectOnUpdate;
+			effect.onEnd = effectOnEnd;
+			effect.onDelete = effectOnDelete;
 			entity.currentEffects.Add(effect);
+		}
+		/// <summary>
+		/// Загрузка эффекта из ресурсов и добавление.
+		/// </summary>
+		/// <param name="effect"></param>
+		public void AddEffect(string effect) {
+			AddEffect(ScriptableObject.Instantiate(Resources.Load<Effect>(FileManager.EFFECTS_PATH + "/" + effect)));
 		}
 		/// <summary>
 		/// Удаление эффекта.

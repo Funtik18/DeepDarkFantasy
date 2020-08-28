@@ -40,7 +40,9 @@ namespace DDF.Character.Stats {
             }
             textsPerks.Init(currentPerks);
             textsEffects.Init(currentEffects);
-
+            effects.effectOnStart += textsEffects.CreateEffect;
+            effects.effectOnUpdate += textsEffects.UpdateEffectTXT;
+            effects.effectOnDelete = textsEffects.RemoveEffect + effects.effectOnDelete;
         }
         protected void Start() {
 
@@ -86,7 +88,6 @@ namespace DDF.Character.Stats {
             foreach (var item in textsStats) {
                 item.UpdateAllTXT();
             }
-            //textsEffects.UpdateAllTXT();
             textsPerks.UpdateAllTXT();
         }
         #endregion

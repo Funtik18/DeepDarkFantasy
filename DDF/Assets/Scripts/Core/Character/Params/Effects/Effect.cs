@@ -8,9 +8,9 @@ namespace DDF.Character.Effects {
 		public Sprite effectIcon;
 		public string effectName = "Effect";
 
-		public UnityAction onStart;
-		public UnityAction onUpdate;
-		public UnityAction onEnd;
+		public UnityAction<Effect> onStart;
+		public UnityAction<Effect> onUpdate;
+		public UnityAction<Effect> onEnd;
 		public UnityAction<Effect> onDelete;
 
 

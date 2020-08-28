@@ -20,14 +20,14 @@ namespace DDF.Character.Effects {
 		}
 
 		protected override IEnumerator EffectExecution() {
-			onStart?.Invoke();
+			onStart?.Invoke(this);
 			while (actionCurrentStep < actionAmount) {
 				entity.RestoreHealth(healAmount);
-				onUpdate?.Invoke();
+				onUpdate?.Invoke(this);
 				yield return new WaitForSeconds(actionDelay);
 				actionCurrentStep += actionStep;
 			}
-			onEnd?.Invoke();
+			onEnd?.Invoke(this);
 			onDelete?.Invoke(this);
 		}
 	}

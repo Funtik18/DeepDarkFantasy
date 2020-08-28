@@ -15,11 +15,11 @@ namespace DDF.Character.Effects {
 		}
 
 		protected override IEnumerator EffectExecution() {
-			onStart?.Invoke();
+			onStart?.Invoke(this);
 			entity.RestoreHealth(healAmount);
-			onUpdate?.Invoke();
+			onUpdate?.Invoke(this);
 			yield return null;
-			onEnd?.Invoke();
+			onEnd?.Invoke(this);
 			onDelete?.Invoke(this);
 		}
 	}
