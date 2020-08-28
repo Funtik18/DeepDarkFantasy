@@ -8,10 +8,10 @@ namespace DDF.Character.Perks {
         private Entity entity;
 
         #region Perks
-        protected PerkComplex Talented;
-        protected PerkInt Cupboard;
-        protected PerkInt Prompt;
-        protected PerkInt Savant;
+        public PerkComplex Talented;
+        public PerkInt Cupboard;
+        public PerkInt Prompt;
+        public PerkInt Savant;
         #endregion
         private PerkInt increaceStrength;
         private PerkInt increaceAgility;

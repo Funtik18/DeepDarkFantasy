@@ -13,24 +13,40 @@ namespace DDF.Character.Effects {
 	public class Effects {
 
 		private Entity entity;
-		private List<Effect> effects;
+		private List<Effect> currEffects;
 		private CoroutineObject coroutineObject;
 		
 		public Effects( Entity newEntity ) {
 			entity = newEntity;
-			effects = entity.currentEffects;
+			currEffects = entity.currentEffects;
 
 			coroutineObject = new CoroutineObject(entity, EffectMonitoring);
 			coroutineObject.Start();
 		}
 
+		/// <summary>
+		/// Добавляет и сразу запускает эффект.
+		/// </summary>
+		public void AddEffect(Effect effect) {
+			Debug.LogError(effect.effectName);
+			effect.Init(entity);
+			effect.onDelete = (x) => RemoveEffect(x);
+			entity.currentEffects.Add(effect);
+		}
+		/// <summary>
+		/// Удаление эффекта.
+		/// </summary>
+		public void RemoveEffect(Effect effect) {
+			entity.currentEffects.Remove(effect);
+		}
+
 		private IEnumerator EffectMonitoring() {
 			while (true) {
-				for (int i = 0; i < effects.Count; i++) {
-					if (effects[i].IsEffectProcessing) {
+				for (int i = 0; i < currEffects.Count; i++) {
+					if (currEffects[i].IsEffectProcessing) {
 						//Debug.LogError(effects[i].Output());
 					} else {
-						effects[i].Execute();
+						currEffects[i].Execute();
 					}
 				}
 				yield return null;

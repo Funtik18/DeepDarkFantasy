@@ -50,6 +50,8 @@ namespace DDF.Character.Stats {
             base.InitStartStats();
             base.UpdateStats();
 
+            base.InitStartEffects();
+
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
@@ -84,7 +86,7 @@ namespace DDF.Character.Stats {
             foreach (var item in textsStats) {
                 item.UpdateAllTXT();
             }
-            textsEffects.UpdateAllTXT();
+            //textsEffects.UpdateAllTXT();
             textsPerks.UpdateAllTXT();
         }
         #endregion

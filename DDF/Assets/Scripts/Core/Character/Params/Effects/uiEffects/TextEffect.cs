@@ -9,7 +9,11 @@ namespace DDF.Character.Effects {
         [SerializeField]
         private TMPro.TextMeshProUGUI txt;
 
-        public Effect currentEffect;
+        private Effect currentEffect;
+
+        public void SetTrack(Effect currEffect) {
+            currentEffect = currEffect;
+        }
 
         public void UpdateText(string dop = "") {
             icon.sprite = currentEffect.effectIcon;

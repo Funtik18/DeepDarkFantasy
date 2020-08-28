@@ -3,6 +3,7 @@ using DDF.Character.Effects;
 using DDF.Character.Perks;
 using DDF.Character.Stats;
 using DDF.Events;
+using DDF.IO;
 using DDF.Randomizer;
 using DDF.UI.Inventory;
 using DDF.UI.Inventory.Items;
@@ -55,6 +56,9 @@ namespace DDF.Character {
 
             CurrentSpeed = MaxSpeed;
         }
+        protected void InitStartEffects() {
+            effects.AddEffect(Instantiate(Resources.Load<Effect>(FileManager.EFFECTS_PATH + "/EffectRegenerateHealth")));
+		}
         protected void InitStartPerks() {
             perks.AddPerk("Talented");
             perks.AddPerk("Cupboard");
@@ -1068,29 +1072,12 @@ namespace DDF.Character {
         }
         public virtual void Drink( Item item, Inventory inventory) {
             for (int i = 0; i < item.effects.Count; i++) {
-                AddEffect(Instantiate(item.effects[i]));
+                effects.AddEffect(Instantiate(item.effects[i]));
             }
             inventory.DeleteItem(item);
         }
 
 		#endregion
-
-		#region Effects
-        /// <summary>
-        /// Добавляет и сразу запускает эффект.
-        /// </summary>
-		public void AddEffect(Effect effect) {
-            effect.Init(this);
-            effect.onDelete = ( x ) => RemoveEffect(x);
-            currentEffects.Add(effect);
-        }
-        /// <summary>
-        /// Удаление эффекта.
-        /// </summary>
-        public void RemoveEffect( Effect effect ) {
-            currentEffects.Remove(effect);
-        }
-        #endregion
 
 
         /// <summary>
