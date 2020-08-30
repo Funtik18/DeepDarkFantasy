@@ -1,4 +1,5 @@
-﻿using DDF.Character.Stats;
+﻿using DDF.Character;
+using DDF.Character.Stats;
 using DDF.Help;
 using DDF.UI.Inventory.Items;
 using System;
