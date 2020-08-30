@@ -4,7 +4,7 @@ using UnityEngine;
 using DDF.Atributes;
 using DDF.Character.Stats;
 
-public class Monster_AI : MonoBehaviour
+public class Monster_AI_1 : MonoBehaviour
 {
     public float speed = 20, speedRotation = 20, gravity = 3, sparing_distance = 15;
     
@@ -25,7 +25,7 @@ public class Monster_AI : MonoBehaviour
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
-    private NPSEntity stats;
+    private CharacterEntity stats;
     private int nap = 0;
     // Start is called before the first frame update
     void Start()
@@ -35,10 +35,10 @@ public class Monster_AI : MonoBehaviour
         if(GetComponentInChildren<RayScan>()!=null){
             Myeyes = GetComponentInChildren<RayScan>();
         }
-        if(GetComponentInChildren<NPSEntity>()!=null){
-            stats = GetComponentInChildren<NPSEntity>();
+        if(GetComponentInChildren<CharacterEntity>()!=null){
+            stats = GetComponentInChildren<CharacterEntity>();
             mYHp = stats.CurrentHealthPoints;
-        }else{Debug.Log("Подключи NPS Entity");}
+        }
     }
 
     // Update is called once per frame
@@ -190,8 +190,8 @@ public class Monster_AI : MonoBehaviour
                 }
             } 
 
-        if(enemy.GetComponent<NPSEntity>()!=null)
-        if(enemy.GetComponent<NPSEntity>().IsDead) {
+        if(enemy.GetComponent<CharacterEntity>()!=null)
+        if(enemy.GetComponent<CharacterEntity>().IsDead) {
             enemys.Remove(enemy);
             endbattle = true;
         }   
@@ -222,9 +222,8 @@ public class Monster_AI : MonoBehaviour
     public void IseeSomething(GameObject other){
         bool frendly = true;
         foreach(string s in Targets_Tag){
-            //Debug.Log("Я тебя вижу");
+            //Debug.Log(other.name+" "+other.tag+" "+ s);
             if(other.tag.Equals(s)){
-                //Debug.Log("Ты мне не Друг");
                 frendly = false;
             }
         }
@@ -236,13 +235,12 @@ public class Monster_AI : MonoBehaviour
                 }
             }
             if(!have){
-                //Debug.Log("Мы не встречались");
-                if(other.GetComponent<NPSEntity>()!=null)
-                    if(!other.GetComponent<NPSEntity>().IsDead)
+                if(other.GetComponent<CharacterEntity>()!=null)
+                    if(!other.GetComponent<CharacterEntity>().IsDead)
                         enemys.Add(other);
             }
         }
-     //Debug.Log("See Enemy, His friend? "+frendly+" i see him agane? "+have);
+    // Debug.Log("See Enemy, His friend? "+frendly+" i see him agane? "+have);
     }
 
     private void move_to_point(){

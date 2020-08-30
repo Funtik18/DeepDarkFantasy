@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: 8387475175733136246}
   - component: {fileID: 6637652393754637771}
   - component: {fileID: 9133341140747581085}
-  - component: {fileID: 6269559700729045505}
+  - component: {fileID: -2061757179757935941}
   m_Layer: 0
   m_Name: skeleton_with_BONE
   m_TagString: Skeleton
@@ -1159,6 +1159,7 @@ MonoBehaviour:
   Targets_Tag:
   - Zombie
   - knight
+  - Monster
 --- !u!114 &8387475175733136246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,7 +1208,7 @@ CapsuleCollider:
   m_Height: 188.43
   m_Direction: 1
   m_Center: {x: 0, y: 87.7, z: 0}
---- !u!114 &6269559700729045505
+--- !u!114 &-2061757179757935941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1216,12 +1217,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 3990362593622873739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7322285a41395b546b1f209add5d9e7e, type: 3}
+  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 20
-  dead: 0
-  Iam: {fileID: 0}
+  currentEffects: []
+  isDead: 0
+  isCastrat: 0
+  currentLevel: 0
+  maxLevelExperience: 0
+  currentLevelExperience: 0
+  maxSkillPoints: 0
+  currentSkillPoints: 0
+  maxHealthPoints: 0
+  currentHealthPoints: 0
+  maxManaPoints: 0
+  currentManaPoints: 0
+  maxPhysicalArmor: 0
+  currentPhysicalArmor: 0
+  maxMagicArmor: 0
+  currentMagicArmor: 0
+  maxMeleeDamage: 0
+  minMeleeDamage: 0
+  maxShotDamage: 0
+  minShotDamage: 0
+  maxMagicDamage: 0
+  minMagicDamage: 0
+  "max\u0421hanceCriticalStrike": 100
+  "current\u0421hanceCriticalStrike": 0
+  "max\u0421hanceCriticalShot": 100
+  "current\u0421hanceCriticalShot": 0
+  maxChanceAvoid: 100
+  currentChanceAvoid: 0
+  maxSpeed: 0
+  currentSpeed: 0
+  strength: 5
+  agility: 5
+  Speed: 1
 --- !u!1 &4237167976554994198
 GameObject:
   m_ObjectHideFlags: 0
