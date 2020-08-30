@@ -1,4 +1,5 @@
-﻿using DDF.Character.Stats;
+﻿using DDF.Character;
+using DDF.Character.Stats;
 using UnityEngine;
 
 public class arrow : MonoBehaviour

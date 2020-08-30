@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DDF.Atributes;
 using DDF.Character.Stats;
+using DDF.Character;
 
 public class Zombie_AI : MonoBehaviour
 {
