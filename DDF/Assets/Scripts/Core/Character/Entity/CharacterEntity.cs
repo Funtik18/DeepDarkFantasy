@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using DDF.UI.Inventory;
 using DDF.Character.Effects;
 using DDF.Character.Perks;
+using DDF.Character.Stats;
 
-namespace DDF.Character.Stats {
+namespace DDF.Character {
     /// <summary>
     /// Весь UI этой сущности.
     /// </summary>
