@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace DDF.Character {
     public class Entity : MonoBehaviour {
-        [HideInInspector]
         public Stats.Stats stats;
         protected Perks.Perks perks;
         protected Abilities.Abilities abilities;
@@ -29,7 +28,8 @@ namespace DDF.Character {
         /// </summary>
         public List<Effect> currentEffects;
 
-        protected virtual void Awake() {
+        protected virtual void Awake()
+        {
             currentEffects = new List<Effect>();
             currentPerks = new List<Perk>();
 
@@ -44,18 +44,21 @@ namespace DDF.Character {
             abilities.Init();
             skills.Init();
         }
-        
-        protected void InitStartStats() {
+
+        protected void InitStartStats()
+        {
             CurrentLevel = 1;
             MaxLevelExperience = 1000;
             CurrentSkillPoints = 5;
 
             CurrentSpeed = MaxSpeed;
         }
-        protected void InitStartEffects() {
+        protected void InitStartEffects()
+        {
             effects.AddEffect("EffectRegenerateHealth");
-		}
-        protected void InitStartPerks() {
+        }
+        protected void InitStartPerks()
+        {
             perks.AddPerk("Talented");
             perks.AddPerk("Cupboard");
             //perks.AddPerk("Prompt");
@@ -79,13 +82,16 @@ namespace DDF.Character {
         [SerializeField]
         [ReadOnly]
         private bool isDead = false;
-        public bool IsDead {
-            get {
+        public bool IsDead
+        {
+            get
+            {
                 return isDead;
             }
-            set {
+            set
+            {
                 isDead = value;
-                if (isDead) currentHealthPoints = 0;
+                if (isDead) stats.HealthPoints.currentInamount = 0;
                 onChangeDead?.Invoke();
             }
         }
@@ -97,11 +103,14 @@ namespace DDF.Character {
         [SerializeField]
         [ReadOnly]
         private bool isCastrat = false;
-        public bool ISCastrat {
-            get {
+        public bool ISCastrat
+        {
+            get
+            {
                 return isCastrat;
             }
-            set {
+            set
+            {
                 isCastrat = value;
                 if (isCastrat) MaxManaPoints = 0;
                 onChangeCastrat?.Invoke();
@@ -110,23 +119,19 @@ namespace DDF.Character {
         public Action onChangeCastrat;
 
         #region Уровень
-        [Header("Уровень")]
         /// <summary>
         /// Текущий Уровень.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentLevel;
-        /// <summary>
-        /// Текущий Уровень.
-        /// </summary>
-        public int CurrentLevel {
-            get {
-                return currentLevel;
+        public int CurrentLevel
+        {
+            get
+            {
+                return stats.Level.amount;
             }
-            set {
-                currentLevel = value;
-                if (currentLevel < levelMin) currentLevel = levelMin;
+            set
+            {
+                stats.Level.amount = value;
+                if (stats.Level.amount < levelMin) stats.Level.amount = levelMin;
                 onChangeLevel?.Invoke();
             }
         }
@@ -143,18 +148,15 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Опыта.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int maxLevelExperience;
-        /// <summary>
-        /// Максимально возможное значение для Опыта.
-        /// </summary>
-        public int MaxLevelExperience {
-            get {
-                return maxLevelExperience;
+        public int MaxLevelExperience
+        {
+            get
+            {
+                return stats.LevelExperience.amount;
             }
-            set {
-                maxLevelExperience = value;
+            set
+            {
+                stats.LevelExperience.amount = value;
                 /*if (maxLevelExperience <= 0) maxLevelExperience = 0;
                 if (maxLevelExperience < CurrentLevelExperience) CurrentLevelExperience = maxLevelExperience;
                 onChangeLevelExperience?.Invoke();*/
@@ -163,23 +165,21 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Опыта.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentLevelExperience;
-        /// <summary>
-        /// Текущее значение Опыта.
-        /// </summary>
-        public int CurrentLevelExperience {
-            get {
-                return currentLevelExperience;
+        public int CurrentLevelExperience
+        {
+            get
+            {
+                return stats.LevelExperience.currentInamount;
             }
-            set {
-                currentLevelExperience = value;
-                if (currentLevelExperience >= MaxLevelExperience) {
+            set
+            {
+                stats.LevelExperience.currentInamount = value;
+                if (stats.LevelExperience.currentInamount >= MaxLevelExperience)
+                {
                     IncreaseLevel();
-                    CurrentLevelExperience = CurrentLevelExperience - maxLevelExperience;
+                    CurrentLevelExperience = CurrentLevelExperience - stats.LevelExperience.amount;
                 }
-                if (currentLevelExperience <= 0) currentLevelExperience = 0;
+                if (stats.LevelExperience.currentInamount <= 0) stats.LevelExperience.currentInamount = 0;
                 onChangeLevelExperience?.Invoke();
             }
         }
@@ -202,11 +202,14 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Очков Навыков.
         /// </summary>
-        public int MaxSkillPoints {
-            get {
+        public int MaxSkillPoints
+        {
+            get
+            {
                 return maxSkillPoints;
             }
-            set {
+            set
+            {
                 maxSkillPoints = value;
                 if (maxSkillPoints <= 0) maxSkillPoints = 0;
                 onChangeSkillPoints?.Invoke();
@@ -215,19 +218,16 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Очков Навыков.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentSkillPoints;
-        /// <summary>
-        /// Текущее значение Очков Навыков.
-        /// </summary>
-        public int CurrentSkillPoints {
-            get {
-                return currentSkillPoints;
+        public int CurrentSkillPoints
+        {
+            get
+            {
+                return stats.SkillPoints.amount;
             }
-            set {
-                currentSkillPoints = value;
-                if (currentSkillPoints <= 0) currentSkillPoints = 0;
+            set
+            {
+                stats.SkillPoints.amount = value;
+                if (stats.SkillPoints.amount <= 0) stats.SkillPoints.amount = 0;
                 onChangeSkillPoints?.Invoke();
             }
         }
@@ -242,45 +242,38 @@ namespace DDF.Character {
         /// <summary>
         /// Базовое значение для Здоровья.
         /// </summary>
-        private float baseHealthPoints = 10;
-        [Header("Жизнь")]
+        private float baseHealthPoints = 15;
         /// <summary>
         /// Максимально возможное значение для Здоровья.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxHealthPoints;
-        /// <summary>
-        /// Максимально возможное значение для Здоровья.
-        /// </summary>
-        public float MaxHealthPoints {
-            get {
-                return maxHealthPoints;
+        public float MaxHealthPoints
+        {
+            get
+            {
+                return stats.HealthPoints.amount;
             }
-            set {
-                maxHealthPoints = value;
-                if (maxHealthPoints <= 0) maxHealthPoints = 0;
-                if (maxHealthPoints < CurrentHealthPoints) CurrentHealthPoints = maxHealthPoints;
+            set
+            {
+                stats.HealthPoints.amount = value;
+                if (stats.HealthPoints.amount <= 0) stats.HealthPoints.amount = 0;
+                if (stats.HealthPoints.amount < CurrentHealthPoints) CurrentHealthPoints = stats.HealthPoints.amount;
                 onChangeHealthPoints?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Здоровья.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentHealthPoints;
-        /// <summary>
-        /// Текущее значение Здоровья.
-        /// </summary>
-        public float CurrentHealthPoints {
-            get {
-                return currentHealthPoints;
+        public float CurrentHealthPoints
+        {
+            get
+            {
+                return stats.HealthPoints.currentInamount;
             }
-            set {
-                currentHealthPoints = value;
-                if (currentHealthPoints >= MaxHealthPoints) currentHealthPoints = MaxHealthPoints;
-                if (currentHealthPoints <= 0) IsDead = true;
+            set
+            {
+                stats.HealthPoints.currentInamount = value;
+                if (stats.HealthPoints.currentInamount >= MaxHealthPoints) stats.HealthPoints.currentInamount = MaxHealthPoints;
+                if (stats.HealthPoints.currentInamount <= 0) IsDead = true;
                 onChangeHealthPoints?.Invoke();
             }
         }
@@ -297,41 +290,35 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Маны.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxManaPoints;
-        /// <summary>
-        /// Максимально возможное значение для Маны.
-        /// </summary>
-        public float MaxManaPoints {
-            get {
-                return maxManaPoints;
+        public float MaxManaPoints
+        {
+            get
+            {
+                return stats.ManaPoints.amount;
             }
-            set {
-                maxManaPoints = value;
-                if (maxManaPoints <= 0) maxManaPoints = 0;
-                if (isCastrat) maxManaPoints = 0;
-                if (maxManaPoints < CurrentManaPoints) CurrentManaPoints = maxHealthPoints;
+            set
+            {
+                stats.ManaPoints.amount = value;
+                if (stats.ManaPoints.amount <= 0) stats.ManaPoints.amount = 0;
+                if (isCastrat) stats.ManaPoints.amount = 0;
+                if (stats.ManaPoints.amount < CurrentManaPoints) CurrentManaPoints = stats.ManaPoints.amount;
                 onChangeManaPoints?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Маны.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentManaPoints;
-        /// <summary>
-        /// Текущее значение Маны.
-        /// </summary>
-        public float CurrentManaPoints {
-            get {
-                return currentManaPoints;
+        public float CurrentManaPoints
+        {
+            get
+            {
+                return stats.ManaPoints.currentInamount;
             }
-            set {
-                currentManaPoints = value;
-                if (currentManaPoints >= maxManaPoints) currentManaPoints = maxManaPoints;
-                if (currentManaPoints <= 0) currentManaPoints = 0;
+            set
+            {
+                stats.ManaPoints.currentInamount = value;
+                if (stats.ManaPoints.currentInamount >= MaxManaPoints) stats.ManaPoints.currentInamount = MaxManaPoints;
+                if (stats.ManaPoints.currentInamount <= 0) stats.ManaPoints.currentInamount = 0;
                 onChangeManaPoints?.Invoke();
             }
         }
@@ -348,41 +335,34 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Физической брони.
         /// </summary>
-        [Header("Броня")]
-        [SerializeField]
-        [ReadOnly]
-        private int maxPhysicalArmor;
-        /// <summary>
-        /// Максимально возможное значение для Физической брони.
-        /// </summary>
-        public int MaxPhysicalArmor {
-            get {
-                return maxPhysicalArmor;
+        public int MaxPhysicalArmor
+        {
+            get
+            {
+                return stats.PhysicalArmor.amount;
             }
-            set {
-                maxPhysicalArmor = value;
-                if (maxPhysicalArmor <= 0) maxPhysicalArmor = 0;
-                if (maxPhysicalArmor < CurrentPhysicalArmor) CurrentPhysicalArmor = maxPhysicalArmor;
+            set
+            {
+                stats.PhysicalArmor.amount = value;
+                if (stats.PhysicalArmor.amount <= 0) stats.PhysicalArmor.amount = 0;
+                if (stats.PhysicalArmor.amount < CurrentPhysicalArmor) CurrentPhysicalArmor = stats.PhysicalArmor.amount;
                 onChangePhysicalArmor?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Физической Брони.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentPhysicalArmor;
-        /// <summary>
-        /// Текущее значение Физической Брони.
-        /// </summary>
-        public int CurrentPhysicalArmor {
-            get {
-                return currentPhysicalArmor;
+        public int CurrentPhysicalArmor
+        {
+            get
+            {
+                return stats.PhysicalArmor.currentInamount;
             }
-            set {
-                currentPhysicalArmor = value;
-                if (currentPhysicalArmor >= maxPhysicalArmor) currentPhysicalArmor = maxPhysicalArmor;
-                if (currentPhysicalArmor <= 0) currentPhysicalArmor = 0;
+            set
+            {
+                stats.PhysicalArmor.currentInamount = value;
+                if (stats.PhysicalArmor.currentInamount >= MaxPhysicalArmor) stats.PhysicalArmor.currentInamount = MaxPhysicalArmor;
+                if (stats.PhysicalArmor.currentInamount <= 0) stats.PhysicalArmor.currentInamount = 0;
                 onChangePhysicalArmor?.Invoke();
             }
         }
@@ -395,44 +375,38 @@ namespace DDF.Character {
         /// <summary>
         /// Базовое значаение Магической Брони.
         /// </summary>
-        private int baseMagicArmor = 0;
+        private int baseMagicArmor = 5;
         /// <summary>
         /// Максимально возможное значение для Магической Брони.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int maxMagicArmor;
-        /// <summary>
-        /// Максимально возможное значение для Магической Брони.
-        /// </summary>
-        public int MaxMagicArmor {
-            get {
-                return maxMagicArmor;
+        public int MaxMagicArmor
+        {
+            get
+            {
+                return stats.MagicArmor.amount;
             }
-            set {
-                maxMagicArmor = value;
-                if (maxMagicArmor <= 0) maxMagicArmor = 0;
-                if (maxMagicArmor < CurrentMagicArmor) CurrentMagicArmor = maxMagicArmor;
+            set
+            {
+                stats.MagicArmor.amount = value;
+                if (stats.MagicArmor.amount <= 0) stats.MagicArmor.amount = 0;
+                if (stats.MagicArmor.amount < CurrentMagicArmor) CurrentMagicArmor = stats.MagicArmor.amount;
                 onChangeMagicArmor?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Магической Брони.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentMagicArmor;
-        /// <summary>
-        /// Текущее значение Магической Брони.
-        /// </summary>
-        public int CurrentMagicArmor {
-            get {
-                return currentMagicArmor;
+        public int CurrentMagicArmor
+        {
+            get
+            {
+                return stats.MagicArmor.currentInamount;
             }
-            set {
-                currentMagicArmor = value;
-                if (currentMagicArmor >= maxMagicArmor) currentMagicArmor = maxMagicArmor;
-                if (currentMagicArmor <= 0) currentMagicArmor = 0;
+            set
+            {
+                stats.MagicArmor.currentInamount = value;
+                if (stats.MagicArmor.currentInamount >= MaxMagicArmor) stats.MagicArmor.currentInamount = MaxMagicArmor;
+                if (stats.MagicArmor.currentInamount <= 0) stats.MagicArmor.currentInamount = 0;
                 onChangeMagicArmor?.Invoke();
             }
         }
@@ -446,11 +420,14 @@ namespace DDF.Character {
         /// <summary>
         /// Текущая Сила.
         /// </summary>
-        public int CurrentStrength {
-            get {
+        public int CurrentStrength
+        {
+            get
+            {
                 return stats.Strength.amount;
             }
-            set {
+            set
+            {
                 stats.Strength.amount = value;
                 if (stats.Strength.amount < statMin) stats.Strength.amount = statMin;
                 onChangeStrength?.Invoke();
@@ -466,11 +443,14 @@ namespace DDF.Character {
         /// <summary>
         /// Текущая Ловкость.
         /// </summary>
-        public int CurrentAgility {
-            get {
+        public int CurrentAgility
+        {
+            get
+            {
                 return stats.Agility.amount;
             }
-            set {
+            set
+            {
                 stats.Agility.amount = value;
                 if (stats.Agility.amount < statMin) stats.Agility.amount = statMin;
                 onChangeAgility?.Invoke();
@@ -485,11 +465,14 @@ namespace DDF.Character {
         /// <summary>
         /// Текущий Интелект.
         /// </summary>
-        public int CurrentIntelligence {
-            get {
+        public int CurrentIntelligence
+        {
+            get
+            {
                 return stats.Intelligence.amount;
             }
-            set {
+            set
+            {
                 stats.Intelligence.amount = value;
                 if (stats.Intelligence.amount < statMin) stats.Intelligence.amount = statMin;
                 onChangeIntelligance?.Invoke();
@@ -500,6 +483,28 @@ namespace DDF.Character {
         /// </summary>
         public Action onChangeIntelligance;
         #endregion
+        #region Удача
+        /// <summary>
+        /// Текущая Удача.
+        /// </summary>
+        public int CurrentLuck
+        {
+            get
+            {
+                return stats.Luck.amount;
+            }
+            set
+            {
+                stats.Luck.amount = value;
+                if (stats.Luck.amount < statMin) stats.Luck.amount = statMin;
+                onChangeLuck?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeLuck;
+        #endregion
 
         #region Damage
         #region MeleeDamage
@@ -507,44 +512,38 @@ namespace DDF.Character {
         /// Базовое значение для Урона в ближнем бою.
         /// </summary>
         private float baseMeleeDamage = 10;
-        [Header("Урон")]
+
         /// <summary>
         /// Максимально возможное значение Урона в ближнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxMeleeDamage;
-        /// <summary>
-        /// Максимально возможное значение Урона в ближнем бою.
-        /// </summary>
-        public float MaxMeleeDamage {
-            get {
-                return maxMeleeDamage;
+        public float MaxMeleeDamage
+        {
+            get
+            {
+                return stats.MeleeDamage.amount;
             }
-            set {
-                maxMeleeDamage = value;
-                if (maxMeleeDamage <= 0) maxMeleeDamage = 0;
-                if (maxMeleeDamage < MinMeleeDamage) MinMeleeDamage = maxMeleeDamage;
+            set
+            {
+                stats.MeleeDamage.amount = value;
+                if (stats.MeleeDamage.amount <= 0) stats.MeleeDamage.amount = 0;
+                if (stats.MeleeDamage.amount < MinMeleeDamage) MinMeleeDamage = stats.MeleeDamage.amount;
                 onChangeMeleeDamage?.Invoke();
             }
         }
         /// <summary>
         /// Минимальное значение Урона в ближнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float minMeleeDamage;
-        /// <summary>
-        /// Минимальное значение Урона в ближнем бою.
-        /// </summary>
-        public float MinMeleeDamage {
-            get {
-                return minMeleeDamage;
+        public float MinMeleeDamage
+        {
+            get
+            {
+                return stats.MeleeDamage.currentInamount;
             }
-            set {
-                minMeleeDamage = value;
-                if (minMeleeDamage >= MaxMeleeDamage) minMeleeDamage = MaxMeleeDamage;
-                if (minMeleeDamage <= 0) minMeleeDamage = 0;
+            set
+            {
+                stats.MeleeDamage.currentInamount = value;
+                if (stats.MeleeDamage.currentInamount >= MaxMeleeDamage) stats.MeleeDamage.currentInamount = MaxMeleeDamage;
+                if (stats.MeleeDamage.currentInamount <= 0) stats.MeleeDamage.currentInamount = 0;
                 onChangeMeleeDamage?.Invoke();
             }
         }
@@ -561,40 +560,34 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение Урона в дальнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxShotDamage;
-        /// <summary>
-        /// Максимально возможное значение Урона в дальнем бою.
-        /// </summary>
-        public float MaxShotDamage {
-            get {
-                return maxShotDamage;
+        public float MaxShotDamage
+        {
+            get
+            {
+                return stats.ShotDamage.amount;
             }
-            set {
-                maxShotDamage = value;
-                if (maxShotDamage <= 0) maxShotDamage = 0;
-                if (maxShotDamage < MinShotDamage) MinShotDamage = maxShotDamage;
+            set
+            {
+                stats.ShotDamage.amount = value;
+                if (stats.ShotDamage.amount <= 0) stats.ShotDamage.amount = 0;
+                if (stats.ShotDamage.amount < MinShotDamage) MinShotDamage = stats.ShotDamage.amount;
                 onChangeShotDamage?.Invoke();
             }
         }
         /// <summary>
         /// Минимальное значение Урона в дальнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float minShotDamage;
-        /// <summary>
-        /// Минимальное значение Урона в дальнем бою.
-        /// </summary>
-        public float MinShotDamage {
-            get {
-                return minShotDamage;
+        public float MinShotDamage
+        {
+            get
+            {
+                return stats.ShotDamage.currentInamount;
             }
-            set {
-                minShotDamage = value;
-                if (minShotDamage >= MaxShotDamage) minShotDamage = MaxShotDamage;
-                if (minShotDamage <= 0) minShotDamage = 0;
+            set
+            {
+                stats.ShotDamage.currentInamount = value;
+                if (stats.ShotDamage.currentInamount >= MaxShotDamage) stats.ShotDamage.currentInamount = MaxShotDamage;
+                if (stats.ShotDamage.currentInamount <= 0) stats.ShotDamage.currentInamount = 0;
                 onChangeShotDamage?.Invoke();
             }
         }
@@ -611,40 +604,34 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение Магического Урона.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxMagicDamage;
-        /// <summary>
-        /// Максимально возможное значение Магического Урона.
-        /// </summary>
-        public float MaxMagicDamage {
-            get {
-                return maxMagicDamage;
+        public float MaxMagicDamage
+        {
+            get
+            {
+                return stats.MagicDamage.amount;
             }
-            set {
-                maxMagicDamage = value;
-                if (maxMagicDamage <= 0) maxMagicDamage = 0;
-                if (maxMagicDamage < MinMagicDamage) MinMagicDamage = maxMagicDamage;
+            set
+            {
+                stats.MagicDamage.amount = value;
+                if (stats.MagicDamage.amount <= 0) stats.MagicDamage.amount = 0;
+                if (stats.MagicDamage.amount < MinMagicDamage) MinMagicDamage = stats.MagicDamage.amount;
                 onChangeMagicDamage?.Invoke();
             }
         }
         /// <summary>
         /// Минимальное значение Магического Урона.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float minMagicDamage;
-        /// <summary>
-        /// Минимальное значение Магического Урона.
-        /// </summary>
-        public float MinMagicDamage {
-            get {
-                return minMagicDamage;
+        public float MinMagicDamage
+        {
+            get
+            {
+                return stats.MagicDamage.currentInamount;
             }
-            set {
-                minMagicDamage = value;
-                if (minMagicDamage >= MaxMagicDamage) minMagicDamage = MaxMagicDamage;
-                if (minMagicDamage <= 0) minMagicDamage = 0;
+            set
+            {
+                stats.MagicDamage.currentInamount = value;
+                if (stats.MagicDamage.currentInamount >= MaxMagicDamage) stats.MagicDamage.currentInamount = MaxMagicDamage;
+                if (stats.MagicDamage.currentInamount <= 0) stats.MagicDamage.currentInamount = 0;
                 onChangeMagicDamage?.Invoke();
             }
         }
@@ -668,28 +655,27 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Критического Удара.
         /// </summary>
-        public float MaxСhanceCriticalStrike {
-            get {
+        public float MaxСhanceCriticalStrike
+        {
+            get
+            {
                 return maxСhanceCriticalStrike;
             }
         }
         /// <summary>
         /// Текущее значение Критического Удара.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentСhanceCriticalStrike;
-        /// <summary>
-        /// Текущее значение Критического Удара.
-        /// </summary>
-        public float CurrentСhanceCriticalStrike {
-            get {
-                return currentСhanceCriticalStrike;
+        public float CurrentСhanceCriticalStrike
+        {
+            get
+            {
+                return stats.СhanceCriticalStrike.amount;
             }
-            set {
-                currentСhanceCriticalStrike = value;
-                if (currentСhanceCriticalStrike >= MaxСhanceCriticalStrike) currentСhanceCriticalStrike = MaxСhanceCriticalStrike;
-                if (currentСhanceCriticalStrike <= 0) currentСhanceCriticalStrike = 0;
+            set
+            {
+                stats.СhanceCriticalStrike.amount = value;
+                if (stats.СhanceCriticalStrike.amount >= MaxСhanceCriticalStrike) stats.СhanceCriticalStrike.amount = MaxСhanceCriticalStrike;
+                if (stats.СhanceCriticalStrike.amount <= 0) stats.СhanceCriticalStrike.amount = 0;
                 onChangeСhanceCriticalStrike?.Invoke();
             }
         }
@@ -712,28 +698,27 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Критического Выстрела.
         /// </summary>
-        public float MaxСhanceCriticalShot {
-            get {
+        public float MaxСhanceCriticalShot
+        {
+            get
+            {
                 return maxСhanceCriticalShot;
             }
         }
         /// <summary>
         /// Текущее значение Критического Выстрела.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentСhanceCriticalShot;
-        /// <summary>
-        /// Текущее значение Критического Выстрела.
-        /// </summary>
-        public float CurrentСhanceCriticalShot {
-            get {
-                return currentСhanceCriticalShot;
+        public float CurrentСhanceCriticalShot
+        {
+            get
+            {
+                return stats.СhanceCriticalShot.amount;
             }
-            set {
-                currentСhanceCriticalShot = value;
-                if (currentСhanceCriticalShot >= MaxСhanceCriticalShot) currentСhanceCriticalShot = MaxСhanceCriticalShot;
-                if (currentСhanceCriticalShot <= 0) currentСhanceCriticalShot = 0;
+            set
+            {
+                stats.СhanceCriticalShot.amount = value;
+                if (stats.СhanceCriticalShot.amount >= MaxСhanceCriticalShot) stats.СhanceCriticalShot.amount = MaxСhanceCriticalShot;
+                if (stats.СhanceCriticalShot.amount <= 0) stats.СhanceCriticalShot.amount = 0;
                 onChangeСhanceCriticalShot?.Invoke();
             }
         }
@@ -757,28 +742,27 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Уклонения
         /// </summary>
-        public float MaxChanceAvoid {
-            get {
+        public float MaxChanceAvoid
+        {
+            get
+            {
                 return maxChanceAvoid;
             }
         }
         /// <summary>
         /// Текущее значение Уклонения.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentChanceAvoid;
-        /// <summary>
-        /// Текущее значение Уклонения.
-        /// </summary>
-        public float CurrentChanceAvoid {
-            get {
-                return currentChanceAvoid;
+        public float CurrentChanceAvoid
+        {
+            get
+            {
+                return stats.ChanceAvoid.amount;
             }
-            set {
-                currentChanceAvoid = value;
-                if (currentChanceAvoid >= MaxChanceAvoid) currentChanceAvoid = MaxChanceAvoid;
-                if (currentChanceAvoid <= 0) currentChanceAvoid = 0;
+            set
+            {
+                stats.ChanceAvoid.amount = value;
+                if (stats.ChanceAvoid.amount >= MaxChanceAvoid) stats.ChanceAvoid.amount = MaxChanceAvoid;
+                if (stats.ChanceAvoid.amount <= 0) stats.ChanceAvoid.amount = 0;
                 onChangeChanceAvoid?.Invoke();
             }
         }
@@ -796,40 +780,34 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Скорости.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxSpeed;
-        /// <summary>
-        /// Максимально возможное значение для Скорости.
-        /// </summary>
-        public float MaxSpeed {
-            get {
-                return maxSpeed;
+        public float MaxSpeed
+        {
+            get
+            {
+                return stats.Speed.amount;
             }
-            set {
-                maxSpeed = value;
-                if (maxSpeed <= 0) maxSpeed = 0;
-                if (maxSpeed < CurrentSpeed) CurrentSpeed = maxSpeed;
+            set
+            {
+                stats.Speed.amount = value;
+                if (stats.Speed.amount <= 0) stats.Speed.amount = 0;
+                if (stats.Speed.amount < CurrentSpeed) CurrentSpeed = stats.Speed.amount;
                 onChangeSpeed?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Скорости.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentSpeed;
-        /// <summary>
-        /// Текущее значение Скорости.
-        /// </summary>
-        public float CurrentSpeed {
-            get {
-                return currentSpeed;
+        public float CurrentSpeed
+        {
+            get
+            {
+                return stats.Speed.currentInamount;
             }
-            set {
-                currentSpeed = value;
-                if (currentSpeed >= MaxSpeed) currentSpeed = MaxSpeed;
-                if (currentSpeed <= 0) currentSpeed = 0;
+            set
+            {
+                stats.Speed.currentInamount = value;
+                if (stats.Speed.currentInamount >= MaxSpeed) stats.Speed.currentInamount = MaxSpeed;
+                if (stats.Speed.currentInamount <= 0) stats.Speed.currentInamount = 0;
                 onChangeSpeed?.Invoke();
             }
         }
@@ -839,18 +817,59 @@ namespace DDF.Character {
         public Action onChangeSpeed;
         #endregion
 
+        #region Вес
+        /// <summary>
+        /// Базовое значение для Веса.
+        /// </summary>
+        private int baseWeight = 25;
+        /// <summary>
+        /// Максимально возможное значение для Веса.
+        /// </summary>
+        public int MaxWeight {
+            get {
+                return stats.Weight.amount;
+            }
+            set {
+                stats.Weight.amount = value;
+                if (stats.Weight.amount <= 0) stats.Weight.amount = 0;
+                if (stats.Weight.amount < CurrentWeight) CurrentWeight = stats.Weight.amount;
+                onChangeWeight?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Текущее значение Веса.
+        /// </summary>
+        public int CurrentWeight {
+            get {
+                return stats.Weight.currentInamount;
+            }
+            set {
+                stats.Weight.currentInamount = value;
+                if (stats.Weight.currentInamount >= MaxWeight) stats.Weight.currentInamount = MaxWeight;
+                if (stats.Weight.currentInamount <= 0) IsDead = true;
+                onChangeWeight?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeWeight;
+        #endregion
+
         #region Functions
         /// <summary>
         /// Убить объект.
         /// </summary>
-        public void Kill() {
+        public void Kill()
+        {
             TakeDamage(CurrentHealthPoints);
             UpdateStats();
         }
         /// <summary>
         /// Возрадить объект.
         /// </summary>
-        public void ReBorn() {
+        public void ReBorn()
+        {
             if (!IsDead) return;
             IsDead = false;
             CurrentHealthPoints = 1;
@@ -860,14 +879,16 @@ namespace DDF.Character {
         /// <summary>
         /// Отобрать умение владеть магией.
         /// </summary>
-        public void Castrat() {
+        public void Castrat()
+        {
             ISCastrat = true;
             UpdateStats();
         }
         /// <summary>
         /// Вернуть владение магией.
         /// </summary>
-        public void ReCastrat() {
+        public void ReCastrat()
+        {
             ISCastrat = false;
             UpdateStats();
         }
@@ -875,7 +896,8 @@ namespace DDF.Character {
         /// <summary>
         /// Повысить уровень.
         /// </summary>
-        public void IncreaseLevel() {
+        public void IncreaseLevel()
+        {
             CurrentLevel++;
             CurrentSkillPoints = CurrentSkillPoints + MaxSkillPoints;
             UpdateStats();
@@ -883,7 +905,8 @@ namespace DDF.Character {
         /// <summary>
         /// Понизить уровень.
         /// </summary>
-        public void DecreaseLevel() {
+        public void DecreaseLevel()
+        {
             CurrentLevel--;
             UpdateStats();
         }
@@ -892,7 +915,8 @@ namespace DDF.Character {
         /// Повысить опыт на count.
         /// </summary>
         /// <param name="count"></param>
-        public virtual void IncreaseLevelExperience( int count ) {
+        public virtual void IncreaseLevelExperience(int count)
+        {
             CurrentLevelExperience += count;
             UpdateStats();
         }
@@ -900,7 +924,8 @@ namespace DDF.Character {
         /// Понизить опыт на count.
         /// </summary>
         /// <param name="count"></param>
-        public virtual void DecreaseLevelExperience( int count ) {
+        public virtual void DecreaseLevelExperience(int count)
+        {
             CurrentLevelExperience -= count;
             UpdateStats();
         }
@@ -908,20 +933,23 @@ namespace DDF.Character {
         /// <summary>
         /// Повысить текущее количество очков навыков.
         /// </summary>
-        public void IncreaseSkillPoints() {
+        public void IncreaseSkillPoints()
+        {
             CurrentSkillPoints++;
         }
         /// <summary>
         /// Понизить текущее количество очков навыков.
         /// </summary>
-        public void DecreaseSkillPoints() {
+        public void DecreaseSkillPoints()
+        {
             CurrentSkillPoints--;
         }
         /// <summary>
         /// Есть ли ещё очки навыков.
         /// </summary>
         /// <returns></returns>
-        public bool IsSkillPointsExist() {
+        public bool IsSkillPointsExist()
+        {
             if (CurrentSkillPoints > 0) return true;
             return false;
         }
@@ -931,14 +959,16 @@ namespace DDF.Character {
         /// Отнимает от текущего здоровья dmg.
         /// </summary>
         /// <param name="dmg"></param>
-        public virtual void TakeDamage( float dmg ) {
+        public virtual void TakeDamage(float dmg)
+        {
             CurrentHealthPoints -= dmg;
         }
         /// <summary>
         /// Востанавливает определёное количество здоровья.
         /// </summary>
         /// <param name="heal"></param>
-        public virtual void RestoreHealth( float heal ) {
+        public virtual void RestoreHealth(float heal)
+        {
             if (IsDead) return;
             CurrentHealthPoints += heal;
         }
@@ -948,14 +978,16 @@ namespace DDF.Character {
         /// Отнимает от текущей маны count.
         /// </summary>
         /// <param name="count"></param>
-        public virtual void SpendMana( float count ) {
+        public virtual void SpendMana(float count)
+        {
             CurrentManaPoints -= count;
         }
         /// <summary>
         /// Востанавливает определённое поличество маны
         /// </summary>
         /// <param name="mana"></param>
-        public virtual void RestoreMana( float mana ) {
+        public virtual void RestoreMana(float mana)
+        {
             CurrentManaPoints += mana;
 
         }
@@ -964,7 +996,8 @@ namespace DDF.Character {
         /// <summary>
         /// Увеличение Силы на 1.
         /// </summary>
-        public void IncreaseStrength() {
+        public void IncreaseStrength()
+        {
             if (!IsSkillPointsExist()) return;
             CurrentStrength++;
             DecreaseSkillPoints();
@@ -973,7 +1006,8 @@ namespace DDF.Character {
         /// <summary>
         /// Уменьшение Силы на 1.
         /// </summary>
-        public void DecreaseStrength() {
+        public void DecreaseStrength()
+        {
             if (CurrentStrength == statMin) return;
             if (!stats.Strength.IsCanDecreace) return;
             CurrentStrength--;
@@ -985,7 +1019,8 @@ namespace DDF.Character {
         /// <summary>
         /// Увеличение Интелекта на 1.
         /// </summary>
-        public void IncreaseAgility() {
+        public void IncreaseAgility()
+        {
             if (!IsSkillPointsExist()) return;
             CurrentAgility++;
             DecreaseSkillPoints();
@@ -994,7 +1029,8 @@ namespace DDF.Character {
         /// <summary>
         /// Уменьшение Ловкости на 1.
         /// </summary>
-        public void DecreaseAgility() {
+        public void DecreaseAgility()
+        {
             if (CurrentAgility == statMin) return;
             if (!stats.Agility.IsCanDecreace) return;
             CurrentAgility--;
@@ -1006,7 +1042,8 @@ namespace DDF.Character {
         /// <summary>
         /// Увеличение Интелекта на 1.
         /// </summary>
-        public void IncreaseIntelligence() {
+        public void IncreaseIntelligence()
+        {
             if (!IsSkillPointsExist()) return;
             CurrentIntelligence++;
             DecreaseSkillPoints();
@@ -1015,7 +1052,8 @@ namespace DDF.Character {
         /// <summary>
         /// Уменьшение Интелекта на 1.
         /// </summary>
-        public void DecreaseIntelligence() {
+        public void DecreaseIntelligence()
+        {
             if (CurrentIntelligence == statMin) return;
             if (!stats.Intelligence.IsCanDecreace) return;
             CurrentIntelligence--;
@@ -1023,32 +1061,60 @@ namespace DDF.Character {
             UpdateStats();
         }
         #endregion
+        #region Luck
+        /// <summary>
+        /// Увеличение Удачи на 1.
+        /// </summary>
+        public void IncreaseLuck()
+        {
+            if (!IsSkillPointsExist()) return;
+            CurrentLuck++;
+            DecreaseSkillPoints();
+            UpdateStats();
+        }
+        /// <summary>
+        /// Уменьшение Удачи на 1.
+        /// </summary>
+        public void DecreaseLuck()
+        {
+            if (CurrentStrength == statMin) return;
+            if (!stats.Luck.IsCanDecreace) return;
+            CurrentLuck--;
+            IncreaseSkillPoints();
+            UpdateStats();
+        }
+        #endregion
         #region Damage
-        public float GetMeleeDamage() {
+        public float GetMeleeDamage()
+        {
             DDFRandom random = new DDFRandom();
             float dmg = random.RandomBetween(MinMeleeDamage, MaxMeleeDamage);
             return dmg;
         }
-        public float GetShotDamage() {
+        public float GetShotDamage()
+        {
             DDFRandom random = new DDFRandom();
             float dmg = random.RandomBetween(MinShotDamage, MaxShotDamage);
             return dmg;
         }
-        public float GetMagicDamage() {
+        public float GetMagicDamage()
+        {
             DDFRandom random = new DDFRandom();
             float dmg = random.RandomBetween(MinMagicDamage, MaxMagicDamage);
             return dmg;
         }
-		#endregion
+        #endregion
 
-		#endregion
+        #endregion
 
-		#region Actions
-        public virtual void Take( Item item, Inventory inventory ) {
+        #region Actions
+        public virtual void Take(Item item, Inventory inventory)
+        {
             InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
             inventory.DeleteItem(item);
         }
-        public virtual void Equip( Item item, Inventory inventory ) {
+        public virtual void Equip(Item item, Inventory inventory)
+        {
             Item equipedItem = mainEquipment.Equip(item);
             if (equipedItem == null) return;
             inventory.DeleteItem(item);
@@ -1060,31 +1126,36 @@ namespace DDF.Character {
             MenuOptions._instance.AssignTag<TagThrow>(tags);
             equipedItem.primaryTag = MenuOptions._instance.GetTag<TagTakeOff>(tags);
         }
-        public virtual void TakeOff( Item item, Inventory inventory ) {
+        public virtual void TakeOff(Item item, Inventory inventory)
+        {
 
             Item dropedItem = mainEquipment.TakeOff(item);
             if (dropedItem == null) return;
             mainInventory.AddItem(dropedItem);
         }
-        public virtual void Drink( Item item, Inventory inventory) {
-            for (int i = 0; i < item.effects.Count; i++) {
+        public virtual void Drink(Item item, Inventory inventory)
+        {
+            for (int i = 0; i < item.effects.Count; i++)
+            {
                 effects.AddEffect(Instantiate(item.effects[i]));
             }
             inventory.DeleteItem(item);
         }
 
-		#endregion
+        #endregion
 
 
         /// <summary>
         /// Пересчитывает-перерисовывает статы.
         /// </summary>
-        protected virtual void UpdateStats() {
+        protected virtual void UpdateStats()
+        {
             MakeFormules();
-            UpdateData();
         }
-        protected virtual void UpdatePerks() {
-            for (int i = 0; i < currentPerks.Count; i++) {
+        protected virtual void UpdatePerks()
+        {
+            for (int i = 0; i < currentPerks.Count; i++)
+            {
                 currentPerks[i].Calculate();
             }
         }
@@ -1092,14 +1163,15 @@ namespace DDF.Character {
         /// <summary>
         /// 1 считаем формулы.2 записываем всё в дату
         /// </summary>
-        protected virtual void MakeFormules() {
+        protected virtual void MakeFormules()
+        {
             //formules
             MaxSkillPoints = CurrentIntelligence;
 
             MaxHealthPoints = baseHealthPoints + CurrentStrength * 2;
             MaxManaPoints = baseManaPoints + CurrentIntelligence * 2;
 
-            MaxMagicArmor = CurrentIntelligence * 2;
+            MaxMagicArmor = baseMagicArmor+CurrentIntelligence * 2;
 
 
             MaxMeleeDamage = baseMeleeDamage + CurrentStrength * 2;
@@ -1111,59 +1183,13 @@ namespace DDF.Character {
             MaxMagicDamage = baseMagicDamage + CurrentIntelligence * 2;
             MinMagicDamage = 0;
 
-            CurrentСhanceCriticalStrike = (float)Math.Round(baseСhanceCriticalStrike + ( (float)CurrentStrength ) / 2, 3);
-            CurrentСhanceCriticalShot = (float)Math.Round(baseСhanceCriticalShot + ( (float)CurrentAgility ) / 2, 3);
-            CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + ( (float)CurrentAgility ) / 1.5f, 3);
+            CurrentWeight = baseWeight + CurrentStrength * 25;
 
-            MaxSpeed = baseSpeed + CurrentAgility * 2;
-        }
+            CurrentСhanceCriticalStrike = (float)Math.Round(baseСhanceCriticalStrike+((float)CurrentStrength + (float)CurrentLuck )/2+ UnityEngine.Random.Range(0,10),3);
+            CurrentСhanceCriticalShot = (float)Math.Round(baseСhanceCriticalShot + (((float)CurrentAgility + (float)CurrentLuck)) / 2 + UnityEngine.Random.Range(0, 10), 3);
+            CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + (((float)CurrentAgility + (float)CurrentLuck)) / 2f + UnityEngine.Random.Range(0, 10), 3);
 
-        /// <summary>
-        /// Записывает все значения в дату.
-        /// </summary>
-        protected void UpdateData() {
-
-            //UpdateData
-            stats.Level.amount = CurrentLevel;
-
-            stats.LevelExperience.amount = MaxLevelExperience;
-            stats.LevelExperience.currentInamount = CurrentLevelExperience;
-
-            stats.SkillPoints.amount = CurrentSkillPoints;
-
-            stats.HealthPoints.amount = MaxHealthPoints;
-            stats.HealthPoints.currentInamount = CurrentHealthPoints;
-
-            stats.ManaPoints.amount = MaxManaPoints;
-            stats.ManaPoints.currentInamount = CurrentManaPoints;
-
-            stats.Strength.amount = CurrentStrength;
-            stats.Agility.amount = CurrentAgility;
-            stats.Intelligence.amount = CurrentIntelligence;
-
-            stats.PhysicalArmor.amount = MaxPhysicalArmor;
-            stats.PhysicalArmor.currentInamount = CurrentPhysicalArmor;
-
-            stats.MagicArmor.amount = MaxMagicArmor;
-            stats.MagicArmor.currentInamount = CurrentMagicArmor;
-
-            stats.MeleeDamage.amount = MaxMeleeDamage;
-            stats.MeleeDamage.currentInamount = MinMeleeDamage;
-
-            stats.ShotDamage.amount = MaxShotDamage;
-            stats.ShotDamage.currentInamount = MinShotDamage;
-
-            stats.MagicDamage.amount = MaxMagicDamage;
-            stats.MagicDamage.currentInamount = MinMagicDamage;
-
-            stats.СhanceCriticalStrike.amount = CurrentСhanceCriticalStrike;
-
-            stats.СhanceCriticalShot.amount = CurrentСhanceCriticalShot;
-
-            stats.ChanceAvoid.amount = CurrentChanceAvoid;
-
-            stats.Speed.amount = MaxSpeed;
-            stats.Speed.currentInamount = CurrentSpeed;
+            MaxSpeed = baseSpeed + CurrentAgility / 2;
         }
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -298675181338832326}
   m_Layer: 0
   m_Name: Part0
-  m_TagString: room
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!65 &4485131728637292036
 BoxCollider:
   m_ObjectHideFlags: 0

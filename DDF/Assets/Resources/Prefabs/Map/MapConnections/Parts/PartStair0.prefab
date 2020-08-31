@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: -7237433083570552177}
   m_Layer: 0
   m_Name: PartStair0
-  m_TagString: room
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!65 &6906192756675197724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -326,6 +327,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -350,6 +352,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &4436160149555238144
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -360,7 +363,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7741640135694714734, guid: f1e0882cf9e989349bd2368543395b96, type: 3}

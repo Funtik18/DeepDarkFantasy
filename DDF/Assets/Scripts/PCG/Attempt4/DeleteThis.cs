@@ -11,12 +11,12 @@ public class DeleteThis : MonoBehaviour
     private void Start()
     {
 
-            Destroy(GetComponent<DeleteThis>(),0.01f);
+            Destroy(GetComponent<DeleteThis>(),0.1f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "room" )
+        if (other.tag != "Player" )
         {
             print(this.name + " удален из за " + other.name);
             //this.gameObject.SetActive(false);
