@@ -21,7 +21,7 @@ public class ModularWorldGenerator : MonoBehaviour
         var startModule = (Module)Instantiate(StartModule, transform.position, transform.rotation);
         var pendingExits = new List<ModuleConnector>(startModule.GetExits());
         RoomCount--;
-        while (RoomCount > 0)
+        while (RoomCount > 0)////////////может уйти в бесконечность
         {
             var newExits = new List<ModuleConnector>();
 
