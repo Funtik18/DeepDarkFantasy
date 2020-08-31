@@ -85,7 +85,7 @@ namespace DDF.Character {
             }
             set {
                 isDead = value;
-                if (isDead) currentHealthPoints = 0;
+                if (isDead) stats.HealthPoints.currentInamount = 0;
                 onChangeDead?.Invoke();
             }
         }
@@ -136,18 +136,12 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Опыта.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int maxLevelExperience;
-        /// <summary>
-        /// Максимально возможное значение для Опыта.
-        /// </summary>
         public int MaxLevelExperience {
             get {
-                return maxLevelExperience;
+                return stats.LevelExperience.amount;
             }
             set {
-                maxLevelExperience = value;
+                stats.LevelExperience.amount = value;
                 /*if (maxLevelExperience <= 0) maxLevelExperience = 0;
                 if (maxLevelExperience < CurrentLevelExperience) CurrentLevelExperience = maxLevelExperience;
                 onChangeLevelExperience?.Invoke();*/
@@ -156,23 +150,17 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Опыта.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentLevelExperience;
-        /// <summary>
-        /// Текущее значение Опыта.
-        /// </summary>
         public int CurrentLevelExperience {
             get {
-                return currentLevelExperience;
+                return stats.LevelExperience.currentInamount;
             }
             set {
-                currentLevelExperience = value;
-                if (currentLevelExperience >= MaxLevelExperience) {
+                stats.LevelExperience.currentInamount = value;
+                if (stats.LevelExperience.currentInamount >= MaxLevelExperience) {
                     IncreaseLevel();
-                    CurrentLevelExperience = CurrentLevelExperience - maxLevelExperience;
+                    CurrentLevelExperience = CurrentLevelExperience - stats.LevelExperience.amount;
                 }
-                if (currentLevelExperience <= 0) currentLevelExperience = 0;
+                if (stats.LevelExperience.currentInamount <= 0) stats.LevelExperience.currentInamount = 0;
                 onChangeLevelExperience?.Invoke();
             }
         }
@@ -230,44 +218,31 @@ namespace DDF.Character {
         /// Базовое значение для Здоровья.
         /// </summary>
         private float baseHealthPoints = 10;
-        [Header("Жизнь")]
-        /// <summary>
-        /// Максимально возможное значение для Здоровья.
-        /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxHealthPoints;
         /// <summary>
         /// Максимально возможное значение для Здоровья.
         /// </summary>
         public float MaxHealthPoints {
             get {
-                return maxHealthPoints;
+                return stats.HealthPoints.amount;
             }
             set {
-                maxHealthPoints = value;
-                if (maxHealthPoints <= 0) maxHealthPoints = 0;
-                if (maxHealthPoints < CurrentHealthPoints) CurrentHealthPoints = maxHealthPoints;
+                stats.HealthPoints.amount = value;
+                if (stats.HealthPoints.amount <= 0) stats.HealthPoints.amount = 0;
+                if (stats.HealthPoints.amount < CurrentHealthPoints) CurrentHealthPoints = stats.HealthPoints.amount;
                 onChangeHealthPoints?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Здоровья.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentHealthPoints;
-        /// <summary>
-        /// Текущее значение Здоровья.
-        /// </summary>
         public float CurrentHealthPoints {
             get {
-                return currentHealthPoints;
+                return stats.HealthPoints.currentInamount;
             }
             set {
-                currentHealthPoints = value;
-                if (currentHealthPoints >= MaxHealthPoints) currentHealthPoints = MaxHealthPoints;
-                if (currentHealthPoints <= 0) IsDead = true;
+                stats.HealthPoints.currentInamount = value;
+                if (stats.HealthPoints.currentInamount >= MaxHealthPoints) stats.HealthPoints.currentInamount = MaxHealthPoints;
+                if (stats.HealthPoints.currentInamount <= 0) IsDead = true;
                 onChangeHealthPoints?.Invoke();
             }
         }
@@ -284,41 +259,29 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Маны.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxManaPoints;
-        /// <summary>
-        /// Максимально возможное значение для Маны.
-        /// </summary>
         public float MaxManaPoints {
             get {
-                return maxManaPoints;
+                return stats.ManaPoints.amount;
             }
             set {
-                maxManaPoints = value;
-                if (maxManaPoints <= 0) maxManaPoints = 0;
-                if (isCastrat) maxManaPoints = 0;
-                if (maxManaPoints < CurrentManaPoints) CurrentManaPoints = maxHealthPoints;
+                stats.ManaPoints.amount = value;
+                if (stats.ManaPoints.amount <= 0) stats.ManaPoints.amount = 0;
+                if (isCastrat) stats.ManaPoints.amount = 0;
+                if (stats.ManaPoints.amount < CurrentManaPoints) CurrentManaPoints = stats.ManaPoints.amount;
                 onChangeManaPoints?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Маны.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentManaPoints;
-        /// <summary>
-        /// Текущее значение Маны.
-        /// </summary>
         public float CurrentManaPoints {
             get {
-                return currentManaPoints;
+                return stats.ManaPoints.currentInamount;
             }
             set {
-                currentManaPoints = value;
-                if (currentManaPoints >= maxManaPoints) currentManaPoints = maxManaPoints;
-                if (currentManaPoints <= 0) currentManaPoints = 0;
+                stats.ManaPoints.currentInamount = value;
+                if (stats.ManaPoints.currentInamount >= stats.ManaPoints.amount) stats.ManaPoints.currentInamount = stats.ManaPoints.amount;
+                if (stats.ManaPoints.currentInamount <= 0) stats.ManaPoints.currentInamount = 0;
                 onChangeManaPoints?.Invoke();
             }
         }
@@ -335,41 +298,28 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Физической брони.
         /// </summary>
-        [Header("Броня")]
-        [SerializeField]
-        [ReadOnly]
-        private int maxPhysicalArmor;
-        /// <summary>
-        /// Максимально возможное значение для Физической брони.
-        /// </summary>
         public int MaxPhysicalArmor {
             get {
-                return maxPhysicalArmor;
+                return stats.PhysicalArmor.amount;
             }
             set {
-                maxPhysicalArmor = value;
-                if (maxPhysicalArmor <= 0) maxPhysicalArmor = 0;
-                if (maxPhysicalArmor < CurrentPhysicalArmor) CurrentPhysicalArmor = maxPhysicalArmor;
+                stats.PhysicalArmor.amount = value;
+                if (stats.PhysicalArmor.amount <= 0) stats.PhysicalArmor.amount = 0;
+                if (stats.PhysicalArmor.amount < CurrentPhysicalArmor) CurrentPhysicalArmor = stats.PhysicalArmor.amount;
                 onChangePhysicalArmor?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Физической Брони.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentPhysicalArmor;
-        /// <summary>
-        /// Текущее значение Физической Брони.
-        /// </summary>
         public int CurrentPhysicalArmor {
             get {
-                return currentPhysicalArmor;
+                return stats.PhysicalArmor.currentInamount;
             }
             set {
-                currentPhysicalArmor = value;
-                if (currentPhysicalArmor >= maxPhysicalArmor) currentPhysicalArmor = maxPhysicalArmor;
-                if (currentPhysicalArmor <= 0) currentPhysicalArmor = 0;
+                stats.PhysicalArmor.currentInamount = value;
+                if (stats.PhysicalArmor.currentInamount >= stats.PhysicalArmor.amount) stats.PhysicalArmor.currentInamount = stats.PhysicalArmor.amount;
+                if (stats.PhysicalArmor.currentInamount <= 0) stats.PhysicalArmor.currentInamount = 0;
                 onChangePhysicalArmor?.Invoke();
             }
         }
@@ -386,40 +336,28 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Магической Брони.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int maxMagicArmor;
-        /// <summary>
-        /// Максимально возможное значение для Магической Брони.
-        /// </summary>
         public int MaxMagicArmor {
             get {
-                return maxMagicArmor;
+                return stats.MagicArmor.amount;
             }
             set {
-                maxMagicArmor = value;
-                if (maxMagicArmor <= 0) maxMagicArmor = 0;
-                if (maxMagicArmor < CurrentMagicArmor) CurrentMagicArmor = maxMagicArmor;
+                stats.MagicArmor.amount = value;
+                if (stats.MagicArmor.amount <= 0) stats.MagicArmor.amount = 0;
+                if (stats.MagicArmor.amount < CurrentMagicArmor) CurrentMagicArmor = stats.MagicArmor.amount;
                 onChangeMagicArmor?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Магической Брони.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentMagicArmor;
-        /// <summary>
-        /// Текущее значение Магической Брони.
-        /// </summary>
         public int CurrentMagicArmor {
             get {
-                return currentMagicArmor;
+                return stats.MagicArmor.currentInamount;
             }
             set {
-                currentMagicArmor = value;
-                if (currentMagicArmor >= maxMagicArmor) currentMagicArmor = maxMagicArmor;
-                if (currentMagicArmor <= 0) currentMagicArmor = 0;
+                stats.MagicArmor.currentInamount = value;
+                if (stats.MagicArmor.currentInamount >= stats.MagicArmor.amount) stats.MagicArmor.currentInamount = stats.MagicArmor.amount;
+                if (stats.MagicArmor.currentInamount <= 0) stats.MagicArmor.currentInamount = 0;
                 onChangeMagicArmor?.Invoke();
             }
         }
@@ -513,44 +451,32 @@ namespace DDF.Character {
         /// Базовое значение для Урона в ближнем бою.
         /// </summary>
         private float baseMeleeDamage = 10;
-        [Header("Урон")]
-        /// <summary>
-        /// Максимально возможное значение Урона в ближнем бою.
-        /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxMeleeDamage;
+
         /// <summary>
         /// Максимально возможное значение Урона в ближнем бою.
         /// </summary>
         public float MaxMeleeDamage {
             get {
-                return maxMeleeDamage;
+                return stats.MeleeDamage.amount;
             }
             set {
-                maxMeleeDamage = value;
-                if (maxMeleeDamage <= 0) maxMeleeDamage = 0;
-                if (maxMeleeDamage < MinMeleeDamage) MinMeleeDamage = maxMeleeDamage;
+                stats.MeleeDamage.amount = value;
+                if (stats.MeleeDamage.amount <= 0) stats.MeleeDamage.amount = 0;
+                if (stats.MeleeDamage.amount < MinMeleeDamage) MinMeleeDamage = stats.MeleeDamage.amount;
                 onChangeMeleeDamage?.Invoke();
             }
         }
         /// <summary>
         /// Минимальное значение Урона в ближнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float minMeleeDamage;
-        /// <summary>
-        /// Минимальное значение Урона в ближнем бою.
-        /// </summary>
         public float MinMeleeDamage {
             get {
-                return minMeleeDamage;
+                return stats.MeleeDamage.currentInamount;
             }
             set {
-                minMeleeDamage = value;
-                if (minMeleeDamage >= MaxMeleeDamage) minMeleeDamage = MaxMeleeDamage;
-                if (minMeleeDamage <= 0) minMeleeDamage = 0;
+                stats.MeleeDamage.currentInamount = value;
+                if (stats.MeleeDamage.currentInamount >= MaxMeleeDamage) stats.MeleeDamage.currentInamount = MaxMeleeDamage;
+                if (stats.MeleeDamage.currentInamount <= 0) stats.MeleeDamage.currentInamount = 0;
                 onChangeMeleeDamage?.Invoke();
             }
         }
@@ -567,40 +493,28 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение Урона в дальнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxShotDamage;
-        /// <summary>
-        /// Максимально возможное значение Урона в дальнем бою.
-        /// </summary>
         public float MaxShotDamage {
             get {
-                return maxShotDamage;
+                return stats.ShotDamage.amount;
             }
             set {
-                maxShotDamage = value;
-                if (maxShotDamage <= 0) maxShotDamage = 0;
-                if (maxShotDamage < MinShotDamage) MinShotDamage = maxShotDamage;
+                stats.ShotDamage.amount = value;
+                if (stats.ShotDamage.amount <= 0) stats.ShotDamage.amount = 0;
+                if (stats.ShotDamage.amount < MinShotDamage) MinShotDamage = stats.ShotDamage.amount;
                 onChangeShotDamage?.Invoke();
             }
         }
         /// <summary>
         /// Минимальное значение Урона в дальнем бою.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float minShotDamage;
-        /// <summary>
-        /// Минимальное значение Урона в дальнем бою.
-        /// </summary>
         public float MinShotDamage {
             get {
-                return minShotDamage;
+                return stats.ShotDamage.currentInamount;
             }
             set {
-                minShotDamage = value;
-                if (minShotDamage >= MaxShotDamage) minShotDamage = MaxShotDamage;
-                if (minShotDamage <= 0) minShotDamage = 0;
+                stats.ShotDamage.currentInamount = value;
+                if (stats.ShotDamage.currentInamount >= MaxShotDamage) stats.ShotDamage.currentInamount = MaxShotDamage;
+                if (stats.ShotDamage.currentInamount <= 0) stats.ShotDamage.currentInamount = 0;
                 onChangeShotDamage?.Invoke();
             }
         }
@@ -617,40 +531,28 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение Магического Урона.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxMagicDamage;
-        /// <summary>
-        /// Максимально возможное значение Магического Урона.
-        /// </summary>
         public float MaxMagicDamage {
             get {
-                return maxMagicDamage;
+                return stats.MagicDamage.amount;
             }
             set {
-                maxMagicDamage = value;
-                if (maxMagicDamage <= 0) maxMagicDamage = 0;
-                if (maxMagicDamage < MinMagicDamage) MinMagicDamage = maxMagicDamage;
+                stats.MagicDamage.amount = value;
+                if (stats.MagicDamage.amount <= 0) stats.MagicDamage.amount = 0;
+                if (stats.MagicDamage.amount < MinMagicDamage) MinMagicDamage = stats.MagicDamage.amount;
                 onChangeMagicDamage?.Invoke();
             }
         }
         /// <summary>
         /// Минимальное значение Магического Урона.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float minMagicDamage;
-        /// <summary>
-        /// Минимальное значение Магического Урона.
-        /// </summary>
         public float MinMagicDamage {
             get {
-                return minMagicDamage;
+                return stats.MagicDamage.currentInamount;
             }
             set {
-                minMagicDamage = value;
-                if (minMagicDamage >= MaxMagicDamage) minMagicDamage = MaxMagicDamage;
-                if (minMagicDamage <= 0) minMagicDamage = 0;
+                stats.MagicDamage.currentInamount = value;
+                if (stats.MagicDamage.currentInamount >= MaxMagicDamage) stats.MagicDamage.currentInamount = MaxMagicDamage;
+                if (stats.MagicDamage.currentInamount <= 0) stats.MagicDamage.currentInamount = 0;
                 onChangeMagicDamage?.Invoke();
             }
         }
@@ -682,20 +584,14 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Критического Удара.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentСhanceCriticalStrike;
-        /// <summary>
-        /// Текущее значение Критического Удара.
-        /// </summary>
         public float CurrentСhanceCriticalStrike {
             get {
-                return currentСhanceCriticalStrike;
+                return stats.СhanceCriticalStrike.amount;
             }
             set {
-                currentСhanceCriticalStrike = value;
-                if (currentСhanceCriticalStrike >= MaxСhanceCriticalStrike) currentСhanceCriticalStrike = MaxСhanceCriticalStrike;
-                if (currentСhanceCriticalStrike <= 0) currentСhanceCriticalStrike = 0;
+                stats.СhanceCriticalStrike.amount = value;
+                if (stats.СhanceCriticalStrike.amount >= MaxСhanceCriticalStrike) stats.СhanceCriticalStrike.amount = MaxСhanceCriticalStrike;
+                if (stats.СhanceCriticalStrike.amount <= 0) stats.СhanceCriticalStrike.amount = 0;
                 onChangeСhanceCriticalStrike?.Invoke();
             }
         }
@@ -726,20 +622,14 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Критического Выстрела.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentСhanceCriticalShot;
-        /// <summary>
-        /// Текущее значение Критического Выстрела.
-        /// </summary>
         public float CurrentСhanceCriticalShot {
             get {
-                return currentСhanceCriticalShot;
+                return stats.СhanceCriticalShot.amount;
             }
             set {
-                currentСhanceCriticalShot = value;
-                if (currentСhanceCriticalShot >= MaxСhanceCriticalShot) currentСhanceCriticalShot = MaxСhanceCriticalShot;
-                if (currentСhanceCriticalShot <= 0) currentСhanceCriticalShot = 0;
+                stats.СhanceCriticalShot.amount = value;
+                if (stats.СhanceCriticalShot.amount >= MaxСhanceCriticalShot) stats.СhanceCriticalShot.amount = MaxСhanceCriticalShot;
+                if (stats.СhanceCriticalShot.amount <= 0) stats.СhanceCriticalShot.amount = 0;
                 onChangeСhanceCriticalShot?.Invoke();
             }
         }
@@ -771,20 +661,14 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Уклонения.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentChanceAvoid;
-        /// <summary>
-        /// Текущее значение Уклонения.
-        /// </summary>
         public float CurrentChanceAvoid {
             get {
-                return currentChanceAvoid;
+                return stats.ChanceAvoid.amount;
             }
             set {
-                currentChanceAvoid = value;
-                if (currentChanceAvoid >= MaxChanceAvoid) currentChanceAvoid = MaxChanceAvoid;
-                if (currentChanceAvoid <= 0) currentChanceAvoid = 0;
+                stats.ChanceAvoid.amount = value;
+                if (stats.ChanceAvoid.amount >= MaxChanceAvoid) stats.ChanceAvoid.amount = MaxChanceAvoid;
+                if (stats.ChanceAvoid.amount <= 0) stats.ChanceAvoid.amount = 0;
                 onChangeChanceAvoid?.Invoke();
             }
         }
@@ -802,40 +686,28 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Скорости.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float maxSpeed;
-        /// <summary>
-        /// Максимально возможное значение для Скорости.
-        /// </summary>
         public float MaxSpeed {
             get {
-                return maxSpeed;
+                return stats.Speed.amount;
             }
             set {
-                maxSpeed = value;
-                if (maxSpeed <= 0) maxSpeed = 0;
-                if (maxSpeed < CurrentSpeed) CurrentSpeed = maxSpeed;
+                stats.Speed.amount = value;
+                if (stats.Speed.amount <= 0) stats.Speed.amount = 0;
+                if (stats.Speed.amount < CurrentSpeed) CurrentSpeed = stats.Speed.amount;
                 onChangeSpeed?.Invoke();
             }
         }
         /// <summary>
         /// Текущее значение Скорости.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private float currentSpeed;
-        /// <summary>
-        /// Текущее значение Скорости.
-        /// </summary>
         public float CurrentSpeed {
             get {
-                return currentSpeed;
+                return stats.Speed.currentInamount;
             }
             set {
-                currentSpeed = value;
-                if (currentSpeed >= MaxSpeed) currentSpeed = MaxSpeed;
-                if (currentSpeed <= 0) currentSpeed = 0;
+                stats.Speed.currentInamount = value;
+                if (stats.Speed.currentInamount >= MaxSpeed) stats.Speed.currentInamount = MaxSpeed;
+                if (stats.Speed.currentInamount <= 0) stats.Speed.currentInamount = 0;
                 onChangeSpeed?.Invoke();
             }
         }
@@ -1108,7 +980,6 @@ namespace DDF.Character {
         /// </summary>
         protected virtual void UpdateStats() {
             MakeFormules();
-            UpdateData();
         }
         protected virtual void UpdatePerks() {
             for (int i = 0; i < currentPerks.Count; i++) {
@@ -1143,49 +1014,6 @@ namespace DDF.Character {
             CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + ( (float)CurrentAgility ) / 1.5f, 3);
 
             MaxSpeed = baseSpeed + CurrentAgility * 2;
-        }
-
-        /// <summary>
-        /// Записывает все значения в дату.
-        /// </summary>
-        protected void UpdateData() {
-
-            //UpdateData
-
-            stats.LevelExperience.amount = MaxLevelExperience;
-            stats.LevelExperience.currentInamount = CurrentLevelExperience;
-
-
-             stats.HealthPoints.amount = MaxHealthPoints;
-            stats.HealthPoints.currentInamount = CurrentHealthPoints;
-
-              stats.ManaPoints.amount = MaxManaPoints;
-             stats.ManaPoints.currentInamount = CurrentManaPoints;
-
-
-             stats.PhysicalArmor.amount = MaxPhysicalArmor;
-             stats.PhysicalArmor.currentInamount = CurrentPhysicalArmor;
-
-             stats.MagicArmor.amount = MaxMagicArmor;
-             stats.MagicArmor.currentInamount = CurrentMagicArmor;
-
-             stats.MeleeDamage.amount = MaxMeleeDamage;
-             stats.MeleeDamage.currentInamount = MinMeleeDamage;
-
-             stats.ShotDamage.amount = MaxShotDamage;
-             stats.ShotDamage.currentInamount = MinShotDamage;
-
-             stats.MagicDamage.amount = MaxMagicDamage;
-             stats.MagicDamage.currentInamount = MinMagicDamage;
-
-             stats.СhanceCriticalStrike.amount = CurrentСhanceCriticalStrike;
-
-             stats.СhanceCriticalShot.amount = CurrentСhanceCriticalShot;
-
-             stats.ChanceAvoid.amount = CurrentChanceAvoid;
-
-             stats.Speed.amount = MaxSpeed;
-             stats.Speed.currentInamount = CurrentSpeed;
         }
     }
 }
