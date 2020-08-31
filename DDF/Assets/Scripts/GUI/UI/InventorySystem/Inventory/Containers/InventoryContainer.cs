@@ -65,7 +65,7 @@ namespace DDF.UI.Inventory {
             List<Item> copy = new List<Item>(currentItems);
             currentItems.Clear();
             foreach (var item in copy) {
-                inventory.AddItem(item, false);
+                inventory.AddItem(item, true);
             }
             copy.Clear();
 

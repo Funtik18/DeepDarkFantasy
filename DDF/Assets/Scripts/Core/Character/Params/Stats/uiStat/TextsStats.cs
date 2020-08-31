@@ -13,6 +13,7 @@ namespace DDF.Character.Stats {
         [SerializeField] private TextStat textStatStrength;
         [SerializeField] private TextStat textStatAgility;
         [SerializeField] private TextStat textStatIntelligence;
+        [SerializeField] private TextStat textStatLuck;
         [SerializeField] private TextStat textStatPhysicalArmor;
         [SerializeField] private TextStat textStatMagicArmor;
         [SerializeField] private TextStat textStatСhanceCriticalStrike;
@@ -39,6 +40,7 @@ namespace DDF.Character.Stats {
             textStatStrength?.SetTrack(stats.Strength, currentEntity.IncreaseStrength, currentEntity.DecreaseStrength);
             textStatAgility?.SetTrack(stats.Agility, currentEntity.IncreaseAgility, currentEntity.DecreaseAgility);
             textStatIntelligence?.SetTrack(stats.Intelligence, currentEntity.IncreaseIntelligence, currentEntity.DecreaseIntelligence);
+            textStatLuck?.SetTrack(stats.Luck, currentEntity.IncreaseLuck, currentEntity.DecreaseLuck);
 
             textStatPhysicalArmor?.SetTrack(stats.PhysicalArmor);
             textStatMagicArmor?.SetTrack(stats.MagicArmor);
@@ -63,6 +65,7 @@ namespace DDF.Character.Stats {
             textsStats.Add(textStatStrength);
             textsStats.Add(textStatAgility);
             textsStats.Add(textStatIntelligence);
+            textsStats.Add(textStatLuck);
 
             textsStats.Add(textStatPhysicalArmor);
             textsStats.Add(textStatMagicArmor);
