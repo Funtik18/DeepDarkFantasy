@@ -224,7 +224,7 @@ MonoBehaviour:
   - {fileID: 4804473627490247337, guid: c75892d753ff1124e96442ca7b918360, type: 3}
   - {fileID: 7595796902785021139, guid: 2a9fbae2dca10bf4496c613b9846ce7c, type: 3}
   - {fileID: 2764096341685307456, guid: 8c6db4ad8017f944c9bc37c36fbaa43a, type: 3}
-  - {fileID: 3120406947744621080, guid: 91e7e40846c07c94e80fec86661fe338, type: 3}
+  - {fileID: 4923004972380120164, guid: f93883956fa40a647ade3f7f62a55580, type: 3}
   - {fileID: 2535875538318820158, guid: 9c72ee2baa06087488c005e9cccd297d, type: 3}
   - {fileID: 501872300665129922, guid: 6597ae2883327bc4c8628785bc564647, type: 3}
   - {fileID: 6766359176502106481, guid: ebcf92cee883df14dae30a5370575e89, type: 3}
@@ -243,7 +243,7 @@ MonoBehaviour:
   - {fileID: 2144646972741575657, guid: 53c7f7b8805c1d1479344bccdc97e23d, type: 3}
   StartModule: {fileID: 1778333882}
   EndModule: {fileID: 40729445352267095, guid: 2cc5840072c5ac64e8135560cf129220, type: 3}
-  RoomCount: 6
+  RoomCount: 15
 --- !u!114 &178249235 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6826389162843870223, guid: 78f1446b2d9863641b1a2099dc167214,
@@ -372,7 +372,7 @@ PrefabInstance:
     - target: {fileID: 5318139006433286041, guid: 6597ae2883327bc4c8628785bc564647,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5318139006433286041, guid: 6597ae2883327bc4c8628785bc564647,
         type: 3}
@@ -2557,7 +2557,7 @@ GameObject:
   - component: {fileID: 7860548839077087837}
   m_Layer: 0
   m_Name: HumanMale1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

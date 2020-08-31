@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: -4668004400578045598}
   m_Layer: 0
   m_Name: PartFork0
-  m_TagString: room
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,6 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - fork
+  isCollude: 0
 --- !u!65 &3852185483033252688
 BoxCollider:
   m_ObjectHideFlags: 0

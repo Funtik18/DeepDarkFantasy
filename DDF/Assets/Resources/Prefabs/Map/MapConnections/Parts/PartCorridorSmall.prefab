@@ -109,6 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!1 &936830831969188344
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!1 &2084388165666825280
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!1 &3303198349846427045
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!1 &4321318788481578985
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +485,7 @@ GameObject:
   - component: {fileID: 3878093311339572367}
   m_Layer: 0
   m_Name: PartCorridorSmall
-  m_TagString: room
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -520,6 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tags:
   - corridor
+  isCollude: 0
 --- !u!65 &7352594807017187843
 BoxCollider:
   m_ObjectHideFlags: 0
