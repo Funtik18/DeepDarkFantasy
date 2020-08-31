@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class ModularWorldGenerator : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ModularWorldGenerator : MonoBehaviour
 
     public int RoomCount = 5;
 
+    static bool bossroom = false;
     int iterations = 400;
     IEnumerator Start()
     //void Start()
@@ -31,6 +33,7 @@ public class ModularWorldGenerator : MonoBehaviour
                     iterations--;
 
                     var newTag = GetRandom(pendingExit.Tags);
+
                     var newModulePrefab = GetRandomWithTag(Modules, newTag);
                     var newModule = (Module)Instantiate(newModulePrefab);
                     //
@@ -42,12 +45,12 @@ public class ModularWorldGenerator : MonoBehaviour
                     {
                         newModulePrefab = EndModule;
                         newModule = (Module)Instantiate(newModulePrefab);
-                        
+
                         newModuleExits = newModule.GetExits();
                         exitToMatch = newModuleExits.FirstOrDefault(x => x.IsDefault) ?? GetRandom(newModuleExits);
                         MatchExits(pendingExit, exitToMatch);
                     }
-                        
+
                     if (newModule == null)
                     {
                         //print("sd");
@@ -57,14 +60,33 @@ public class ModularWorldGenerator : MonoBehaviour
                     {
                         //print(newTag);
                         if (newTag == "room")
+                        {
                             RoomCount--;
+                        }
+                        if (newTag == "BossRoom")
+                        {
+                            RoomCount--;
+                            //Modules=Modules.Except(new Module[] { newModulePrefab }.ToArray()));
+                            /*var newModuleArr = Modules.ToList();
+                            newModuleArr.Remove(newModulePrefab);
+                            Array.Clear(Modules,0,Modules.Length);
+                            Modules = newModuleArr.ToArray();*/
+                            print("Boss has been spawned");
+                            bossroom = true;
+                            Modules = Modules.Where(w => w != newModulePrefab).ToArray();
+
+                            foreach (var item in Modules)
+                            {
+                                item.RemoveTags("BossRoom");
+                            }
+                        }
 
                         //if (newExits != null)
                         newExits.AddRange(newModuleExits.Where(e => e != exitToMatch));
                         break;
                     }
                 }
-                
+
             }
             pendingExits = newExits;
         }
@@ -97,14 +119,27 @@ public class ModularWorldGenerator : MonoBehaviour
 
     private static TItem GetRandom<TItem>(TItem[] array)
     {
-        return array[Random.Range(0, array.Length)];
+        Debug.Log(array+" "+array.Length);
+        return array[UnityEngine.Random.Range(0, array.Length)];
+
     }
 
 
     private static Module GetRandomWithTag(IEnumerable<Module> modules, string tagToMatch)
     {
-        var matchingModules = modules.Where(m => m.Tags.Contains(tagToMatch)).ToArray();
-        return GetRandom(matchingModules);
+        if (!bossroom)
+        {
+            var matchingModules = modules.Where(m => m.Tags.Contains(tagToMatch)).ToArray();
+            Debug.Log(tagToMatch);
+            return GetRandom(matchingModules);
+        }
+        if (bossroom)
+        {
+            var matchingModules = modules.Where(m => !m.Tags.Contains(tagToMatch)).ToArray();
+            Debug.Log(tagToMatch);
+            return GetRandom(matchingModules);
+        }
+        return null;
     }
 
 

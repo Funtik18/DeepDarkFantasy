@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Linq;
 
 public class ModuleConnector : MonoBehaviour
 {
@@ -26,6 +26,11 @@ public class ModuleConnector : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position, 0.125f);
+    }
+    
+    public void RemoveTags(string tag)
+    {
+        Tags = Tags.Where(w => w != tag).ToArray();
     }
 
 }

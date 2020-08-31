@@ -18,7 +18,7 @@ public class DeleteThis : MonoBehaviour
     {
         if (other.tag != "Player" )
         {
-            print(this.name + " удален из за " + other.name);
+            //print(this.name + " удален из за " + other.name);
             //this.gameObject.SetActive(false);
             Destroy(this.gameObject);
             //Destroy(GetComponent<DeleteThis>());   
