@@ -48,7 +48,8 @@ namespace DDF.Character {
             effects.effectOnUpdate += textsEffects.UpdateEffectTXT;
             effects.effectOnDelete = textsEffects.RemoveEffect + effects.effectOnDelete;
         }
-        protected void Start() {
+
+		protected void Start() {
 
             base.InitStartPerks();
             base.UpdatePerks();

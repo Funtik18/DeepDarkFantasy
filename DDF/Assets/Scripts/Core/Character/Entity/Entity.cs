@@ -256,7 +256,7 @@ namespace DDF.Character {
             {
                 stats.HealthPoints.amount = value;
                 if (stats.HealthPoints.amount <= 0) stats.HealthPoints.amount = 0;
-                if (stats.HealthPoints.amount < CurrentHealthPoints) CurrentHealthPoints = stats.HealthPoints.amount;
+                if (stats.HealthPoints.amount <= CurrentHealthPoints) CurrentHealthPoints = stats.HealthPoints.amount;
                 onChangeHealthPoints?.Invoke();
             }
         }
@@ -846,7 +846,6 @@ namespace DDF.Character {
             set {
                 stats.Weight.currentInamount = value;
                 if (stats.Weight.currentInamount >= MaxWeight) stats.Weight.currentInamount = MaxWeight;
-                if (stats.Weight.currentInamount <= 0) IsDead = true;
                 onChangeWeight?.Invoke();
             }
         }
