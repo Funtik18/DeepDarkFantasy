@@ -4,7 +4,7 @@ namespace DDF.Character.Stats {
     public class Stats {
 
 		#region Stats
-		[HideInInspector] public StatInt Level;
+		public StatInt Level;
         [HideInInspector] public StatRegularInt LevelExperience;
         [HideInInspector] public StatInt SkillPoints;
 
@@ -26,6 +26,9 @@ namespace DDF.Character.Stats {
         [HideInInspector] public StatRegularFloat Speed;
         [HideInInspector] public StatFloat СhanceCriticalShot;
         [HideInInspector] public StatFloat СhanceCriticalStrike;
+
+        public StatRegularInt Weight;
+
         #endregion
         /// <summary>
         /// Инициализация статов.
@@ -54,6 +57,8 @@ namespace DDF.Character.Stats {
             ChanceAvoid = new StatFloat("Шанс уклонения", 0, "%");
 
             Speed = new StatRegularFloat("Скорость", 0, 0);
+
+            Weight = new StatRegularInt("", 0, 0);
         }
 
         public void SaveStats() {

@@ -286,10 +286,6 @@ namespace DDF.UI.Inventory {
 
             overSeer.rootSlot = slot;//запомнили слот откуда взяли
         }
-
-        float clicked = 0;
-        float clicktime = 0;
-        float clickdelay = 0.5f;
         public void OnPointerLeftClick( PointerEventData eventData, InventorySlot slot ) {
             if (slot.isEmpty()) return;
 

@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace DDF.Character {
     public class Entity : MonoBehaviour {
-        [HideInInspector]
         public Stats.Stats stats;
         protected Perks.Perks perks;
         protected Abilities.Abilities abilities;
@@ -715,6 +714,45 @@ namespace DDF.Character {
         /// Событие, если значение изменилось.
         /// </summary>
         public Action onChangeSpeed;
+        #endregion
+
+        #region Вес
+        /// <summary>
+        /// Базовое значение для Веса.
+        /// </summary>
+        private int baseWeight = 60;
+        /// <summary>
+        /// Максимально возможное значение для Веса.
+        /// </summary>
+        public int MaxWeight {
+            get {
+                return stats.Weight.amount;
+            }
+            set {
+                stats.Weight.amount = value;
+                if (stats.Weight.amount <= 0) stats.Weight.amount = 0;
+                if (stats.Weight.amount < CurrentWeight) CurrentWeight = stats.Weight.amount;
+                onChangeWeight?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Текущее значение Здоровья.
+        /// </summary>
+        public int CurrentWeight {
+            get {
+                return stats.Weight.currentInamount;
+            }
+            set {
+                stats.Weight.currentInamount = value;
+                if (stats.Weight.currentInamount >= MaxWeight) stats.Weight.currentInamount = MaxWeight;
+                if (stats.Weight.currentInamount <= 0) IsDead = true;
+                onChangeWeight?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeWeight;
         #endregion
 
         #region Functions
