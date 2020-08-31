@@ -110,23 +110,16 @@ namespace DDF.Character {
         public Action onChangeCastrat;
 
         #region Уровень
-        [Header("Уровень")]
-        /// <summary>
-        /// Текущий Уровень.
-        /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentLevel;
         /// <summary>
         /// Текущий Уровень.
         /// </summary>
         public int CurrentLevel {
             get {
-                return currentLevel;
+                return stats.Level.amount;
             }
             set {
-                currentLevel = value;
-                if (currentLevel < levelMin) currentLevel = levelMin;
+                stats.Level.amount = value;
+                if (stats.Level.amount < levelMin) stats.Level.amount = levelMin;
                 onChangeLevel?.Invoke();
             }
         }
@@ -215,19 +208,13 @@ namespace DDF.Character {
         /// <summary>
         /// Текущее значение Очков Навыков.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int currentSkillPoints;
-        /// <summary>
-        /// Текущее значение Очков Навыков.
-        /// </summary>
         public int CurrentSkillPoints {
             get {
-                return currentSkillPoints;
+                return stats.SkillPoints.amount;
             }
             set {
-                currentSkillPoints = value;
-                if (currentSkillPoints <= 0) currentSkillPoints = 0;
+                stats.SkillPoints.amount = value;
+                if (stats.SkillPoints.amount <= 0) stats.SkillPoints.amount = 0;
                 onChangeSkillPoints?.Invoke();
             }
         }
@@ -499,6 +486,25 @@ namespace DDF.Character {
         /// Событие, если значение изменилось.
         /// </summary>
         public Action onChangeIntelligance;
+        #endregion
+        #region Удача
+        /// <summary>
+        /// Текущая Удача.
+        /// </summary>
+        public int CurrentLuck {
+            get {
+                return stats.Luck.amount;
+            }
+            set {
+                stats.Luck.amount = value;
+                if (stats.Luck.amount < statMin) stats.Luck.amount = statMin;
+                onChangeLuck?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeLuck;
         #endregion
 
         #region Damage
@@ -1023,6 +1029,27 @@ namespace DDF.Character {
             UpdateStats();
         }
         #endregion
+        #region Luck
+        /// <summary>
+        /// Увеличение Удачи на 1.
+        /// </summary>
+        public void IncreaseLuck() {
+            if (!IsSkillPointsExist()) return;
+            CurrentLuck++;
+            DecreaseSkillPoints();
+            UpdateStats();
+        }
+        /// <summary>
+        /// Уменьшение Удачи на 1.
+        /// </summary>
+        public void DecreaseLuck() {
+            if (CurrentStrength == statMin) return;
+            if (!stats.Luck.IsCanDecreace) return;
+            CurrentLuck--;
+            IncreaseSkillPoints();
+            UpdateStats();
+        }
+        #endregion
         #region Damage
         public float GetMeleeDamage() {
             DDFRandom random = new DDFRandom();
@@ -1124,46 +1151,41 @@ namespace DDF.Character {
         protected void UpdateData() {
 
             //UpdateData
-            stats.Level.amount = CurrentLevel;
 
             stats.LevelExperience.amount = MaxLevelExperience;
             stats.LevelExperience.currentInamount = CurrentLevelExperience;
 
-            stats.SkillPoints.amount = CurrentSkillPoints;
 
-            stats.HealthPoints.amount = MaxHealthPoints;
+             stats.HealthPoints.amount = MaxHealthPoints;
             stats.HealthPoints.currentInamount = CurrentHealthPoints;
 
-            stats.ManaPoints.amount = MaxManaPoints;
-            stats.ManaPoints.currentInamount = CurrentManaPoints;
+              stats.ManaPoints.amount = MaxManaPoints;
+             stats.ManaPoints.currentInamount = CurrentManaPoints;
 
-            stats.Strength.amount = CurrentStrength;
-            stats.Agility.amount = CurrentAgility;
-            stats.Intelligence.amount = CurrentIntelligence;
 
-            stats.PhysicalArmor.amount = MaxPhysicalArmor;
-            stats.PhysicalArmor.currentInamount = CurrentPhysicalArmor;
+             stats.PhysicalArmor.amount = MaxPhysicalArmor;
+             stats.PhysicalArmor.currentInamount = CurrentPhysicalArmor;
 
-            stats.MagicArmor.amount = MaxMagicArmor;
-            stats.MagicArmor.currentInamount = CurrentMagicArmor;
+             stats.MagicArmor.amount = MaxMagicArmor;
+             stats.MagicArmor.currentInamount = CurrentMagicArmor;
 
-            stats.MeleeDamage.amount = MaxMeleeDamage;
-            stats.MeleeDamage.currentInamount = MinMeleeDamage;
+             stats.MeleeDamage.amount = MaxMeleeDamage;
+             stats.MeleeDamage.currentInamount = MinMeleeDamage;
 
-            stats.ShotDamage.amount = MaxShotDamage;
-            stats.ShotDamage.currentInamount = MinShotDamage;
+             stats.ShotDamage.amount = MaxShotDamage;
+             stats.ShotDamage.currentInamount = MinShotDamage;
 
-            stats.MagicDamage.amount = MaxMagicDamage;
-            stats.MagicDamage.currentInamount = MinMagicDamage;
+             stats.MagicDamage.amount = MaxMagicDamage;
+             stats.MagicDamage.currentInamount = MinMagicDamage;
 
-            stats.СhanceCriticalStrike.amount = CurrentСhanceCriticalStrike;
+             stats.СhanceCriticalStrike.amount = CurrentСhanceCriticalStrike;
 
-            stats.СhanceCriticalShot.amount = CurrentСhanceCriticalShot;
+             stats.СhanceCriticalShot.amount = CurrentСhanceCriticalShot;
 
-            stats.ChanceAvoid.amount = CurrentChanceAvoid;
+             stats.ChanceAvoid.amount = CurrentChanceAvoid;
 
-            stats.Speed.amount = MaxSpeed;
-            stats.Speed.currentInamount = CurrentSpeed;
+             stats.Speed.amount = MaxSpeed;
+             stats.Speed.currentInamount = CurrentSpeed;
         }
     }
 }

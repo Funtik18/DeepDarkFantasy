@@ -14,6 +14,7 @@ namespace DDF.Character.Stats {
         [HideInInspector] public StatInt Strength;
         [HideInInspector] public StatInt Agility;
         [HideInInspector] public StatInt Intelligence;
+        [HideInInspector] public StatInt Luck;
 
         [HideInInspector] public StatRegularInt PhysicalArmor;
         [HideInInspector] public StatRegularInt MagicArmor;
@@ -40,6 +41,7 @@ namespace DDF.Character.Stats {
             Strength = new StatInt("Сила", 1);
             Agility = new StatInt("Ловкость", 1);
             Intelligence = new StatInt("Интелект", 1);
+            Luck = new StatInt("Удача", 1);
 
             PhysicalArmor = new StatRegularInt("Физическая броня", 0, 0);
             MagicArmor = new StatRegularInt("Магическая броня", 0, 0);
