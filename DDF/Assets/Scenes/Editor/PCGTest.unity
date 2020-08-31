@@ -241,6 +241,7 @@ MonoBehaviour:
   - {fileID: 7449298105244024803, guid: 8c3ad96b33c9e394bbcce496511a754d, type: 3}
   - {fileID: 6706927122559960528, guid: 5be31e315c75b4a4fad40c57199542d3, type: 3}
   - {fileID: 2144646972741575657, guid: 53c7f7b8805c1d1479344bccdc97e23d, type: 3}
+  - {fileID: 5387994873334635092, guid: dab24ecd3a647d04295f6f6cf936bcb2, type: 3}
   StartModule: {fileID: 1778333882}
   EndModule: {fileID: 40729445352267095, guid: 2cc5840072c5ac64e8135560cf129220, type: 3}
   RoomCount: 15
@@ -354,6 +355,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1841621235373958272, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841621235373958272, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.data[2]
+      value: BossRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544164661887353116, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544164661887353116, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.data[3]
+      value: BossRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544164661887353116, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: IsDefault
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4211045931724578043, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4211045931724578043, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.data[3]
+      value: BossRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 4211045931724578043, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: IsDefault
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4223197589220416026, guid: 6597ae2883327bc4c8628785bc564647,
         type: 3}
       propertyPath: m_Name
@@ -413,6 +454,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757935294953545963, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757935294953545963, guid: 6597ae2883327bc4c8628785bc564647,
+        type: 3}
+      propertyPath: Tags.Array.data[2]
+      value: BossRoom
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -457328004538617614, guid: 6597ae2883327bc4c8628785bc564647, type: 3}
