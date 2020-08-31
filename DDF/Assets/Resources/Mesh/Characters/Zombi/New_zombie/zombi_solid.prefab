@@ -788,9 +788,9 @@ GameObject:
   - component: {fileID: 2933006288613380986}
   - component: {fileID: 5061520894214356480}
   - component: {fileID: 8296172669336229274}
-  - component: {fileID: 8296172669336229275}
   - component: {fileID: 8296172669336229276}
   - component: {fileID: 4860232270867505213}
+  - component: {fileID: -8093940895684076316}
   m_Layer: 0
   m_Name: zombi_solid
   m_TagString: Zombie
@@ -858,21 +858,6 @@ MonoBehaviour:
   - Skeleton
   - Monster
   - Boss
---- !u!114 &8296172669336229275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2229132792722055529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7322285a41395b546b1f209add5d9e7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 100
-  dead: 0
-  Iam: {fileID: 0}
 --- !u!114 &8296172669336229276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -907,6 +892,51 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.93, z: 0}
+--- !u!114 &-8093940895684076316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2229132792722055529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEffects: []
+  isDead: 0
+  isCastrat: 0
+  currentLevel: 0
+  maxLevelExperience: 0
+  currentLevelExperience: 0
+  maxSkillPoints: 0
+  currentSkillPoints: 0
+  maxHealthPoints: 0
+  currentHealthPoints: 0
+  maxManaPoints: 0
+  currentManaPoints: 0
+  maxPhysicalArmor: 0
+  currentPhysicalArmor: 0
+  maxMagicArmor: 0
+  currentMagicArmor: 0
+  maxMeleeDamage: 0
+  minMeleeDamage: 0
+  maxShotDamage: 0
+  minShotDamage: 0
+  maxMagicDamage: 0
+  minMagicDamage: 0
+  "max\u0421hanceCriticalStrike": 100
+  "current\u0421hanceCriticalStrike": 0
+  "max\u0421hanceCriticalShot": 100
+  "current\u0421hanceCriticalShot": 0
+  maxChanceAvoid: 100
+  currentChanceAvoid: 0
+  maxSpeed: 0
+  currentSpeed: 0
+  strength: 5
+  agility: 5
+  Speed: 1
 --- !u!1 &2296729299787291696
 GameObject:
   m_ObjectHideFlags: 0

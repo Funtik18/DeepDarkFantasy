@@ -27,7 +27,7 @@ public class knight_AI : MonoBehaviour
     private float _timer = 0,_timere = 0,mYHp;
     private Vector3 moveDirection = Vector3.zero;
     private RayScan Myeyes; 
-    private CharacterEntity stats; 
+    private NPSEntity stats; 
     private int nap = 0;
     // Start is called before the first frame update
     void Start()
@@ -37,8 +37,8 @@ public class knight_AI : MonoBehaviour
         if(GetComponentInChildren<RayScan>()!=null){
             Myeyes = GetComponentInChildren<RayScan>();
         }
-        if(GetComponentInChildren<CharacterEntity>()!=null){
-            stats = GetComponentInChildren<CharacterEntity>();
+        if(GetComponentInChildren<NPSEntity>()!=null){
+            stats = GetComponentInChildren<NPSEntity>();
             mYHp = stats.CurrentHealthPoints;
         }
     }
@@ -238,8 +238,8 @@ public class knight_AI : MonoBehaviour
                 }
             }
             if(!have){
-                if(other.GetComponent<CharacterEntity>()!=null)
-                    if(!other.GetComponent<CharacterEntity>().IsDead)
+                if(other.GetComponent<NPSEntity>()!=null)
+                    if(!other.GetComponent<NPSEntity>().IsDead)
                         enemys.Add(other);
             }
         }
