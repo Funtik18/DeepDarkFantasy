@@ -280,7 +280,7 @@ namespace DDF.Character {
             }
             set {
                 stats.ManaPoints.currentInamount = value;
-                if (stats.ManaPoints.currentInamount >= stats.ManaPoints.amount) stats.ManaPoints.currentInamount = stats.ManaPoints.amount;
+                if (stats.ManaPoints.currentInamount >= MaxManaPoints) stats.ManaPoints.currentInamount = MaxManaPoints;
                 if (stats.ManaPoints.currentInamount <= 0) stats.ManaPoints.currentInamount = 0;
                 onChangeManaPoints?.Invoke();
             }
@@ -318,7 +318,7 @@ namespace DDF.Character {
             }
             set {
                 stats.PhysicalArmor.currentInamount = value;
-                if (stats.PhysicalArmor.currentInamount >= stats.PhysicalArmor.amount) stats.PhysicalArmor.currentInamount = stats.PhysicalArmor.amount;
+                if (stats.PhysicalArmor.currentInamount >= MaxPhysicalArmor) stats.PhysicalArmor.currentInamount = MaxPhysicalArmor;
                 if (stats.PhysicalArmor.currentInamount <= 0) stats.PhysicalArmor.currentInamount = 0;
                 onChangePhysicalArmor?.Invoke();
             }
@@ -356,7 +356,7 @@ namespace DDF.Character {
             }
             set {
                 stats.MagicArmor.currentInamount = value;
-                if (stats.MagicArmor.currentInamount >= stats.MagicArmor.amount) stats.MagicArmor.currentInamount = stats.MagicArmor.amount;
+                if (stats.MagicArmor.currentInamount >= MaxMagicArmor) stats.MagicArmor.currentInamount = MaxMagicArmor;
                 if (stats.MagicArmor.currentInamount <= 0) stats.MagicArmor.currentInamount = 0;
                 onChangeMagicArmor?.Invoke();
             }
