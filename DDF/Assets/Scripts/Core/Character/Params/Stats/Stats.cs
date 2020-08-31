@@ -5,30 +5,29 @@ namespace DDF.Character.Stats {
 
 		#region Stats
 		public StatInt Level;
-        [HideInInspector] public StatRegularInt LevelExperience;
-        [HideInInspector] public StatInt SkillPoints;
+        public StatRegularInt LevelExperience;
+        public StatInt SkillPoints;
 
-        [HideInInspector] public StatRegularFloat HealthPoints;
-        [HideInInspector] public StatRegularFloat ManaPoints;
+        public StatRegularFloat HealthPoints;
+        public StatRegularFloat ManaPoints;
 
-        [HideInInspector] public StatInt Strength;
-        [HideInInspector] public StatInt Agility;
-        [HideInInspector] public StatInt Intelligence;
-        [HideInInspector] public StatInt Luck;
+        public StatInt Strength;
+        public StatInt Agility;
+        public StatInt Intelligence;
+        public StatInt Luck;
 
-        [HideInInspector] public StatRegularInt PhysicalArmor;
-        [HideInInspector] public StatRegularInt MagicArmor;
+        public StatRegularInt PhysicalArmor;
+        public StatRegularInt MagicArmor;
 
-        [HideInInspector] public StatRegularFloat MeleeDamage;
-        [HideInInspector] public StatRegularFloat ShotDamage;
-        [HideInInspector] public StatRegularFloat MagicDamage;
-        [HideInInspector] public StatFloat ChanceAvoid;
-        [HideInInspector] public StatRegularFloat Speed;
-        [HideInInspector] public StatFloat СhanceCriticalShot;
-        [HideInInspector] public StatFloat СhanceCriticalStrike;
+        public StatRegularFloat MeleeDamage;
+        public StatRegularFloat ShotDamage;
+        public StatRegularFloat MagicDamage;
+        public StatFloat ChanceAvoid;
+        public StatRegularFloat Speed;
+        public StatFloat СhanceCriticalShot;
+        public StatFloat СhanceCriticalStrike;
 
         public StatRegularInt Weight;
-
         #endregion
         /// <summary>
         /// Инициализация статов.

@@ -65,7 +65,7 @@ namespace DDF.UI.Inventory {
             List<Item> copy = new List<Item>(currentItems);
             currentItems.Clear();
             foreach (var item in copy) {
-                AddItem(item, true);
+                inventory.AddItem(item, false);
             }
             copy.Clear();
 
@@ -128,31 +128,21 @@ namespace DDF.UI.Inventory {
         /// <param name="item"></param>
         /// <returns></returns>
         public Item AddItem( Item item, bool enableModel) {
-            Item clone = item.GetItemCopy();
-
-            MenuOptions._instance.ItemTagSetup(clone, inventory.isGUI);
-
-            for (int i = 0; i < currentItems.Count; i++) {
-                if (currentItems[i].CompareItem(clone) == 1) {
-                    //если true значит смог найти такой же предмет и положить туда количество
-                    if (IncreaseItemCount(currentItems[i], clone.itemStackCount) == true) {
-                        //обновляем модель
-                        InventoryModel model = FindModelByItem(currentItems[i]);
-                        model.RefreshModel();
-                        return clone;
-                    }
-                }
-            }
-
-            int output = AddItemXY(clone, enableModel);
-
-            if(output == 0) {
+            if(AddItemXY(item, enableModel) == 0) {
                 inventory.isFull = true;
             }
-
-            return clone;
+            return item;
         }
+
         #region ItemWork
+        private void AddCurrentItem( Item item ) {
+            MenuOptions._instance.ItemTagSetup(item, inventory.inventorytype);
+            currentItems.Add(item);
+        }
+        private void RemoveCurrentItem( Item item ) {
+            currentItems.Remove(item);
+        }
+
         private bool IncreaseItemCount(Item item, uint count) {
             if (item.itemStackSize == -1) {//объект "бесконечный", деньги
                 item.itemStackCount += count;
@@ -187,7 +177,7 @@ namespace DDF.UI.Inventory {
             }
             slots.Clear();
 
-            currentItems.Remove(item);
+            RemoveCurrentItem(item);
 
             ReloadHightLight();
         }
@@ -247,7 +237,7 @@ namespace DDF.UI.Inventory {
                     Inventory whereNow = overSeer.whereNow;
                     InventoryContainer whereNowcontainer = whereNow.container;
                     if (view.SolidHightlight) {
-                        if (inventory.isRestrictions) {
+                        if (inventory.inventorytype == InventoryTypes.Equipment) {
                             Item item = overSeer.rootModel.referenceItem;
                             
                             List<ItemType> storageTypes = whereNow.storageTypes;
@@ -373,9 +363,9 @@ namespace DDF.UI.Inventory {
                 overSeer.whereNow.DeleteItem(overSeer.rootModel.referenceItem);
                 return;
             }
-            if (whereNow.isRestrictions) {
+            if (whereNow.inventorytype == InventoryTypes.Equipment) {
 				if (!whereNow.IsEmpty) {
-                    ItemBackToRootSlot(overSeer.from.isRestrictions);
+                    ItemBackToRootSlot(overSeer.from.inventorytype == InventoryTypes.Equipment);
                     return;
                 }
 
@@ -392,7 +382,7 @@ namespace DDF.UI.Inventory {
                             return;
                         }
                     }
-                    ItemBackToRootSlot(overSeer.from.isRestrictions);
+                    ItemBackToRootSlot(overSeer.from.inventorytype == InventoryTypes.Equipment);
                     return;
                 }
             } else {
@@ -440,14 +430,14 @@ namespace DDF.UI.Inventory {
             } else {
                 from.AddItemOnPosition(item, overSeer.rootSlot);
             }
-            from.currentItems.Add(item);
+            from.AddCurrentItem(item);
 
             overSeer.isDrag = false;
             from.ReloadHightLight();
         }
         private void ItemPlaceOnSlot( InventoryContainer from, InventoryContainer to, Item item, InventoryModel model) {
             to.AddItemOnPosition(item, overSeer.lastSlot);
-            to.currentItems.Add(item);
+            to.AddCurrentItem(item);
 
             overSeer.from.container.currentModels.Remove(model);
             model.transform.SetParent(to.grid.dragParent);
@@ -463,8 +453,7 @@ namespace DDF.UI.Inventory {
             for (int i = 0; i < slots.Count; i++) {
                 slots[i].AssignItem(item);
             }
-            to.currentItems.Add(item);
-
+            to.AddCurrentItem(item);
 
             from.currentModels.Remove(model);
 
@@ -475,7 +464,7 @@ namespace DDF.UI.Inventory {
             to.currentModels.Add(model);
 
             if (recalculatePos) {
-                if(to.inventory.isRestrictions)
+                if(to.inventory.inventorytype == InventoryTypes.Equipment)
                     grid.RecalculateCellPosition(overSeer.buffer, to.size);
                 else
                     grid.RecalculateCellPosition(overSeer.buffer, item.GetSize());
@@ -548,7 +537,7 @@ namespace DDF.UI.Inventory {
                         }
                         neighbors.Clear();
 
-                        currentItems.Add(item);
+                        AddCurrentItem(item);
                         return 1;
                     }
                 }

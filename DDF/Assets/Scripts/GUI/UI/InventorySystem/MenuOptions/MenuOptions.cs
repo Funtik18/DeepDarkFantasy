@@ -30,12 +30,9 @@ namespace DDF.UI.Inventory {
 		private Item currentItem;
 		private Inventory currentInventory;
 
-
 		private void Awake() {
 			_instance = this;
 			ItemsTags.Init();
-		}
-		private void Start() {
 			canvasGroup = GetComponent<CanvasGroup>();
 			options = new List<MenuOption>();
 		}
@@ -109,9 +106,7 @@ namespace DDF.UI.Inventory {
 			CharacterEntity._instance.Take(item, inventory);
 		}
 		private void OptionThrow( Item item, Inventory inventory ) {
-			Debug.LogError("+");
-
-			//currentInventory.DeleteItem(item);
+			//CharacterEntity._instance.UEquip(item, inventory);
 		}
 		private void OptionEquip( Item item, Inventory inventory ) {
 			CharacterEntity._instance.Equip(item, inventory);
@@ -157,53 +152,72 @@ namespace DDF.UI.Inventory {
 
 
 		#region Tags work
+		private Item curItem = null;
+		private ItemType curType = null;
+		private List<ItemTag> curTags = null;
 		/// <summary>
 		/// Даём айтему тэги по типу.(хлеб нужно есть, воду надо пить)
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isGUI"></param>
-		public void ItemTagSetup( Item item, bool isGUI = true ) {
-			List<ItemTag> tags = item.tags;
-			ItemType itemType = item.GetItemType();
+		public void ItemTagSetup( Item item, InventoryTypes pressets ) {
+			curItem = item;
+			curType = item.GetItemType();
+			curTags = item.tags;
+			curTags.Clear();
 
-			if (itemType is ConsumableType) {
-				ConsumableType consumable = itemType as ConsumableType;
-				if (consumable.conumable == Consumable.Food) {
-					AssignTag<TagEat>(tags);
-				}
-				if (consumable.conumable == Consumable.Potion) {
-					AssignTag<TagDrink>(tags);
-				}
-			}
-			if (itemType is ArmorType || itemType is WeaponType) {
-				AssignTag<TagEquip>(tags);
-			}
+			CheckConsumableType();
+			CheckArmorType();
+
+			AssignPrimaryTag();
 
 			//общие
-			if (isGUI) {
-				FreeTag<TagTake>(tags);
-				AssignTag<TagThrow>(tags);
-				if (itemType is ArmorType || itemType is WeaponType) {
-					item.primaryTag = GetTag<TagEquip>(tags);
-				}
-				if (itemType is ConsumableType) {
-					ConsumableType consumable = itemType as ConsumableType;
-					if (consumable.conumable == Consumable.Food) {
-						item.primaryTag = GetTag<TagEat>(tags);
-					}
-					if (consumable.conumable == Consumable.Potion) {
-						item.primaryTag = GetTag<TagDrink>(tags);
-					}
-				}
-			} else {
-				AssignTag<TagTake>(tags);
-				FreeTag<TagThrow>(tags);
-
-				item.primaryTag = GetTag<TagTake>(tags);
+			if (pressets == InventoryTypes.Equipment) {
+				FreeTag<TagEquip>(curTags);
+				AssignTag<TagTakeOff>(curTags);
+				curItem.primaryTag = GetTag<TagTakeOff>(curTags);
 			}
+			if (pressets == InventoryTypes.Storage) {
+				AssignTag<TagTake>(curTags);
+				curItem.primaryTag = GetTag<TagTake>(curTags);
+			}
+			
 
+			curTags.Sort();
 
-			tags.Sort();
+			curItem = null;
+			curType = null;
+			curTags = null;
+		}
+		private void CheckConsumableType() {
+			if (curType is ConsumableType) {
+				ConsumableType consumable = curType as ConsumableType;
+				if (consumable.consumable == Consumable.Food) {
+					AssignTag<TagEat>(curTags);
+				}
+				if (consumable.consumable == Consumable.Potion) {
+					AssignTag<TagDrink>(curTags);
+				}
+			}
+		}
+		private void CheckArmorType() {
+			if (curType is ArmorType || curType is WeaponType) {
+				AssignTag<TagEquip>(curTags);
+			}
+		}
+		private void AssignPrimaryTag() {
+			if (curType is ConsumableType) {
+				ConsumableType consumable = curType as ConsumableType;
+				if (consumable.consumable == Consumable.Food) {
+					curItem.primaryTag = GetTag<TagEat>(curTags);
+				}
+				if (consumable.consumable == Consumable.Potion) {
+					curItem.primaryTag = GetTag<TagDrink>(curTags);
+				}
+			}
+			if (curType is ArmorType || curType is WeaponType) {
+				curItem.primaryTag = GetTag<TagEquip>(curTags);
+			}
 		}
 		public void AssignTag<T>( List<ItemTag> tags ) {
 			bool result = tags.OfType<T>().Any();
@@ -220,7 +234,15 @@ namespace DDF.UI.Inventory {
 		}
 		public ItemTag GetTag<T>( List<ItemTag> tags ) {
 			return tags[tags.FindIndex(x => x is T)];
+		}
 
+		
+
+
+		public enum TagPressets {
+			ForInventory,
+			ForEquipment,
+			ForChest,
 		}
 		#endregion
 	}

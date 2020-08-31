@@ -9,10 +9,10 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public string inventoryID;
 
-		[Tooltip("Если тру то в этом контейнере возможно положить только один предиет размером с контейнер.")]
-		public bool isRestrictions = false;
-		public bool isGUI = true;
 		public bool isDisposer = false;
+		public bool isGUI = false;
+
+		[HideInInspector] public InventoryTypes inventorytype = InventoryTypes.Simple;
 
 
 		[HideInInspector] public bool isFull;
@@ -26,15 +26,15 @@ namespace DDF.UI.Inventory {
 		public string InventoryName = "Inventory";
 		[HideInInspector]public InventoryOverSeer overSeer;
 		public InventoryView view;
-        public InventoryContainer container;
+		public InventoryContainer container;
 		public List<Item> currentItems;
 
-		[HideInInspector]private CanvasGroup canvasGroup;
+		private CanvasGroup canvasGroup;
 
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
 		}
-		protected void Awake() {
+		protected virtual void Awake() {
 			canvasGroup = GetComponent<CanvasGroup>();
 			if (inventoryID == "")
 				CreateNewID();
@@ -48,11 +48,9 @@ namespace DDF.UI.Inventory {
 			container.Init();
 		}
 
-		public Item AddItem(Item item, bool enableModel = true) {
-			return container.AddItem(item, enableModel);
-		}
-		public void AddItems() {
-
+		public virtual Item AddItem(Item item, bool enableModel = true) {
+			Item clone = item.GetItemCopy();
+			return container.AddItem(clone, enableModel);
 		}
 		public void DeleteItem(Item item) {
 			container.DeleteItem(item);
@@ -67,5 +65,11 @@ namespace DDF.UI.Inventory {
 			container.HideContainer();
 			Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
 		}
+	}
+	public enum InventoryTypes {
+		Simple,
+		TrashCan,
+		Equipment,
+		Storage,
 	}
 }

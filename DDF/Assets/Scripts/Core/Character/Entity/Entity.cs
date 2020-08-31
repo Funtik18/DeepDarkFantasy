@@ -1113,8 +1113,12 @@ namespace DDF.Character {
             InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
             inventory.DeleteItem(item);
         }
-        public virtual void Equip(Item item, Inventory inventory)
-        {
+        public virtual void Equip( Item item, Inventory from ) {
+            Item equipedItem = mainEquipment.Equip(item);
+            if (equipedItem == null) return;
+            from.DeleteItem(item);
+        }
+        public virtual void UnEquip( Item item, Inventory inventory ) {
             Item equipedItem = mainEquipment.Equip(item);
             if (equipedItem == null) return;
             inventory.DeleteItem(item);
@@ -1126,9 +1130,7 @@ namespace DDF.Character {
             MenuOptions._instance.AssignTag<TagThrow>(tags);
             equipedItem.primaryTag = MenuOptions._instance.GetTag<TagTakeOff>(tags);
         }
-        public virtual void TakeOff(Item item, Inventory inventory)
-        {
-
+        public virtual void TakeOff( Item item, Inventory inventory ) {
             Item dropedItem = mainEquipment.TakeOff(item);
             if (dropedItem == null) return;
             mainInventory.AddItem(dropedItem);

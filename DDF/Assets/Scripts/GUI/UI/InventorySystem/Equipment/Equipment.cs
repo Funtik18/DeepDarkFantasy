@@ -72,6 +72,10 @@ namespace DDF.UI.Inventory {
 			allSlots.Add(legEquipment);
 			allSlots.Add(feetEquipment);
 			allSlots.AddRange(rings);
+
+			for(int i = 0; i < allSlots.Count; i++) {
+				allSlots[i].inventorytype = InventoryTypes.Equipment;
+			}
 		}
 
 		public Item Equip(Item item ) {

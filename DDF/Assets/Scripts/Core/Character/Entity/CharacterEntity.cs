@@ -36,10 +36,13 @@ namespace DDF.Character {
         protected override void Awake() {
             _instance = this;
             base.Awake();
+
 			foreach (var item in textsStats) {
                 item.Init(this);
             }
+
             textsPerks.Init(currentPerks);
+
             textsEffects.Init(currentEffects);
             effects.effectOnStart += textsEffects.CreateEffect;
             effects.effectOnUpdate += textsEffects.UpdateEffectTXT;
