@@ -1108,6 +1108,7 @@ MonoBehaviour:
   textStatStrength: {fileID: 1087425539874025921}
   textStatAgility: {fileID: 55312765}
   textStatIntelligence: {fileID: 1861310803}
+  textStatLuck: {fileID: 8875119989982803502}
   textStatPhysicalArmor: {fileID: 2109141982}
   textStatMagicArmor: {fileID: 680614257}
   "textStat\u0421hanceCriticalStrike": {fileID: 863320442}
@@ -1749,6 +1750,7 @@ MonoBehaviour:
   textStatStrength: {fileID: 0}
   textStatAgility: {fileID: 0}
   textStatIntelligence: {fileID: 0}
+  textStatLuck: {fileID: 0}
   textStatPhysicalArmor: {fileID: 0}
   textStatMagicArmor: {fileID: 0}
   "textStat\u0421hanceCriticalStrike": {fileID: 0}
@@ -3867,6 +3869,7 @@ MonoBehaviour:
   textStatStrength: {fileID: 0}
   textStatAgility: {fileID: 0}
   textStatIntelligence: {fileID: 0}
+  textStatLuck: {fileID: 0}
   textStatPhysicalArmor: {fileID: 0}
   textStatMagicArmor: {fileID: 0}
   "textStat\u0421hanceCriticalStrike": {fileID: 0}
@@ -5972,6 +5975,7 @@ MonoBehaviour:
   textStatStrength: {fileID: 0}
   textStatAgility: {fileID: 0}
   textStatIntelligence: {fileID: 0}
+  textStatLuck: {fileID: 0}
   textStatPhysicalArmor: {fileID: 0}
   textStatMagicArmor: {fileID: 0}
   "textStat\u0421hanceCriticalStrike": {fileID: 0}
@@ -6337,6 +6341,7 @@ MonoBehaviour:
   textStatStrength: {fileID: 0}
   textStatAgility: {fileID: 0}
   textStatIntelligence: {fileID: 0}
+  textStatLuck: {fileID: 0}
   textStatPhysicalArmor: {fileID: 0}
   textStatMagicArmor: {fileID: 0}
   "textStat\u0421hanceCriticalStrike": {fileID: 0}
@@ -22780,6 +22785,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7688275761611970094}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8875119989982803502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1268040964468121600, guid: 1e3c16a22ce85c34d92448e831010d86,
+    type: 3}
+  m_PrefabInstance: {fileID: 7688275761611970094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5decc910917344e830fc775980d8d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8958699799678141290
 GameObject:
   m_ObjectHideFlags: 0

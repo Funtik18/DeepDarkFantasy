@@ -1136,8 +1136,7 @@ namespace DDF.Character {
         /// <summary>
         /// Пересчитывает-перерисовывает статы.
         /// </summary>
-        protected virtual void UpdateStats()
-        {
+        protected virtual void UpdateStats() {
             MakeFormules();
         }
         protected virtual void UpdatePerks()
@@ -1154,7 +1153,7 @@ namespace DDF.Character {
         protected virtual void MakeFormules()
         {
             //formules
-            MaxSkillPoints = CurrentIntelligence;
+            //MaxSkillPoints = CurrentIntelligence;
 
             MaxHealthPoints = baseHealthPoints + CurrentStrength * 2;
             MaxManaPoints = baseManaPoints + CurrentIntelligence * 2;
