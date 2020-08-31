@@ -8,16 +8,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-<<<<<<< Updated upstream
 namespace DDF.Character {
     public class Entity : MonoBehaviour {
-=======
-namespace DDF.Character
-{
-    public class Entity : MonoBehaviour
-    {
-        [HideInInspector]
->>>>>>> Stashed changes
         public Stats.Stats stats;
         protected Perks.Perks perks;
         protected Abilities.Abilities abilities;
@@ -250,6 +242,7 @@ namespace DDF.Character
         /// <summary>
         /// Базовое значение для Здоровья.
         /// </summary>
+        private float baseHealthPoints = 15;
         /// <summary>
         /// Максимально возможное значение для Здоровья.
         /// </summary>
@@ -382,6 +375,7 @@ namespace DDF.Character
         /// <summary>
         /// Базовое значаение Магической Брони.
         /// </summary>
+        private int baseMagicArmor = 5;
         /// <summary>
         /// Максимально возможное значение для Магической Брони.
         /// </summary>
@@ -827,7 +821,7 @@ namespace DDF.Character
         /// <summary>
         /// Базовое значение для Веса.
         /// </summary>
-        private int baseWeight = 60;
+        private int baseWeight = 25;
         /// <summary>
         /// Максимально возможное значение для Веса.
         /// </summary>
@@ -843,7 +837,7 @@ namespace DDF.Character
             }
         }
         /// <summary>
-        /// Текущее значение Здоровья.
+        /// Текущее значение Веса.
         /// </summary>
         public int CurrentWeight {
             get {
@@ -1177,7 +1171,7 @@ namespace DDF.Character
             MaxHealthPoints = baseHealthPoints + CurrentStrength * 2;
             MaxManaPoints = baseManaPoints + CurrentIntelligence * 2;
 
-            MaxMagicArmor = CurrentIntelligence * 2;
+            MaxMagicArmor = baseMagicArmor+CurrentIntelligence * 2;
 
 
             MaxMeleeDamage = baseMeleeDamage + CurrentStrength * 2;
@@ -1189,7 +1183,13 @@ namespace DDF.Character
             MaxMagicDamage = baseMagicDamage + CurrentIntelligence * 2;
             MinMagicDamage = 0;
 
+            CurrentWeight = baseWeight + CurrentStrength * 25;
 
+            CurrentСhanceCriticalStrike = (float)Math.Round(baseСhanceCriticalStrike+((float)CurrentStrength + (float)CurrentLuck )/2+ UnityEngine.Random.Range(0,10),3);
+            CurrentСhanceCriticalShot = (float)Math.Round(baseСhanceCriticalShot + (((float)CurrentAgility + (float)CurrentLuck)) / 2 + UnityEngine.Random.Range(0, 10), 3);
+            CurrentChanceAvoid = (float)Math.Round(baseChanceAvoid + (((float)CurrentAgility + (float)CurrentLuck)) / 2f + UnityEngine.Random.Range(0, 10), 3);
+
+            MaxSpeed = baseSpeed + CurrentAgility / 2;
         }
     }
 }
