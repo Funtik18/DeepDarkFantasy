@@ -1133,10 +1133,10 @@ GameObject:
   m_Component:
   - component: {fileID: 267621420017178182}
   - component: {fileID: 7871390011507899196}
-  - component: {fileID: 4328922845934023213}
   - component: {fileID: 7483779304063836072}
   - component: {fileID: 1756738449292786114}
   - component: {fileID: 6483895750525084134}
+  - component: {fileID: -5248129157877317754}
   m_Layer: 0
   m_Name: Dragon_boss_anim1
   m_TagString: Boss
@@ -1182,21 +1182,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4328922845934023213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3885922150913025109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7322285a41395b546b1f209add5d9e7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 1000
-  dead: 0
-  Iam: {fileID: 0}
 --- !u!143 &7483779304063836072
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1256,6 +1241,51 @@ MonoBehaviour:
   rightHandObj: {fileID: 0}
   leftHandObj: {fileID: 0}
   lookObj: {fileID: 0}
+--- !u!114 &-5248129157877317754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3885922150913025109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEffects: []
+  isDead: 0
+  isCastrat: 0
+  currentLevel: 0
+  maxLevelExperience: 0
+  currentLevelExperience: 0
+  maxSkillPoints: 0
+  currentSkillPoints: 0
+  maxHealthPoints: 0
+  currentHealthPoints: 0
+  maxManaPoints: 0
+  currentManaPoints: 0
+  maxPhysicalArmor: 0
+  currentPhysicalArmor: 0
+  maxMagicArmor: 0
+  currentMagicArmor: 0
+  maxMeleeDamage: 0
+  minMeleeDamage: 0
+  maxShotDamage: 0
+  minShotDamage: 0
+  maxMagicDamage: 0
+  minMagicDamage: 0
+  "max\u0421hanceCriticalStrike": 100
+  "current\u0421hanceCriticalStrike": 0
+  "max\u0421hanceCriticalShot": 100
+  "current\u0421hanceCriticalShot": 0
+  maxChanceAvoid: 100
+  currentChanceAvoid: 0
+  maxSpeed: 0
+  currentSpeed: 0
+  strength: 5
+  agility: 5
+  Speed: 2
 --- !u!1 &4053378116127779016
 GameObject:
   m_ObjectHideFlags: 0

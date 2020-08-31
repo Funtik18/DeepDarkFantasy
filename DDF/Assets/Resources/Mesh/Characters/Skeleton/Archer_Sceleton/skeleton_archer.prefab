@@ -996,8 +996,8 @@ GameObject:
   - component: {fileID: 7875235391677932795}
   - component: {fileID: 4985930406734010950}
   - component: {fileID: 7488392743430871312}
-  - component: {fileID: 5633382676094782860}
   - component: {fileID: 7372158119432374981}
+  - component: {fileID: 1403607471249147825}
   m_Layer: 0
   m_Name: skeleton_archer
   m_TagString: Skeleton
@@ -1091,7 +1091,7 @@ CapsuleCollider:
   m_Height: 188.43
   m_Direction: 1
   m_Center: {x: 0, y: 87.7, z: 0}
---- !u!114 &5633382676094782860
+--- !u!114 &7372158119432374981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1100,7 +1100,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 3336223143866071302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7322285a41395b546b1f209add5d9e7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6220ffc6bbb9291428dd04170e5d697f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 20
+  speedRotation: 20
+  gravity: 3
+  sparing_distance: 60
+  maxPain: 2
+  bowReady: {fileID: 7649352697787356676}
+  bowNotReady: {fileID: 6656593694713373017}
+  arrowInKolchan: {fileID: 2679071519776295976}
+  bowString: {fileID: 4236878674717755374}
+  walk: 0
+  Targets_Tag:
+  - knight
+  - Monster
+  - Zombie
+--- !u!114 &1403607471249147825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3336223143866071302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentEffects: []
@@ -1133,38 +1159,9 @@ MonoBehaviour:
   currentChanceAvoid: 0
   maxSpeed: 0
   currentSpeed: 0
-  textsStats: []
-  textsPerks: {fileID: 0}
-  textsEffects: {fileID: 0}
-  HPBar: {fileID: 0}
-  MPBar: {fileID: 0}
-  LevelBar: {fileID: 0}
---- !u!114 &7372158119432374981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3336223143866071302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6220ffc6bbb9291428dd04170e5d697f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 20
-  speedRotation: 20
-  gravity: 3
-  sparing_distance: 60
-  maxPain: 2
-  bowReady: {fileID: 7649352697787356676}
-  bowNotReady: {fileID: 6656593694713373017}
-  arrowInKolchan: {fileID: 2679071519776295976}
-  bowString: {fileID: 4236878674717755374}
-  walk: 0
-  Targets_Tag:
-  - knight
-  - Monster
-  - Zombie
+  strength: 5
+  agility: 5
+  Speed: 2
 --- !u!1 &3348705703397519745
 GameObject:
   m_ObjectHideFlags: 0
