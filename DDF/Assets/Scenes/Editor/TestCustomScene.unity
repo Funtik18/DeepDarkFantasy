@@ -2705,7 +2705,7 @@ PrefabInstance:
     - target: {fileID: 398905503702796128, guid: 79e4fb04782d41246842ac8c23cf1136,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20.000122
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 398905503702796128, guid: 79e4fb04782d41246842ac8c23cf1136,
         type: 3}
@@ -6092,7 +6092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f9a9997dca289479995c365011dbd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startIndex: 2
+  startIndex: 0
   pages:
   - {fileID: 612592570}
   - {fileID: 108742301}
@@ -6707,7 +6707,7 @@ GameObject:
   - component: {fileID: 1326475818}
   - component: {fileID: 1326475819}
   m_Layer: 5
-  m_Name: Transitions
+  m_Name: Transiations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6795,6 +6795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790b40fb9667e354c829ab561f69d927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentEffects: []
   isDead: 0
   isCastrat: 0
   currentLevel: 0
@@ -6810,9 +6811,6 @@ MonoBehaviour:
   currentPhysicalArmor: 0
   maxMagicArmor: 0
   currentMagicArmor: 0
-  currentStrength: 0
-  currentAgility: 0
-  currentIntelligence: 0
   maxMeleeDamage: 0
   minMeleeDamage: 0
   maxShotDamage: 0
@@ -6825,7 +6823,8 @@ MonoBehaviour:
   "current\u0421hanceCriticalShot": 0
   maxChanceAvoid: 100
   currentChanceAvoid: 0
-  speed: 0
+  maxSpeed: 0
+  currentSpeed: 0
   textsStats:
   - {fileID: 108742304}
   - {fileID: 469406385}
@@ -7987,7 +7986,7 @@ PrefabInstance:
     - target: {fileID: 398905503702796128, guid: 79e4fb04782d41246842ac8c23cf1136,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20.000122
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 398905503702796128, guid: 79e4fb04782d41246842ac8c23cf1136,
         type: 3}
@@ -9613,7 +9612,7 @@ PrefabInstance:
     - target: {fileID: 398905503702796128, guid: 79e4fb04782d41246842ac8c23cf1136,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20.000122
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 398905503702796128, guid: 79e4fb04782d41246842ac8c23cf1136,
         type: 3}

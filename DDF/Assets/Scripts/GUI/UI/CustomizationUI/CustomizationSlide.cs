@@ -7,6 +7,5 @@ namespace DDF.UI.Customization {
 
     public class CustomizationSlide : MonoBehaviour {
         public Pages pages;
-
     }
 }

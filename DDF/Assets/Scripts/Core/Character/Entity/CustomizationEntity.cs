@@ -13,16 +13,16 @@ namespace DDF.Character.Stats {
         private TextsPerksCustomization textsPerks;
         #region Setup
         protected override void Awake() {
-            base.Awake();
+           /* base.Awake();
 			for (int i = 0; i < textsStats.Count; i++) {
                 textsStats[i].Init(this);
             }
-            textsPerks.Init(perks.GetAllPerks());
+            textsPerks.Init(perks.GetAllPerks());*/
         }
         protected void Start() {
             //base.Start();
 
-            onChangeSkillPoints = () => UpdateTXT();
+           /* onChangeSkillPoints = () => UpdateTXT();
 
 
             onChangeHealthPoints = delegate { UpdateData(); UpdateTXT(); };
@@ -39,7 +39,7 @@ namespace DDF.Character.Stats {
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
-            UpdateUI();
+            UpdateUI();*/
         }
         private void UpdateTXT() {
             for (int i = 0; i < textsStats.Count; i++) {
