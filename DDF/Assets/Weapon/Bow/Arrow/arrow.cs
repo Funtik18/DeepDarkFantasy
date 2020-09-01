@@ -16,9 +16,9 @@ public class arrow : MonoBehaviour
     
     private void Update() {
         _timer+=Time.deltaTime;
-        if(_timer>20){
-            Destroy(plumage);
-        }
+        //if(_timer>20){
+        //    Destroy(plumage);
+       // }
     }
 
     private void OnTriggerEnter(Collider other) {

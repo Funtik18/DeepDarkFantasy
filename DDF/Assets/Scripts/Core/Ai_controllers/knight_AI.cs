@@ -190,8 +190,8 @@ public class knight_AI : MonoBehaviour
                 } 
             } 
 
-        if(enemy.GetComponent<CharacterEntity>()!=null)
-        if(enemy.GetComponent<CharacterEntity>().IsDead) {
+        if(enemy.GetComponent<NPSEntity>()!=null)
+        if(enemy.GetComponent<NPSEntity>().IsDead) {
             enemys.Remove(enemy);
             endbattle = true;
         }    

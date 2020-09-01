@@ -13,7 +13,7 @@ public class Monster_AI : MonoBehaviour
     public float maxPain = 2;
 
     [InfoBox("hevi_dist - Дистанция от врага для особой атаки. hevi_dist > sparing_distance", InfoBoxType.Normal)]
-    int hevi_dist = 70;
+    public int hevi_dist = 70;
     private CharacterController characterController;
     private Animator myanim;
     public bool walk;
