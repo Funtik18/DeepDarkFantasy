@@ -1,6 +1,4 @@
-﻿#if UNITY_EDITOR
-using DDF.Atributes;
-#endif
+﻿using DDF.Atributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

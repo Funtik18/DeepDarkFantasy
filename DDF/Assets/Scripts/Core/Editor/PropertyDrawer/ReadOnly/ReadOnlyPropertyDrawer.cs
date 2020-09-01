@@ -1,4 +1,6 @@
-﻿using DDF.Atributes;
+﻿#if UNITY_EDITOR
+using DDF.Atributes;
+
 using UnityEditor;
 using UnityEngine;
 
@@ -12,3 +14,4 @@ namespace DDF.Editor {
         }
     }
 }
+#endif
