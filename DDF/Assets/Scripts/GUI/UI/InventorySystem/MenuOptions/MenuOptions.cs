@@ -52,7 +52,7 @@ namespace DDF.UI.Inventory {
 		}
 		
 		private void OptionOpen() {
-			ItemType type = currentItem.GetItemType();
+			ItemType type = currentItem.itemType;
 			if (type is PouchType) {
 				string findId = ( type as PouchType ).inventoryReference;
 				print(findId);
@@ -162,7 +162,7 @@ namespace DDF.UI.Inventory {
 		/// <param name="isGUI"></param>
 		public void ItemTagSetup( Item item, InventoryTypes pressets ) {
 			curItem = item;
-			curType = item.GetItemType();
+			curType = item.itemType;
 			curTags = item.tags;
 			curTags.Clear();
 

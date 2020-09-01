@@ -246,7 +246,7 @@ namespace DDF.UI.Inventory {
                                 return;
 							} else {
                                 for (int i = 0; i < whereNow.storageTypes.Count; i++) {
-                                    if (item.CompareItemType(whereNow.storageTypes[i]) == 1) {
+                                    if (item.itemType.Equals(whereNow.storageTypes[i])) {
                                         whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                         return;
                                     }
@@ -377,7 +377,7 @@ namespace DDF.UI.Inventory {
                     return;
                 } else {
                     for (int i = 0; i < storageTypes.Count; i++) {
-                        if (item.CompareItemType(storageTypes[i]) == 1) {
+                        if (item.itemType.Equals(storageTypes[i])) {
                             ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                             return;
                         }

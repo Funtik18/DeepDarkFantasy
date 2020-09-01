@@ -96,7 +96,7 @@ namespace DDF.UI.Inventory {
 		private Item CompareTypesEquip( Inventory inventory, Item item ) {
 			if (inventory.IsEmpty) {
 				for (int i = 0; i < inventory.storageTypes.Count; i++) {
-					if (item.CompareItemType(inventory.storageTypes[i]) == 1) {
+					if (item.itemType.Equals(inventory.storageTypes[i])) {
 						Item addeditem = inventory.AddItem(item);
 						return addeditem;
 					}

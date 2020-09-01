@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using DDF.Atributes;
 using DDF.Character.Effects;
+using DDF.Character.Stats;
 using DDF.Events;
 #endif
 using System;
@@ -45,14 +46,13 @@ namespace DDF.UI.Inventory.Items {
         public int itemStackSize = 1;//дефолтное любое, кроме нуля
 
         [Header("Stats")]
-
         [Header("Effects")]
         public List<Effect> effects;
 
         [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
         [Header("Misc")]
-        [SerializeField]
-        private ItemType itemType;
+        public ItemType itemType;
+        
         public ItemTag primaryTag { get { return itemType.primaryTag; } set { itemType.primaryTag = value; } }
         public List<ItemTag> tags { get { return itemType.tags; } }
 
@@ -75,6 +75,8 @@ namespace DDF.UI.Inventory.Items {
 
             Item clone = Instantiate(this);
             clone.itemType = Instantiate(itemType);
+            clone.name = this.name;
+            clone.itemName = this.name;
             clone.itemID = System.Guid.NewGuid().ToString();
             return clone;
 		}
@@ -93,34 +95,8 @@ namespace DDF.UI.Inventory.Items {
             return vector2;
 		}
 
-        public ItemType GetItemType() {
-            return itemType;
-        }
-
         public string GetId() {
             return itemID;
 		}
-
-        //Compare
-
-        public int CompareItem(Item item) {
-
-            if (CompareItemType(item.itemType) == 1) {
-                return 1;
-            }
-            return 0;
-		}
-        public int CompareItemType(ItemType itemTypeCompare) {
-            if (itemTypeCompare.ToString() == itemType.ToString()) {
-                return 1;
-            }
-            return 0;
-        }
-    }
-
-    public enum ItemTypeChoice {
-        Armor,
-        Weapon,
-        Consumable
     }
 }
