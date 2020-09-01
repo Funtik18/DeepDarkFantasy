@@ -56,7 +56,7 @@ namespace DDF.Environment {
 			insInventory?.HideInventory();
 		}
 		private void EmptiedChest() {
-			Inventory inventory = InventoryOverSeerGUI._instance.mainInventory;
+			Inventory inventory = InventoryOverSeerGUI.Getinstance().mainInventory;
 			List<Item> items = new List<Item>();
 			for(int i = 0; i < insInventory.currentItems.Count; i++) {
 				Item item = inventory.AddItem(insInventory.currentItems[i], false);

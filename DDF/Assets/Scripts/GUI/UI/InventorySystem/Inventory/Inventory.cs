@@ -38,13 +38,14 @@ namespace DDF.UI.Inventory {
 			canvasGroup = GetComponent<CanvasGroup>();
 			if (inventoryID == "")
 				CreateNewID();
-			if(isGUI)
-				overSeer = InventoryOverSeerGUI._instance;
+			if (isGUI)
+				overSeer = InventoryOverSeerGUI.Getinstance();
 			else
-				overSeer = InventoryOverSeerUI._instance;
+				overSeer = InventoryOverSeerUI.Getinstance();
 		}
 
 		protected void Start() {
+			print(overSeer == null);
 			container.Init();
 		}
 

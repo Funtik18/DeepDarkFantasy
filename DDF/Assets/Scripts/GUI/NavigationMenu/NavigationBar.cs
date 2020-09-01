@@ -21,9 +21,9 @@ namespace DDF.UI.GUI {
 		public void SetCurrentPage( int currentId ) {
 			currentPage = currentId;
 			if(currentPage == 0) {
-				InventoryOverSeerGUI._instance.Show();
+				InventoryOverSeerGUI.Getinstance().Show();
 			} else {
-				InventoryOverSeerGUI._instance.Hide();
+				InventoryOverSeerGUI.Getinstance().Hide();
 			}
 			NavigationPage page = pages[currentPage];
 			text.SetText(page.pageName, page.navigationButton.curentColor);

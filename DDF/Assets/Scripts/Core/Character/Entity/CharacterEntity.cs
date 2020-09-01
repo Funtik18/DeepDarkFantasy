@@ -69,9 +69,9 @@ namespace DDF.Character {
 
             
             UpdateUI();
-            InventoryOverSeerGUI._instance.CloseGUI();
-            mainInventory = InventoryOverSeerGUI._instance.mainInventory;
-            mainEquipment = InventoryOverSeerGUI._instance.mainEquipment;
+            InventoryOverSeerGUI.Getinstance().CloseGUI();
+            mainInventory = InventoryOverSeerGUI.Getinstance().mainInventory;
+            mainEquipment = InventoryOverSeerGUI.Getinstance().mainEquipment;
         }
         protected override void UpdateStats() {
             base.UpdateStats();
