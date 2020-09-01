@@ -7,18 +7,19 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory {
     public class InventoryOverSeerGUI : InventoryOverSeer {
-		public static new InventoryOverSeerGUI _instance { get; private set; }
+		protected static new InventoryOverSeerGUI _instance { get; private set; }
 
 		public Inventory mainInventory;
 		public Equipment mainEquipment;
 
 		private bool isOpen = false;
 
-		protected override void Awake() {
-			base.Awake();
-			DragParentsGUI.Init();
-			if (_instance == null)
-				_instance = this;
+		public new static InventoryOverSeerGUI Getinstance() {
+			if (_instance == null) {
+				_instance = FindObjectOfType<InventoryOverSeerGUI>();
+				DragParentsGUI.Init();
+			}
+			return _instance;
 		}
 
 		private void Update() {

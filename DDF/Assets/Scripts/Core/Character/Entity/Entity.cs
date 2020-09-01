@@ -1108,7 +1108,7 @@ namespace DDF.Character {
 
         #region Actions
         public virtual void Take( Item item, Inventory inventory ) {
-            InventoryOverSeerGUI._instance.mainInventory.AddItem(item, false);
+            InventoryOverSeerGUI.Getinstance().mainInventory.AddItem(item, false);
             inventory.DeleteItem(item);
         }
         public virtual void Equip( Item item, Inventory from ) {

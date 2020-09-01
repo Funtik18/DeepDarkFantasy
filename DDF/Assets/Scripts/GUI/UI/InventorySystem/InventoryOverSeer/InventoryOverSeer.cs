@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DDF.Character.Stats;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
     public class InventoryOverSeer : MonoBehaviour {
-		public static InventoryOverSeer _instance { get; private set; }
+		protected static InventoryOverSeer _instance { get; private set; }
 
 		[HideInInspector] public List<Inventory> containers;
 
@@ -25,6 +26,15 @@ namespace DDF.UI.Inventory {
 		protected virtual void Awake() {
 			containers = new List<Inventory>();
 		}
+		public static InventoryOverSeer Getinstance() {
+			if(_instance == null) {
+				_instance = FindObjectOfType<InventoryOverSeer>();
+			}
+			return _instance;
+		}
+
+
+
 		/// <summary>
 		/// Показывает все контейнеры и их содержимое.
 		/// </summary>
