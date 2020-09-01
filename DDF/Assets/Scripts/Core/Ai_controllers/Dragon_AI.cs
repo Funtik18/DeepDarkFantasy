@@ -226,6 +226,10 @@ public class Dragon_AI : MonoBehaviour
                 if(other.GetComponent<NPSEntity>()!=null)
                     if(!other.GetComponent<NPSEntity>().IsDead)
                         enemys.Add(other);
+
+                if(other.GetComponent<CharacterEntity>()!=null)
+                    if(!other.GetComponent<CharacterEntity>().IsDead)
+                        enemys.Add(other);
             }
         }
     // Debug.Log("See Enemy, His friend? "+frendly+" i see him agane? "+have);

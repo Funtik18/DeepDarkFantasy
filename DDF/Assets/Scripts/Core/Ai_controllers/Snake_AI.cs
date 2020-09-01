@@ -182,6 +182,12 @@ public class Snake_AI : MonoBehaviour
                         enemys.Add(other);
                         myanim.SetBool("Voise",true);
                         }
+                
+                if(other.GetComponent<CharacterEntity>()!=null)
+                    if(!other.GetComponent<CharacterEntity>().IsDead) {
+                        enemys.Add(other);
+                        myanim.SetBool("Voise",true);
+                        }
             }
         }
     }
