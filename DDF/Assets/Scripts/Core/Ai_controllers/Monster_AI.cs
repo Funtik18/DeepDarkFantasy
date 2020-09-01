@@ -223,7 +223,7 @@ public class Monster_AI : MonoBehaviour
     public void IseeSomething(GameObject other){
         bool frendly = true;
         foreach(string s in Targets_Tag){
-            //Debug.Log("Я тебя вижу");
+            if(other != null)
             if(other.tag.Equals(s)){
                 //Debug.Log("Ты мне не Друг");
                 frendly = false;
