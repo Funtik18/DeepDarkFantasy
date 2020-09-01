@@ -18,6 +18,7 @@ public class ModularWorldGenerator : MonoBehaviour
     IEnumerator Start()
     //void Start()
     {
+        float TimeToStop = 0;
         var startModule = (Module)Instantiate(StartModule, transform.position, transform.rotation);
         var pendingExits = new List<ModuleConnector>(startModule.GetExits());
         RoomCount--;
@@ -40,7 +41,7 @@ public class ModularWorldGenerator : MonoBehaviour
                     var newModuleExits = newModule.GetExits();
                     var exitToMatch = newModuleExits.FirstOrDefault(x => x.IsDefault) ?? GetRandom(newModuleExits);
                     MatchExits(pendingExit, exitToMatch);
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.02f);
                     if (iterations == 1)
                     {
                         newModulePrefab = EndModule;
@@ -62,9 +63,11 @@ public class ModularWorldGenerator : MonoBehaviour
                         if (newTag == "room")
                         {
                             RoomCount--;
+                            TimeToStop = 0;
                         }
                         if (newTag == "BossRoom")
                         {
+                            TimeToStop = 0;
                             RoomCount--;
                             //Modules=Modules.Except(new Module[] { newModulePrefab }.ToArray()));
                             /*var newModuleArr = Modules.ToList();
@@ -89,6 +92,11 @@ public class ModularWorldGenerator : MonoBehaviour
 
             }
             pendingExits = newExits;
+            TimeToStop += Time.deltaTime;
+            if (TimeToStop > 30)
+            {
+                break;
+            }
         }
         foreach (var pendingExit in pendingExits)
         {

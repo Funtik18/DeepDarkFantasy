@@ -11,7 +11,7 @@ public class DeleteThis : MonoBehaviour
     private void Start()
     {
 
-            Destroy(GetComponent<DeleteThis>(),0.1f);
+            Destroy(GetComponent<DeleteThis>(),0.02f);
     }
 
     private void OnTriggerEnter(Collider other)
