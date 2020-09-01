@@ -240,7 +240,7 @@ namespace DDF.UI.Inventory {
                         if (inventory.inventorytype == InventoryTypes.Equipment) {
                             Item item = overSeer.rootModel.referenceItem;
                             
-                            List<ItemType> storageTypes = whereNow.storageTypes;
+                            /*List<ItemType> storageTypes = whereNow.storageTypes;
                             if(storageTypes.Count == 0) {
                                 whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                 return;
@@ -252,7 +252,7 @@ namespace DDF.UI.Inventory {
                                     }
                                 }
                                 whereNowcontainer.SelectAllSlots(whereNow.view.invalidColor);
-                            }
+                            }*/
                         }
                     } else {
                         whereNowcontainer.HoverLanding();//и подсвечивает тот контейнер на который указывает
@@ -371,7 +371,7 @@ namespace DDF.UI.Inventory {
 
                 InventoryModel model = overSeer.rootModel;
                 Item item = model.referenceItem;
-                List<ItemType> storageTypes = whereNow.storageTypes;
+               /* List<ItemType> storageTypes = whereNow.storageTypes;
                 if (storageTypes.Count == 0) { 
                     ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                     return;
@@ -384,7 +384,7 @@ namespace DDF.UI.Inventory {
                     }
                     ItemBackToRootSlot(overSeer.from.inventorytype == InventoryTypes.Equipment);
                     return;
-                }
+                }*/
             } else {
                 //+
                 if (actionSelection == -1 ) {//нельзя

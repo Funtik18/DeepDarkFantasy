@@ -22,7 +22,7 @@ namespace DDF.UI.Inventory {
 			}
 		}
 
-		public List<ItemType> storageTypes;
+		//public List<ItemType> storageTypes;
 		public string InventoryName = "Inventory";
 		[HideInInspector]public InventoryOverSeer overSeer;
 		public InventoryView view;

@@ -95,12 +95,12 @@ namespace DDF.UI.Inventory {
 
 		private Item CompareTypesEquip( Inventory inventory, Item item ) {
 			if (inventory.IsEmpty) {
-				for (int i = 0; i < inventory.storageTypes.Count; i++) {
+				/*for (int i = 0; i < inventory.storageTypes.Count; i++) {
 					if (item.itemType.Equals(inventory.storageTypes[i])) {
 						Item addeditem = inventory.AddItem(item);
 						return addeditem;
 					}
-				}
+				}*/
 			}
 			return null;
 		}
