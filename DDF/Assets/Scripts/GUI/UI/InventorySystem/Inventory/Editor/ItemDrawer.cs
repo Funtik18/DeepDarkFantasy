@@ -55,7 +55,6 @@ namespace DDF.Editor {
 			#endregion
 
 
-
 			item.itemStackCount = cashCurrentStackCount;
             item.itemStackSize = cashMaxStackCount;
 

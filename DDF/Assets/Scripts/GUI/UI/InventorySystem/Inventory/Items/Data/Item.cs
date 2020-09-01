@@ -18,7 +18,7 @@ namespace DDF.UI.Inventory.Items {
         public string itemDescription;
         [TextArea]
         public string itemAnotation;
-        
+
         [Header("Icon")]
         public Sprite itemIcon;
         [SerializeField]
@@ -31,7 +31,7 @@ namespace DDF.UI.Inventory.Items {
         }
 
         [Header("Stacking")]
-        [Range(1,10)]
+        [Range(1, 10)]
         [SerializeField]
         private int itemWidth = 1;
         [Range(1, 10)]
@@ -45,10 +45,8 @@ namespace DDF.UI.Inventory.Items {
         public int itemStackSize = 1;//дефолтное любое, кроме нуля
 
         [Header("Stats")]
-        public int stat;
 
         [Header("Effects")]
-
         public List<Effect> effects;
 
         [InfoBox("Если itemType == null тогда тип объекта равен UselessType.", InfoBoxType.Normal)]
@@ -77,7 +75,6 @@ namespace DDF.UI.Inventory.Items {
 
             Item clone = Instantiate(this);
             clone.itemType = Instantiate(itemType);
-            clone.itemType.name = itemType.name;
             clone.itemID = System.Guid.NewGuid().ToString();
             return clone;
 		}
@@ -120,5 +117,10 @@ namespace DDF.UI.Inventory.Items {
             return 0;
         }
     }
-    
+
+    public enum ItemTypeChoice {
+        Armor,
+        Weapon,
+        Consumable
+    }
 }
