@@ -71,9 +71,12 @@ namespace DDF.UI.Inventory.Items {
 		}
 
         public override bool Equals( object obj ) {
-            if (obj is Item objectType) {
-                return this.GetType() == objectType.GetType();
+            if (obj is Item objectType1) {
+                return this.GetType() == objectType1.GetType();
             }
+            if(obj is string objectType2) {
+                return this.GetType().Name == objectType2;
+			}
             return false;
         }
         /// <summary>

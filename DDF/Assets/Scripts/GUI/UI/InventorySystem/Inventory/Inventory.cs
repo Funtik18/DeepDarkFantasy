@@ -22,7 +22,7 @@ namespace DDF.UI.Inventory {
 			}
 		}
 
-		//public List<ItemType> storageTypes;
+		public List<StorageTypes> storageTypes;
 		public string InventoryName = "Inventory";
 		[HideInInspector]public InventoryOverSeer overSeer;
 		public InventoryView view;
@@ -71,5 +71,15 @@ namespace DDF.UI.Inventory {
 		TrashCan,
 		Equipment,
 		Storage,
+	}
+	public enum StorageTypes {
+		HeadItem,
+		TorsoItem,
+		LegsItem,
+		FeetItem,
+
+		OneHandedItem,
+		RangedItem,
+		TwoHandedItem,
 	}
 }

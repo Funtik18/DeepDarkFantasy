@@ -9,20 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c98419a1c3e51e645bbb8a2f0ba0bd03, type: 3}
-  m_Name: HealthPotion_smal
+  m_Script: {fileID: 11500000, guid: a32acfcd5065b2c4493c9e6a5fb809bf, type: 3}
+  m_Name: Helmet
   m_EditorClassIdentifier: 
   itemName: 
   itemDescription: 
   itemAnotation: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 1762363197044495018, guid: 1445856ae64ed304bae3d8b84077f73d,
+    type: 3}
   itemIconOrientation: {x: 0, y: 0, z: 0}
-  itemWidth: 1
-  itemHeight: 1
+  itemWidth: 2
+  itemHeight: 2
   itemStackCount: 1
   itemStackSize: 1
   primaryTag: {fileID: 0}
   tags: []
   onlyOne: 0
-  itemID: 3ef4e517-1a9e-456d-ab4f-432e7010b363
-  consumable: 0
+  itemID: 46792a31-d033-4489-b7c0-af32968f22f9
+  stat: 0
+  effects: []

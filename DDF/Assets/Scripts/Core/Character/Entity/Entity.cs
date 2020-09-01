@@ -1122,11 +1122,11 @@ namespace DDF.Character {
             mainInventory.AddItem(dropedItem);
         }
 
-        public virtual void Drink( Item item, Inventory inventory ) {
-           /* for (int i = 0; i < item.effects.Count; i++) {
+        public virtual void Drink( ConsumableItem item, Inventory inventory ) {
+            for (int i = 0; i < item.effects.Count; i++) {
                 effects.AddEffect(Instantiate(item.effects[i]));
             }
-            inventory.DeleteItem(item);*/
+            inventory.DeleteItem(item);
         }
 
         #endregion

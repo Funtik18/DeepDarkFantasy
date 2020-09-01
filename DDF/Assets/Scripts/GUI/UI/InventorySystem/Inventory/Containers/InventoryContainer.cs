@@ -240,19 +240,19 @@ namespace DDF.UI.Inventory {
                         if (inventory.inventorytype == InventoryTypes.Equipment) {
                             Item item = overSeer.rootModel.referenceItem;
                             
-                            /*List<ItemType> storageTypes = whereNow.storageTypes;
+                            List<StorageTypes> storageTypes = whereNow.storageTypes;
                             if(storageTypes.Count == 0) {
                                 whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                 return;
 							} else {
-                                for (int i = 0; i < whereNow.storageTypes.Count; i++) {
-                                    if (item.itemType.Equals(whereNow.storageTypes[i])) {
+                                for (int i = 0; i < storageTypes.Count; i++) {
+                                    if (item.Equals(storageTypes.ToString())) {
                                         whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                         return;
                                     }
                                 }
                                 whereNowcontainer.SelectAllSlots(whereNow.view.invalidColor);
-                            }*/
+                            }
                         }
                     } else {
                         whereNowcontainer.HoverLanding();//и подсвечивает тот контейнер на который указывает
@@ -371,20 +371,20 @@ namespace DDF.UI.Inventory {
 
                 InventoryModel model = overSeer.rootModel;
                 Item item = model.referenceItem;
-               /* List<ItemType> storageTypes = whereNow.storageTypes;
+                List<StorageTypes> storageTypes = whereNow.storageTypes;
                 if (storageTypes.Count == 0) { 
                     ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                     return;
                 } else {
                     for (int i = 0; i < storageTypes.Count; i++) {
-                        if (item.itemType.Equals(storageTypes[i])) {
+                        if (item.Equals(storageTypes[i].ToString())) {
                             ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                             return;
                         }
                     }
                     ItemBackToRootSlot(overSeer.from.inventorytype == InventoryTypes.Equipment);
                     return;
-                }*/
+                }
             } else {
                 //+
                 if (actionSelection == -1 ) {//нельзя

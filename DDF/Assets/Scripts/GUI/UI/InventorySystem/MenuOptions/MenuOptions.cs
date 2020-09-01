@@ -94,14 +94,13 @@ namespace DDF.UI.Inventory {
 		}
 		private void OptionTakeOff( Item item, Inventory inventory ) {
 			CharacterEntity._instance.TakeOff(item, inventory);
-
 		}
 		private void OptionEat( Item item, Inventory inventory ) {
 			//CharacterEntity._instance.RestoreHealth()
 			//InventoryOverSeerGUI._instance.mainInventory.AddItem(currentItem);
 		}
 		private void OptionDrink( Item item, Inventory inventory ) {
-			CharacterEntity._instance.Drink(item, inventory);
+			CharacterEntity._instance.Drink(item as ConsumableItem, inventory);
 		}
 
 		private void DefaultOption(Item item, Inventory inventory) {
@@ -134,7 +133,6 @@ namespace DDF.UI.Inventory {
 
 		#region Tags work
 		private Item curItem = null;
-		//private ItemType curType = null;
 		private List<ItemTag> curTags = null;
 		/// <summary>
 		/// Даём айтему тэги по типу.(хлеб нужно есть, воду надо пить)
@@ -143,7 +141,6 @@ namespace DDF.UI.Inventory {
 		/// <param name="isGUI"></param>
 		public void ItemTagSetup( Item item, InventoryTypes pressets ) {
 			curItem = item;
-			//curType = item.itemType;
 			curTags = item.tags;
 			curTags.Clear();
 
@@ -167,38 +164,35 @@ namespace DDF.UI.Inventory {
 			curTags.Sort();
 
 			curItem = null;
-			//curType = null;
 			curTags = null;
 		}
 		private void CheckConsumableType() {
-			/*if (curType is ConsumableType) {
-				ConsumableType consumable = curType as ConsumableType;
-				if (consumable.consumable == Consumable.Food) {
+			if (curItem is ConsumableItem item) {
+				if (item is FoodItem) {
 					AssignTag<TagEat>(curTags);
 				}
-				if (consumable.consumable == Consumable.Potion) {
+				if (item is PotionItem) {
 					AssignTag<TagDrink>(curTags);
 				}
-			}*/
+			}
 		}
 		private void CheckArmorType() {
-			/*if (curType is ArmorType || curType is WeaponType) {
+			if (curItem is ArmorItem || curItem is WeaponItem) {
 				AssignTag<TagEquip>(curTags);
-			}*/
+			}
 		}
 		private void AssignPrimaryTag() {
-			/*if (curType is ConsumableType) {
-				ConsumableType consumable = curType as ConsumableType;
-				if (consumable.consumable == Consumable.Food) {
+			if (curItem is ConsumableItem item) {
+				if (item is FoodItem) {
 					curItem.primaryTag = GetTag<TagEat>(curTags);
 				}
-				if (consumable.consumable == Consumable.Potion) {
+				if (item is PotionItem) {
 					curItem.primaryTag = GetTag<TagDrink>(curTags);
 				}
 			}
-			if (curType is ArmorType || curType is WeaponType) {
+			if (curItem is ArmorItem || curItem is WeaponItem) {
 				curItem.primaryTag = GetTag<TagEquip>(curTags);
-			}*/
+			}
 		}
 		public void AssignTag<T>( List<ItemTag> tags ) {
 			bool result = tags.OfType<T>().Any();
@@ -216,8 +210,6 @@ namespace DDF.UI.Inventory {
 		public ItemTag GetTag<T>( List<ItemTag> tags ) {
 			return tags[tags.FindIndex(x => x is T)];
 		}
-
-		
 
 
 		public enum TagPressets {
