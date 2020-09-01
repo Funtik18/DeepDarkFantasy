@@ -246,7 +246,7 @@ namespace DDF.UI.Inventory {
                                 return;
 							} else {
                                 for (int i = 0; i < storageTypes.Count; i++) {
-                                    if (item.Equals(storageTypes.ToString())) {
+                                    if (item.Equals(storageTypes[i].ToString())) {
                                         whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                         return;
                                     }
