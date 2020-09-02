@@ -13,7 +13,6 @@ namespace DDF.UI.Inventory.Items {
 
         private void OnEnable() {
             armor = new StatMinMaxFloat("Armor", 0, 10);
-
         }
 	}
 

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f3ac84b1bd2ae4a82b70e8339ad33f, type: 3}
   m_Name: Slave
   m_EditorClassIdentifier: 
+  onlyOne: 0
+  itemID: b4a7d361-d9cd-4c80-be17-7a1e8afe1df6
   itemName: 
   itemDescription: 
   itemAnotation: 
@@ -24,7 +26,11 @@ MonoBehaviour:
   itemStackSize: 1
   primaryTag: {fileID: 0}
   tags: []
-  onlyOne: 0
-  itemID: b4a7d361-d9cd-4c80-be17-7a1e8afe1df6
-  stat: 0
-  effects: []
+  rarity: 0
+  damage:
+    statName: Damage
+    min: 0
+    max: 10
+  primeryEffects: []
+  secondaryEffects: []
+  handedType: 0
