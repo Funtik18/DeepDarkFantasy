@@ -10,6 +10,7 @@ namespace DDF.Character.Stats {
 			return statName;
 		}
 	}
+	//для entity
 	public class StatInt : Stat {
 		public int amount;
 
@@ -90,4 +91,36 @@ namespace DDF.Character.Stats {
 			return statName + "|" + currentInamount + regex + amount;
 		}
 	}
+	//для item
+	public class StatMinMaxFloat : Stat {
+		private float min;
+		private float max;
+		public float Min { 
+			get { 
+				return min; 
+			}
+			set {
+				min = value;
+			}
+		}
+		public float Max {
+			get {
+				return min;
+			}
+			set {
+				min = value;
+			}
+		}
+
+		string regex = "";
+
+		public StatMinMaxFloat( string newName, float min, float max, string regex = "-" ) : base(newName, max) {
+			this.min = min;
+			this.regex = regex;
+		}
+		public override string Output() {
+			return min + regex + amount;
+		}
+	}
+	
 }

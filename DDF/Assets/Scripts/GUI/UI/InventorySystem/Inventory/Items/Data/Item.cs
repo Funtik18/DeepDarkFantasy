@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
-    //[CreateAssetMenu(fileName = "Item", menuName = "DDF/Inventory/Item", order = 1)]
     public class Item : ScriptableObject {
         [Header("Information")]
         public string itemName;
@@ -91,5 +90,15 @@ namespace DDF.UI.Inventory.Items {
         }
         public override int GetHashCode() => base.GetHashCode();
 		public override string ToString() => base.ToString();
+
+        [Header("Stats")]
+        public ItemRarity rarity = ItemRarity.Common; 
+    }
+
+    public enum ItemRarity {
+        Common,
+        Rare,
+        Epic,
+        Legendary,
 	}
 }

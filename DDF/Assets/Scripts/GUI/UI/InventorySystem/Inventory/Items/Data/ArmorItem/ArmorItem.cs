@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     public class ArmorItem : Item {
-        [Header("Stats")]
         public int stat;
         [Header("Effects")]
         public List<Effect> effects;
