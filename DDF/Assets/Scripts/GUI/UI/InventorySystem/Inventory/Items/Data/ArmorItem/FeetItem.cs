@@ -4,5 +4,10 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     [CreateAssetMenu(fileName = "ArmorFeetItem", menuName = "DDF/Inventory/Items/ArmorFeetItem")]
-    public class FeetItem : ArmorItem {}
+    public class FeetItem : ArmorItem {
+        public FeetType feetType = FeetType.Boots;
+    }
+    public enum FeetType {
+        Boots,
+	}
 }

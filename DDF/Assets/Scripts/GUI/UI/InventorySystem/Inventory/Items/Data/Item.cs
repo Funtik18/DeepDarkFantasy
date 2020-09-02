@@ -5,6 +5,14 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     public class Item : ScriptableObject {
+        [InfoBox("Будет ли объект копироваться или будет один экземляр.", InfoBoxType.Normal)]
+        [Header("System")]
+        [SerializeField]
+        private bool onlyOne = false;
+        [ReadOnly]
+        [SerializeField]
+        private string itemID = System.Guid.NewGuid().ToString();
+
         [Header("Information")]
         public string itemName;
 
@@ -57,12 +65,7 @@ namespace DDF.UI.Inventory.Items {
             return vector2;
         }
 
-        [InfoBox("Будет ли объект копироваться или будет один экземляр.", InfoBoxType.Normal)]
-        [SerializeField]
-        private bool onlyOne = false;
-        [ReadOnly]
-        [SerializeField]
-        private string itemID = System.Guid.NewGuid().ToString();
+        
         public string GetId() {
             return itemID;
 		}
@@ -99,6 +102,7 @@ namespace DDF.UI.Inventory.Items {
         Common,
         Rare,
         Epic,
+        Set,
         Legendary,
 	}
 }

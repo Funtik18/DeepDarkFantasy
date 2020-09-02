@@ -6,12 +6,13 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     public class WeaponItem : Item {
-        public StatRegularFloat damage;
+        public StatMinMaxFloat damage;
         [Header("Effects")]
-        public List<Effect> effects;
+        public List<Effect> primeryEffects;
+        public List<Effect> secondaryEffects;
 
-        public void OnValidate() {
-            damage = new StatRegularFloat("Damage", 0, 10);
+        private void OnEnable() {
+            damage = new StatMinMaxFloat("Damage", 0, 10);
         }
     }
 }

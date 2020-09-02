@@ -1,9 +1,10 @@
-﻿using DDF.Character.Perks;
-using System;
+﻿using DDF.Atributes;
+using DDF.Character.Perks;
 using System.Collections.Generic;
 
 namespace DDF.Character.Stats {
 	public class Stat {
+		[ReadOnly]
 		public string statName;
 
 		public virtual string Output() {
@@ -92,35 +93,21 @@ namespace DDF.Character.Stats {
 		}
 	}
 	//для item
+	[System.Serializable]
 	public class StatMinMaxFloat : Stat {
-		private float min;
-		private float max;
-		public float Min { 
-			get { 
-				return min; 
-			}
-			set {
-				min = value;
-			}
-		}
-		public float Max {
-			get {
-				return min;
-			}
-			set {
-				min = value;
-			}
-		}
+		public float min;
+		public float max;
 
 		string regex = "";
 
-		public StatMinMaxFloat( string newName, float min, float max, string regex = "-" ) : base(newName, max) {
+		public StatMinMaxFloat( string statName, float min, float max, string regex = "-" ) {
+			this.statName = statName;
 			this.min = min;
+			this.max = max;
 			this.regex = regex;
 		}
 		public override string Output() {
-			return min + regex + amount;
+			return min + regex + max;
 		}
 	}
-	
 }
