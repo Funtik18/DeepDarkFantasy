@@ -21,7 +21,9 @@ namespace DDF.UI.Inventory {
 				return currentItems.Count == 0;
 			}
 		}
-
+		/// <summary>
+		/// Фильтр. Если размер 0 то принимает любой предмет.
+		/// </summary>
 		public List<StorageTypes> storageTypes;
 		public string InventoryName = "Inventory";
 		[HideInInspector]public InventoryOverSeer overSeer;
@@ -32,7 +34,6 @@ namespace DDF.UI.Inventory {
 		private CanvasGroup canvasGroup;
 
 		[HideInInspector]public ToolTip toolTip;
-
 
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
@@ -80,11 +81,18 @@ namespace DDF.UI.Inventory {
 	public enum StorageTypes {
 		HeadItem,
 		TorsoItem,
+		WaistItem,
 		LegsItem,
 		FeetItem,
+		WristItem,
+		JewerlyItem,
 
+		OffHandItem,
 		OneHandedItem,
 		RangedItem,
 		TwoHandedItem,
+
+		FoodItem,
+		PotionItem,
 	}
 }

@@ -984,18 +984,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  isRestrictions: 1
+  isDisposer: 0
   isGUI: 1
+  inventorytype: 0
   isFull: 0
-  storageTypes:
-  - {fileID: 11400000, guid: e1a1ae761e0f09b4f8e6635ed21431da, type: 2}
-  - {fileID: 11400000, guid: fdccb9d197cd0fb4ab2f45fdd08165f1, type: 2}
+  storageTypes: 07000000080000000a00000009000000
   InventoryName: WEAPON
   overSeer: {fileID: 0}
   view: {fileID: 5024696632018271821}
   container: {fileID: 5024696630590162529}
   currentItems: []
-  canvasGroup: {fileID: 0}
+  toolTip: {fileID: 0}
 --- !u!225 &1227298207051632863
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1389,7 +1388,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 68ed5f5fb4bc24b4d9efba22a082b83d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6936855049717fc4589f762bedba1aa8, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
