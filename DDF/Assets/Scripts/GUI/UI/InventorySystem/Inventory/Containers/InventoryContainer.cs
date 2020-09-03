@@ -768,16 +768,16 @@ namespace DDF.UI.Inventory {
             Item item = overSeer.lastSlot.Item;
             List<InventorySlot> slots = TakeSlotsByItem(item);
             rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-            //ToolTip._instance.SetItem(item);
 
             slots.Clear();
 
             overSeer.OrderRefresh();
 
-            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
-            ToolTip._instance.ShowToolTip();
+            inventory.toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, inventory.toolTip.rect));
+            inventory.toolTip.ShowToolTip();
+            inventory.toolTip.SetItem(item);
         }
-        private void ToolTipHide() => ToolTip._instance.HideToolTip();
+        private void ToolTipHide() => inventory.toolTip.HideToolTip();
 
 
         private void MenuOptionsShow() {

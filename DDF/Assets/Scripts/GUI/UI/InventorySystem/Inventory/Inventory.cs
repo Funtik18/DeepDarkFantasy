@@ -31,6 +31,9 @@ namespace DDF.UI.Inventory {
 
 		private CanvasGroup canvasGroup;
 
+		[HideInInspector]public ToolTip toolTip;
+
+
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
 		}
@@ -42,6 +45,7 @@ namespace DDF.UI.Inventory {
 				overSeer = InventoryOverSeerGUI.Getinstance();
 			else
 				overSeer = InventoryOverSeerUI.Getinstance();
+			toolTip = ToolTip.GetInstance();
 		}
 
 		protected void Start() {
