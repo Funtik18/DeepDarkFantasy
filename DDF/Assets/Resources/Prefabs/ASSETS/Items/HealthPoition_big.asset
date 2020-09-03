@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9237721a9174e5747b780272ecd0b777, type: 3}
   m_Name: HealthPoition_big
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
-  itemAnotation: 
+  onlyOne: 0
+  itemID: bd9764ed-853b-414d-b7e4-d1ce5e8272f8
+  itemName: "\u0412\u0435\u043B\u0438\u043A\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
+    \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
+  itemDescription: "\u041E\u043D\u043E \u0432\u043E\u0441\u043F\u043E\u043B\u043D\u044F\u0435\u0442
+    \u043E\u0447\u0435\u043D\u044C \u043C\u043D\u043E\u0433\u043E \u0445\u043F."
+  itemAnotation: "\"\u0412\u043A\u0443\u0441\u043D\u044F\u0442\u0438\u043D\u0430\""
   itemIcon: {fileID: -4176149719158859773, guid: 19d1f4c93f0db0d4f85ce8d6809f9366,
     type: 3}
   itemIconOrientation: {x: 0, y: 0, z: 0}
@@ -24,8 +28,7 @@ MonoBehaviour:
   itemStackSize: 1
   primaryTag: {fileID: 0}
   tags: []
-  onlyOne: 0
-  itemID: bd9764ed-853b-414d-b7e4-d1ce5e8272f8
+  rarity: 2
   effects:
   - {fileID: 11400000, guid: bf1f1ee01c9578d438b90fbad4786b51, type: 2}
   - {fileID: 11400000, guid: a90c9181d5bad2a42bebd54be8ffe402, type: 2}

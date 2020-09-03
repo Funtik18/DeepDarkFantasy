@@ -248,16 +248,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  isRestrictions: 1
+  isDisposer: 0
   isGUI: 1
+  inventorytype: 0
   isFull: 0
-  storageTypes: []
+  storageTypes: 05000000
   InventoryName: BRACELET
   overSeer: {fileID: 0}
   view: {fileID: 626906126984402504}
   container: {fileID: 626906127655775022}
   currentItems: []
-  canvasGroup: {fileID: 0}
+  toolTip: {fileID: 0}
 --- !u!225 &-7132866783604478065
 CanvasGroup:
   m_ObjectHideFlags: 0

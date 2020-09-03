@@ -6,21 +6,18 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     public class ArmorItem : Item {
-        public StatMinMaxFloat armor;
+        [Tooltip("Броня")]
+        public VarMinMaxFloat armor;
+        [Tooltip("Прочность")]
+        public VarMinMaxInt duration;
         [Header("Effects")]
         public List<Effect> primaryEffects;
         public List<Effect> secondaryEffects;
 
-        private void OnEnable() {
-            armor = new StatMinMaxFloat("Armor", 0, 10);
+        protected override void OnEnable() {
+            base.OnEnable();
+            armor = new VarMinMaxFloat("Armor", 0, 10);
+            duration = new VarMinMaxInt("Duration", 100, 100);
         }
 	}
-
-    public enum Armor {
-        WaistType,
-        SholderType,
-        JewelryType,
-        HandType,
-        WristType,
-    }
 }

@@ -1,4 +1,5 @@
 ﻿using DDF.Atributes;
+using DDF.Character.Stats;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,8 +96,13 @@ namespace DDF.UI.Inventory.Items {
 		public override string ToString() => base.ToString();
 
         [Header("Stats")]
-        public ItemRarity rarity = ItemRarity.Common; 
-    }
+        public ItemRarity rarity = ItemRarity.Common;
+        [Tooltip("Вес")]
+        public VarFloat weight;
+        protected virtual void OnEnable() {
+            weight = new VarFloat("Вес", 1f, "кг");
+        }
+	}
 
     public enum ItemRarity {
         Common,

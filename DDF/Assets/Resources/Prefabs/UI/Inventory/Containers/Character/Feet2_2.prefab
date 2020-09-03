@@ -773,16 +773,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  isRestrictions: 1
+  isDisposer: 0
   isGUI: 1
+  inventorytype: 0
   isFull: 0
-  storageTypes: []
-  InventoryName: Inventory
+  storageTypes: 04000000
+  InventoryName: FEET
   overSeer: {fileID: 0}
   view: {fileID: 5186609724951909635}
   container: {fileID: 5186609725168360682}
   currentItems: []
-  canvasGroup: {fileID: 0}
+  toolTip: {fileID: 0}
 --- !u!225 &96678376402890782
 CanvasGroup:
   m_ObjectHideFlags: 0
