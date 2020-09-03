@@ -773,9 +773,9 @@ namespace DDF.UI.Inventory {
 
             overSeer.OrderRefresh();
 
+            inventory.toolTip.SetItem(item);
             inventory.toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, inventory.toolTip.rect));
             inventory.toolTip.ShowToolTip();
-            inventory.toolTip.SetItem(item);
         }
         private void ToolTipHide() => inventory.toolTip.HideToolTip();
 

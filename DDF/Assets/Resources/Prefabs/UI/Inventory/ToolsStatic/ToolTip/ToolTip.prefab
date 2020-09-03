@@ -485,6 +485,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rect: {fileID: 0}
+  rarityCommon: {r: 1, g: 1, b: 1, a: 1}
+  rarityRare: {r: 0.25882354, g: 0.5294118, b: 0.9607843, a: 1}
+  rarityEpic: {r: 0.85490197, g: 0.25882354, b: 0.9607843, a: 1}
+  raritySet: {r: 0.42352942, g: 0.9607843, b: 0.25882354, a: 1}
+  rarityLegendary: {r: 0.9607843, g: 0.9607843, b: 0.25882354, a: 1}
   itemName: {fileID: 1261673145310125128}
   itemPower: {fileID: 1878347843998972852}
   itemPrimaryType: {fileID: 3426957605420516760}
@@ -694,7 +699,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 3
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
