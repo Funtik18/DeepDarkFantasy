@@ -122,7 +122,7 @@ namespace DDF.PCG.WEAPON
             obj.itemIcon = icon;
             obj.itemWidth = 2;
             obj.itemHeight = 2;
-            Debug.Log(maxDamage);
+            //Debug.Log(maxDamage);
             return obj;
         }
 
@@ -140,7 +140,7 @@ namespace DDF.PCG.WEAPON
             obj.itemIcon = icon;
             obj.itemWidth = 1;
             obj.itemHeight = 2;
-            Debug.Log(obj.damage.max);
+            //Debug.Log(obj.damage.max);
             return obj;
         }
         #endregion
