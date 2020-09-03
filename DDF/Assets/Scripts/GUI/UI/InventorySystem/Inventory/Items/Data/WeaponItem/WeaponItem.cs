@@ -6,13 +6,18 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory.Items {
     public class WeaponItem : Item {
-        public StatMinMaxFloat damage;
+        [Tooltip("Урон")]
+        public VarMinMaxFloat damage;
+        [Tooltip("Прочность")]
+        public VarMinMaxInt duration;
         [Header("Effects")]
         public List<Effect> primeryEffects;
         public List<Effect> secondaryEffects;
 
-        private void OnEnable() {
-            damage = new StatMinMaxFloat("Damage", 0, 10);
+        protected override void OnEnable() {
+            base.OnEnable();
+            damage = new VarMinMaxFloat("Damage", 0, 10);
+            duration = new VarMinMaxInt("Duration", 100, 100);
         }
     }
 }

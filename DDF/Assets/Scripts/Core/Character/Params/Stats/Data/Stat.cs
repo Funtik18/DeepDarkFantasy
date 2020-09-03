@@ -92,15 +92,31 @@ namespace DDF.Character.Stats {
 			return statName + "|" + currentInamount + regex + amount;
 		}
 	}
+
 	//для item
 	[System.Serializable]
-	public class StatMinMaxFloat : Stat {
-		public float min;
-		public float max;
+	public class VarFloat : Stat {
+		public float amount;
+
+		string regex = "";
+		public VarFloat(string statName, float amount, string regex = "") {
+			this.statName = statName;
+			this.amount = amount;
+			this.regex = regex;
+		}
+		public override string Output() {
+			return statName +  amount + regex;
+		}
+	}
+
+	[System.Serializable]
+	public class VarMinMaxInt : Stat {
+		public int min;
+		public int max;
 
 		string regex = "";
 
-		public StatMinMaxFloat( string statName, float min, float max, string regex = "-" ) {
+		public VarMinMaxInt(string statName, int min, int max, string regex = "-") {
 			this.statName = statName;
 			this.min = min;
 			this.max = max;
@@ -110,4 +126,23 @@ namespace DDF.Character.Stats {
 			return min + regex + max;
 		}
 	}
+
+	[System.Serializable]
+	public class VarMinMaxFloat : Stat {
+		public float min;
+		public float max;
+
+		string regex = "";
+
+		public VarMinMaxFloat( string statName, float min, float max, string regex = "-" ) {
+			this.statName = statName;
+			this.min = min;
+			this.max = max;
+			this.regex = regex;
+		}
+		public override string Output() {
+			return min + regex + max;
+		}
+	}
+	
 }

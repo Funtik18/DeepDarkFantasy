@@ -50,7 +50,6 @@ namespace DDF.UI.Inventory {
 		}
 
 		protected void Start() {
-			print(overSeer == null);
 			container.Init();
 		}
 
