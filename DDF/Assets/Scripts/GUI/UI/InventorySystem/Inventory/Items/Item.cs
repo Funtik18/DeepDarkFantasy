@@ -98,10 +98,7 @@ namespace DDF.UI.Inventory.Items {
         [Header("Stats")]
         public ItemRarity rarity = ItemRarity.Common;
         [Tooltip("Вес")]
-        public VarFloat weight;
-        protected virtual void OnEnable() {
-            weight = new VarFloat("Вес", 1f, "кг");
-        }
+        public VarFloat weight = new VarFloat("Вес", 1f, "кг");
 	}
 
     public enum ItemRarity {

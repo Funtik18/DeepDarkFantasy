@@ -150,7 +150,7 @@ namespace DDF.UI.Inventory {
 					break;
 				}
 			}
-			if(item is ConsumableItem consumableItem) {
+			if (item is ConsumableItem consumableItem) {
 				itemPrimaryType.text = "Consumable";
 				switch (consumableItem) {
 					case PotionItem potionItem: {
@@ -193,13 +193,6 @@ namespace DDF.UI.Inventory {
 
 			rect.sizeDelta = currentSize;
 		}
-		private Vector2 CompareTwoVectorsHeight(Vector2 size, TMPro.TextMeshProUGUI txt) {
-			if (size.y < txt.bounds.size.y) {
-				size.y = txt.bounds.size.y;
-			}
-			return size;
-		}
-
 
 		public void ShowToolTip() {
 			HelpFunctions.CanvasGroupSeer.EnableGameObject(canvasGroup);

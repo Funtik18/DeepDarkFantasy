@@ -1,34 +1,29 @@
-﻿using DDF.UI.Inventory.Items;
-using System;
-using System.Collections;
+﻿using DDF.Atributes;
+using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEngine;
 
-namespace DDF.PCG.WEAPON
-{
-    public class WeaponGenerator : MonoBehaviour
-    {
+namespace DDF.PCG.WEAPON {
+    public class WeaponGenerator : MonoBehaviour {
 
-        List<AvaliableWeapons> weapons = new List<AvaliableWeapons>();
-        List<Weapon> OneHanded = new List<Weapon>();//1
-        List<Weapon> TwoHanded = new List<Weapon>();//2
-        List<Modif> mods = new List<Modif>();
-        List<End> ends = new List<End>();
+        List<XmlCategory> weapons = new List<XmlCategory>();
+        List<XmlCategory> OneHanded = new List<XmlCategory>();//1
+        List<XmlCategory> TwoHanded = new List<XmlCategory>();//2
+        List<XmlCategory> mods = new List<XmlCategory>();
+        List<XmlCategory> ends = new List<XmlCategory>();
 
         public Sprite[] OneH;
         public Sprite[] TwoH;
 
-        [SerializeField]
+        [SerializeField][ReadOnly]
         private string Patch = @"Resources\XML\WeaponsDescription.xml";
 
-        void Awake()
-        {
+        void Awake() {
             string FullPatch = Application.dataPath + "\\" + Patch;
 
-            if (!File.Exists(FullPatch))
-            {
+            if (!File.Exists(FullPatch)) {
                 Debug.LogError("File not found");
                 return;
                 //throw new FileNotFoundException(Patch);
@@ -36,194 +31,95 @@ namespace DDF.PCG.WEAPON
             XmlDocument Doc = new XmlDocument();
             Doc.Load(FullPatch);
             //XmlNodeList nodes = Doc.DocumentElement.SelectNodes("/Weapons/AvaliableWeapons/type");
-            AvaliableWeapons weapon = new AvaliableWeapons();
-            Parser(Doc.DocumentElement.SelectNodes("/Weapons/AvaliableWeapons/type"), weapons, weapon);
-            Weapon onew = new Weapon();
-            Parser(Doc.DocumentElement.SelectNodes("/Weapons/WeaponOneHandedItem/one "), OneHanded, onew);
-            Weapon twow = new Weapon();
-            Parser(Doc.DocumentElement.SelectNodes("/Weapons/WeaponTwoHandedItem/two"), TwoHanded, twow);
-            Modif mod = new Modif();
-            Parser(Doc.DocumentElement.SelectNodes("/Weapons/Modif/mod"), mods, mod);
-            End end = new End();
-            Parser(Doc.DocumentElement.SelectNodes("/Weapons/End/end"), ends, end);
-            Generator(1);
 
+            Parser(Doc.DocumentElement.SelectNodes("/Weapons/AvaliableWeapons/type"), weapons );
+            Parser(Doc.DocumentElement.SelectNodes("/Weapons/WeaponOneHandedItem/one "), OneHanded);
+            Parser(Doc.DocumentElement.SelectNodes("/Weapons/WeaponTwoHandedItem/two"), TwoHanded);
+            Parser(Doc.DocumentElement.SelectNodes("/Weapons/Modif/mod"), mods);
+            Parser(Doc.DocumentElement.SelectNodes("/Weapons/End/end"), ends);
         }
 
-        private static TItem GetRandom<TItem>(TItem[] array)
-        {
+        //передавать инт для выбора, что сгенерировать 1-оружие 2-броня
+        public Item Generator(int num){
+            XmlCategory currentWeapon = GetRandom(weapons.ToArray());
+            switch (num){
+                 case  1: {
+                    XmlCategory typeWeapon = new XmlCategory();
+                    XmlCategory mod = new XmlCategory();
+                    XmlCategory end = new XmlCategory();
+                    float maxValue = UnityEngine.Random.Range(5, 15);
+                    float minValue = UnityEngine.Random.Range(1, 5);
+                    int rar = UnityEngine.Random.Range(0, 4);
+                    Sprite icon;
+                    ItemRarity rarity = (ItemRarity)rar;
+                    //1 - одноручка 2 -двуручка
+                    switch (currentWeapon.id){
+                        case ( "1" ): {
+                            typeWeapon = GetRandom(OneHanded.ToArray());
+                            mod = GetRandom(mods.ToArray());
+                            end = GetRandom(ends.ToArray());
+                            icon = GetRandom(OneH);
+                            return ItemCreate(ScriptableObject.CreateInstance<OneHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, icon);
+                        }
+                        case ( "2" ): {
+                            typeWeapon = GetRandom(TwoHanded.ToArray());
+                            mod = GetRandom(mods.ToArray());
+                            end = GetRandom(ends.ToArray());
+                            icon = GetRandom(TwoH);
+                            return ItemCreate(ScriptableObject.CreateInstance<TwoHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, icon);
+                        }
+                    }
+                    return null;
+                }
+                case (2):
+                     return null;
+             }
+            return null;
+        }
+
+        /// <summary>
+        /// Создание предмета.
+        /// </summary>
+        private T ItemCreate<T>(T obj, XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float maxValue, float minValue, Sprite icon) where T : Item {
+            obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
+            obj.itemDescription = typeWeapon.text;
+            obj.itemAnotation = mod.name;
+            obj.rarity = rarity;
+            if (obj is WeaponItem) {
+                ( obj as WeaponItem ).damage = new Character.Stats.VarMinMaxFloat("Damage", minValue, maxValue);
+                ( obj as WeaponItem ).duration = new Character.Stats.VarMinMaxInt("Duration", (int)minValue, (int)maxValue);
+            }
+            if (obj is ArmorItem) {
+                ( obj as ArmorItem ).armor = new Character.Stats.VarMinMaxFloat("Armor", minValue, maxValue);
+                ( obj as ArmorItem ).duration = new Character.Stats.VarMinMaxInt("Duration", (int)minValue, (int)maxValue);
+            }
+            obj.itemIcon = icon;
+            obj.itemWidth = 2;
+            obj.itemHeight = 2;
+            return obj;
+        }
+
+        private void Parser(XmlNodeList nodes, List<XmlCategory> temps) {
+            foreach (XmlNode item in nodes) {
+                XmlCategory t = new XmlCategory();
+                t.id = item.Attributes["id"].Value;
+                t.text = item.Attributes["text"].Value;
+                t.name = item.Attributes["name"].Value;
+                temps.Add(t);
+            }
+        }
+
+        private static T GetRandom<T>(T[] array) {
             //Debug.Log(array + " " + array.Length);
             return array[UnityEngine.Random.Range(0, array.Length)];
         }
 
-        //передавать инт для выбора, что сгенерировать 1-оружие 2-броня
-        public Item Generator(int num)
-        {
-            switch (num)
-            {
-                case (1):
-
-                    AvaliableWeapons currentWeapon = GetRandom(weapons.ToArray());
-                    Weapon typeWeapon = new Weapon();
-                    Modif mod = new Modif();
-                    End end = new End();
-                    float maxDamage=0;
-                    float minDamage=0;
-                    System.Random random = new System.Random();
-                    int rar = random.Next(0, 4);
-                    Sprite icon;
-                    ItemRarity rarity = new ItemRarity();
-                    switch (currentWeapon.id)//1 - одноручка 2 -двуручка
-                    {
-                        case ("1"):
-                            typeWeapon = GetRandom(OneHanded.ToArray());
-                            mod = GetRandom(mods.ToArray());
-                            end= GetRandom(ends.ToArray());
-                            rarity = (ItemRarity)rar;
-                            maxDamage = UnityEngine.Random.Range(5, 15);
-                            minDamage= UnityEngine.Random.Range(1, 5);
-                            
-                            icon = GetRandom(OneH);
-
-                            //OneHandedItem obj = ScriptableObject.CreateInstance<OneHandedItem>();
-                            return ItemCreate(ScriptableObject.CreateInstance<OneHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxDamage, minDamage,icon);
-                        case ("2"):
-                            typeWeapon = GetRandom(TwoHanded.ToArray());
-                            mod = GetRandom(mods.ToArray());
-                            end = GetRandom(ends.ToArray());
-                            rarity = (ItemRarity)rar;
-                            maxDamage = UnityEngine.Random.Range(10, 30);
-                            
-                            minDamage = UnityEngine.Random.Range(2, 10);
-                            icon = GetRandom(TwoH);
-                            //TwoHandedItem obj = ScriptableObject.CreateInstance<TwoHandedItem>();
-                            return ItemCreate(ScriptableObject.CreateInstance<TwoHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxDamage, minDamage,icon);
-                    }
-
-                    return null;
-                case (2):
-                    return null;
-            }
-            return null;
-        }
-
-        #region Создание предмета
-        TwoHandedItem ItemCreate(TwoHandedItem obj, Modif mod, AvaliableWeapons currentWeapon, End end, Weapon typeWeapon, ItemRarity rarity, float maxDamage, float minDamage, Sprite icon)
-        {
-            //Debug.Log(mod.text + " " + currentWeapon.name + " " + end.text);
-            //Debug.Log(typeWeapon.text + "\n" + mod.name);
-
-            obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
-            obj.itemDescription = typeWeapon.text;
-            obj.itemAnotation = mod.name;
-            obj.rarity = rarity;
-            obj.damage.max = maxDamage;
-            obj.damage.min = minDamage;
-            obj.itemIcon = icon;
-            obj.itemWidth = 2;
-            obj.itemHeight = 2;
-            Debug.Log(maxDamage);
-            return obj;
-        }
-
-        OneHandedItem ItemCreate(OneHandedItem obj,Modif mod, AvaliableWeapons currentWeapon, End end, Weapon typeWeapon, ItemRarity rarity, float maxDamage, float minDamage,Sprite icon)
-        {
-            //Debug.Log(mod.text + " " + currentWeapon.name + " " + end.text);
-            //Debug.Log(typeWeapon.text + "\n" + mod.name);
-            
-            obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
-            obj.itemDescription = typeWeapon.text;
-            obj.itemAnotation = mod.name;
-            obj.rarity = rarity;
-            obj.damage.max  = maxDamage;
-            obj.damage.min = minDamage;
-            obj.itemIcon = icon;
-            obj.itemWidth = 1;
-            obj.itemHeight = 2;
-            Debug.Log(obj.damage.max);
-            return obj;
-        }
-        #endregion
-
-        #region Перегрузки парсеров
-        private void Parser(XmlNodeList nodes, List<End> temps, End temp)
-        {
-            foreach (XmlNode item in nodes)
-            {
-                End t = new End();
-                t.id = item.Attributes["id"].Value;
-                t.text = item.Attributes["text"].Value;
-                t.name = item.Attributes["name"].Value;
-                temps.Add(t);
-            }
-        }
-
-        private void Parser(XmlNodeList nodes, List<Modif> temps, Modif temp)
-        {
-            foreach (XmlNode item in nodes)
-            {
-                Modif t = new Modif();
-                t.id = item.Attributes["id"].Value;
-                t.text = item.Attributes["text"].Value;
-                t.name = item.Attributes["name"].Value;
-                temps.Add(t);
-            }
-        }
-
-
-        private void Parser(XmlNodeList nodes, List<Weapon> temps, Weapon temp)
-        {
-            foreach (XmlNode item in nodes)
-            {
-                Weapon t = new Weapon();
-                t.id = item.Attributes["id"].Value;
-                t.text = item.Attributes["text"].Value;
-                t.name = item.Attributes["name"].Value;
-                temps.Add(t);
-            }
-        }
-
-        void Parser(XmlNodeList nodes, List<AvaliableWeapons> temps, AvaliableWeapons temp)
-        {
-            foreach (XmlNode item in nodes)
-            {
-                AvaliableWeapons t = new AvaliableWeapons();
-                t.id = item.Attributes["id"].Value;
-                t.text = item.Attributes["text"].Value;
-                t.name = item.Attributes["name"].Value;
-                temps.Add(t);
-            }
-        }
-        #endregion
-
-        #region Классы для категоризации
-        class AvaliableWeapons
-        {
-            public string id;
-            public string text;
-            public string name;
-        }
-
-        class Weapon
-        {
-            public string id;
-            public string text;
-            public string name;
-        }
-
-        class Modif
-        {
-            public string id;
-            public string text;
-            public string name;
-        }
-        class End
-        {
+        #region Класс для категоризации
+        private class XmlCategory {
             public string id;
             public string text;
             public string name;
         }
         #endregion 
-
     }
 }
