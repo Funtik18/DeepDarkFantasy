@@ -35,10 +35,10 @@ namespace DDF.UI.Inventory.Items {
         [Header("Stacking")]
         [Range(1, 10)]
         [SerializeField]
-        private int itemWidth = 1;
+        public int itemWidth = 1;
         [Range(1, 10)]
         [SerializeField]
-        private int itemHeight = 1;
+        public int itemHeight = 1;
 
         [Range(1, 64)]
         public uint itemStackCount = 1;
@@ -102,7 +102,7 @@ namespace DDF.UI.Inventory.Items {
         Common,
         Rare,
         Epic,
-        Set,
         Legendary,
-	}
+        Set,
+    }
 }

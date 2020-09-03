@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Weapons>
+<AvaliableWeapons>
+<type id="1" text=" WeaponOneHandedItem " name="Клинок " />
+<type id="2" text=" WeaponTwoHandedItem " name="Двуручный меч "/>
+<type id="1" text=" WeaponOneHandedItem " name="Даггер " />
+</AvaliableWeapons >
+<WeaponOneHandedItem>
+<one id="1" text="На удивление очень удобен в руке. Древко вырезано из дерева старого мира" name=""/>
+<one  id="2" text="Этот клинок испещрен следами былых сражений, однако на клинке нет и следа ржавчины" name=""/>
+<one  id="3" text="Истину способны раскрыть лишь вопросы, задаваемые клинком" name=""/>
+</WeaponOneHandedItem >
+<WeaponTwoHandedItem>
+<two id="1" text="Меч, выкованный с любовью и закаленный с особым старанием. Его дальнейшую судьбу решать вам" name=""/>
+<two id="2" text="На гарде этого меча выгравирована какая-то надпись на неизвестном вам наречии" name=""/>
+<two id="3" text="Мечи, подобные этому, выдавались на службе воинам старой Империи" name=""/>
+</WeaponTwoHandedItem >
+<Modif>
+<mod id="1" text="Пожирающий " name="Шанс нанести двойной урон 50% " />
+<mod id="2" text="Кровавый " name="Шанс пустить кровотечение 25% " />
+<mod id="3" text="Всевидящий " name="Нет промахов при атаке" />
+<mod id="4" text="Гнилой " name="Шанс наложить отравление 25%"/>
+<mod id="5" text="Пепельный " name="Наносит дополнительно 10 урона огнем"/>
+</Modif>
+<End>
+<end id="1" text="Ублюдка " name=""/>
+<end id="2" text="Убийцы" name=""/>
+<end id="3" text="Легионера" name=""/>
+<end id="4" text="Беспринципности" name=""/>
+<end id="5" text="Злого умысла" name=""/>
+</End>
+</Weapons>

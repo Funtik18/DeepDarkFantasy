@@ -9,28 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32acfcd5065b2c4493c9e6a5fb809bf, type: 3}
-  m_Name: Helmet
+  m_Script: {fileID: 11500000, guid: 4f87832ced387dc4c8a35dc1edff1777, type: 3}
+  m_Name: Axe
   m_EditorClassIdentifier: 
   onlyOne: 0
-  itemID: 46792a31-d033-4489-b7c0-af32968f22f9
+  itemID: b87399f4-be56-4494-9096-94d14ac53690
   itemName: 
   itemDescription: 
   itemAnotation: 
-  itemIcon: {fileID: 1762363197044495018, guid: 1445856ae64ed304bae3d8b84077f73d,
+  itemIcon: {fileID: 7553930136951973777, guid: 1445856ae64ed304bae3d8b84077f73d,
     type: 3}
   itemIconOrientation: {x: 0, y: 0, z: 0}
-  itemWidth: 2
-  itemHeight: 2
+  itemWidth: 3
+  itemHeight: 3
   itemStackCount: 1
   itemStackSize: 1
   primaryTag: {fileID: 0}
   tags: []
   rarity: 0
-  armor:
-    statName: Armor
+  damage:
+    statName: Damage
     min: 0
     max: 10
-  primaryEffects: []
+  primeryEffects: []
   secondaryEffects: []
-  headType: 0
+  twoHandedType: 0
