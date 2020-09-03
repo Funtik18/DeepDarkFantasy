@@ -1,32 +1,78 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Weapons>
 <AvaliableWeapons>
-<type id="1" text=" WeaponOneHandedItem " name="Клинок " />
-<type id="2" text=" WeaponTwoHandedItem " name="Двуручный меч "/>
-<type id="1" text=" WeaponOneHandedItem " name="Даггер " />
+<type id="1" text=" WeaponOneHandedItem " name="Клинок" />
+<type id="1" text=" WeaponOneHandedItem " name="Гладиус" />
+<type id="1" text=" WeaponOneHandedItem " name="Даггер" />
+<type id="1" text=" WeaponOneHandedItem " name="Ксифос" />
+<type id="1" text=" WeaponOneHandedItem " name="Кипос" />
+<type id="1" text=" WeaponOneHandedItem " name="Махайра" />
+<type id="1" text=" WeaponOneHandedItem " name="Ксифос" />
+<type id="1" text=" WeaponOneHandedItem " name="Фальката" />
+<type id="1" text=" WeaponOneHandedItem " name="Клейбег" />
+<type id="2" text=" WeaponTwoHandedItem " name="Двуручный меч"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Длинный меч"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Клеймор"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Цвайхендер"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Фламберг"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Эспадон"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Гросс-мессер"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Мел путтах бемох"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Нодати"/>
 </AvaliableWeapons >
 <WeaponOneHandedItem>
 <one id="1" text="На удивление очень удобен в руке. Древко вырезано из дерева старого мира" name=""/>
 <one  id="2" text="Этот клинок испещрен следами былых сражений, однако на клинке нет и следа ржавчины" name=""/>
 <one  id="3" text="Истину способны раскрыть лишь вопросы, задаваемые клинком" name=""/>
+<one  id="4" text="Если у вас длинный список тех, кому надо воткнуть клинок в спину, вам нужен профессиональный инструмент. Вот этот подойдет" name=""/>
+<one  id="5" text="Этот нож использовали чаще, что бы порезать колбасу, чем в бою, но вашими усилиями ситуация поменяется, верно?" name=""/>
 </WeaponOneHandedItem >
 <WeaponTwoHandedItem>
 <two id="1" text="Меч, выкованный с любовью и закаленный с особым старанием. Его дальнейшую судьбу решать вам" name=""/>
 <two id="2" text="На гарде этого меча выгравирована какая-то надпись на неизвестном вам наречии" name=""/>
 <two id="3" text="Мечи, подобные этому, выдавались на службе воинам старой Империи" name=""/>
+<two id="4" text="Этот простой меч справиться со своей работой, если работа - срубить голову" name=""/>
+<two id="5" text="Этот огромный меч как будто выкован целиком из ненависти и злобы. То, что нужно!" name=""/>
 </WeaponTwoHandedItem >
 <Modif>
-<mod id="1" text="Пожирающий " name="Шанс нанести двойной урон 50% " />
-<mod id="2" text="Кровавый " name="Шанс пустить кровотечение 25% " />
+<mod id="1" text="Пожирающий" name="Шанс нанести двойной урон 50%" />
+<mod id="2" text="Кровавый" name="Шанс пустить кровотечение 25%" />
 <mod id="3" text="Всевидящий " name="Нет промахов при атаке" />
-<mod id="4" text="Гнилой " name="Шанс наложить отравление 25%"/>
+<mod id="4" text="Гнилой" name="Шанс наложить отравление 25%"/>
 <mod id="5" text="Пепельный " name="Наносит дополнительно 10 урона огнем"/>
+<mod id="6" text="Губительный" name="Игнорирует 5 брони"/>
+<mod id="7" text="Алчный" name="При убийстве шанс 2% на выпадения золота"/>
+<mod id="8" text="Предательский " name="Шанс критической атаки увеличен на 5%"/>
+<mod id="9" text="Роковой" name="Критический урон увеличен в 1.5 раза"/>
+<mod id="5" text="Жестокий" name="Сопротивление отравлению увеличено на 10%"/>
 </Modif>
 <End>
-<end id="1" text="Ублюдка " name=""/>
+<end id="1" text="Ублюдка" name=""/>
 <end id="2" text="Убийцы" name=""/>
 <end id="3" text="Легионера" name=""/>
 <end id="4" text="Беспринципности" name=""/>
 <end id="5" text="Злого умысла" name=""/>
+<end id="6" text="Душегуба" name=""/>
+<end id="7" text="Триумфа" name=""/>
+<end id="8" text="Отчаяния" name=""/>
+<end id="9" text="Сожаления" name=""/>
+<end id="10" text="Дикости" name=""/>
+<end id="11" text="Скитальца" name=""/>
+<end id="12" text="Надежды" name=""/>
+<end id="13" text="Безумия" name=""/>
+<end id="14" text="Бесчестия" name=""/>
+<end id="15" text="Рассудительности" name=""/>
+<end id="16" text="Бешенства" name=""/>
+<end id="17" text="Сосредоточенности" name=""/>
+<end id="18" text="Утешения" name=""/>
+<end id="19" text="Горести" name=""/>
+<end id="20" text="Хладнокровия" name=""/>
+<end id="21" text="Стойкости" name=""/>
+<end id="22" text="Мстителя" name=""/>
+<end id="23" text="Издевки" name=""/>
+
+
+
+
 </End>
 </Weapons>
