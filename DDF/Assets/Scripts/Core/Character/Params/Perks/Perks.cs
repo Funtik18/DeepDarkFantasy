@@ -30,13 +30,13 @@ namespace DDF.Character.Perks {
 
         public void Init() {
             #region Perks помогаторы
-            increaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, 1, 0);
-            increaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, 1, 0);
-            increaceIntelligence = new PerkInt(entity.stats.Intelligence.statName, entity.stats.Intelligence, 1, 0);
+            increaceStrength = new PerkInt(entity.stats.Strength.varName, entity.stats.Strength, 1, 0);
+            increaceAgility = new PerkInt(entity.stats.Agility.varName, entity.stats.Agility, 1, 0);
+            increaceIntelligence = new PerkInt(entity.stats.Intelligence.varName, entity.stats.Intelligence, 1, 0);
 
-            decreaceStrength = new PerkInt(entity.stats.Strength.statName, entity.stats.Strength, -1, 0);
-            decreaceAgility = new PerkInt(entity.stats.Agility.statName, entity.stats.Agility, -1, 0);
-            decreaceIntelligence = new PerkInt(entity.stats.Intelligence.statName, entity.stats.Intelligence, -1, 0);
+            decreaceStrength = new PerkInt(entity.stats.Strength.varName, entity.stats.Strength, -1, 0);
+            decreaceAgility = new PerkInt(entity.stats.Agility.varName, entity.stats.Agility, -1, 0);
+            decreaceIntelligence = new PerkInt(entity.stats.Intelligence.varName, entity.stats.Intelligence, -1, 0);
             #endregion
 
 

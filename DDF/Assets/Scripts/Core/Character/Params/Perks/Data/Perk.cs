@@ -30,7 +30,7 @@ namespace DDF.Character.Perks {
 			return perkName + "|" + cost;
 		}
 		public override string PerkBuffs() {
-			return stat.statName + "|" + amount;
+			return stat.varName + "|" + amount;
 		}
 
 		public override void Calculate() {
@@ -53,7 +53,7 @@ namespace DDF.Character.Perks {
 			return perkName + "|" + cost;
 		}
 		public override string PerkBuffs() {
-			return stat.statName + "|" + amount;
+			return stat.varName + "|" + amount;
 		}
 
 		public override void Calculate() {

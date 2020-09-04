@@ -60,9 +60,12 @@ namespace DDF.UI.Inventory {
 		}
 		private void SetInformation(Item item) {
 			ResetInformation();
+			
 			itemName.text = item.itemName;
+			itemName.GetComponent<RectTransform>().sizeDelta = itemName.GetPreferredValues();
+
 			itemDescription.text = item.itemDescription;
-			itemAnotation.text = item.itemAnotation;
+			//itemAnotation.text = item.itemAnotation;
 
 			switch (item.rarity) {
 				case ItemRarity.Common: {
@@ -95,7 +98,7 @@ namespace DDF.UI.Inventory {
 
 			if (item is ArmorItem armorItem) {
 				itemPrimaryType.text = "Armor";
-				itemPower.text = armorItem.armor.Output();
+				//itemPower.text = armorItem.armor.Output();
 				switch (armorItem) {
 					case HeadItem headItem: {
 						itemSecondaryType.text = headItem.headType.ToString();
@@ -135,7 +138,7 @@ namespace DDF.UI.Inventory {
 			}
 			if (item is WeaponItem weaponItem) {
 				itemPrimaryType.text = "Weapon";
-				itemPower.text = weaponItem.damage.Output();
+				//itemPower.text = weaponItem.damage.Output();
 				switch (weaponItem) {
 					case OneHandedItem oneHandedItem: {
 						itemSecondaryType.text = oneHandedItem.handedType.ToString();
@@ -178,14 +181,12 @@ namespace DDF.UI.Inventory {
 		}
 
 		private void ReSizeToolTip() {
-			Vector2 currentSize = new Vector2(250f, 150f);
+			Vector2 currentSize = new Vector2(300f, 150f);
 
 			Vector2 realSize = Vector2.zero;
 			realSize += itemName.GetPreferredValues();
 			realSize += itemPower.GetPreferredValues();
 			realSize += itemDescription.GetPreferredValues();
-			realSize += itemAnotation.GetPreferredValues();
-			realSize += itemRarity.GetPreferredValues();
 
 			if(currentSize.y < realSize.y) {
 				currentSize.y = realSize.y+10;

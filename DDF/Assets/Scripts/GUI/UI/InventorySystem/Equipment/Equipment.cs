@@ -1,11 +1,16 @@
-﻿using DDF.UI.Inventory.Items;
-using System.Collections;
+﻿using DDF.Character.Variables;
+using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
+
+		public VarFloat armorHead;
+		public VarFloat armorTorso;
+		public VarFloat armorLegs;
+
 		[SerializeField]
 		private Inventory headEquipment;
 		[SerializeField]
@@ -76,6 +81,10 @@ namespace DDF.UI.Inventory {
 			for(int i = 0; i < allSlots.Count; i++) {
 				allSlots[i].inventorytype = InventoryTypes.Equipment;
 			}
+
+			armorHead = new VarFloat("Броня головы", 0);
+			armorTorso = new VarFloat("Броня торса", 0);
+			armorLegs = new VarFloat("Броня ног", 0);
 		}
 
 		public Item Equip(Item item ) {
@@ -98,6 +107,7 @@ namespace DDF.UI.Inventory {
 				for (int i = 0; i < inventory.storageTypes.Count; i++) {
 					if (item.Equals(inventory.storageTypes[i].ToString())) {
 						Item addeditem = inventory.AddItem(item);
+						UpdateStats(addeditem);
 						return addeditem;
 					}
 				}
@@ -113,6 +123,17 @@ namespace DDF.UI.Inventory {
 				}
 			}
 			return null;
+		}
+
+		private void UpdateStats(Item item) {
+			if(item is ArmorItem armorItem) {
+				if(armorItem is HeadItem headItem) {
+					//armorHead.amount = headItem.armor.max;
+				}
+				if (armorItem is TorsoItem torsoItem) {
+					//armorHead.amount = torsoItem.armor.max;
+				}
+			}
 		}
 	}
 }

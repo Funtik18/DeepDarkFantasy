@@ -1,7 +1,6 @@
 ﻿using DDF.Atributes;
 using DDF.Character.Effects;
 using DDF.Character.Perks;
-using DDF.Randomizer;
 using DDF.UI.Inventory;
 using DDF.UI.Inventory.Items;
 using System;
@@ -1086,20 +1085,17 @@ namespace DDF.Character {
         #region Damage
         public float GetMeleeDamage()
         {
-            DDFRandom random = new DDFRandom();
-            float dmg = random.RandomBetween(MinMeleeDamage, MaxMeleeDamage);
+            float dmg = UnityEngine.Random.Range(MinMeleeDamage, MaxMeleeDamage);
             return dmg;
         }
         public float GetShotDamage()
         {
-            DDFRandom random = new DDFRandom();
-            float dmg = random.RandomBetween(MinShotDamage, MaxShotDamage);
+            float dmg = UnityEngine.Random.Range(MinShotDamage, MaxShotDamage);
             return dmg;
         }
         public float GetMagicDamage()
         {
-            DDFRandom random = new DDFRandom();
-            float dmg = random.RandomBetween(MinMagicDamage, MaxMagicDamage);
+            float dmg = UnityEngine.Random.Range(MinMagicDamage, MaxMagicDamage);
             return dmg;
         }
         #endregion

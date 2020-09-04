@@ -86,12 +86,12 @@ namespace DDF.PCG.WEAPON {
             obj.itemAnotation = mod.name;
             obj.rarity = rarity;
             if (obj is WeaponItem) {
-                ( obj as WeaponItem ).damage = new Character.Stats.VarMinMaxFloat("Damage", minValue, maxValue);
-                ( obj as WeaponItem ).duration = new Character.Stats.VarMinMaxInt("Duration", (int)minValue, (int)maxValue);
+                //( obj as WeaponItem ).damage = new Character.Stats.VarMinMaxFloat("Damage", minValue, maxValue);
+                //( obj as WeaponItem ).duration = new Character.Stats.VarMinMaxInt("Duration", (int)minValue, (int)maxValue);
             }
             if (obj is ArmorItem) {
-                ( obj as ArmorItem ).armor = new Character.Stats.VarMinMaxFloat("Armor", minValue, maxValue);
-                ( obj as ArmorItem ).duration = new Character.Stats.VarMinMaxInt("Duration", (int)minValue, (int)maxValue);
+               // ( obj as ArmorItem ).armor = new Character.Stats.VarMinMaxFloat("Armor", minValue, maxValue);
+               // ( obj as ArmorItem ).duration = new Character.Stats.VarMinMaxInt("Duration", (int)minValue, (int)maxValue);
             }
             obj.itemIcon = icon;
             obj.itemWidth = 2;
