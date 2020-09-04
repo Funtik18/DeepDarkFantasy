@@ -1,5 +1,4 @@
 ﻿using DDF.Atributes;
-using DDF.Character.Stats;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,7 +70,13 @@ namespace DDF.UI.Inventory.Items {
             return itemID;
 		}
 
-        public override bool Equals( object obj ) {
+        public bool CompareItem(object obj) {
+            if (obj is Item obj1) {
+                return GetId() == obj1.GetId();
+            }
+            return false;
+        }
+        public bool CompareType( object obj ) {
             if (obj is Item objectType1) {
                 return this.GetType() == objectType1.GetType();
             }
@@ -97,8 +102,8 @@ namespace DDF.UI.Inventory.Items {
 
         [Header("Stats")]
         public ItemRarity rarity = ItemRarity.Common;
-        //[Tooltip("Вес")]
-        //public VarFloat weight = new VarFloat("Вес", 1f, "кг");
+        [Tooltip("Вес")]
+        public VarFloat weight = new VarFloat("Вес", 1f);
 	}
 
     public enum ItemRarity {

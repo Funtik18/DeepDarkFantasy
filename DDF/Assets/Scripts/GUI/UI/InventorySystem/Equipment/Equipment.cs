@@ -1,5 +1,4 @@
-﻿using DDF.Character.Variables;
-using DDF.UI.Inventory.Items;
+﻿using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -105,7 +104,7 @@ namespace DDF.UI.Inventory {
 		private Item CompareTypesEquip( Inventory inventory, Item item ) {
 			if (inventory.IsEmpty) {
 				for (int i = 0; i < inventory.storageTypes.Count; i++) {
-					if (item.Equals(inventory.storageTypes[i].ToString())) {
+					if (item.CompareType(inventory.storageTypes[i].ToString())) {
 						Item addeditem = inventory.AddItem(item);
 						UpdateStats(addeditem);
 						return addeditem;

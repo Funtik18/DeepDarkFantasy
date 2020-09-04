@@ -24,7 +24,6 @@ namespace DDF.UI.Inventory {
 		[SerializeField] private TMPro.TextMeshProUGUI itemPrimaryType;
 		[SerializeField] private TMPro.TextMeshProUGUI itemSecondaryType;
 		[SerializeField] private TMPro.TextMeshProUGUI itemDescription;
-		[SerializeField] private TMPro.TextMeshProUGUI itemAnotation;
 		[SerializeField] private TMPro.TextMeshProUGUI itemRarity;
 		[SerializeField] private TMPro.TextMeshProUGUI itemDurarity;
 
@@ -60,12 +59,9 @@ namespace DDF.UI.Inventory {
 		}
 		private void SetInformation(Item item) {
 			ResetInformation();
-			
-			itemName.text = item.itemName;
-			itemName.GetComponent<RectTransform>().sizeDelta = itemName.GetPreferredValues();
 
+			itemName.text = item.itemName;
 			itemDescription.text = item.itemDescription;
-			//itemAnotation.text = item.itemAnotation;
 
 			switch (item.rarity) {
 				case ItemRarity.Common: {
@@ -98,7 +94,8 @@ namespace DDF.UI.Inventory {
 
 			if (item is ArmorItem armorItem) {
 				itemPrimaryType.text = "Armor";
-				//itemPower.text = armorItem.armor.Output();
+				itemPower.text = armorItem.armor.min + "-" + armorItem.armor.max;
+				itemDurarity.text = armorItem.duration.min + "/" + armorItem.duration.max;
 				switch (armorItem) {
 					case HeadItem headItem: {
 						itemSecondaryType.text = headItem.headType.ToString();
@@ -138,7 +135,8 @@ namespace DDF.UI.Inventory {
 			}
 			if (item is WeaponItem weaponItem) {
 				itemPrimaryType.text = "Weapon";
-				//itemPower.text = weaponItem.damage.Output();
+				itemPower.text = weaponItem.damage.min + "-" + weaponItem.damage.max;
+				itemDurarity.text = weaponItem.duration.min + "/" + weaponItem.duration.max;
 				switch (weaponItem) {
 					case OneHandedItem oneHandedItem: {
 						itemSecondaryType.text = oneHandedItem.handedType.ToString();
@@ -168,6 +166,7 @@ namespace DDF.UI.Inventory {
 			}
 			
 			ReSizeToolTip();
+			ReSizeToolTip();
 		}
 		private void ResetInformation() {
 			itemName.text = "";
@@ -175,24 +174,43 @@ namespace DDF.UI.Inventory {
 			itemPrimaryType.text = "";
 			itemSecondaryType.text = "";
 			itemDescription.text = "";
-			itemAnotation.text = "";
 			itemRarity.text = "";
 			itemDurarity.text = "";
 		}
 
 		private void ReSizeToolTip() {
-			Vector2 currentSize = new Vector2(300f, 150f);
+			//памагите
 
-			Vector2 realSize = Vector2.zero;
-			realSize += itemName.GetPreferredValues();
-			realSize += itemPower.GetPreferredValues();
-			realSize += itemDescription.GetPreferredValues();
+			itemName.GetComponent<RectTransform>().sizeDelta = new Vector2(itemName.GetComponent<RectTransform>().sizeDelta.x, itemName.GetPreferredValues().y);//максимальный сверху
 
-			if(currentSize.y < realSize.y) {
-				currentSize.y = realSize.y+10;
-			}
+			//максимальное в середине сверху
+			Vector2 maxValue;
+			if (itemPrimaryType.preferredHeight > itemRarity.preferredHeight)
+				if (itemPrimaryType.preferredHeight > itemSecondaryType.preferredHeight)
+					maxValue = itemPrimaryType.GetPreferredValues();
+				else
+					maxValue = itemSecondaryType.GetPreferredValues();
+			else
+			if (itemRarity.preferredHeight > itemSecondaryType.preferredHeight)
+				maxValue = itemRarity.GetPreferredValues();
+			else
+				maxValue = itemSecondaryType.GetPreferredValues();
 
-			rect.sizeDelta = currentSize;
+			itemPrimaryType.GetComponent<RectTransform>().sizeDelta = maxValue;
+			itemRarity.GetComponent<RectTransform>().sizeDelta = maxValue;
+			itemSecondaryType.GetComponent<RectTransform>().sizeDelta = maxValue;
+
+			itemPower.GetComponent<RectTransform>().sizeDelta = itemPower.GetPreferredValues();
+
+			itemDescription.GetComponent<RectTransform>().sizeDelta = itemDescription.GetPreferredValues();
+
+			itemDurarity.GetComponent<RectTransform>().sizeDelta = itemDurarity.GetPreferredValues();//максимальный снизу
+		}
+
+		public bool IsItem(Item item) {
+			if (item == null) return false;
+			if (item.CompareItem(currentItem)) return true;
+			return false;
 		}
 
 		public void ShowToolTip() {

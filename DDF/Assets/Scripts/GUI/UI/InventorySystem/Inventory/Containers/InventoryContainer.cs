@@ -246,7 +246,7 @@ namespace DDF.UI.Inventory {
                                 return;
 							} else {
                                 for (int i = 0; i < storageTypes.Count; i++) {
-                                    if (item.Equals(storageTypes[i].ToString())) {
+                                    if (item.CompareType(storageTypes[i].ToString())) {
                                         whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                         return;
                                     }
@@ -377,7 +377,7 @@ namespace DDF.UI.Inventory {
                     return;
                 } else {
                     for (int i = 0; i < storageTypes.Count; i++) {
-                        if (item.Equals(storageTypes[i].ToString())) {
+                        if (item.CompareType(storageTypes[i].ToString())) {
                             ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                             return;
                         }
@@ -777,8 +777,10 @@ namespace DDF.UI.Inventory {
             inventory.toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, inventory.toolTip.rect));
             inventory.toolTip.ShowToolTip();
         }
-        private void ToolTipHide() => inventory.toolTip.HideToolTip();
-
+        private void ToolTipHide() {
+            if(inventory.toolTip.IsItem(overSeer.lastSlot.Item))
+                inventory.toolTip.HideToolTip();
+        }
 
         private void MenuOptionsShow() {
             if (overSeer.lastSlot.isEmpty()) return;

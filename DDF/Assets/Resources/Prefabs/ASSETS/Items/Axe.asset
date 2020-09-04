@@ -27,10 +27,25 @@ MonoBehaviour:
   primaryTag: {fileID: 0}
   tags: []
   rarity: 0
-  damage:
-    statName: Damage
-    min: 0
-    max: 10
+  weight:
+    varName: "\u0412\u0435\u0441"
+    amount: 1
+  armor:
+    varName: Armor
+    min:
+      varName: Min
+      amount: 0
+    max:
+      varName: Max
+      amount: 10
+  duration:
+    varName: Duration
+    min:
+      varName: Min
+      amount: 100
+    max:
+      varName: Max
+      amount: 100
   primeryEffects: []
   secondaryEffects: []
   twoHandedType: 0

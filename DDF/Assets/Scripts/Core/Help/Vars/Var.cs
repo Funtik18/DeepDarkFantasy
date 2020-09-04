@@ -1,7 +1,6 @@
 ﻿using DDF.Atributes;
-using UnityEngine;
 
-namespace DDF.Character.Variables {
+namespace DDF {
 	[System.Serializable]
 	public class Var {
 		[ReadOnly]
@@ -10,6 +9,7 @@ namespace DDF.Character.Variables {
 			this.varName = varName;
 		}
 	}
+	[System.Serializable]
 	public class VarInt : Var {
 		public int amount;
 
@@ -17,6 +17,7 @@ namespace DDF.Character.Variables {
 			this.amount = amount;
 		}
 	}
+	[System.Serializable]
 	public class VarFloat : Var {
 		public float amount;
 
@@ -24,7 +25,8 @@ namespace DDF.Character.Variables {
 			this.amount = amount;
 		}
 	}
-	public class VarMinMax<T> : Var where T : Var {
+	[System.Serializable]
+	public class VarMinMax<T> : Var where T : struct {
 		public T min;
 		public T max;
 
@@ -34,4 +36,3 @@ namespace DDF.Character.Variables {
 		}
 	}
 }
-

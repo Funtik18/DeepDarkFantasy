@@ -1,5 +1,4 @@
 ﻿using DDF.Character.Perks;
-using DDF.Character.Variables;
 using System.Collections.Generic;
 
 namespace DDF.Character.Stats {
