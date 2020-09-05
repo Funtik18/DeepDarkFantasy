@@ -105,7 +105,7 @@ namespace DDF.PCG.WEAPON
                                     mod = GetRandom(modsW.ToArray());
                                     end = GetRandom(endsW.ToArray());
                                     icon = GetRandom(OneH);
-                                    return ItemCreate(ScriptableObject.CreateInstance<OneHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, width, height, icon);
+                                    return ItemCreate<OneHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, width, height, icon);
                                 }
                             case ("2"):
                                 {
@@ -113,7 +113,7 @@ namespace DDF.PCG.WEAPON
                                     mod = GetRandom(modsW.ToArray());
                                     end = GetRandom(endsW.ToArray());
                                     icon = GetRandom(TwoH);
-                                    return ItemCreate(ScriptableObject.CreateInstance<TwoHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue * 2, minValue * 2, valueW * 2, maxValueD, minValueD, width * 2, height, icon);
+                                    return ItemCreate<TwoHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue * 2, minValue * 2, valueW * 2, maxValueD, minValueD, width * 2, height, icon);
                                 }
                         }
                         return null;
@@ -121,7 +121,7 @@ namespace DDF.PCG.WEAPON
                 case (2):
                     XmlCategory currentArmor = GetRandom(armors.ToArray());
                     XmlCategory typeArmor;
-                    maxValue = float.Parse(Random.Range(5, 15).ToString("F1"));
+                    maxValue = float.Parse(Random.Range(5f, 15f).ToString("F1"));
 
                     valueW = float.Parse(Random.Range(2f, 6f).ToString("F1"));
 
@@ -139,7 +139,7 @@ namespace DDF.PCG.WEAPON
                             mod = GetRandom(modsW.ToArray());
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Head);
-                            return ItemCreate(ScriptableObject.CreateInstance<HeadItem>(), mod, currentArmor, end, typeArmor, rarity, maxValue, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<HeadItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
                         case ("2"):
                             height += Random.Range(0, 2);
                             valueW *= 5f;
@@ -148,7 +148,7 @@ namespace DDF.PCG.WEAPON
                             mod = GetRandom(modsA.ToArray());
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Torso);
-                            return ItemCreate(ScriptableObject.CreateInstance<TorsoItem>(), mod, currentArmor, end, typeArmor, rarity, maxValue, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<TorsoItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
                     }
                     return null;
             }
@@ -158,22 +158,28 @@ namespace DDF.PCG.WEAPON
         /// <summary>
         /// Создание предмета.
         /// </summary>
-        private T ItemCreate<T>(T obj, XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float maxValue, float minValue, float valueW, int maxValueD, int minValueD, int width, int height, Sprite icon) where T : Item
+        private T ItemCreate<T>(XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float value, float valueW, int maxValueD, int minValueD, int width, int height, Sprite icon) where T : ArmorItem
         {
+            T obj = ScriptableObject.CreateInstance<T>();
             obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
             obj.itemDescription = typeWeapon.text;
             obj.rarity = rarity;
             obj.weight = new VarFloat("Weight", valueW + (height + width));
-            if (obj is WeaponItem)
-            {
-                (obj as WeaponItem).damage = new VarMinMax<float>("Damage", minValue + (height * 5f), maxValue + (height * 5f));
-                (obj as WeaponItem).duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
-            }
-            if (obj is ArmorItem)
-            {
-                (obj as ArmorItem).armor = new VarMinMax<float>("Armor", minValue, maxValue);
-                (obj as ArmorItem).duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
-            }
+            obj.armor = new VarFloat("Armor", value);
+            obj.duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
+            obj.itemIcon = icon;
+            obj.itemWidth = width;
+            obj.itemHeight = height;
+            return obj;
+        }
+        private T ItemCreate<T>(XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float maxValue, float minValue, float valueW, int maxValueD, int minValueD, int width, int height, Sprite icon) where T : WeaponItem {
+            T obj = ScriptableObject.CreateInstance<T>();
+            obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
+            obj.itemDescription = typeWeapon.text;
+            obj.rarity = rarity;
+            obj.weight = new VarFloat("Weight", valueW + ( height + width ));
+            obj.damage = new VarMinMax<float>("Damage", minValue + ( height * 5f ), maxValue + ( height * 5f ));
+            obj.duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
             obj.itemIcon = icon;
             obj.itemWidth = width;
             obj.itemHeight = height;

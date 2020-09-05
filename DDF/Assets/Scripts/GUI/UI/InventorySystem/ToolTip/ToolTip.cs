@@ -99,7 +99,7 @@ namespace DDF.UI.Inventory {
 
 			if (item is ArmorItem armorItem) {
 				itemPrimaryType.text = "Armor";
-				itemPower.text = armorItem.armor.min + "-" + armorItem.armor.max;
+				itemPower.text = armorItem.armor.amount.ToString();
 				itemDurarity.text = armorItem.duration.min + "/" + armorItem.duration.max;
 				switch (armorItem) {
 					case HeadItem headItem: {
