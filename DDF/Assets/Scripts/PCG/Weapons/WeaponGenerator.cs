@@ -8,10 +8,8 @@ using System.Xml;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace DDF.PCG.WEAPON
-{
-    public class WeaponGenerator : MonoBehaviour
-    {
+namespace DDF.PCG.WEAPON {
+    public class WeaponGenerator : MonoBehaviour {
 
         List<XmlCategory> weapons = new List<XmlCategory>();//1
         List<XmlCategory> OneHanded = new List<XmlCategory>();//1
@@ -36,12 +34,10 @@ namespace DDF.PCG.WEAPON
         [ReadOnly]
         private string Patch = @"Resources\XML\WeaponsDescription.xml";
 
-        void Awake()
-        {
+        void Awake() {
             string FullPatch = Application.dataPath + "\\" + Patch;
 
-            if (!File.Exists(FullPatch))
-            {
+            if (!File.Exists(FullPatch)) {
                 Debug.LogError("File not found");
                 return;
                 //throw new FileNotFoundException(Patch);
@@ -68,45 +64,80 @@ namespace DDF.PCG.WEAPON
         /// передавать инт для выбора, что сгенерировать 1-оружие 2-броня
         /// </summary>
         public Item Generator(int num) {
+            XmlCategory mod;
+            XmlCategory end;
+            float maxValue, minValue, valueW;
+            int maxValueD, minValueD, width, rar, height;
 
-            XmlItemContent itemContent;
-            XmlItemProperties itemProperties;
-
-            XmlCategory itemPrimaryType;
-
-            ItemRarity rarity = (ItemRarity)Random.Range(0, 4);
-
+            Sprite icon;
+            ItemRarity rarity;
             switch (num) {
                 case 1: {
-                    itemPrimaryType = GetRandom(weapons.ToArray());
-                    itemProperties = new XmlItemWeapon();
-                    (itemProperties as XmlItemWeapon).Set0();
-                    //1 - одноручка 2 -двуручка
-                    switch (itemPrimaryType.id) {
-                        case ( "1" ):
-                        itemContent = new XmlItemContent(GetRandom(modsW.ToArray()), itemPrimaryType, GetRandom(OneHanded.ToArray()), GetRandom(endsW.ToArray()), GetRandom(OneH), rarity);
-                        return ItemCreate<OneHandedItem>(itemContent, itemProperties);
+                    XmlCategory currentWeapon = GetRandom(weapons.ToArray());
+                    XmlCategory typeWeapon;
 
-                        case ( "2" ):
-                        itemContent = new XmlItemContent(GetRandom(modsW.ToArray()), itemPrimaryType, GetRandom(TwoHanded.ToArray()), GetRandom(endsW.ToArray()), GetRandom(TwoH), rarity);
-                        return ItemCreate<TwoHandedItem>(itemContent, itemProperties);
+
+                    maxValue = float.Parse(Random.Range(5, 15).ToString("F1"));
+                    minValue = float.Parse(Random.Range(1, 5).ToString("F1"));
+
+                    valueW = float.Parse(Random.Range(0.6f, 2.5f).ToString("F1"));
+
+                    maxValueD = Random.Range(1, 100);
+                    minValueD = Random.Range(1, 100);
+                    width = 1;
+                    rar = Random.Range(0, 4);
+                    height = Random.Range(2, 4);
+                    rarity = (ItemRarity)rar;
+                    //1 - одноручка 2 -двуручка
+                    switch (currentWeapon.id) {
+                        case ( "1" ): {
+
+                            typeWeapon = GetRandom(OneHanded.ToArray());
+                            mod = GetRandom(modsW.ToArray());
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(OneH);
+                            return ItemCreate<OneHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, width, height, icon);
+                        }
+                        case ( "2" ): {
+                            typeWeapon = GetRandom(TwoHanded.ToArray());
+                            mod = GetRandom(modsW.ToArray());
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(TwoH);
+                            return ItemCreate<TwoHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue * 2, minValue * 2, valueW * 2, maxValueD, minValueD, width * 2, height, icon);
+                        }
                     }
                     return null;
                 }
-                case 2: {
-                    itemPrimaryType = GetRandom(armors.ToArray());
-                    itemProperties = new XmlItemArmor();
-                    (itemProperties as XmlItemArmor).Set0();
-                    ///1-шлем 2-грудь
-                    switch (itemPrimaryType.id) {
-                        case ( "1" ):
-                        itemContent = new XmlItemContent(GetRandom(modsW.ToArray()), itemPrimaryType, GetRandom(head.ToArray()), GetRandom(endsW.ToArray()), GetRandom(Head), rarity);
-                        return ItemCreate<HeadItem>(itemContent, itemProperties);
+                case ( 2 ):
+                XmlCategory currentArmor = GetRandom(armors.ToArray());
+                XmlCategory typeArmor;
+                maxValue = float.Parse(Random.Range(5f, 15f).ToString("F1"));
 
-                        case ( "2" ):
-                        itemContent = new XmlItemContent(GetRandom(modsA.ToArray()), itemPrimaryType, GetRandom(torso.ToArray()), GetRandom(endsW.ToArray()), GetRandom(Torso), rarity);
-                        return ItemCreate<TorsoItem>(itemContent, itemProperties);
-                    }
+                valueW = float.Parse(Random.Range(2f, 6f).ToString("F1"));
+
+                maxValueD = Random.Range(1, 100);
+                minValueD = Random.Range(1, 100);
+                width = 2;
+                rar = Random.Range(0, 4);
+                height = 2;
+                rarity = (ItemRarity)rar;
+                ///1-шлем 2-грудь
+                switch (currentArmor.id) {
+                    case ( "1" ):
+                    typeArmor = GetRandom(head.ToArray());
+                    mod = GetRandom(modsW.ToArray());
+                    end = GetRandom(endsW.ToArray());
+                    icon = GetRandom(Head);
+                    return ItemCreate<HeadItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                    case ( "2" ):
+                    height += Random.Range(0, 2);
+                    valueW *= 5f;
+                    maxValue += (int)( height * width * 5f );
+                    typeArmor = GetRandom(torso.ToArray());
+                    mod = GetRandom(modsA.ToArray());
+                    end = GetRandom(endsW.ToArray());
+                    icon = GetRandom(Torso);
+                    return ItemCreate<TorsoItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
                 }
                 return null;
             }
@@ -116,34 +147,35 @@ namespace DDF.PCG.WEAPON
         /// <summary>
         /// Создание предмета.
         /// </summary>
-        private T ItemCreate<T>(XmlItemContent content, XmlItemProperties properties) where T : Item
-        {
+        private T ItemCreate<T>(XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float value, float valueW, int maxValueD, int minValueD, int width, int height, Sprite icon) where T : ArmorItem {
             T obj = ScriptableObject.CreateInstance<T>();
-            obj.itemName = content.GetNameContent();
-            obj.itemIcon = content.icon;
-            obj.rarity = content.rarity;
-            obj.itemDescription = content.secondaryType.text;
-
-            obj.weight = new VarFloat("Weight", properties.valueWeight + ( properties.height + properties.width));
-            obj.itemWidth = properties.width;
-            obj.itemHeight = properties.height;
-
-            if (obj is WeaponItem){
-                (obj as WeaponItem).damage = new VarMinMax<float>("Damage", (properties as XmlItemWeapon).minValue, ( properties as XmlItemWeapon ).maxValue);
-                (obj as WeaponItem).duration = new VarMinMax<int>("Duration", properties.minValueDuration, properties.maxValueDuration);
-            }
-            if (obj is ArmorItem){
-                (obj as ArmorItem).armor = new VarFloat("Armor", ( properties as XmlItemArmor).value);
-                (obj as ArmorItem).duration = new VarMinMax<int>("Duration", properties.maxValueDuration, properties.maxValueDuration);
-            }
-            
+            obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
+            obj.itemDescription = typeWeapon.text;
+            obj.rarity = rarity;
+            obj.weight = new VarFloat("Weight", valueW + ( height + width ));
+            obj.armor = new VarFloat("Armor", value);
+            obj.duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
+            obj.itemIcon = icon;
+            obj.itemWidth = width;
+            obj.itemHeight = height;
+            return obj;
+        }
+        private T ItemCreate<T>(XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float maxValue, float minValue, float valueW, int maxValueD, int minValueD, int width, int height, Sprite icon) where T : WeaponItem {
+            T obj = ScriptableObject.CreateInstance<T>();
+            obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
+            obj.itemDescription = typeWeapon.text;
+            obj.rarity = rarity;
+            obj.weight = new VarFloat("Weight", valueW + ( height + width ));
+            obj.damage = new VarMinMax<float>("Damage", minValue + ( height * 5f ), maxValue + ( height * 5f ));
+            obj.duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
+            obj.itemIcon = icon;
+            obj.itemWidth = width;
+            obj.itemHeight = height;
             return obj;
         }
 
-        private void Parser(XmlNodeList nodes, List<XmlCategory> temps)
-        {
-            foreach (XmlNode item in nodes)
-            {
+        private void Parser(XmlNodeList nodes, List<XmlCategory> temps) {
+            foreach (XmlNode item in nodes) {
                 XmlCategory t = new XmlCategory();
                 t.id = item.Attributes["id"].Value;
                 t.text = item.Attributes["text"].Value;
@@ -152,77 +184,17 @@ namespace DDF.PCG.WEAPON
             }
         }
 
-        private static T GetRandom<T>(T[] array)
-        {
+        private static T GetRandom<T>(T[] array) {
             //Debug.Log(array + " " + array.Length);
-            return array[UnityEngine.Random.Range(0, array.Length-1)];
+            return array[UnityEngine.Random.Range(0, array.Length)];
         }
 
         #region Класс для категоризации
-        private class XmlCategory{
+        private class XmlCategory {
             public string id;
             public string text;
             public string name;
         }
-        private class XmlItemContent {
-            public XmlCategory mod;
-            public XmlCategory primaryType;
-            public XmlCategory secondaryType;
-            public XmlCategory end;
-            public Sprite icon;
-            public ItemRarity rarity;
-
-            public XmlItemContent(XmlCategory mod, XmlCategory primaryType, XmlCategory secondaryType, XmlCategory end, Sprite icon, ItemRarity rarity) {
-                this.mod = mod;
-                this.primaryType = primaryType;
-                this.secondaryType = secondaryType;
-                this.end = end;
-                this.icon = icon;
-                this.rarity = rarity;
-            }
-
-            public string GetNameContent() {
-                return mod.text + " " + primaryType.name + " " + end.text;
-            }
-        }
-        private class XmlItemProperties {
-            public int maxValueDuration, minValueDuration;
-            public int width, height;
-            public float valueWeight;
-        }
-
-        private class XmlItemWeapon : XmlItemProperties {
-            public float maxValue, minValue;
-
-            public XmlItemWeapon() {}
-            public void Set0() {
-                maxValue = float.Parse(Random.Range(5, 15).ToString("F1"));
-                minValue = float.Parse(Random.Range(1, 5).ToString("F1"));
-
-                valueWeight = float.Parse(Random.Range(0.6f, 2.5f).ToString("F1"));
-
-                maxValueDuration = Random.Range(1, 100);
-                minValueDuration = Random.Range(1, 100);
-                width = 1;
-                height = Random.Range(2, 4);
-            }
-        }
-        private class XmlItemArmor : XmlItemProperties {
-            public float value;
-
-            public XmlItemArmor() {}
-            public void Set0() {
-                value = float.Parse(Random.Range(5f, 15f).ToString("F1"));
-
-                valueWeight = float.Parse(Random.Range(2f, 6f).ToString("F1"));
-
-                maxValueDuration = Random.Range(1, 100);
-                minValueDuration = Random.Range(1, 100);
-
-                width = 2;
-                height = 2;
-            }
-        }
-        #endregion
+        #endregion 
     }
 }
