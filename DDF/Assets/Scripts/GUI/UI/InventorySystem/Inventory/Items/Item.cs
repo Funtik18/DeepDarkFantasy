@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI.Inventory.Items {
-    public class Item : ScriptableObject {
+namespace DDF.UI.Inventory.Items
+{
+    public class Item : ScriptableObject
+    {
         [InfoBox("Будет ли объект копироваться или будет один экземляр.", InfoBoxType.Normal)]
         [Header("System")]
         [SerializeField]
@@ -25,9 +27,11 @@ namespace DDF.UI.Inventory.Items {
         public Sprite itemIcon;
         [SerializeField]
         public Vector3 itemIconOrientation = Vector3.zero;
-        public Vector3 IconOrientation {
+        public Vector3 IconOrientation
+        {
             get { return itemIconOrientation; }
-            set {
+            set
+            {
                 itemIconOrientation = value;
             }
         }
@@ -57,32 +61,40 @@ namespace DDF.UI.Inventory.Items {
         /// Возвращает размер в предмета в инвентаре.
         /// </summary>
         /// <returns></returns>
-        public Vector2 GetSize() {
-            if (vector2 == null || vector2.x == 0 || vector2.y == 0) {
+        public Vector2 GetSize()
+        {
+            if (vector2 == null || vector2.x == 0 || vector2.y == 0)
+            {
                 vector2 = new Vector2(itemWidth, itemHeight);
             }
 
             return vector2;
         }
 
-        
-        public string GetId() {
-            return itemID;
-		}
 
-        public bool CompareItem(object obj) {
-            if (obj is Item obj1) {
+        public string GetId()
+        {
+            return itemID;
+        }
+
+        public bool CompareItem(object obj)
+        {
+            if (obj is Item obj1)
+            {
                 return GetId() == obj1.GetId();
             }
             return false;
         }
-        public bool CompareType( object obj ) {
-            if (obj is Item objectType1) {
+        public bool CompareType(object obj)
+        {
+            if (obj is Item objectType1)
+            {
                 return this.GetType() == objectType1.GetType();
             }
-            if(obj is string objectType2) {
+            if (obj is string objectType2)
+            {
                 return this.GetType().Name == objectType2;
-			}
+            }
             return false;
         }
         /// <summary>
@@ -90,7 +102,8 @@ namespace DDF.UI.Inventory.Items {
         /// </summary>
         /// <param name="copy"></param>
         /// <returns></returns>
-        public Item GetItemCopy() {
+        public Item GetItemCopy()
+        {
             if (onlyOne) return this;
 
             Item clone = Instantiate(this);
@@ -98,15 +111,16 @@ namespace DDF.UI.Inventory.Items {
             return clone;
         }
         public override int GetHashCode() => base.GetHashCode();
-		public override string ToString() => base.ToString();
+        public override string ToString() => base.ToString();
 
         [Header("Stats")]
         public ItemRarity rarity = ItemRarity.Common;
         [Tooltip("Вес")]
         public VarFloat weight = new VarFloat("Вес", 1f);
-	}
+    }
 
-    public enum ItemRarity {
+    public enum ItemRarity
+    {
         Common,
         Rare,
         Epic,

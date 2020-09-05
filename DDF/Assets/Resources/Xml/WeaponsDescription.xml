@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<Items>
 <Weapons>
 <AvaliableWeapons>
 <type id="1" text=" WeaponOneHandedItem " name="Клинок" />
@@ -44,7 +45,7 @@
 <mod id="7" text="Алчный" name="При убийстве шанс 2% на выпадения золота"/>
 <mod id="8" text="Предательский" name="Шанс критической атаки увеличен на 5%"/>
 <mod id="9" text="Роковой" name="Критический урон увеличен в 1.5 раза"/>
-<mod id="5" text="Жестокий" name="Сопротивление отравлению увеличено на 10%"/>
+<mod id="10" text="Жестокий" name="Сопротивление отравлению увеличено на 10%"/>
 </Modif>
 <End>
 <end id="1" text="Ублюдка" name=""/>
@@ -72,3 +73,58 @@
 <end id="23" text="Издевки" name=""/>
 </End>
 </Weapons>
+<Armor>
+<AvaliableArmor>
+<type id="1" text=" ArmorHeadItem " name="Шлем" />
+<type id="1" text=" ArmorHeadItem " name="Капюшон" />
+<type id="1" text=" ArmorHeadItem " name="Штеххельм" />
+<type id="1" text=" ArmorHeadItem " name="Бацинет" />
+<type id="1" text=" ArmorHeadItem " name="Кабассет" />
+<type id="1" text=" ArmorHeadItem " name="Кабуто" />
+<type id="1" text=" ArmorHeadItem " name="Шелом" />
+<type id="2" text=" ArmorTorsoItem " name="Нагрудная броня" />
+<type id="2" text=" ArmorTorsoItem " name="Кираса" />
+<type id="2" text=" ArmorTorsoItem " name="Латный панцирь" />
+<type id="2" text=" ArmorTorsoItem " name="Ламинарный доспех" />
+<type id="2" text=" ArmorTorsoItem " name="Кольчуга" />
+<type id="2" text=" ArmorTorsoItem " name="Калантарь" />
+<type id="2" text=" ArmorTorsoItem " name="Татами-до" />
+<type id="2" text=" ArmorTorsoItem " name="Ламеллярный доспех" />
+<type id="2" text=" ArmorTorsoItem " name="Штехцойг" />
+<type id="2" text=" ArmorTorsoItem " name="Реннцойг" />
+</AvaliableArmor>
+<Head>
+<head id="1" text="Надел воин этот шлем, а он ему как раз" name=""/>
+<head id="2" text="Судя по запаху, кто-то носил этот шлем никогда не снимая. Во всяком случае до своей погибели..." name=""/>
+<head id="3" text="Этот шлем настолько продуманно выполнен, что его не хочется снимать" name=""/>
+<head id="4" text="Чем дольше вы всматриваетесь в пустые глазницы, тем больше вам кажется, что они глядят прямо в глубину вашей души" name=""/>
+<head id="5" text="Годы служения, миг славы и вечность смерти" name=""/>
+<head id="6" text="«Чем шире наши морды, тем плотнее наши ряды»-древняя орочья мудрость" name=""/>
+</Head>
+<Torso>
+<torso id="1" text="«Ад и рай – в небесах», – утверждают ханжи. Я, в себя заглянув, убедился во лжи: Ад и рай – это две половины души." name=""/>
+<torso id="2" text="Крепкая броня издревле верно служила бойцам" name=""/>
+<torso id="3" text="Старый доспех, сохранившийся только благодаря заботливому за ним уходу. Ценная реликвия людей старого мира, более склонных к миру, нежели к войне" name=""/>
+<torso id="4" text="Стоит только надеть этот доспех, как ваше сердце начинает неистово биться, как безумная птица, замкнутая в клетке" name=""/>
+<torso id="5" text="Эту броню, испещренную следами ударов мечей, явно носил воин всегда идущий в авангарде" name=""/>
+<torso id="6" text="Не может быть никакой защиты от детей небес и времени" name=""/>
+<torso id="7" text="Если неного почистить и отполировать эту броню, она вполне сойдет за новую" name=""/>
+<torso id="8" text="Эта нагрудная броня пронизана тонкими струйками запекшейся крови. Их явно будет непросто отмыть" name=""/>
+<torso id="9" text="Ничто не свободно так, как мысль человека. Особенно, если человек облачен в броню" name=""/>
+<torso id="10" text="Это нагрудная броня сделает вас неуязвимым. Ну, неуязвимым громко сказано, но лучше защищенным определенно" name=""/>
+<torso id="11" text="Моя броня-моя крепость" name=""/>
+</Torso>
+<Modif>
+<mod id="1" text="Пожирающая" name="" />
+<mod id="2" text="Кровавая" name="" />
+<mod id="3" text="Всевидящая" name="" />
+<mod id="4" text="Гнилая" name=""/>
+<mod id="5" text="Пепельная" name=""/>
+<mod id="6" text="Губительная" name=""/>
+<mod id="7" text="Алчная" name=""/>
+<mod id="8" text="Предательская" name=""/>
+<mod id="9" text="Роковая" name=""/>
+<mod id="10" text="Жестокая" name=""/>
+</Modif>
+</Armor>
+</Items>
