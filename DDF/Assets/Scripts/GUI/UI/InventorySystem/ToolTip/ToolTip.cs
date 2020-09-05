@@ -164,9 +164,6 @@ namespace DDF.UI.Inventory {
 					break;
 				}
 			}
-			
-			ReSizeToolTip();
-			ReSizeToolTip();
 		}
 		private void ResetInformation() {
 			itemName.text = "";
@@ -176,41 +173,6 @@ namespace DDF.UI.Inventory {
 			itemDescription.text = "";
 			itemRarity.text = "";
 			itemDurarity.text = "";
-		}
-
-		private void ReSizeToolTip() {
-			//памагите
-
-			itemName.GetComponent<RectTransform>().sizeDelta = new Vector2(itemName.GetComponent<RectTransform>().sizeDelta.x, itemName.GetPreferredValues().y);//максимальный сверху
-
-			//максимальное в середине сверху
-			Vector2 maxValue;
-			if (itemPrimaryType.preferredHeight > itemRarity.preferredHeight)
-				if (itemPrimaryType.preferredHeight > itemSecondaryType.preferredHeight)
-					maxValue = itemPrimaryType.GetPreferredValues();
-				else
-					maxValue = itemSecondaryType.GetPreferredValues();
-			else
-			if (itemRarity.preferredHeight > itemSecondaryType.preferredHeight)
-				maxValue = itemRarity.GetPreferredValues();
-			else
-				maxValue = itemSecondaryType.GetPreferredValues();
-
-			itemPrimaryType.GetComponent<RectTransform>().sizeDelta = maxValue;
-			itemRarity.GetComponent<RectTransform>().sizeDelta = maxValue;
-			itemSecondaryType.GetComponent<RectTransform>().sizeDelta = maxValue;
-
-			itemPower.GetComponent<RectTransform>().sizeDelta = itemPower.GetPreferredValues();
-
-			itemDescription.GetComponent<RectTransform>().sizeDelta = itemDescription.GetPreferredValues();
-
-			itemDurarity.GetComponent<RectTransform>().sizeDelta = itemDurarity.GetPreferredValues();//максимальный снизу
-		}
-
-		public bool IsItem(Item item) {
-			if (item == null) return false;
-			if (item.CompareItem(currentItem)) return true;
-			return false;
 		}
 
 		public void ShowToolTip() {

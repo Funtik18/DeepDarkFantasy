@@ -778,8 +778,7 @@ namespace DDF.UI.Inventory {
             inventory.toolTip.ShowToolTip();
         }
         private void ToolTipHide() {
-            if(inventory.toolTip.IsItem(overSeer.lastSlot.Item))
-                inventory.toolTip.HideToolTip();
+            inventory.toolTip.HideToolTip();
         }
 
         private void MenuOptionsShow() {
