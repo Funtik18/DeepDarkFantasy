@@ -50,8 +50,10 @@ namespace DDF.PCG.WEAPON {
                     XmlCategory mod;
                     XmlCategory end;
 
-                    float maxValue = Random.Range(5, 15);
-                    float minValue = Random.Range(1, 5);
+                    float maxValue = float.Parse(Random.Range(5, 15).ToString("F1")) ;
+                    float minValue = float.Parse(Random.Range(1, 5).ToString("F1"));
+
+                    float valueW = float.Parse(Random.Range(0.1f, 100).ToString("F1"));
 
                     int maxValueD = Random.Range(1, 100);
                     int minValueD = Random.Range(1, 100);
@@ -67,14 +69,14 @@ namespace DDF.PCG.WEAPON {
                             mod = GetRandom(mods.ToArray());
                             end = GetRandom(ends.ToArray());
                             icon = GetRandom(OneH);
-                            return ItemCreate(ScriptableObject.CreateInstance<OneHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, maxValueD, minValueD, icon);
+                            return ItemCreate(ScriptableObject.CreateInstance<OneHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, icon);
                         }
                         case ( "2" ): {
                             typeWeapon = GetRandom(TwoHanded.ToArray());
                             mod = GetRandom(mods.ToArray());
                             end = GetRandom(ends.ToArray());
                             icon = GetRandom(TwoH);
-                            return ItemCreate(ScriptableObject.CreateInstance<TwoHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, maxValueD, minValueD, icon);
+                            return ItemCreate(ScriptableObject.CreateInstance<TwoHandedItem>(), mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, icon);
                         }
                     }
                     return null;
@@ -88,11 +90,11 @@ namespace DDF.PCG.WEAPON {
         /// <summary>
         /// Создание предмета.
         /// </summary>
-        private T ItemCreate<T>(T obj, XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float maxValue, float minValue, int maxValueD, int minValueD, Sprite icon) where T : Item {
+        private T ItemCreate<T>(T obj, XmlCategory mod, XmlCategory currentWeapon, XmlCategory end, XmlCategory typeWeapon, ItemRarity rarity, float maxValue, float minValue, float valueW, int maxValueD, int minValueD, Sprite icon) where T : Item {
             obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
             obj.itemDescription = typeWeapon.text;
-            obj.itemAnotation = mod.name;
             obj.rarity = rarity;
+            obj.weight = new VarFloat("Weight", valueW);
             if (obj is WeaponItem) {
                 ( obj as WeaponItem ).damage = new VarMinMax<float>("Damage",  minValue, maxValue);
                 ( obj as WeaponItem ).duration = new VarMinMax<int>("Duration", minValueD, maxValueD);

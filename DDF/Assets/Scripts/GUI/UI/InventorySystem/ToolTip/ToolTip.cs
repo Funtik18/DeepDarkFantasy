@@ -20,11 +20,15 @@ namespace DDF.UI.Inventory {
 		[SerializeField] private Color rarityLegendary = new Color32(245, 245, 66, 255);
 
 		[SerializeField] private TMPro.TextMeshProUGUI itemName;
+
 		[SerializeField] private TMPro.TextMeshProUGUI itemPower;
 		[SerializeField] private TMPro.TextMeshProUGUI itemPrimaryType;
-		[SerializeField] private TMPro.TextMeshProUGUI itemSecondaryType;
-		[SerializeField] private TMPro.TextMeshProUGUI itemDescription;
 		[SerializeField] private TMPro.TextMeshProUGUI itemRarity;
+		[SerializeField] private TMPro.TextMeshProUGUI itemSecondaryType;
+
+		[SerializeField] private TMPro.TextMeshProUGUI itemDescription;
+		
+		[SerializeField] private TMPro.TextMeshProUGUI itemWeight;
 		[SerializeField] private TMPro.TextMeshProUGUI itemDurarity;
 
 
@@ -62,6 +66,7 @@ namespace DDF.UI.Inventory {
 
 			itemName.text = item.itemName;
 			itemDescription.text = item.itemDescription;
+			itemWeight.text = item.weight.amount + "кг";
 
 			switch (item.rarity) {
 				case ItemRarity.Common: {

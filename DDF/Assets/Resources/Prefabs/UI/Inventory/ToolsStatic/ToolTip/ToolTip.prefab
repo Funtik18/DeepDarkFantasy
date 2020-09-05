@@ -295,9 +295,10 @@ MonoBehaviour:
   itemName: {fileID: 1261673145310125128}
   itemPower: {fileID: 1878347843998972852}
   itemPrimaryType: {fileID: 3426957605420516760}
+  itemRarity: {fileID: 328082387948139935}
   itemSecondaryType: {fileID: 6844867403141187239}
   itemDescription: {fileID: 9200954016413713694}
-  itemRarity: {fileID: 328082387948139935}
+  itemWeight: {fileID: 5139612164836875070}
   itemDurarity: {fileID: 3956385941726464490}
 --- !u!114 &5104684928521230292
 MonoBehaviour:
@@ -1752,7 +1753,7 @@ GameObject:
   - component: {fileID: 3457629693797973227}
   - component: {fileID: 5139612164836875070}
   m_Layer: 0
-  m_Name: TextSellValue
+  m_Name: TextWeight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1805,7 +1806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4cdd52ed89955a24a8bc2d5791301369, type: 2}
   m_sharedMaterial: {fileID: -8493520143467287180, guid: 4cdd52ed89955a24a8bc2d5791301369,

@@ -18,8 +18,8 @@ namespace DDF.UI.Inventory.Items {
 
         [TextArea]
         public string itemDescription;
-        [TextArea]
-        public string itemAnotation;
+        //[TextArea]
+        //public string itemAnotation;
 
         [Header("Icon")]
         public Sprite itemIcon;

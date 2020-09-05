@@ -6,14 +6,19 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
 
+		[HideInInspector]
 		public VarFloat armorHead;
+		[HideInInspector]
 		public VarFloat armorTorso;
+		[HideInInspector]
 		public VarFloat armorLegs;
 
 		[SerializeField]
 		private Inventory headEquipment;
 		[SerializeField]
 		private Inventory chestEquipment;
+		[SerializeField]
+		private Inventory beltEquipment;
 		[SerializeField]
 		private Inventory lHandEquipment;
 		[SerializeField]
@@ -69,6 +74,7 @@ namespace DDF.UI.Inventory {
 			allSlots = new List<Inventory>();
 			allSlots.Add(headEquipment);
 			allSlots.Add(chestEquipment);
+			allSlots.Add(beltEquipment);
 			allSlots.Add(lHandEquipment);
 			allSlots.Add(rHandEquipment);
 			allSlots.Add(lBracletEquipment);
