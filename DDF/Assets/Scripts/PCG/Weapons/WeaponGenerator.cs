@@ -212,7 +212,7 @@ namespace DDF.PCG.WEAPON
 
             public XmlItemArmor() {}
             public void Set0() {
-                value = float.Parse(Random.Range(5, 15).ToString("F1"));
+                value = float.Parse(Random.Range(5f, 15f).ToString("F1"));
 
                 valueWeight = float.Parse(Random.Range(2f, 6f).ToString("F1"));
 
