@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DDF.UI.Inventory.Items {
     public class ArmorItem : Item {
         [Tooltip("Броня")]
-        public VarMinMax<float> armor = new VarMinMax<float>("Armor",  0f,  10f);
+        public VarFloat armor = new VarFloat("Armor",  0f);
         [Tooltip("Прочность")]
         public VarMinMax<int> duration = new VarMinMax<int>("Duration",100, 100);
         [Header("Effects")]
