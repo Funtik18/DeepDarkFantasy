@@ -361,8 +361,9 @@ MonoBehaviour:
   Torso:
   - {fileID: 8067219882183917659, guid: 1445856ae64ed304bae3d8b84077f73d, type: 3}
   Belt:
-  - {fileID: 0}
-  Legs: []
+  - {fileID: 21300000, guid: 2a4f630fa848d6947bc641fb64e3f14e, type: 3}
+  Legs:
+  - {fileID: 21300000, guid: bfada9221971489449dc9a62de9bdc3a, type: 3}
   Patch: Resources\XML\WeaponsDescription.xml
 --- !u!4 &237072707
 Transform:
@@ -9180,7 +9181,7 @@ PrefabInstance:
     - target: {fileID: 4400410910605917024, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -33.099976
+      value: -33.100098
       objectReference: {fileID: 0}
     - target: {fileID: 4400410910811259270, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
