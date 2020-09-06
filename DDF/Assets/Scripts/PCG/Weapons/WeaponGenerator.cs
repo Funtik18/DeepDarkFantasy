@@ -104,9 +104,10 @@ namespace DDF.PCG.WEAPON
                         {
                             case ("1"):
                                 {
-
                                     typeWeapon = GetRandom(OneHanded.ToArray());
-                                    mod = GetRandom(modsW.ToArray());
+                                    Debug.Log(currentWeapon.name + " " + currentWeapon.gender);
+                                    mod = GetRandomWithGender(modsW, currentWeapon.gender);
+                                    Debug.Log(mod.text + " " + mod.gender);
                                     end = GetRandom(endsW.ToArray());
                                     icon = GetRandom(OneH);
                                     return ItemCreate<OneHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, width, height, icon);
@@ -114,7 +115,9 @@ namespace DDF.PCG.WEAPON
                             case ("2"):
                                 {
                                     typeWeapon = GetRandom(TwoHanded.ToArray());
-                                    mod = GetRandom(modsW.ToArray());
+                                    Debug.Log(currentWeapon.name + " " + currentWeapon.gender);
+                                    mod = GetRandomWithGender(modsW, currentWeapon.gender);
+                                    Debug.Log(mod.text + " " + mod.gender);
                                     end = GetRandom(endsW.ToArray());
                                     icon = GetRandom(TwoH);
                                     return ItemCreate<TwoHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue * 2, minValue * 2, valueW * 2, maxValueD, minValueD, width * 2, height, icon);
@@ -140,9 +143,9 @@ namespace DDF.PCG.WEAPON
                     {
                         case ("1"):
                             typeArmor = GetRandom(head.ToArray());
-                            Debug.Log(currentArmor.name+" "+currentArmor.gender);
+                            //Debug.Log(currentArmor.name+" "+currentArmor.gender);
                             mod = GetRandomWithGender(modsA, currentArmor.gender);
-                            Debug.Log(mod.text+" "+mod.gender);
+                            //Debug.Log(mod.text+" "+mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Head);
                             return ItemCreate<HeadItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
@@ -151,9 +154,9 @@ namespace DDF.PCG.WEAPON
                             valueW *= 5f;
                             maxValue += (int)(height * width * 5f);
                             typeArmor = GetRandom(torso.ToArray());
-                            Debug.Log(currentArmor.name + " " + currentArmor.gender);
+                            //Debug.Log(currentArmor.name + " " + currentArmor.gender);
                             mod = GetRandomWithGender(modsA, currentArmor.gender);
-                            Debug.Log(mod.text + " " + mod.gender);
+                            //Debug.Log(mod.text + " " + mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Torso);
                             return ItemCreate<TorsoItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
