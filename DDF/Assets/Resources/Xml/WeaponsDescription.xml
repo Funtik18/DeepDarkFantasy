@@ -46,7 +46,6 @@
 <mod id="8" text="Предательский" name="Шанс критической атаки увеличен на 5%" gender="м"/>
 <mod id="9" text="Роковой" name="Критический урон увеличен в 1.5 раза" gender="м"/>
 <mod id="10" text="Жестокий" name="Сопротивление отравлению увеличено на 10%" gender="м"/>
-
 <mod id="1" text="Пожирающая" name="Шанс нанести двойной урон 50%" gender="ж"/>
 <mod id="2" text="Кровавая" name="Шанс пустить кровотечение 25%" gender="ж"/>
 <mod id="3" text="Всевидящая" name="Нет промахов при атаке" gender="ж"/>
@@ -103,6 +102,13 @@
 <type id="2" text=" ArmorTorsoItem " name="Ламеллярный доспех" gender="м"/>
 <type id="2" text=" ArmorTorsoItem " name="Штехцойг" gender="м"/>
 <type id="2" text=" ArmorTorsoItem " name="Реннцойг" gender="м"/>
+<type id="3" text=" ArmorWaistItem " name="Кушак" gender="м"/>
+<type id="3" text=" ArmorWaistItem " name="Пояс" gender="м"/>
+<type id="3" text=" ArmorWaistItem " name="Ремень" gender="м"/>
+<type id="4" text=" ArmorLegsItem " name="Поножи" gender="мн"/>
+<type id="4" text=" ArmorLegsItem " name="Штаны" gender="мн"/>
+<type id="4" text=" ArmorLegsItem " name="Портки" gender="мн"/>
+<type id="4" text=" ArmorLegsItem " name="Брюки" gender="мн"/>
 </AvaliableArmor>
 <Head>
 <head id="1" text="Надел воин этот шлем, а он ему как раз" name="" gender=""/>
@@ -124,7 +130,19 @@
 <torso id="9" text="Ничто не свободно так, как мысль человека. Особенно, если человек облачен в броню" name="" gender=""/>
 <torso id="10" text="Это нагрудная броня сделает вас неуязвимым. Ну, неуязвимым громко сказано, но лучше защищенным определенно" name="" gender=""/>
 <torso id="11" text="Моя броня-моя крепость" name="" gender=""/>
+<torso id="12" text="Совсем не важно как ты ударишь, а важно какой держишь удар, как двигаешься вперед. Если знаешь чего ты стоишь иди и бери своё! Только так побеждают!" name="" gender=""/>
 </Torso>
+<Belt>
+<belt id="1" text="Простой надежный пояс" name="" gender=""/>
+<belt id="2" text="На бляхе этого пояса выгравировано «Я обязательно выживу»" name="" gender=""/>
+<belt id="3" text="Старинный пояс, бляха слегка покрыта ржавчиной. Нельзя сказать, что это последнийь писк моды, но штаны удержит" name="" gender=""/>
+<belt id="4" text="«Если у тебя нет сил победить, то пусть хватит мужества не покориться» - автор неизвестен" name="" gender=""/>
+</Belt>
+<Legs>
+<leg id="1" text="В кольчужных штанах вы выглядите всегда готовым к битве. Насколько вы готовы на самом деле — это, конечно, виднее вам" name="" gender=""/>
+<leg id="2" text="В этих штанах на удивление тепло (несмотря на то, из какой тонкой ткани они сделаны)" name="" gender=""/>
+<leg id="3" text="Это потрепанные поножи до Раскольных времен покрыты коркой из запекшейся крови. Крови погибших в давнишние времена" name="" gender=""/>
+</Legs>
 <Modif>
 <mod id="1" text="Пожирающая" name="" gender="ж"/>
 <mod id="2" text="Кровавая" name="" gender="ж"/>
@@ -146,6 +164,18 @@
 <mod id="8" text="Предательский" name="" gender="м"/>
 <mod id="9" text="Роковой" name="" gender="м"/>
 <mod id="10" text="Жестокий" name="" gender="м"/>
+<mod id="1" text="Пожирающие" name="" gender="мн"/>
+<mod id="2" text="Кровавые" name="" gender="мн"/>
+<mod id="3" text="Всевидящие" name="" gender="мн"/>
+<mod id="4" text="Гнилые" name="" gender="мн"/>
+<mod id="5" text="Пепельные" name="" gender="мн"/>
+<mod id="6" text="Губительные" name="" gender="мн"/>
+<mod id="7" text="Алчные" name="" gender="мн"/>
+<mod id="8" text="Предательские" name="" gender="мн"/>
+<mod id="9" text="Роковые" name="" gender="мн"/>
+<mod id="10" text="Жестокие" name="" gender="мн"/>
 </Modif>
 </Armor>
 </Items>
+
+

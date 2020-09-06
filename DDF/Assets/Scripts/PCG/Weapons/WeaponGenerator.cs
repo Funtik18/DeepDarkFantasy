@@ -24,6 +24,7 @@ namespace DDF.PCG.WEAPON
         List<XmlCategory> head = new List<XmlCategory>();//1
         List<XmlCategory> torso = new List<XmlCategory>();//2
         List<XmlCategory> belt = new List<XmlCategory>();//3
+        List<XmlCategory> legs = new List<XmlCategory>();//4
         List<XmlCategory> modsA = new List<XmlCategory>();
         List<XmlCategory> endsA = new List<XmlCategory>();
 
@@ -34,6 +35,7 @@ namespace DDF.PCG.WEAPON
         public Sprite[] Head;
         public Sprite[] Torso;
         public Sprite[] Belt;
+        public Sprite[] Legs;
 
         [SerializeField]
         [ReadOnly]
@@ -64,6 +66,8 @@ namespace DDF.PCG.WEAPON
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Head/head "), head);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Torso/torso"), torso);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Modif/mod"), modsA);
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Belt/belt"), belt);
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Legs/leg"), legs);
             //Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/End/end"), endsA);
         }
 
@@ -89,7 +93,7 @@ namespace DDF.PCG.WEAPON
 
 
                         maxValue = float.Parse(Random.Range(5f, 15f).ToString("F1"));
-						minValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
+                        minValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
 
                         valueW = float.Parse(Random.Range(0.6f, 2.5f).ToString("F1"));
 
@@ -105,9 +109,9 @@ namespace DDF.PCG.WEAPON
                             case ("1"):
                                 {
                                     typeWeapon = GetRandom(OneHanded.ToArray());
-                                    Debug.Log(currentWeapon.name + " " + currentWeapon.gender);
+                                    //Debug.Log(currentWeapon.name + " " + currentWeapon.gender);
                                     mod = GetRandomWithGender(modsW, currentWeapon.gender);
-                                    Debug.Log(mod.text + " " + mod.gender);
+                                    //Debug.Log(mod.text + " " + mod.gender);
                                     end = GetRandom(endsW.ToArray());
                                     icon = GetRandom(OneH);
                                     return ItemCreate<OneHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue, minValue, valueW, maxValueD, minValueD, width, height, icon);
@@ -115,9 +119,9 @@ namespace DDF.PCG.WEAPON
                             case ("2"):
                                 {
                                     typeWeapon = GetRandom(TwoHanded.ToArray());
-                                    Debug.Log(currentWeapon.name + " " + currentWeapon.gender);
+                                    //Debug.Log(currentWeapon.name + " " + currentWeapon.gender);
                                     mod = GetRandomWithGender(modsW, currentWeapon.gender);
-                                    Debug.Log(mod.text + " " + mod.gender);
+                                    //Debug.Log(mod.text + " " + mod.gender);
                                     end = GetRandom(endsW.ToArray());
                                     icon = GetRandom(TwoH);
                                     return ItemCreate<TwoHandedItem>(mod, currentWeapon, end, typeWeapon, rarity, maxValue * 2, minValue * 2, valueW * 2, maxValueD, minValueD, width * 2, height, icon);
@@ -138,7 +142,7 @@ namespace DDF.PCG.WEAPON
                     rar = Random.Range(0, 4);
                     height = 2;
                     rarity = (ItemRarity)rar;
-                    ///1-шлем 2-грудь
+                    ///1-шлем 2-грудь 3- пояс 4 - поножи
                     switch (currentArmor.id)
                     {
                         case ("1"):
@@ -160,6 +164,28 @@ namespace DDF.PCG.WEAPON
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Torso);
                             return ItemCreate<TorsoItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                        case ("3"):
+                            height = 1;
+                            valueW = float.Parse(Random.Range(0.5f, 2f).ToString("F1"));
+                            maxValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
+                            typeArmor = GetRandom(belt.ToArray());
+                            //Debug.Log(currentArmor.name + " " + currentArmor.gender);
+                            mod = GetRandomWithGender(modsA, currentArmor.gender);
+                            //Debug.Log(mod.text + " " + mod.gender);
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(Belt);
+                            return ItemCreate<WaistItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                        case ("4"):
+                            height = Random.Range(2, 4); 
+                            valueW = float.Parse(Random.Range(1f, 5f).ToString("F1"));
+                            maxValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
+                            typeArmor = GetRandom(legs.ToArray());
+                            //Debug.Log(currentArmor.name + " " + currentArmor.gender);
+                            mod = GetRandomWithGender(modsA, currentArmor.gender);
+                            //Debug.Log(mod.text + " " + mod.gender);
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(Legs);
+                            return ItemCreate<LegsItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
                     }
                     return null;
             }
