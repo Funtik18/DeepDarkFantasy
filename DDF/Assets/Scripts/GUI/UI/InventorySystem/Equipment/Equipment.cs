@@ -99,10 +99,12 @@ namespace DDF.UI.Inventory {
 			}
 		}
 
-		public Item Equip(Item item ) {
+		public Item Equip(Item item, Inventory from ) {
 			for (int i = 0; i < allSlots.Count; i++) {
-				Item clone = CompareTypesEquip(allSlots[i], item);
-				if (clone != null) return clone;
+				if( CompareTypesEquip(allSlots[i], item)) {
+					Item clone = allSlots[i].AddItem(item, from.isGUI);
+					if (clone != null) return clone;
+				}
 			}
 			return null;
 		}
@@ -122,16 +124,15 @@ namespace DDF.UI.Inventory {
 			return clone;
 		}
 
-		private Item CompareTypesEquip( Inventory inventory, Item item ) {
+		private bool CompareTypesEquip( Inventory inventory, Item item ) {
 			if (inventory.IsEmpty) {
 				for (int i = 0; i < inventory.storageTypes.Count; i++) {
 					if (item.CompareType(inventory.storageTypes[i].ToString())) {
-						Item addeditem = inventory.AddItem(item);
-						return addeditem;
+						return true;
 					}
 				}
 			}
-			return null;
+			return false;
 		}
 		private Item CompareTypesTakeoff( Inventory inventory, Item item ) {
 			if (!inventory.IsEmpty) {

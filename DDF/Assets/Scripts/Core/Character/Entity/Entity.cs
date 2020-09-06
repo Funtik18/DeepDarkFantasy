@@ -1204,7 +1204,7 @@ namespace DDF.Character {
             inventory.DeleteItem(item);
         }
         public virtual void Equip( Item item, Inventory from ) {
-            Item equipedItem = mainEquipment.Equip(item);
+            Item equipedItem = mainEquipment.Equip(item, from);
             if (equipedItem == null) return;
             from.DeleteItem(item);
         }
