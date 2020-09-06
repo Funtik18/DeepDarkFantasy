@@ -16,7 +16,7 @@ namespace DDF.Character {
         protected Effects.Effects effects;
 
         protected Inventory mainInventory;
-        protected Equipment mainEquipment;
+        [HideInInspector] public Equipment mainEquipment;
 
         /// <summary>
         /// Текущие перки.

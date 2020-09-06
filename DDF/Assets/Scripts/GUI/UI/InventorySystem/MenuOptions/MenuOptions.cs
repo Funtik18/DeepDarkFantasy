@@ -42,7 +42,9 @@ namespace DDF.UI.Inventory {
 			obj.name = optionName + "-option-" + options.Count;
 
 			Transform objTrans = obj.transform;
+
 			objTrans.localPosition = new Vector3(objTrans.localPosition.x, -((objTrans as RectTransform).sizeDelta.y * options.Count));
+
 
 			MenuOption option = obj.GetComponent<MenuOption>();
 			option.Option = optionName;

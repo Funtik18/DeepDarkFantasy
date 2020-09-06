@@ -5,20 +5,35 @@ using UnityEngine.Events;
 
 namespace DDF.Character.Stats {
     public class TextsStats : MonoBehaviour {
+        [Header("Level")]
         [SerializeField] private TextStat textStatLevel;
         [SerializeField] private TextStat textStatLevelExperience;
         [SerializeField] private TextStat textStatSkillPoints;
+        [Header("Live")]
         [SerializeField] private TextStat textStatHealthPoints;
         [SerializeField] private TextStat textStatManaPoints;
+        [Header("Stats")]
         [SerializeField] private TextStat textStatStrength;
         [SerializeField] private TextStat textStatAgility;
         [SerializeField] private TextStat textStatIntelligence;
         [SerializeField] private TextStat textStatLuck;
+
+        [Header("Armor")]
         [SerializeField] private TextStat textStatPhysicalArmor;
+        [SerializeField] private TextStat textStatArmorHead;
+        [SerializeField] private TextStat textStatArmorTorso;
+        [SerializeField] private TextStat textStatArmorBelt;
+        [SerializeField] private TextStat textStatArmorLegs;
+        [SerializeField] private TextStat textStatArmorFeet;
         [SerializeField] private TextStat textStatMagicArmor;
+
+        [Header("Chance")]
         [SerializeField] private TextStat textStatСhanceCriticalStrike;
         [SerializeField] private TextStat textStatСhanceCriticalShot;
         [SerializeField] private TextStat textStatСhanceAvoid;
+        [Header("Damage")]
+        [SerializeField] private TextStat textPrimaryHand;
+        [SerializeField] private TextStat textSecondaryHand;
         [SerializeField] private TextStat textStatMeleeDamage;
         [SerializeField] private TextStat textStatShotDamage;
         [SerializeField] private TextStat textStatMagicDamage;
@@ -43,7 +58,16 @@ namespace DDF.Character.Stats {
             textStatLuck?.SetTrack(stats.Luck, currentEntity.IncreaseLuck, currentEntity.DecreaseLuck);
 
             textStatPhysicalArmor?.SetTrack(stats.PhysicalArmor);
+            textStatArmorHead?.SetTrack(currentEntity.mainEquipment.armorHead);
+            textStatArmorTorso?.SetTrack(currentEntity.mainEquipment.armorTorso);
+            textStatArmorBelt?.SetTrack(currentEntity.mainEquipment.armorBelt);
+            textStatArmorLegs?.SetTrack(currentEntity.mainEquipment.armorLegs);
+            textStatArmorFeet?.SetTrack(currentEntity.mainEquipment.armorFeet);
+
             textStatMagicArmor?.SetTrack(stats.MagicArmor);
+
+            textPrimaryHand?.SetTrack(currentEntity.mainEquipment.lHandDamage);
+            textSecondaryHand?.SetTrack(currentEntity.mainEquipment.rHandDamage);
 
             textStatMeleeDamage?.SetTrack(stats.MeleeDamage);
             textStatShotDamage?.SetTrack(stats.ShotDamage);
@@ -68,11 +92,20 @@ namespace DDF.Character.Stats {
             textsStats.Add(textStatLuck);
 
             textsStats.Add(textStatPhysicalArmor);
+            textsStats.Add(textStatArmorHead);
+            textsStats.Add(textStatArmorTorso);
+            textsStats.Add(textStatArmorBelt);
+            textsStats.Add(textStatArmorLegs);
+            textsStats.Add(textStatArmorFeet);
             textsStats.Add(textStatMagicArmor);
+
+            textsStats.Add(textPrimaryHand);
+            textsStats.Add(textSecondaryHand);
 
             textsStats.Add(textStatMeleeDamage);
             textsStats.Add(textStatShotDamage);
             textsStats.Add(textStatMagicDamage);
+
             textsStats.Add(textStatСhanceCriticalStrike);
             textsStats.Add(textStatСhanceCriticalShot);
             textsStats.Add(textStatСhanceAvoid);
