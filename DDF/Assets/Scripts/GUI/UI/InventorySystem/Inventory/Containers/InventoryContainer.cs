@@ -128,11 +128,10 @@ namespace DDF.UI.Inventory {
         /// Добавление предмета в инвентарь.
         /// </summary>
         public Item AddItem( Item item, bool enableModel) {
-            /*if (inventory.inventorytype == InventoryTypes.Equipment) {
-                //grid.RecalculateCellPosition(overSeer.buffer, inventory.size);
-            }*/
-            if (AddItemXY(item, enableModel) == 0) {
-                inventory.isFull = true;
+            if (inventory.inventorytype == InventoryTypes.Equipment) {
+                AddItemXY(item, size, enableModel);
+			} else {
+                AddItemXY(item, item.GetSize(), enableModel);
             }
             return item;
         }
@@ -508,9 +507,9 @@ namespace DDF.UI.Inventory {
             SelectAllNotEmptySlots();
         }
 
-        private int AddItemXY( Item item, bool enableModel) {
+        private int AddItemXY( Item item, Vector2 size, bool enableModel) {
 
-            Vector2 size = item.GetSize();
+            //Vector2 size = item.GetSize();
 
             for (int y = 0; y < height; y++) {
 
