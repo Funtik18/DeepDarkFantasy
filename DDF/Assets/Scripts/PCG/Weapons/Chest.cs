@@ -9,8 +9,9 @@ namespace DDF.PCG.WEAPON
         public WeaponGenerator wg;
         private void Start()
         {
+            chest.startItems.Add(wg.Generator(1));
             chest.startItems.Add(wg.Generator(2));
-            chest.startItems.Add(wg.Generator(2));
+            chest.startItems.Add(wg.Generator(1));
             chest.startItems.Add(wg.Generator(2));
         }
     }

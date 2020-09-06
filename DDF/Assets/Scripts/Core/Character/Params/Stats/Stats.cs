@@ -16,7 +16,7 @@ namespace DDF.Character.Stats {
         public StatInt Intelligence;
         public StatInt Luck;
 
-        public StatRegularInt PhysicalArmor;
+        public StatFloat PhysicalArmor;
         public StatRegularInt MagicArmor;
 
         public StatRegularFloat MeleeDamage;
@@ -45,7 +45,7 @@ namespace DDF.Character.Stats {
             Intelligence = new StatInt("Интелект", 1);
             Luck = new StatInt("Удача", 1);
 
-            PhysicalArmor = new StatRegularInt("Физическая броня", 0, 0);
+            PhysicalArmor = new StatFloat("Физическая броня", 0);
             MagicArmor = new StatRegularInt("Магическая броня", 0, 0);
 
             MeleeDamage = new StatRegularFloat("Урон в ближнем бою", 0, 0, "-");

@@ -1,10 +1,16 @@
-﻿using DDF.UI.Inventory.Items;
+﻿using DDF.Character;
+using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
+	/// <summary>
+	/// Обмундирование какой-то сущности.
+	/// </summary>
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
+
+		[HideInInspector] public Entity currentEntity;
 
 		[HideInInspector]
 		public VarFloat armorHead;
@@ -85,6 +91,8 @@ namespace DDF.UI.Inventory {
 
 			for(int i = 0; i < allSlots.Count; i++) {
 				allSlots[i].inventorytype = InventoryTypes.Equipment;
+				allSlots[i].onItemAdded = ItemAdded;
+				allSlots[i].onItemRemoved = ItemRemoved;
 			}
 
 			armorHead = new VarFloat("Броня головы", 0);
@@ -100,11 +108,19 @@ namespace DDF.UI.Inventory {
 			return null;
 		}
 		public Item TakeOff( Item item ) {
-			for(int i = 0; i < allSlots.Count; i++) {
+			for (int i = 0; i < allSlots.Count; i++) {
 				Item clone = CompareTypesTakeoff(allSlots[i], item);
-				if (clone != null) return clone;
+				if (clone != null) {
+					allSlots[i].DeleteItem(item);
+					return clone;
+				}
 			}
 			return null;
+		}
+		public Item TakeOff(Item item, Inventory inventory) {
+			Item clone = item.GetItemCopy();
+			inventory.DeleteItem(item);
+			return clone;
 		}
 
 		private Item CompareTypesEquip( Inventory inventory, Item item ) {
@@ -112,7 +128,6 @@ namespace DDF.UI.Inventory {
 				for (int i = 0; i < inventory.storageTypes.Count; i++) {
 					if (item.CompareType(inventory.storageTypes[i].ToString())) {
 						Item addeditem = inventory.AddItem(item);
-						UpdateStats(addeditem);
 						return addeditem;
 					}
 				}
@@ -123,21 +138,56 @@ namespace DDF.UI.Inventory {
 			if (!inventory.IsEmpty) {
 				if (inventory.currentItems.Contains(item)) {
 					Item clone = item.GetItemCopy();
-					inventory.DeleteItem(item);
 					return clone;
 				}
 			}
 			return null;
 		}
 
-		private void UpdateStats(Item item) {
-			if(item is ArmorItem armorItem) {
-				if(armorItem is HeadItem headItem) {
-					//armorHead.amount = headItem.armor.max;
+		/// <summary>
+		/// Какой-то айтем добавлен, нужно уточнить что довлено и куда.
+		/// Обмундирование накладывает "эффекты" на сущность.
+		/// </summary>
+		private void ItemAdded(Item item, Inventory inventory) {
+			IncreaceStats(item);
+		}
+		/// <summary>
+		/// Обмундирование убирает "эффекты" с сущности.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="inventory"></param>
+		private void ItemRemoved(Item item, Inventory inventory) {
+			DecreaceStats(item);
+		}
+		private void IncreaceStats(Item item) {
+			if (item is ArmorItem armorItem) {
+				currentEntity.CurrentPhysicalArmor += armorItem.armor.amount;
+				return;		
+			}
+			if (item is WeaponItem weaponItem) {
+				if (item is RangedItem) {
+					currentEntity.MaxShotDamage += weaponItem.damage.max;
+					currentEntity.MinShotDamage += weaponItem.damage.min;
+					return;
 				}
-				if (armorItem is TorsoItem torsoItem) {
-					//armorHead.amount = torsoItem.armor.max;
+				currentEntity.MaxMeleeDamage += weaponItem.damage.max;
+				currentEntity.MinMeleeDamage += weaponItem.damage.min;
+				return;
+			}
+		}
+		private void DecreaceStats(Item item) {
+			if (item is ArmorItem armorItem) {
+				currentEntity.CurrentPhysicalArmor -= armorItem.armor.amount;
+			}
+			if (item is WeaponItem weaponItem) {
+				if(item is RangedItem) {
+					currentEntity.MaxShotDamage -= weaponItem.damage.max;
+					currentEntity.MinShotDamage -= weaponItem.damage.min;
+					return;
 				}
+				currentEntity.MaxMeleeDamage -= weaponItem.damage.max;
+				currentEntity.MinMeleeDamage -= weaponItem.damage.min;
+				return;
 			}
 		}
 	}

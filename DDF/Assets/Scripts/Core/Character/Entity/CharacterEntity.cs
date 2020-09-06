@@ -62,6 +62,8 @@ namespace DDF.Character {
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
+            onChangePhysicalArmor = () => UpdateTXT();
+            onChangeMeleeDamage = () => UpdateTXT();
 
             onChangeStrength = () => UpdateTXT();
             onChangeAgility = () => UpdateTXT();
@@ -72,6 +74,7 @@ namespace DDF.Character {
             InventoryOverSeerGUI.Getinstance().CloseGUI();
             mainInventory = InventoryOverSeerGUI.Getinstance().mainInventory;
             mainEquipment = InventoryOverSeerGUI.Getinstance().mainEquipment;
+            mainEquipment.currentEntity = this;
         }
         protected override void UpdateStats() {
             base.UpdateStats();

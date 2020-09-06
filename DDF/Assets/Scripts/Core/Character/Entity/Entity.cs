@@ -330,38 +330,17 @@ namespace DDF.Character {
         /// <summary>
         /// Базовое значение Физической Брони.
         /// </summary>
-        private int basePhysicalArmor = 0;
-        /// <summary>
-        /// Максимально возможное значение для Физической брони.
-        /// </summary>
-        public int MaxPhysicalArmor
-        {
-            get
-            {
-                return stats.PhysicalArmor.amount;
-            }
-            set
-            {
-                stats.PhysicalArmor.amount = value;
-                if (stats.PhysicalArmor.amount <= 0) stats.PhysicalArmor.amount = 0;
-                if (stats.PhysicalArmor.amount < CurrentPhysicalArmor) CurrentPhysicalArmor = stats.PhysicalArmor.amount;
-                onChangePhysicalArmor?.Invoke();
-            }
-        }
+        private float basePhysicalArmor = 0;
         /// <summary>
         /// Текущее значение Физической Брони.
         /// </summary>
-        public int CurrentPhysicalArmor
-        {
-            get
-            {
-                return stats.PhysicalArmor.currentInamount;
+        public float CurrentPhysicalArmor {
+            get {
+                return stats.PhysicalArmor.amount;
             }
-            set
-            {
-                stats.PhysicalArmor.currentInamount = value;
-                if (stats.PhysicalArmor.currentInamount >= MaxPhysicalArmor) stats.PhysicalArmor.currentInamount = MaxPhysicalArmor;
-                if (stats.PhysicalArmor.currentInamount <= 0) stats.PhysicalArmor.currentInamount = 0;
+            set {
+                stats.PhysicalArmor.amount = value;
+                if (stats.PhysicalArmor.amount <= 0) stats.PhysicalArmor.amount = 0;
                 onChangePhysicalArmor?.Invoke();
             }
         }
@@ -1113,7 +1092,7 @@ namespace DDF.Character {
             from.DeleteItem(item);
         }
         public virtual void TakeOff( Item item, Inventory inventory ) {
-            Item dropedItem = mainEquipment.TakeOff(item);
+            Item dropedItem = mainEquipment.TakeOff(item, inventory);
             if (dropedItem == null) return;
             mainInventory.AddItem(dropedItem);
         }
@@ -1124,7 +1103,6 @@ namespace DDF.Character {
             }
             inventory.DeleteItem(item);
         }
-
         #endregion
 
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
@@ -13,23 +14,28 @@ namespace DDF.UI.Inventory {
 		public bool isGUI = false;
 
 		[HideInInspector] public InventoryTypes inventorytype = InventoryTypes.Simple;
-
-
 		[HideInInspector] public bool isFull;
 		[HideInInspector] public bool IsEmpty {
 			get {
 				return currentItems.Count == 0;
 			}
 		}
+
 		/// <summary>
 		/// Фильтр. Если размер 0 то принимает любой предмет.
 		/// </summary>
 		public List<StorageTypes> storageTypes;
 		public string InventoryName = "Inventory";
-		[HideInInspector]public InventoryOverSeer overSeer;
+		[HideInInspector] public InventoryOverSeer overSeer;
 		public InventoryView view;
 		public InventoryContainer container;
 		public List<Item> currentItems;
+
+		/// <summary>
+		/// Событие. Происходит когда какой-то айтем добавился в какой-то контейнер.
+		/// </summary>
+		public UnityAction<Item, Inventory> onItemAdded;
+		public UnityAction<Item, Inventory> onItemRemoved;
 
 		private CanvasGroup canvasGroup;
 

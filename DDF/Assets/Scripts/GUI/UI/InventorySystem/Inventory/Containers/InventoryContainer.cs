@@ -22,15 +22,17 @@ namespace DDF.UI.Inventory {
         private InventoryOverSeer overSeer { get { return inventory.overSeer; } }
         private InventoryView view { get { return inventory.view; } }
 
-		protected InventoryGrid grid;
+        private List<Item> currentItems;
+        private List<InventoryModel> currentModels;
+
+        protected InventoryGrid grid;
         private int width, height;
         private Vector2Int size;
 
         [HideInInspector] public InventorySlot[,] slotsArray;
         [HideInInspector] public List<InventorySlot> slotsList;
 
-        private List<Item> currentItems;
-        private List<InventoryModel> currentModels;
+        
 
         #region Settup
 
@@ -138,9 +140,11 @@ namespace DDF.UI.Inventory {
         private void AddCurrentItem( Item item ) {
             MenuOptions._instance.ItemTagSetup(item, inventory.inventorytype);
             currentItems.Add(item);
+            inventory.onItemAdded?.Invoke(item, inventory);
         }
         private void RemoveCurrentItem( Item item ) {
             currentItems.Remove(item);
+            inventory.onItemRemoved?.Invoke(item, inventory);
         }
 
         private bool IncreaseItemCount(Item item, uint count) {

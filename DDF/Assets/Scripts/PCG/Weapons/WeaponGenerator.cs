@@ -77,8 +77,8 @@ namespace DDF.PCG.WEAPON {
                     XmlCategory typeWeapon;
 
 
-                    maxValue = float.Parse(Random.Range(5, 15).ToString("F1"));
-                    minValue = float.Parse(Random.Range(1, 5).ToString("F1"));
+                    maxValue = float.Parse(Random.Range(5f, 15f).ToString("F1"));
+                    minValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
 
                     valueW = float.Parse(Random.Range(0.6f, 2.5f).ToString("F1"));
 
