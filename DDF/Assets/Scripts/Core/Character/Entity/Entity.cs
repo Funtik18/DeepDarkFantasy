@@ -392,6 +392,123 @@ namespace DDF.Character {
         /// Событие, если значение изменилось.
         /// </summary>
         public Action onChangeMagicArmor;
+		#endregion
+
+		#region Сопротивления
+		#region Сопротивление к огню
+		/// <summary>
+		/// Базовое значение для Сопротивления к Огню.
+		/// </summary>
+		private float baseResistFire = 0;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Огню.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxResistFire = 100;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Огню.
+        /// </summary>
+        public float MaxResistFire {
+            get {
+                return maxResistFire;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Сопротивления к Огню.
+        /// </summary>
+        public float CurrentResistFire {
+            get {
+                return stats.ResistFire.amount;
+            }
+            set {
+                stats.ResistFire.amount = value;
+                if (stats.ResistFire.amount >= MaxResistFire) stats.ResistFire.amount = MaxResistFire;
+                if (stats.ResistFire.amount <= 0) stats.ResistFire.amount = 0;
+                onChangeResistFire?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeResistFire;
+        #endregion
+        #region Сопротивление к холоду
+        /// <summary>
+        /// Базовое значение для Сопротивления к Холоду.
+        /// </summary>
+        private float baseResistIce = 0;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Холоду.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxResistIce = 100;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Холоду.
+        /// </summary>
+        public float MaxResistIce {
+            get {
+                return maxResistIce;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Сопротивления к Холоду.
+        /// </summary>
+        public float CurrentResistIce {
+            get {
+                return stats.ResistIce.amount;
+            }
+            set {
+                stats.ResistIce.amount = value;
+                if (stats.ResistIce.amount >= MaxResistIce) stats.ResistIce.amount = MaxResistIce;
+                if (stats.ResistIce.amount <= 0) stats.ResistIce.amount = 0;
+                onChangeResistIce?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeResistIce;
+        #endregion
+        #region Сопротивление к яду
+        /// <summary>
+        /// Базовое значение для Сопротивления к Яду.
+        /// </summary>
+        private float baseResistPoison = 0;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Яду.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxResistPoison = 100;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Яду.
+        /// </summary>
+        public float MaxResistPoison {
+            get {
+                return maxResistPoison;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Сопротивления к Яду.
+        /// </summary>
+        public float CurrentResistPoison {
+            get {
+                return stats.ResistPoison.amount;
+            }
+            set {
+                stats.ResistPoison.amount = value;
+                if (stats.ResistPoison.amount >= MaxResistPoison) stats.ResistPoison.amount = MaxResistPoison;
+                if (stats.ResistPoison.amount <= 0) stats.ResistPoison.amount = 0;
+                onChangeResistPoison?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeResistPoison;
+        #endregion
         #endregion
 
         #region Сила

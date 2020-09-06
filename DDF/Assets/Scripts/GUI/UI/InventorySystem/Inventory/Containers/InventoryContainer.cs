@@ -127,10 +127,11 @@ namespace DDF.UI.Inventory {
         /// <summary>
         /// Добавление предмета в инвентарь.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
         public Item AddItem( Item item, bool enableModel) {
-            if(AddItemXY(item, enableModel) == 0) {
+            /*if (inventory.inventorytype == InventoryTypes.Equipment) {
+                //grid.RecalculateCellPosition(overSeer.buffer, inventory.size);
+            }*/
+            if (AddItemXY(item, enableModel) == 0) {
                 inventory.isFull = true;
             }
             return item;

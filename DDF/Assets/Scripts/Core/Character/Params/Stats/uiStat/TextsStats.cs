@@ -12,6 +12,13 @@ namespace DDF.Character.Stats {
         [Header("Live")]
         [SerializeField] private TextStat textStatHealthPoints;
         [SerializeField] private TextStat textStatManaPoints;
+
+        [Header("Resistance")]
+        [SerializeField] private TextStat textStatResistFire;
+        [SerializeField] private TextStat textStatResistIce;
+        [SerializeField] private TextStat textStatResistPoison;
+
+
         [Header("Stats")]
         [SerializeField] private TextStat textStatStrength;
         [SerializeField] private TextStat textStatAgility;
@@ -52,6 +59,10 @@ namespace DDF.Character.Stats {
             textStatHealthPoints?.SetTrack(stats.HealthPoints);
             textStatManaPoints?.SetTrack(stats.ManaPoints);
 
+            textStatResistFire?.SetTrack(stats.ResistFire);
+            textStatResistIce?.SetTrack(stats.ResistIce);
+            textStatResistPoison?.SetTrack(stats.ResistPoison);
+
             textStatStrength?.SetTrack(stats.Strength, currentEntity.IncreaseStrength, currentEntity.DecreaseStrength);
             textStatAgility?.SetTrack(stats.Agility, currentEntity.IncreaseAgility, currentEntity.DecreaseAgility);
             textStatIntelligence?.SetTrack(stats.Intelligence, currentEntity.IncreaseIntelligence, currentEntity.DecreaseIntelligence);
@@ -85,6 +96,10 @@ namespace DDF.Character.Stats {
 
             textsStats.Add(textStatHealthPoints);
             textsStats.Add(textStatManaPoints);
+
+            textsStats.Add(textStatResistFire);
+            textsStats.Add(textStatResistIce);
+            textsStats.Add(textStatResistPoison);
 
             textsStats.Add(textStatStrength);
             textsStats.Add(textStatAgility);
