@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerMovement : MonoBehaviour
+public class NPlayerMovement : MonoBehaviour
 {
     public Transform CameraTransform;
     public CharacterStatus characterStatus;
@@ -22,10 +22,12 @@ public class PlayerMovement : MonoBehaviour
     public bool freezMovement = false;
     
     private Animator Animator;
+    private CharacterController controller;
 
     public void Start()
     {
         Animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
     }
 
     public void FixedUpdate()
@@ -36,26 +38,56 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!freezMovement)
         {
+            int speed = 0;//временная переменная
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            moveAmount = Mathf.Clamp01(Mathf.Abs(vertical)+Mathf.Abs(horizontal));
+            //moveAmountV = Mathf.Clamp01(Mathf.Abs(vertical)+Mathf.Abs(horizontal));
 
+            if(Input.GetAxis("Run")>0)
+            {
+                vertical*=2;
+                horizontal*=2;
+                speed = 7;
+            }else
+                {
+                    speed = 0;
+                }
 
-            Animator.SetFloat("vertical", moveAmount, 0.15f, Time.deltaTime);
+            Animator.SetFloat("vertical", vertical, 0.15f, Time.deltaTime);
+            Animator.SetFloat("horizontal", horizontal, 0.15f, Time.deltaTime);
+            /*
             Vector3 moveDir = CameraTransform.forward * vertical;
             moveDir += CameraTransform.right * horizontal;
             moveDir.Normalize();
             moveDirection = moveDir;
             rotationDirection = CameraTransform.forward;
-            RotationNormal();
+            */
+            Vector3 moveDir = transform.forward * vertical;
+            moveDir += transform.right * horizontal;
+            moveDir.Normalize();
+            moveDirection = moveDir;
+            rotationDirection = transform.forward;
+
+            if(vertical>0)
+                RotationNormal();
             characterStatus.isGround = Ground();
+            if(!Ground())
+                moveDirection+=-transform.up;   
+
+            if(controller!= null)
+            controller.Move(moveDirection/(10-speed));//Нужно придумать как регулировать скорость
         }
     }
 
     public void RotationNormal()
     {
-        rotationDirection = moveDirection;
+        //rotationDirection = moveDirection;
+        Vector3 moveDir = CameraTransform.forward * vertical;
+        moveDir += CameraTransform.right * horizontal;
+        moveDir.Normalize();
+        moveDirection = moveDir;
+        rotationDirection = CameraTransform.forward;
 
         Vector3 targetDir = rotationDirection;
         targetDir.y = 0;
