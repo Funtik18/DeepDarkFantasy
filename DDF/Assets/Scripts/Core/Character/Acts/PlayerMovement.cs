@@ -73,8 +73,9 @@ public class PlayerMovement : MonoBehaviour
                 RotationNormal();
             characterStatus.isGround = Ground();
             if(!Ground())
-                moveDirection+=-transform.up;
+                moveDirection+=-transform.up;   
 
+            if(controller!= null)
             controller.Move(moveDirection/(10-speed));//Нужно придумать как регулировать скорость
         }
     }
