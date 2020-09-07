@@ -22,15 +22,17 @@ namespace DDF.UI.Inventory {
         private InventoryOverSeer overSeer { get { return inventory.overSeer; } }
         private InventoryView view { get { return inventory.view; } }
 
-		protected InventoryGrid grid;
+        private List<Item> currentItems;
+        private List<InventoryModel> currentModels;
+
+        protected InventoryGrid grid;
         private int width, height;
         private Vector2Int size;
 
         [HideInInspector] public InventorySlot[,] slotsArray;
         [HideInInspector] public List<InventorySlot> slotsList;
 
-        private List<Item> currentItems;
-        private List<InventoryModel> currentModels;
+        
 
         #region Settup
 
@@ -125,11 +127,11 @@ namespace DDF.UI.Inventory {
         /// <summary>
         /// Добавление предмета в инвентарь.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
         public Item AddItem( Item item, bool enableModel) {
-            if(AddItemXY(item, enableModel) == 0) {
-                inventory.isFull = true;
+            if (inventory.inventorytype == InventoryTypes.Equipment) {
+                AddItemXY(item, size, enableModel);
+			} else {
+                AddItemXY(item, item.GetSize(), enableModel);
             }
             return item;
         }
@@ -138,9 +140,11 @@ namespace DDF.UI.Inventory {
         private void AddCurrentItem( Item item ) {
             MenuOptions._instance.ItemTagSetup(item, inventory.inventorytype);
             currentItems.Add(item);
+            inventory.onItemAdded?.Invoke(item, inventory);
         }
         private void RemoveCurrentItem( Item item ) {
             currentItems.Remove(item);
+            inventory.onItemRemoved?.Invoke(item, inventory);
         }
 
         private bool IncreaseItemCount(Item item, uint count) {
@@ -246,7 +250,7 @@ namespace DDF.UI.Inventory {
                                 return;
 							} else {
                                 for (int i = 0; i < storageTypes.Count; i++) {
-                                    if (item.Equals(storageTypes[i].ToString())) {
+                                    if (item.CompareType(storageTypes[i].ToString())) {
                                         whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);
                                         return;
                                     }
@@ -377,7 +381,7 @@ namespace DDF.UI.Inventory {
                     return;
                 } else {
                     for (int i = 0; i < storageTypes.Count; i++) {
-                        if (item.Equals(storageTypes[i].ToString())) {
+                        if (item.CompareType(storageTypes[i].ToString())) {
                             ItemPlaceOnSlotRestriction(overSeer.from.container, overSeer.whereNow.container, item, model);
                             return;
                         }
@@ -503,9 +507,9 @@ namespace DDF.UI.Inventory {
             SelectAllNotEmptySlots();
         }
 
-        private int AddItemXY( Item item, bool enableModel) {
+        private int AddItemXY( Item item, Vector2 size, bool enableModel) {
 
-            Vector2 size = item.GetSize();
+            //Vector2 size = item.GetSize();
 
             for (int y = 0; y < height; y++) {
 
@@ -768,17 +772,18 @@ namespace DDF.UI.Inventory {
             Item item = overSeer.lastSlot.Item;
             List<InventorySlot> slots = TakeSlotsByItem(item);
             rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-            //ToolTip._instance.SetItem(item);
 
             slots.Clear();
 
             overSeer.OrderRefresh();
 
-            ToolTip._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, ToolTip._instance.rect));
-            ToolTip._instance.ShowToolTip();
+            inventory.toolTip.SetItem(item);
+            inventory.toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, inventory.toolTip.rect));
+            inventory.toolTip.ShowToolTip();
         }
-        private void ToolTipHide() => ToolTip._instance.HideToolTip();
-
+        private void ToolTipHide() {
+            inventory.toolTip.HideToolTip();
+        }
 
         private void MenuOptionsShow() {
             if (overSeer.lastSlot.isEmpty()) return;

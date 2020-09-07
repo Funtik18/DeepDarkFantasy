@@ -1,13 +1,11 @@
 ﻿using DDF.Character.Perks;
-using System;
 using System.Collections.Generic;
 
 namespace DDF.Character.Stats {
-	public class Stat {
-		public string statName;
-
+	public class Stat : Var {
+		protected Stat(string varName) : base(varName) {}
 		public virtual string Output() {
-			return statName;
+			return "";
 		}
 	}
 	public class StatInt : Stat {
@@ -25,8 +23,7 @@ namespace DDF.Character.Stats {
 		}
 		List<PerkInt> extra;
 
-		public StatInt(string newName, int max, string _regex = "" ) {
-			statName = newName;
+		public StatInt(string statName, int max, string _regex = "" ) : base(statName) {
 			amount = max;
 			regex = _regex;
 
@@ -38,9 +35,9 @@ namespace DDF.Character.Stats {
 		public override string Output() {
 			int extr = calculateExtra();
 			if (extr != 0)
-				return statName + "|" + (amount - extr) + "<color=lightblue>(+" + extr + ")</color> = " + amount + regex;
+				return varName + "|" + (amount - extr) + "<color=lightblue>(+" + extr + ")</color> = " + amount + regex;
 			else
-				return statName + "|" + amount + regex;
+				return varName + "|" + amount + regex;
 		}
 		private int calculateExtra() {
 			int extr = 0;
@@ -55,13 +52,12 @@ namespace DDF.Character.Stats {
 
 		string regex = "";
 
-		public StatFloat( string newName, float max, string _regex = "" ) {
-			statName = newName;
+		public StatFloat( string statName, float max, string _regex = "") : base(statName) {
 			amount = max;
 			regex = _regex;
 		}
 		public override string Output() {
-			return statName + "|" + amount + regex;
+			return varName + "|" + amount + regex;
 		}
 	}
 	public class StatRegularInt : StatInt {
@@ -74,7 +70,7 @@ namespace DDF.Character.Stats {
 			regex = _regex;
 		}
 		public override string Output() {
-			return statName + "|" + currentInamount + regex + amount;
+			return varName + "|" + currentInamount + regex + amount;
 		}
 	}
 	public class StatRegularFloat : StatFloat {
@@ -87,7 +83,7 @@ namespace DDF.Character.Stats {
 			regex = _regex;
 		}
 		public override string Output() {
-			return statName + "|" + currentInamount + regex + amount;
+			return varName + "|" + currentInamount + regex + amount;
 		}
 	}
 }

@@ -11,12 +11,16 @@ namespace DDF.Character.Stats {
         public StatRegularFloat HealthPoints;
         public StatRegularFloat ManaPoints;
 
+        public StatFloat ResistFire;
+        public StatFloat ResistIce;
+        public StatFloat ResistPoison;
+
         public StatInt Strength;
         public StatInt Agility;
         public StatInt Intelligence;
         public StatInt Luck;
 
-        public StatRegularInt PhysicalArmor;
+        public StatFloat PhysicalArmor;
         public StatRegularInt MagicArmor;
 
         public StatRegularFloat MeleeDamage;
@@ -40,12 +44,16 @@ namespace DDF.Character.Stats {
             HealthPoints = new StatRegularFloat("Жизненые силы", 0, 0);
             ManaPoints = new StatRegularFloat("Магическая энергия", 0, 0);
 
+            ResistFire = new StatFloat("Сопротивление к огню", 0);
+            ResistIce = new StatFloat("Сопротивление к холоду", 0);
+            ResistPoison = new StatFloat("Сопротивление к яду", 0);
+
             Strength = new StatInt("Сила", 1);
             Agility = new StatInt("Ловкость", 1);
             Intelligence = new StatInt("Интелект", 1);
             Luck = new StatInt("Удача", 1);
 
-            PhysicalArmor = new StatRegularInt("Физическая броня", 0, 0);
+            PhysicalArmor = new StatFloat("Физическая броня", 0);
             MagicArmor = new StatRegularInt("Магическая броня", 0, 0);
 
             MeleeDamage = new StatRegularFloat("Урон в ближнем бою", 0, 0, "-");

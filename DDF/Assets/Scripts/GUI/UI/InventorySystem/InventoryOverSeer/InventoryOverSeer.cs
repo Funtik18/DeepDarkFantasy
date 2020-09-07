@@ -9,7 +9,6 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public List<Inventory> containers;
 
-
 		[HideInInspector] public RectTransform buffer;
 
 		[HideInInspector] public InventorySlot lastSlot;
@@ -22,6 +21,9 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public Inventory from;//откуда взяли
 		[HideInInspector] public Inventory whereNow;//где сейчас находимся
+
+		
+
 
 		protected virtual void Awake() {
 			containers = new List<Inventory>();

@@ -1,15 +1,33 @@
-﻿using DDF.UI.Inventory.Items;
-using System.Collections;
+﻿using DDF.Character;
+using DDF.Character.Stats;
+using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.UI.Inventory {
+	/// <summary>
+	/// Обмундирование какой-то сущности.
+	/// </summary>
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
+
+		[HideInInspector] public Entity currentEntity;
+
+		[HideInInspector] public StatRegularFloat lHandDamage = new StatRegularFloat("Урон о.р.", 0, 0, "-");
+		[HideInInspector] public StatRegularFloat rHandDamage = new StatRegularFloat("Урон c.р.", 0, 0, "-");
+
+		[HideInInspector] public StatFloat armorHead = new StatFloat("Броня голова", 0);
+		[HideInInspector] public StatFloat armorTorso = new StatFloat("Броня торс", 0);
+		[HideInInspector] public StatFloat armorBelt = new StatFloat("Броня пояс", 0);
+		[HideInInspector] public StatFloat armorLegs = new StatFloat("Броня портки", 0);
+		[HideInInspector] public StatFloat armorFeet = new StatFloat("Броня ноги", 0);
+
 		[SerializeField]
 		private Inventory headEquipment;
 		[SerializeField]
 		private Inventory chestEquipment;
+		[SerializeField]
+		private Inventory beltEquipment;
 		[SerializeField]
 		private Inventory lHandEquipment;
 		[SerializeField]
@@ -65,6 +83,7 @@ namespace DDF.UI.Inventory {
 			allSlots = new List<Inventory>();
 			allSlots.Add(headEquipment);
 			allSlots.Add(chestEquipment);
+			allSlots.Add(beltEquipment);
 			allSlots.Add(lHandEquipment);
 			allSlots.Add(rHandEquipment);
 			allSlots.Add(lBracletEquipment);
@@ -75,44 +94,145 @@ namespace DDF.UI.Inventory {
 
 			for(int i = 0; i < allSlots.Count; i++) {
 				allSlots[i].inventorytype = InventoryTypes.Equipment;
+				allSlots[i].onItemAdded = ItemAdded;
+				allSlots[i].onItemRemoved = ItemRemoved;
 			}
 		}
 
-		public Item Equip(Item item ) {
+		public Item Equip(Item item, Inventory from ) {
 			for (int i = 0; i < allSlots.Count; i++) {
-				Item clone = CompareTypesEquip(allSlots[i], item);
-				if (clone != null) return clone;
+				if( CompareTypesEquip(allSlots[i], item)) {
+					Item clone = allSlots[i].AddItem(item, from.isGUI);
+					if (clone != null) return clone;
+				}
 			}
 			return null;
 		}
 		public Item TakeOff( Item item ) {
-			for(int i = 0; i < allSlots.Count; i++) {
+			for (int i = 0; i < allSlots.Count; i++) {
 				Item clone = CompareTypesTakeoff(allSlots[i], item);
-				if (clone != null) return clone;
-			}
-			return null;
-		}
-
-		private Item CompareTypesEquip( Inventory inventory, Item item ) {
-			if (inventory.IsEmpty) {
-				for (int i = 0; i < inventory.storageTypes.Count; i++) {
-					if (item.Equals(inventory.storageTypes[i].ToString())) {
-						Item addeditem = inventory.AddItem(item);
-						return addeditem;
-					}
+				if (clone != null) {
+					allSlots[i].DeleteItem(item);
+					return clone;
 				}
 			}
 			return null;
+		}
+		public Item TakeOff(Item item, Inventory inventory) {
+			Item clone = item.GetItemCopy();
+			inventory.DeleteItem(item);
+			return clone;
+		}
+
+		private bool CompareTypesEquip( Inventory inventory, Item item ) {
+			if (inventory.IsEmpty) {
+				for (int i = 0; i < inventory.storageTypes.Count; i++) {
+					if (item.CompareType(inventory.storageTypes[i].ToString())) {
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 		private Item CompareTypesTakeoff( Inventory inventory, Item item ) {
 			if (!inventory.IsEmpty) {
 				if (inventory.currentItems.Contains(item)) {
 					Item clone = item.GetItemCopy();
-					inventory.DeleteItem(item);
 					return clone;
 				}
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// Какой-то айтем добавлен, нужно уточнить что довлено и куда.
+		/// Обмундирование накладывает "эффекты" на сущность.
+		/// </summary>
+		private void ItemAdded(Item item, Inventory inventory) {
+			if (item is ArmorItem armorItem) {
+				#region uistats
+				if (headEquipment == inventory) {
+					armorHead.amount = armorItem.armor.amount;
+				}
+				if (chestEquipment == inventory) {
+					armorTorso.amount = armorItem.armor.amount;
+				}
+				if (beltEquipment == inventory) {
+					armorBelt.amount = armorItem.armor.amount;
+				}
+				if (legEquipment == inventory) {
+					armorLegs.amount = armorItem.armor.amount;
+				}
+				if (feetEquipment == inventory) {
+					armorFeet.amount = armorItem.armor.amount;
+				}
+				#endregion
+				currentEntity.CurrentPhysicalArmor += armorItem.armor.amount;
+			}else if (item is WeaponItem weaponItem) {
+				#region uistats
+				if (lHandEquipment == inventory) {
+					lHandDamage.amount = weaponItem.damage.max;
+					lHandDamage.currentInamount = weaponItem.damage.min;
+				}
+				if (rHandEquipment == inventory) {
+					rHandDamage.amount = weaponItem.damage.max;
+					rHandDamage.currentInamount = weaponItem.damage.min;
+				}
+				#endregion
+				if (item is RangedItem) {
+					currentEntity.MaxShotDamage += weaponItem.damage.max;
+					currentEntity.MinShotDamage += weaponItem.damage.min;
+				} else {
+					currentEntity.MaxMeleeDamage += weaponItem.damage.max;
+					currentEntity.MinMeleeDamage += weaponItem.damage.min;
+				}
+				
+			}
+		}
+		/// <summary>
+		/// Обмундирование убирает "эффекты" с сущности.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="inventory"></param>
+		private void ItemRemoved(Item item, Inventory inventory) {
+			if (item is ArmorItem armorItem) {
+				#region uistats
+				if (headEquipment == inventory) {
+					armorHead.amount = 0;
+				}
+				if (chestEquipment == inventory) {
+					armorTorso.amount = 0;
+				}
+				if (beltEquipment == inventory) {
+					armorBelt.amount = 0;
+				}
+				if (legEquipment == inventory) {
+					armorLegs.amount = 0;
+				}
+				if (feetEquipment == inventory) {
+					armorFeet.amount = 0;
+				}
+				#endregion
+				currentEntity.CurrentPhysicalArmor -= armorItem.armor.amount;
+			}else if (item is WeaponItem weaponItem) {
+				#region uistats
+				if (lHandEquipment == inventory) {
+					lHandDamage.amount = 0;
+					lHandDamage.currentInamount = 0;
+				}
+				if (rHandEquipment == inventory) {
+					rHandDamage.amount = 0;
+					rHandDamage.currentInamount = 0;
+				}
+				#endregion
+				if (item is RangedItem) {
+					currentEntity.MaxShotDamage -= weaponItem.damage.max;
+					currentEntity.MinShotDamage -= weaponItem.damage.min;
+				} else {
+					currentEntity.MaxMeleeDamage -= weaponItem.damage.max;
+					currentEntity.MinMeleeDamage -= weaponItem.damage.min;
+				}
+			}
 		}
 	}
 }

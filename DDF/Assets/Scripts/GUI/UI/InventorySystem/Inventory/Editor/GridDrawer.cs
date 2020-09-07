@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace DDF.Editor {
-    using UnityEditor;
+	using System;
+	using UnityEditor;
     [CustomEditor(typeof(InventoryGrid))]
     public class GridDrawer : Editor {
 
@@ -27,8 +28,11 @@ namespace DDF.Editor {
 
             triger = GUILayout.Toggle(triger, "Resize parent");
 
-
-            Refresh();
+			try {
+                Refresh();
+            } catch (InvalidOperationException prefabException) {
+                Debug.LogError("No Panic-" + prefabException.Message);
+			}
 
             if (GUILayout.Button("Создать - обновить сетку")) {
                 Refresh();

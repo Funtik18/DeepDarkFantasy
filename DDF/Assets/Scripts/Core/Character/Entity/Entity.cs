@@ -1,7 +1,6 @@
 ﻿using DDF.Atributes;
 using DDF.Character.Effects;
 using DDF.Character.Perks;
-using DDF.Randomizer;
 using DDF.UI.Inventory;
 using DDF.UI.Inventory.Items;
 using System;
@@ -17,7 +16,7 @@ namespace DDF.Character {
         protected Effects.Effects effects;
 
         protected Inventory mainInventory;
-        protected Equipment mainEquipment;
+        [HideInInspector] public Equipment mainEquipment;
 
         /// <summary>
         /// Текущие перки.
@@ -331,38 +330,17 @@ namespace DDF.Character {
         /// <summary>
         /// Базовое значение Физической Брони.
         /// </summary>
-        private int basePhysicalArmor = 0;
-        /// <summary>
-        /// Максимально возможное значение для Физической брони.
-        /// </summary>
-        public int MaxPhysicalArmor
-        {
-            get
-            {
-                return stats.PhysicalArmor.amount;
-            }
-            set
-            {
-                stats.PhysicalArmor.amount = value;
-                if (stats.PhysicalArmor.amount <= 0) stats.PhysicalArmor.amount = 0;
-                if (stats.PhysicalArmor.amount < CurrentPhysicalArmor) CurrentPhysicalArmor = stats.PhysicalArmor.amount;
-                onChangePhysicalArmor?.Invoke();
-            }
-        }
+        private float basePhysicalArmor = 0;
         /// <summary>
         /// Текущее значение Физической Брони.
         /// </summary>
-        public int CurrentPhysicalArmor
-        {
-            get
-            {
-                return stats.PhysicalArmor.currentInamount;
+        public float CurrentPhysicalArmor {
+            get {
+                return stats.PhysicalArmor.amount;
             }
-            set
-            {
-                stats.PhysicalArmor.currentInamount = value;
-                if (stats.PhysicalArmor.currentInamount >= MaxPhysicalArmor) stats.PhysicalArmor.currentInamount = MaxPhysicalArmor;
-                if (stats.PhysicalArmor.currentInamount <= 0) stats.PhysicalArmor.currentInamount = 0;
+            set {
+                stats.PhysicalArmor.amount = value;
+                if (stats.PhysicalArmor.amount <= 0) stats.PhysicalArmor.amount = 0;
                 onChangePhysicalArmor?.Invoke();
             }
         }
@@ -414,6 +392,123 @@ namespace DDF.Character {
         /// Событие, если значение изменилось.
         /// </summary>
         public Action onChangeMagicArmor;
+		#endregion
+
+		#region Сопротивления
+		#region Сопротивление к огню
+		/// <summary>
+		/// Базовое значение для Сопротивления к Огню.
+		/// </summary>
+		private float baseResistFire = 0;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Огню.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxResistFire = 100;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Огню.
+        /// </summary>
+        public float MaxResistFire {
+            get {
+                return maxResistFire;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Сопротивления к Огню.
+        /// </summary>
+        public float CurrentResistFire {
+            get {
+                return stats.ResistFire.amount;
+            }
+            set {
+                stats.ResistFire.amount = value;
+                if (stats.ResistFire.amount >= MaxResistFire) stats.ResistFire.amount = MaxResistFire;
+                if (stats.ResistFire.amount <= 0) stats.ResistFire.amount = 0;
+                onChangeResistFire?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeResistFire;
+        #endregion
+        #region Сопротивление к холоду
+        /// <summary>
+        /// Базовое значение для Сопротивления к Холоду.
+        /// </summary>
+        private float baseResistIce = 0;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Холоду.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxResistIce = 100;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Холоду.
+        /// </summary>
+        public float MaxResistIce {
+            get {
+                return maxResistIce;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Сопротивления к Холоду.
+        /// </summary>
+        public float CurrentResistIce {
+            get {
+                return stats.ResistIce.amount;
+            }
+            set {
+                stats.ResistIce.amount = value;
+                if (stats.ResistIce.amount >= MaxResistIce) stats.ResistIce.amount = MaxResistIce;
+                if (stats.ResistIce.amount <= 0) stats.ResistIce.amount = 0;
+                onChangeResistIce?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeResistIce;
+        #endregion
+        #region Сопротивление к яду
+        /// <summary>
+        /// Базовое значение для Сопротивления к Яду.
+        /// </summary>
+        private float baseResistPoison = 0;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Яду.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        private float maxResistPoison = 100;
+        /// <summary>
+        /// Максимально возможное значение для Сопротивления к Яду.
+        /// </summary>
+        public float MaxResistPoison {
+            get {
+                return maxResistPoison;
+            }
+        }
+        /// <summary>
+        /// Текущее значение Сопротивления к Яду.
+        /// </summary>
+        public float CurrentResistPoison {
+            get {
+                return stats.ResistPoison.amount;
+            }
+            set {
+                stats.ResistPoison.amount = value;
+                if (stats.ResistPoison.amount >= MaxResistPoison) stats.ResistPoison.amount = MaxResistPoison;
+                if (stats.ResistPoison.amount <= 0) stats.ResistPoison.amount = 0;
+                onChangeResistPoison?.Invoke();
+            }
+        }
+        /// <summary>
+        /// Событие, если значение изменилось.
+        /// </summary>
+        public Action onChangeResistPoison;
+        #endregion
         #endregion
 
         #region Сила
@@ -1086,20 +1181,17 @@ namespace DDF.Character {
         #region Damage
         public float GetMeleeDamage()
         {
-            DDFRandom random = new DDFRandom();
-            float dmg = random.RandomBetween(MinMeleeDamage, MaxMeleeDamage);
+            float dmg = UnityEngine.Random.Range(MinMeleeDamage, MaxMeleeDamage);
             return dmg;
         }
         public float GetShotDamage()
         {
-            DDFRandom random = new DDFRandom();
-            float dmg = random.RandomBetween(MinShotDamage, MaxShotDamage);
+            float dmg = UnityEngine.Random.Range(MinShotDamage, MaxShotDamage);
             return dmg;
         }
         public float GetMagicDamage()
         {
-            DDFRandom random = new DDFRandom();
-            float dmg = random.RandomBetween(MinMagicDamage, MaxMagicDamage);
+            float dmg = UnityEngine.Random.Range(MinMagicDamage, MaxMagicDamage);
             return dmg;
         }
         #endregion
@@ -1112,12 +1204,12 @@ namespace DDF.Character {
             inventory.DeleteItem(item);
         }
         public virtual void Equip( Item item, Inventory from ) {
-            Item equipedItem = mainEquipment.Equip(item);
+            Item equipedItem = mainEquipment.Equip(item, from);
             if (equipedItem == null) return;
             from.DeleteItem(item);
         }
         public virtual void TakeOff( Item item, Inventory inventory ) {
-            Item dropedItem = mainEquipment.TakeOff(item);
+            Item dropedItem = mainEquipment.TakeOff(item, inventory);
             if (dropedItem == null) return;
             mainInventory.AddItem(dropedItem);
         }
@@ -1128,7 +1220,6 @@ namespace DDF.Character {
             }
             inventory.DeleteItem(item);
         }
-
         #endregion
 
 

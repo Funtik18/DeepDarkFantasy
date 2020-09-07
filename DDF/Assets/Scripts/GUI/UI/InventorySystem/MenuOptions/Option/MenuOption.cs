@@ -22,8 +22,6 @@ namespace DDF.UI.Inventory {
         private TMPro.TextMeshProUGUI text;
         [SerializeField]
         private UnityEvent currentEvent = new UnityEvent();
-        [SerializeField]
-        private bool isOneAction = true;
 
 		private void Awake() {
             GetComponent<Button>().onClick.AddListener(delegate { currentEvent?.Invoke(); });
