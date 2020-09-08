@@ -53,16 +53,6 @@ namespace DDF.UI.Inventory {
 			options.Add(option);
 		}
 		
-		private void OptionDivision() {
-			uint itemCount = currentItem.itemStackCount;
-			int itemCountSize = currentItem.itemStackSize;
-
-			ItemDivision division = ItemDivision._instance;
-
-			division.SetCurrentItem(currentItem);
-			division.SetPosition(transform.position);
-			division.OpenDivision();
-		}
 
 		public void SetPosition(Vector3 position ) {
 			transform.position = position;

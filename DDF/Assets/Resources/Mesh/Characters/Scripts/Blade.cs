@@ -3,6 +3,8 @@ using DDF.Character.Stats;
 using UnityEngine;
 
 public class Blade : MonoBehaviour {
+
+
     public float dmg = 1;
     public bool active;
     public float koef = 10f;
