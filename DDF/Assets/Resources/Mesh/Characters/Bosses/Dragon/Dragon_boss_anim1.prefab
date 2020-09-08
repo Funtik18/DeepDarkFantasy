@@ -1153,7 +1153,7 @@ Transform:
   m_GameObject: {fileID: 3885922150913025109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 40, y: 40, z: 40}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 4310353091178327025}
   - {fileID: 8981586009946450698}
@@ -1215,16 +1215,20 @@ MonoBehaviour:
   speed: 20
   speedRotation: 20
   gravity: 3
-  sparing_distance: 15
-  fire_dist: 70
+  sparing_distance: 10
+  maxPain: 2
+  hevi_dist: 70
   walk: 0
   axeReady: {fileID: 0}
   axenotready: {fileID: 0}
-  partic_fire: {fileID: 3659347382635928700}
   Targets_Tag:
   - knight
   - Monster
   - Skeleton
+  - Player
+  - Zombie
+  fire_dist: 70
+  partic_fire: {fileID: 3659347382635928700}
 --- !u!114 &6483895750525084134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1253,10 +1257,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainEquipment: {fileID: 0}
   currentEffects: []
   isDead: 0
   isCastrat: 0
   maxSkillPoints: 0
+  maxResistFire: 100
+  maxResistIce: 100
+  maxResistPoison: 100
   "max\u0421hanceCriticalStrike": 100
   "max\u0421hanceCriticalShot": 100
   maxChanceAvoid: 100

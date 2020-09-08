@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using DDF.Character;
 public class NPlayerMovement : MonoBehaviour
 {
     public Transform CameraTransform;
     public CharacterStatus characterStatus;
-
 
     public Vector3 rotationDirection;
     public Vector3 moveDirection;
@@ -21,18 +20,21 @@ public class NPlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool freezMovement = false;
     
-    private Animator Animator;
+    private Animator animator;
     private CharacterController controller;
+    private CharacterEntity characterEntity;
 
     public void Start()
     {
-        Animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        characterEntity = GetComponent<CharacterEntity>();
     }
 
     public void FixedUpdate()
     {
         MoveUpdate();
+        IsDead();
     }
     public void MoveUpdate()
     {
@@ -42,35 +44,30 @@ public class NPlayerMovement : MonoBehaviour
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            //moveAmountV = Mathf.Clamp01(Mathf.Abs(vertical)+Mathf.Abs(horizontal));
-
-            if(Input.GetAxis("Run")>0)
+            
+            if(Input.GetAxis("Run")>0 && vertical>=0)
             {
                 vertical*=2;
                 horizontal*=2;
-                speed = 7;
+                speed = 8;
             }else
                 {
                     speed = 0;
                 }
 
-            Animator.SetFloat("vertical", vertical, 0.15f, Time.deltaTime);
-            Animator.SetFloat("horizontal", horizontal, 0.15f, Time.deltaTime);
-            /*
-            Vector3 moveDir = CameraTransform.forward * vertical;
-            moveDir += CameraTransform.right * horizontal;
-            moveDir.Normalize();
-            moveDirection = moveDir;
-            rotationDirection = CameraTransform.forward;
-            */
+            animator.SetFloat("vertical", vertical, 0.15f, Time.deltaTime);
+            animator.SetFloat("horizontal", horizontal, 0.15f, Time.deltaTime);
+
             Vector3 moveDir = transform.forward * vertical;
             moveDir += transform.right * horizontal;
             moveDir.Normalize();
             moveDirection = moveDir;
             rotationDirection = transform.forward;
 
-            if(vertical>0)
-                RotationNormal();
+           // if(vertical>0)
+               // RotationNormal(1);
+            RotationNormal(vertical);
+
             characterStatus.isGround = Ground();
             if(!Ground())
                 moveDirection+=-transform.up;   
@@ -80,9 +77,16 @@ public class NPlayerMovement : MonoBehaviour
         }
     }
 
-    public void RotationNormal()
+    public void IsDead(){
+        if(characterEntity.IsDead){
+            freezMovement = true;
+            animator.enabled = false;
+            animator.SetBool("dead",true);
+        }
+    }
+    public void RotationNormal(float nap)
     {
-        //rotationDirection = moveDirection;
+
         Vector3 moveDir = CameraTransform.forward * vertical;
         moveDir += CameraTransform.right * horizontal;
         moveDir.Normalize();
@@ -120,7 +124,7 @@ public class NPlayerMovement : MonoBehaviour
 
     public void DoorOpen()
     {
-        Animator.SetBool("open", false);
+        animator.SetBool("open", false);
         freezMovement = false;
     }
 }
