@@ -9,7 +9,7 @@ namespace DDF.UI.Inventory {
     [RequireComponent(typeof(CanvasGroup))]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class InventoryModel : MonoBehaviour {
+    public class ItemUIModel : MonoBehaviour {
 
         [SerializeField]
         private Image icon;

@@ -3475,8 +3475,8 @@ GameObject:
   - component: {fileID: 3089013607721864357}
   - component: {fileID: 1902818736122021692}
   - component: {fileID: 1902818736122021694}
-  - component: {fileID: 9205660869899863210}
   - component: {fileID: 862378079}
+  - component: {fileID: 2926398022285541399}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -3588,7 +3588,23 @@ MonoBehaviour:
   moveAmount: 0
   rotationSpeed: 0
   freezMovement: 0
---- !u!114 &9205660869899863210
+--- !u!114 &862378079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6485056558096629594}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72fd15957dedc6488178f6e34a79a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ikActive: 1
+  rightHandObj: {fileID: 0}
+  leftHandObj: {fileID: 0}
+  lookObj: {fileID: 0}
+--- !u!114 &2926398022285541399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3621,22 +3637,6 @@ MonoBehaviour:
   HPBar: {fileID: 5541268203023862725}
   MPBar: {fileID: 1563715720970899532}
   LevelBar: {fileID: 7737886648097514574}
---- !u!114 &862378079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6485056558096629594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d72fd15957dedc6488178f6e34a79a73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ikActive: 1
-  rightHandObj: {fileID: 0}
-  leftHandObj: {fileID: 0}
-  lookObj: {fileID: 0}
 --- !u!1 &6531742782067646403
 GameObject:
   m_ObjectHideFlags: 0

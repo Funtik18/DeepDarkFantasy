@@ -14,8 +14,8 @@ namespace DDF.UI.Inventory {
 		[HideInInspector] public InventorySlot lastSlot;
 		[HideInInspector] public InventorySlot rootSlot;
 
-		[HideInInspector] public InventoryModel lastModel;
-		[HideInInspector] public InventoryModel rootModel;
+		[HideInInspector] public ItemUIModel lastModel;
+		[HideInInspector] public ItemUIModel rootModel;
 
 		[HideInInspector] public bool isDrag = false;
 
@@ -28,7 +28,7 @@ namespace DDF.UI.Inventory {
 		protected virtual void Awake() {
 			containers = new List<Inventory>();
 		}
-		public static InventoryOverSeer Getinstance() {
+		public static InventoryOverSeer GetInstance() {
 			if(_instance == null) {
 				_instance = FindObjectOfType<InventoryOverSeer>();
 			}

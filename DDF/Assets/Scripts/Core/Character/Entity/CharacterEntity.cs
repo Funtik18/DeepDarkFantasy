@@ -34,8 +34,8 @@ namespace DDF.Character {
         #region Setup
         protected override void Awake() {
             _instance = this;
-            mainInventory = InventoryOverSeerGUI.Getinstance().mainInventory;
-            mainEquipment = InventoryOverSeerGUI.Getinstance().mainEquipment;
+            mainInventory = InventoryOverSeerGUI.GetInstance().mainInventory;
+            mainEquipment = InventoryOverSeerGUI.GetInstance().mainEquipment;
             mainEquipment.currentEntity = this;
             base.Awake();
 
@@ -73,7 +73,7 @@ namespace DDF.Character {
 
             
             UpdateUI();
-            InventoryOverSeerGUI.Getinstance().CloseGUI();
+            InventoryOverSeerGUI.GetInstance().CloseGUI();
         }
         protected override void UpdateStats() {
             base.UpdateStats();

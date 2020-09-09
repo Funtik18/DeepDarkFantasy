@@ -1,47 +1,41 @@
-﻿using DDF.Character;
-using DDF.Character.Stats;
+﻿using DDF.Atributes;
+using DDF.Character;
 using UnityEngine;
 
 public class Blade : MonoBehaviour {
+    Entity owner;
+    [ReadOnly]
+    public float currentMoveSpeed = 1;
+    [HideInInspector] public bool bladeActive;
+
+    public void Init(Entity owner) {
+        this.owner = owner;    
+    }
 
 
-    public float dmg = 1;
-    public bool active;
-    public float koef = 10f;
+    private void OnTriggerEnter(Collider other) {
+        Entity entity = other.GetComponent<Entity>();
+        if (entity == null) return;
+        if (bladeActive) {
+            if (currentMoveSpeed > 1) {
+                entity.TakeDamage(owner.GetMeleeDamage());
+            }
+        }
+    }
     private Vector3 oldPos;
     private Vector3 newPos;
     private bool speedOrder;
-    public float moveSpeed;
-
-    private void OnTriggerEnter(Collider other) {
-        Entity entity;
-
-        entity = other.gameObject.GetComponent<Entity>();
-        string myname = gameObject.transform.root.name;
-        string hisname = other.name;
-        if (myname != hisname)
-            if (active) {
-                if (moveSpeed > 1) {
-                    entity?.TakeDamage(moveSpeed % dmg);
-                }
-            }
-    }
-
-    private void Start() {
-        Entity currentEntity = gameObject.transform.root.GetComponent<Entity>();
-        if(currentEntity)
-            dmg = currentEntity.GetMeleeDamage();
-        if (dmg <= 0)
-            dmg = 1;
-    }
-
     void FixedUpdate() {
         if (speedOrder) {
             newPos = transform.position;
-            moveSpeed = Vector3.Distance(oldPos, newPos) * koef;
+            currentMoveSpeed = Vector3.Distance(oldPos, newPos);
         } else
             oldPos = transform.position;
         speedOrder = !speedOrder;
+    }
+
+    public void EnableBlade(bool enable) {
+        bladeActive = enable;
     }
 }
 /*NPSEntity ncS = other.gameObject.GetComponent<NPSEntity>();

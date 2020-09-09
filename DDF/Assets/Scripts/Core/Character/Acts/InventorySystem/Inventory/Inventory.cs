@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
-    public class Inventory : MonoBehaviour {
+	public class Inventory : MonoBehaviour {
 
 		[HideInInspector] public string inventoryID;
 
@@ -15,7 +15,8 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public InventoryTypes inventorytype = InventoryTypes.Simple;
 		[HideInInspector] public bool isFull;
-		[HideInInspector] public bool IsEmpty {
+		[HideInInspector]
+		public bool IsEmpty {
 			get {
 				return currentItems.Count == 0;
 			}
@@ -39,7 +40,7 @@ namespace DDF.UI.Inventory {
 
 		private CanvasGroup canvasGroup;
 
-		[HideInInspector]public ToolTip toolTip;
+		[HideInInspector] public ToolTip toolTip;
 
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
@@ -49,9 +50,9 @@ namespace DDF.UI.Inventory {
 			if (inventoryID == "")
 				CreateNewID();
 			if (isGUI)
-				overSeer = InventoryOverSeerGUI.Getinstance();
+				overSeer = InventoryOverSeerGUI.GetInstance();
 			else
-				overSeer = InventoryOverSeerUI.Getinstance();
+				overSeer = InventoryOverSeerUI.GetInstance();
 			toolTip = ToolTip.GetInstance();
 		}
 
@@ -61,7 +62,7 @@ namespace DDF.UI.Inventory {
 		}
 
 		public virtual Item AddItem(Item item, bool enableModel = true) {
-			if(item == null) { Debug.LogError("Error 404"); return null; }
+			if (item == null) { Debug.LogError("Error 404"); return null; }
 			Item clone = item.GetItemCopy();
 			return container.AddItem(clone, enableModel);
 		}

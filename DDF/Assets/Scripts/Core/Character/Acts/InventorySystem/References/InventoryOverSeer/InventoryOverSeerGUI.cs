@@ -14,7 +14,7 @@ namespace DDF.UI.Inventory {
 
 		private bool isOpen = false;
 
-		public new static InventoryOverSeerGUI Getinstance() {
+		public new static InventoryOverSeerGUI GetInstance() {
 			if (_instance == null) {
 				_instance = FindObjectOfType<InventoryOverSeerGUI>();
 				DragParentsGUI.Init();

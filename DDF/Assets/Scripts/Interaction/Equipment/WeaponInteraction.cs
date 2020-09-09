@@ -3,7 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace DDF.Environment {
-    public class WeaponInteraction : EquipmentInteraction {
-
-    }
+    public class WeaponInteraction : EquipmentInteraction { }
 }

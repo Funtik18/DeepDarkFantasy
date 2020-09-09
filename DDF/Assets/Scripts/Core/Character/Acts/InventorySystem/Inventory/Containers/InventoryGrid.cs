@@ -76,12 +76,12 @@ namespace DDF.UI.Inventory {
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public InventoryModel CreateModelByItem( Item item ) {
+		public ItemUIModel CreateModelByItem( Item item ) {
 
             GameObject obj = Instantiate(modelPrefab);
             obj.name = item.name;
 
-            InventoryModel model = obj.GetComponent<InventoryModel>();
+            ItemUIModel model = obj.GetComponent<ItemUIModel>();
 
             model.Icon.sprite = item.itemIcon;
             model.Icon.preserveAspect = true;
