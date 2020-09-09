@@ -16,6 +16,9 @@ public class NPlayerMovement : MonoBehaviour
     public float horizontal;
     public float moveAmount;
     public float rotationSpeed;
+    public int bufSpeedtoRun = 8;
+    public float gravity = 9f;
+    private int runSpeed;
 
     [HideInInspector]
     public bool freezMovement = false;
@@ -23,6 +26,7 @@ public class NPlayerMovement : MonoBehaviour
     private Animator animator;
     private CharacterController controller;
     private CharacterEntity characterEntity;
+    private bool jumping = false;
 
     public void Start()
     {
@@ -31,6 +35,9 @@ public class NPlayerMovement : MonoBehaviour
         characterEntity = GetComponent<CharacterEntity>();
     }
 
+    private void Update() {
+        
+    }
     public void FixedUpdate()
     {
         MoveUpdate();
@@ -40,23 +47,8 @@ public class NPlayerMovement : MonoBehaviour
     {
         if (!freezMovement)
         {
-            int speed = 0;//временная переменная
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
-
-            
-            if(Input.GetAxis("Run")>0 && vertical>=0)
-            {
-                vertical*=2;
-                horizontal*=2;
-                speed = 8;
-            }else
-                {
-                    speed = 0;
-                }
-
-            animator.SetFloat("vertical", vertical, 0.15f, Time.deltaTime);
-            animator.SetFloat("horizontal", horizontal, 0.15f, Time.deltaTime);
 
             Vector3 moveDir = transform.forward * vertical;
             moveDir += transform.right * horizontal;
@@ -64,16 +56,43 @@ public class NPlayerMovement : MonoBehaviour
             moveDirection = moveDir;
             rotationDirection = transform.forward;
 
-           // if(vertical>0)
-               // RotationNormal(1);
             RotationNormal(vertical);
 
+            CheckKeysPressed();
+
+            animator.SetFloat("vertical", vertical, 0.15f, Time.deltaTime);
+            animator.SetFloat("horizontal", horizontal, 0.15f, Time.deltaTime);
+
+
             characterStatus.isGround = Ground();
-            if(!Ground())
-                moveDirection+=-transform.up;   
+            if(!Ground()){
+                animator.SetBool("jump",true);
+                runSpeed = 0;
+                moveDirection.y += -gravity*Time.deltaTime*10;
+            }else{
+                animator.SetBool("jump",false);
+            }   
 
             if(controller!= null)
-            controller.Move(moveDirection/(10-speed));//Нужно придумать как регулировать скорость
+                controller.Move(moveDirection*Time.deltaTime*(characterEntity.MaxSpeed+runSpeed));//moveDirection/(10-speed));//Нужно придумать как регулировать скорость
+        }
+    }
+
+    public void CheckKeysPressed(){
+        if(Input.GetAxis("Run")>0 && vertical>=0)
+        {
+            vertical*=2;
+            horizontal*=2;
+            runSpeed = bufSpeedtoRun;
+        }else
+        {
+            runSpeed = 0;
+        }
+            
+        if(Input.GetButtonDown("Jump") && Ground())
+        {
+            Debug.Log("Jumping");
+            moveDirection.y += 50;
         }
     }
 
@@ -86,9 +105,10 @@ public class NPlayerMovement : MonoBehaviour
     }
     public void RotationNormal(float nap)
     {
-
-        Vector3 moveDir = CameraTransform.forward * vertical;
+        //Vector3 moveDir = CameraTransform.forward * vertical;
+        Vector3 moveDir = transform.forward * vertical;
         moveDir += CameraTransform.right * horizontal;
+        //moveDir += transform.right * horizontal;
         moveDir.Normalize();
         moveDirection = moveDir;
         rotationDirection = CameraTransform.forward;
