@@ -123,7 +123,7 @@ namespace DDF.UI.Inventory {
 			return null;
 		}
 		public Item TakeOff(Item item, Inventory inventory) {
-			Item clone = item.GetItemCopy();
+			Item clone = item.GetItemCopy<Item>();
 			inventory.DeleteItem(item);
 			return clone;
 		}
@@ -141,7 +141,7 @@ namespace DDF.UI.Inventory {
 		private Item CompareTypesTakeoff( Inventory inventory, Item item ) {
 			if (!inventory.IsEmpty) {
 				if (inventory.currentItems.Contains(item)) {
-					Item clone = item.GetItemCopy();
+					Item clone = item.GetItemCopy<Item>();
 					return clone;
 				}
 			}

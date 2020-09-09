@@ -8,20 +8,20 @@ namespace DDF.Environment {
 	/// Физическая 3D модель для айтема
 	/// </summary>
     public class ItemPhysicalModel : MonoBehaviour {
-		public Entity ownerEntity;
-        public Item item;
+        public WeaponItem item;
 
         public List<Blade> blades;
 
-		private void Start() {//если есть хозяин предмета
+		public bool isEnable = true;
+
+		private void Awake() {//если есть хозяин предмета
+
 			if (blades == null)
 				blades = new List<Blade>();
-			if(ownerEntity != null) {
-				for (int i = 0; i < blades.Count; i++) {
-					blades[i].Init(ownerEntity);
-				}
-				EnableModel(true);
+			for (int i = 0; i < blades.Count; i++) {
+				blades[i].Init(item.damage);
 			}
+			EnableModel(isEnable);
 		}
 
 		public void EnableModel(bool enable) {

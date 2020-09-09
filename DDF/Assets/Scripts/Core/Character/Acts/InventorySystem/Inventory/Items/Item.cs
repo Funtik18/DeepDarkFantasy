@@ -88,12 +88,12 @@ namespace DDF.UI.Inventory.Items {
         /// </summary>
         /// <param name="copy"></param>
         /// <returns></returns>
-        public Item GetItemCopy() {
-            if (onlyOne) return this;
+        public T GetItemCopy<T>() where T : Item{
+            if (onlyOne) return this as T;
 
             Item clone = Instantiate(this);
             clone.itemID = System.Guid.NewGuid().ToString();
-            return clone;
+            return clone as T;
         }
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => base.ToString();

@@ -63,7 +63,7 @@ namespace DDF.UI.Inventory {
 
 		public virtual Item AddItem(Item item, bool enableModel = true) {
 			if (item == null) { Debug.LogError("Error 404"); return null; }
-			Item clone = item.GetItemCopy();
+			Item clone = item.GetItemCopy<Item>();
 			return container.AddItem(clone, enableModel);
 		}
 		public void DeleteItem(Item item) {

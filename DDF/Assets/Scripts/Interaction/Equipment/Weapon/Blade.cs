@@ -1,6 +1,7 @@
 ﻿using DDF.Atributes;
 using DDF.Character;
 using DDF.Environment;
+using DDF.UI.Inventory.Items;
 using UnityEngine;
 
 namespace DDF.Environment {
@@ -9,22 +10,22 @@ namespace DDF.Environment {
     /// Взаимодействие, само лезвие орудия, его нанесение урона.
     /// </summary>
     public class Blade : Interaction {
-        Entity owner;
+        public VarMinMax<float> itemDamage;
         [ReadOnly] public float currentMoveSpeed = 1;
         [HideInInspector] public bool bladeActive;
 
-        public void Init(Entity owner) {
-            this.owner = owner;
+        public void Init(VarMinMax<float> itemDamage) {
+            this.itemDamage = itemDamage;
+            oldPos = transform.position;
         }
 
         public override void OnTriggerEnter(Collider other) {
             if (!bladeActive) return;
             base.OnTriggerEnter(other);
-            Entity entity = other.GetComponent<Entity>();
+            Entity entity = other.transform.root.GetComponent<Entity>();
             if (entity == null) return;
-
             if (currentMoveSpeed > 1) {
-                entity.TakeDamage(owner.GetMeleeDamage());
+                entity.TakeDamage(currentMoveSpeed % Random.Range(itemDamage.min, itemDamage.max));
             }
         }
         public override void OnTriggerStay(Collider other) {
@@ -43,7 +44,7 @@ namespace DDF.Environment {
             if (!bladeActive) return;
             if (speedOrder) {
                 newPos = transform.position;
-                currentMoveSpeed = Vector3.Distance(oldPos, newPos);
+                currentMoveSpeed = Vector3.Distance(oldPos, newPos)*10;
             } else
                 oldPos = transform.position;
             speedOrder = !speedOrder;
