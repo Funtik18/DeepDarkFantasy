@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onlyOne: 0
   itemID: b87399f4-be56-4494-9096-94d14ac53690
-  itemName: 
-  itemDescription: 
-  itemAnotation: 
+  itemName: name
+  itemDescription: asdasdasd
   itemIcon: {fileID: 7553930136951973777, guid: 1445856ae64ed304bae3d8b84077f73d,
     type: 3}
   itemIconOrientation: {x: 0, y: 0, z: 0}
@@ -30,22 +29,14 @@ MonoBehaviour:
   weight:
     varName: "\u0412\u0435\u0441"
     amount: 1
-  armor:
-    varName: Armor
-    min:
-      varName: Min
-      amount: 0
-    max:
-      varName: Max
-      amount: 10
+  damage:
+    varName: Damage
+    min: 0
+    max: 10
   duration:
     varName: Duration
-    min:
-      varName: Min
-      amount: 100
-    max:
-      varName: Max
-      amount: 100
-  primeryEffects: []
+    min: 100
+    max: 100
+  primaryEffects: []
   secondaryEffects: []
   twoHandedType: 0

@@ -25,14 +25,12 @@ public class NPlayerMovement : MonoBehaviour
     
     private Animator animator;
     private CharacterController controller;
-    private CharacterEntity characterEntity;
-    private bool jumping = false;
+    [SerializeField] private CharacterEntity characterEntity;
 
     public void Start()
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        characterEntity = GetComponent<CharacterEntity>();
     }
 
     private void Update() {
