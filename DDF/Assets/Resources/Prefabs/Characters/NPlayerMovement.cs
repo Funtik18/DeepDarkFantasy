@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using DDF.Character;
 public class NPlayerMovement : MonoBehaviour
 {
@@ -17,7 +13,8 @@ public class NPlayerMovement : MonoBehaviour
     public float moveAmount;
     public float rotationSpeed;
     public int bufSpeedtoRun = 8;
-    public float gravity = 9f;
+    public float gravity = 3f;
+    public float jumpHight = 500;
     private int runSpeed;
 
     [HideInInspector]
@@ -25,6 +22,7 @@ public class NPlayerMovement : MonoBehaviour
     
     private Animator animator;
     private CharacterController controller;
+    private bool jumping = false;
     [SerializeField] private CharacterEntity characterEntity;
 
     public void Start()
@@ -34,7 +32,13 @@ public class NPlayerMovement : MonoBehaviour
     }
 
     private void Update() {
-        
+
+        if(Input.GetButtonDown("Jump") && Ground())
+        {
+            jumping = true;
+            Debug.Log("Jumping");
+        }
+
     }
     public void FixedUpdate()
     {
@@ -48,27 +52,42 @@ public class NPlayerMovement : MonoBehaviour
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
+            Vector3 becup = new Vector3(moveDirection.x,moveDirection.y,moveDirection.z);
+            moveDirection = transform.forward*vertical;
+            moveDirection += transform.right*horizontal;
+            moveDirection.y += becup.y;
+            /*
             Vector3 moveDir = transform.forward * vertical;
             moveDir += transform.right * horizontal;
+            moveDir += transform.up;
             moveDir.Normalize();
             moveDirection = moveDir;
-            rotationDirection = transform.forward;
+            //moveDirection.x = horizontal;
+            //moveDirection.z = vertical;
+            rotationDirection = transform.forward;*/
 
-            RotationNormal(vertical);
+            
 
             CheckKeysPressed();
 
             animator.SetFloat("vertical", vertical, 0.15f, Time.deltaTime);
             animator.SetFloat("horizontal", horizontal, 0.15f, Time.deltaTime);
 
+            if(jumping){
+                moveDirection.y = 10;
+                horizontal = 3;
+            }
+
+            RotationNormal();
 
             characterStatus.isGround = Ground();
             if(!Ground()){
                 animator.SetBool("jump",true);
                 runSpeed = 0;
-                moveDirection.y += -gravity*Time.deltaTime*10;
+                moveDirection.y += -gravity*Time.deltaTime*4;
             }else{
                 animator.SetBool("jump",false);
+                jumping = false;
             }   
 
             if(controller!= null)
@@ -79,19 +98,14 @@ public class NPlayerMovement : MonoBehaviour
     public void CheckKeysPressed(){
         if(Input.GetAxis("Run")>0 && vertical>=0)
         {
-            vertical*=2;
-            horizontal*=2;
+            vertical *= 2;
+            horizontal *= 2;
             runSpeed = bufSpeedtoRun;
         }else
         {
             runSpeed = 0;
         }
             
-        if(Input.GetButtonDown("Jump") && Ground())
-        {
-            Debug.Log("Jumping");
-            moveDirection.y += 50;
-        }
     }
 
     public void IsDead(){
@@ -101,14 +115,24 @@ public class NPlayerMovement : MonoBehaviour
             animator.SetBool("dead",true);
         }
     }
-    public void RotationNormal(float nap)
+    public void RotationNormal()
     {
-        //Vector3 moveDir = CameraTransform.forward * vertical;
-        Vector3 moveDir = transform.forward * vertical;
-        moveDir += CameraTransform.right * horizontal;
+        /*//Vector3 moveDir = CameraTransform.forward * vertical;
+        
+        if(!jumping){
+
+        //Vector3 moveDir = Vector3.zero;
+        //moveDir = transform.forward * vertical;
+        //moveDir += CameraTransform.right * horizontal;
+
         //moveDir += transform.right * horizontal;
-        moveDir.Normalize();
-        moveDirection = moveDir;
+
+        //moveDir.Normalize();
+        //moveDirection = moveDir;
+        }else{
+        }
+       // Debug.Log(moveDir);*/
+        
         rotationDirection = CameraTransform.forward;
 
         Vector3 targetDir = rotationDirection;

@@ -156,18 +156,13 @@ namespace DDF.AI {
 
         myMind();
 
-        if(enemy.GetComponent<NPSEntity>()!=null)
-        if(enemy.GetComponent<NPSEntity>().IsDead) {
+        if(enemy.GetComponent<Entity>()!=null)
+        if(enemy.GetComponent<Entity>().IsDead) {
             curse.Add(enemy);
             enemys.Remove(enemy);
             endbattle = true;
         }
-        if(enemy.GetComponent<CharacterEntity>()!=null)
-        if(enemy.GetComponent<CharacterEntity>().IsDead) {
-            curse.Add(enemy);
-            enemys.Remove(enemy);
-            endbattle = true;
-        }      
+ 
     }
 
     /// <summary>
@@ -254,7 +249,6 @@ namespace DDF.AI {
         foreach(string s in Targets_Tag){
             if(other != null)
             if(other.tag.Equals(s)){
-                //Debug.Log("Ты мне не Друг");
                 frendly = false;
             }
         }
@@ -266,17 +260,17 @@ namespace DDF.AI {
                 }
             }
             if(!have){
-                //Debug.Log("Мы не встречались");
-                if(other.GetComponent<NPSEntity>()!=null)
-                    if(!other.GetComponent<NPSEntity>().IsDead)
+               // Debug.Log(" Я знаю тебя Мы не встречались");
+             //   Entity entity = other.GetComponent<Entity>();
+                //if(entity!=null){
+                    //Debug.Log("У тебя есть Entity");
+                  //  if(!entity.IsDead)
                         enemys.Add(other);
-                
-                if(other.GetComponent<CharacterEntity>()!=null)
-                    if(!other.GetComponent<CharacterEntity>().IsDead)
-                        enemys.Add(other);
+                    //Debug.Log("ты мертв " +entity.IsDead);
+              //  }
             }
         }
-     //Debug.Log("See Enemy, His friend? "+frendly+" i see him agane? "+have);
+     //Debug.Log("See Enemy,"+other.tag+" His friend? "+frendly+" i see him agane? "+have);
     }
 
     protected virtual void move_to_point(){
