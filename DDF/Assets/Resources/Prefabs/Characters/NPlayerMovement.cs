@@ -22,13 +22,12 @@ public class NPlayerMovement : MonoBehaviour
     
     private Animator animator;
     private CharacterController controller;
-    private CharacterEntity characterEntity;
+    [SerializeField] private CharacterEntity characterEntity;
 
     public void Start()
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        characterEntity = GetComponent<CharacterEntity>();
     }
 
     public void FixedUpdate()

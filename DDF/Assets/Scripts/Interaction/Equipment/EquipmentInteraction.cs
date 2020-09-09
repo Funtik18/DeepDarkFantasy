@@ -1,30 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DDF.Atributes;
+using DDF.Character;
 using DDF.UI;
 using UnityEngine;
 
 namespace DDF.Environment {
-	public class EquipmentInteraction : MonoBehaviour {
-		[SerializeField]
-		private Interaction interaction;
-		[SerializeField]
-		private HintInteraction hint;
+	public class EquipmentInteraction : Interaction {
+		[ReadOnly] [SerializeField] protected Entity interactEntity;
+		[SerializeField] private HintInteraction hint;
+		public bool IsInField { get { return isInField; } }
 
-		private void Awake() {
-			//for(int i = 0; i < interactions.Length; i++) {
-			interaction.currentEventEnter.AddListener(delegate { EnterInteraction(); });
-			interaction.currentEventStay.AddListener(delegate { StayInteraction(); });
-			interaction.currentEventExit.AddListener(delegate { ExitInteraction(); });
-			//}
+		public override void OnTriggerEnter(Collider other) {
+			interactEntity = other.transform.root.GetComponent<Entity>();
+			if (interactEntity) {
+				base.OnTriggerEnter(other);
+				hint.OpenHint();
+			}
 		}
-		public virtual void EnterInteraction() {
-			hint.OpenHint();
+		public override void OnTriggerStay(Collider other) {
+			if (interactEntity) {
+				base.OnTriggerEnter(other);
+				hint.LookAtCamera(Camera.main);
+			}
 		}
-		public virtual void StayInteraction() {
-			hint.LookAtCamera(Camera.main);
-		}
-		public virtual void ExitInteraction() {
-			hint.CloseHint();
+		public override void OnTriggerExit(Collider other) {
+			interactEntity = other.GetComponent<Entity>();
+			if (interactEntity) {
+				base.OnTriggerEnter(other);
+				hint.CloseHint();
+				interactEntity = null;
+			}
 		}
 	}
 }

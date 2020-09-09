@@ -102,7 +102,11 @@ namespace DDF.UI.Inventory {
 		public Item Equip(Item item, Inventory from ) {
 			for (int i = 0; i < allSlots.Count; i++) {
 				if( CompareTypesEquip(allSlots[i], item)) {
-					Item clone = allSlots[i].AddItem(item, from.isGUI);
+					Item clone;
+					if (from == null)//значит айтем взят из физ мира.
+						clone = allSlots[i].AddItem(item, false);
+					else
+						clone = allSlots[i].AddItem(item, from.isGUI);
 					if (clone != null) return clone;
 				}
 			}

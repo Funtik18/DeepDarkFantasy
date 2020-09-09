@@ -4,6 +4,7 @@ using UnityEngine;
 using DDF.Atributes;
 using DDF.Character.Stats;
 using DDF.Character;
+using System;
 
 namespace DDF.AI {
     public class AI_Entity : MonoBehaviour
@@ -70,9 +71,14 @@ namespace DDF.AI {
             stats.IsDead = true;
             _timere+=Time.deltaTime;
 
-            GetComponentInChildren<RayScan>().enabled = false;
-            GetComponent<CharacterController>().enabled = false;
-            GetComponent<CapsuleCollider>().enabled = false;
+				try {
+                    GetComponentInChildren<RayScan>().enabled = false;
+                    GetComponent<CharacterController>().enabled = false;
+                    GetComponent<CapsuleCollider>().enabled = false;
+                } catch(Exception e) {
+                    
+                }
+            
 
             if(_timere >= 3.25f){
                 myanim.enabled = false;
@@ -196,7 +202,7 @@ namespace DDF.AI {
                     {
                         attacking = true;
                         bool rootM = false;
-                        int attack = Random.Range(1,5);
+                        int attack = UnityEngine.Random.Range(1,5);
                         //Debug.Log("Choose Attack "+ attack);
                     if(attack == 1){
                             rootM = true;
@@ -305,7 +311,7 @@ namespace DDF.AI {
 		if (Physics.Raycast (pos, Wvc, out hit, 10))
 		{
             if(hit.transform.root.tag!=transform.tag)
-                nap = Random.Range(0,4);
+                nap = UnityEngine.Random.Range(0,4);
                 //nap = (nap+1)%4;
             Debug.Log(hit.transform.name+" "+nap);
         }

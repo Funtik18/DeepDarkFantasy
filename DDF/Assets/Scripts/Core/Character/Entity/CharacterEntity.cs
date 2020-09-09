@@ -34,9 +34,9 @@ namespace DDF.Character {
         #region Setup
         protected override void Awake() {
             _instance = this;
-            mainInventory = InventoryOverSeerGUI.GetInstance().mainInventory;
-            mainEquipment = InventoryOverSeerGUI.GetInstance().mainEquipment;
-            mainEquipment.currentEntity = this;
+            inventory = InventoryOverSeerGUI.GetInstance().mainInventory;
+            equipment = InventoryOverSeerGUI.GetInstance().mainEquipment;
+            equipment.currentEntity = this;
             base.Awake();
 
 			foreach (var item in textsStats) {

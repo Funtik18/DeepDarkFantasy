@@ -4,13 +4,16 @@ using DDF.UI.Inventory.Items;
 using UnityEngine;
 
 namespace DDF.Environment {
+	/// <summary>
+	/// Физическая 3D модель для айтема
+	/// </summary>
     public class ItemPhysicalModel : MonoBehaviour {
 		public Entity ownerEntity;
         public Item item;
 
         public List<Blade> blades;
 
-		private void Start() {
+		private void Start() {//если есть хозяин предмета
 			if (blades == null)
 				blades = new List<Blade>();
 			if(ownerEntity != null) {

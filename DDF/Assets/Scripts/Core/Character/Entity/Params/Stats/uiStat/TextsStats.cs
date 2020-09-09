@@ -69,16 +69,16 @@ namespace DDF.Character.Stats {
             textStatLuck?.SetTrack(stats.Luck, currentEntity.IncreaseLuck, currentEntity.DecreaseLuck);
 
             textStatPhysicalArmor?.SetTrack(stats.PhysicalArmor);
-            textStatArmorHead?.SetTrack(currentEntity.mainEquipment.armorHead);
-            textStatArmorTorso?.SetTrack(currentEntity.mainEquipment.armorTorso);
-            textStatArmorBelt?.SetTrack(currentEntity.mainEquipment.armorBelt);
-            textStatArmorLegs?.SetTrack(currentEntity.mainEquipment.armorLegs);
-            textStatArmorFeet?.SetTrack(currentEntity.mainEquipment.armorFeet);
+            textStatArmorHead?.SetTrack(currentEntity.equipment.armorHead);
+            textStatArmorTorso?.SetTrack(currentEntity.equipment.armorTorso);
+            textStatArmorBelt?.SetTrack(currentEntity.equipment.armorBelt);
+            textStatArmorLegs?.SetTrack(currentEntity.equipment.armorLegs);
+            textStatArmorFeet?.SetTrack(currentEntity.equipment.armorFeet);
 
             textStatMagicArmor?.SetTrack(stats.MagicArmor);
 
-            textPrimaryHand?.SetTrack(currentEntity.mainEquipment.lHandDamage);
-            textSecondaryHand?.SetTrack(currentEntity.mainEquipment.rHandDamage);
+            textPrimaryHand?.SetTrack(currentEntity.equipment.lHandDamage);
+            textSecondaryHand?.SetTrack(currentEntity.equipment.rHandDamage);
 
             textStatMeleeDamage?.SetTrack(stats.MeleeDamage);
             textStatShotDamage?.SetTrack(stats.ShotDamage);

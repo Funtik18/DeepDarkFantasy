@@ -15,8 +15,8 @@ namespace DDF.Character {
         protected Skills.Skills skills;
         protected Effects.Effects effects;
 
-        protected Inventory mainInventory;
-        [HideInInspector] public Equipment mainEquipment;
+        [HideInInspector] public Inventory inventory;
+        [HideInInspector] public Equipment equipment;
 
         /// <summary>
         /// Текущие перки.
@@ -1206,12 +1206,12 @@ namespace DDF.Character {
         public virtual void Equip( Item item, Inventory from ) {
             Item equipedItem = InventoryOverSeerGUI.GetInstance().mainEquipment.Equip(item, from);
             if (equipedItem == null) return;
-            from.DeleteItem(item);
+            from?.DeleteItem(item);
         }
         public virtual void TakeOff( Item item, Inventory inventory ) {
-            Item dropedItem = mainEquipment.TakeOff(item, inventory);
+            Item dropedItem = equipment.TakeOff(item, inventory);
             if (dropedItem == null) return;
-            mainInventory.AddItem(dropedItem);
+            this.inventory.AddItem(dropedItem);
         }
 
         public virtual void Drink( ConsumableItem item, Inventory inventory ) {
