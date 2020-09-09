@@ -8,7 +8,10 @@ public class bow : MonoBehaviour
     private Animator myanim;
     public GameObject arrow;
     public Transform bowstring;
-    public bool startPrepare = false,ready = false,shoot = false;
+    public bool startPrepare = false,shoot = false;
+
+    [HideInInspector]
+    public bool ready = false;
     private GameObject arW;
     void Start()
     {
@@ -40,7 +43,7 @@ public class bow : MonoBehaviour
     public void Fire(){
         arW.transform.parent = null;
         arW.GetComponent<Rigidbody>().isKinematic = false;
-        arW.GetComponent<Rigidbody>().AddForce(transform.right*5000);
+        arW.GetComponent<Rigidbody>().AddForce(transform.right*1000);
         myanim.SetBool("shoot",shoot);
         shoot = false;
     }
