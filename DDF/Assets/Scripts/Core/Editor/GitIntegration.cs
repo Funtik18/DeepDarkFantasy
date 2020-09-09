@@ -49,7 +49,7 @@ namespace DDF.Editor.GitIntegration {
                 EditorPrefs.SetString(SmartMergeRegistratorEditorPrefsKey, VersionKey);
                 Debug.Log($"Succesfuly registered UnityYAMLMerge with path {UnityYAMLMergePath}");
             } catch (Exception e) {
-                Debug.Log($"Fail to register UnityYAMLMerge with error: {e}");
+                //Debug.Log($"Fail to register UnityYAMLMerge with error: {e}");
             }
         }
 

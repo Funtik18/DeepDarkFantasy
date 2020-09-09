@@ -23,7 +23,6 @@ namespace DDF.Environment {
 			}
 		}
 		public override void OnTriggerExit(Collider other) {
-			interactEntity = other.GetComponent<Entity>();
 			if (interactEntity) {
 				base.OnTriggerEnter(other);
 				hint.CloseHint();

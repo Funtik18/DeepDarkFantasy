@@ -1199,14 +1199,18 @@ namespace DDF.Character {
         #endregion
 
         #region Actions
-        public virtual void Take( Item item, Inventory inventory ) {
-            InventoryOverSeerGUI.GetInstance().mainInventory.AddItem(item, false);
-            inventory.DeleteItem(item);
+        public virtual bool Take( Item item, Inventory inventory ) {
+            if(InventoryOverSeerGUI.GetInstance().mainInventory.AddItem(item, false) == false) {
+                return false;
+			}
+            inventory?.DeleteItem(item);
+            return true;
         }
-        public virtual void Equip( Item item, Inventory from ) {
+        public virtual bool Equip( Item item, Inventory from ) {
             Item equipedItem = InventoryOverSeerGUI.GetInstance().mainEquipment.Equip(item, from);
-            if (equipedItem == null) return;
+            if (equipedItem == null) return false;
             from?.DeleteItem(item);
+            return true;
         }
         public virtual void TakeOff( Item item, Inventory inventory ) {
             Item dropedItem = equipment.TakeOff(item, inventory);

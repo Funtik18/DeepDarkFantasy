@@ -12,6 +12,7 @@ using UnityEngine.EventSystems;
 namespace DDF.UI.Inventory {
     /// <summary>
     /// TODO: обновлять, сортировать currentItems
+    /// TODO: проверять переполнение и выкидывать предметы.
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(InventoryGrid))]
@@ -508,8 +509,6 @@ namespace DDF.UI.Inventory {
         }
 
         private int AddItemXY( Item item, Vector2 size, bool enableModel) {
-
-            //Vector2 size = item.GetSize();
 
             for (int y = 0; y < height; y++) {
 

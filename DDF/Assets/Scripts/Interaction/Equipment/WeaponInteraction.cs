@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DDF.Inputs;
+using DDF.UI.Inventory.Items;
 using UnityEngine;
 
 namespace DDF.Environment {
@@ -20,14 +21,24 @@ namespace DDF.Environment {
 						//CloseChest();
 						clicks = 0;
 					} else {
-						Take();
+						if(interactEntity)
+							Take();
 					}
 				}
 			}
 		}
 
 		private void Take() {
-			interactEntity.Equip(physicalModel.item, null);
+			Item item = physicalModel.item;
+			if(item is WeaponItem) {
+				bool result = interactEntity.Equip(item, null);
+				if(result == false) {
+					bool result2 = interactEntity.Take(item, null);
+					if(result2 == false) {
+						print("Out");
+					}
+				}
+			}
 			Help.HelpFunctions.TransformSeer.DestroyObject(physicalModel.gameObject);
 		}
 	}
