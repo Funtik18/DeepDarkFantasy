@@ -155,9 +155,9 @@ namespace DDF.AI {
         }
 
         myMind();
-
-        if(enemy.GetComponent<Entity>()!=null)
-        if(enemy.GetComponent<Entity>().IsDead) {
+        Entity entity = enemy.transform.root.GetComponent<Entity>();
+        if(entity !=null)
+        if(entity.IsDead) {
             curse.Add(enemy);
             enemies.Remove(enemy);
             endbattle = true;
@@ -261,13 +261,13 @@ namespace DDF.AI {
             }
             if(!have){
                // Debug.Log(" Я знаю тебя Мы не встречались");
-             //   Entity entity = other.GetComponent<Entity>();
-                //if(entity!=null){
+                Entity entity = other.transform.root.GetComponent<Entity>();
+                if(entity!=null){
                     //Debug.Log("У тебя есть Entity");
-                  //  if(!entity.IsDead)
+                    if(!entity.IsDead)
                         enemies.Add(other);
                     //Debug.Log("ты мертв " +entity.IsDead);
-              //  }
+                }
             }
         }
      //Debug.Log("See Enemy,"+other.tag+" His friend? "+frendly+" i see him agane? "+have);
