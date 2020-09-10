@@ -24,6 +24,9 @@ namespace DDF.Environment {
 			if(owner == null) {
 				owner = transform.root.GetComponent<Entity>();
 			}
+
+			itemDamage = item.damage;
+
 			if (blades == null)
 				blades = new List<Blade>();
 			for (int i = 0; i < blades.Count; i++) {
