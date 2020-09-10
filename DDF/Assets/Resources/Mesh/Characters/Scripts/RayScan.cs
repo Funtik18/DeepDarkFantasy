@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DDF.Atributes;
 using UnityEngine;
 
 public class RayScan : MonoBehaviour {
 	
 	public bool isee;
-	public string targetTag = "Player";
+	[ReadOnly] public string targetTag = "Player";
 	public int rays = 6;
 	public int distance = 15;
 	public float angle = 20;

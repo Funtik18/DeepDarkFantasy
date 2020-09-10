@@ -1,4 +1,5 @@
 ﻿using DDF.Character.Perks;
+using System;
 using System.Collections.Generic;
 
 namespace DDF.Character.Stats {
@@ -8,6 +9,7 @@ namespace DDF.Character.Stats {
 			return "";
 		}
 	}
+	[Serializable]
 	public class StatInt : Stat {
 		public int amount;
 
@@ -47,6 +49,7 @@ namespace DDF.Character.Stats {
 			return extr;
 		}
 	}
+	[Serializable]
 	public class StatFloat : Stat {
 		public float amount;
 
@@ -60,6 +63,7 @@ namespace DDF.Character.Stats {
 			return varName + "|" + amount + regex;
 		}
 	}
+	[Serializable]
 	public class StatRegularInt : StatInt {
 		public int currentInamount;
 
@@ -73,6 +77,7 @@ namespace DDF.Character.Stats {
 			return varName + "|" + currentInamount + regex + amount;
 		}
 	}
+	[Serializable]
 	public class StatRegularFloat : StatFloat {
 		public float currentInamount;
 

@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace DDF.Character.Stats {
+    [Serializable]
     public class Stats {
 
 		#region Stats
