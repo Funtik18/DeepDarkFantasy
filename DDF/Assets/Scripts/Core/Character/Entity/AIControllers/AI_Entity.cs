@@ -20,7 +20,7 @@ namespace DDF.AI {
     protected Animator myanim;
     public bool walk;
     public GameObject axeReady, axenotready;
-    protected List<GameObject> enemys = new List<GameObject>();
+    protected List<GameObject> enemies = new List<GameObject>();
     protected List<GameObject> curse = new List<GameObject>();
 
     [InfoBox("Targets_Tag - Теги тех кого я не люблю", InfoBoxType.Normal)]
@@ -65,7 +65,7 @@ namespace DDF.AI {
     /// </summary>
     protected virtual void lookMySost(){
         if(stats.CurrentHealthPoints <= 0){
-            enemys.Clear();
+            enemies.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
             stats.IsDead = true;
@@ -94,7 +94,7 @@ namespace DDF.AI {
                // IseeSomething(stats.Iam);
         }
 
-        if(enemys.Count != 0 || hiting){
+        if(enemies.Count != 0 || hiting){
             Agressive = true;
         }
         else{
@@ -134,14 +134,14 @@ namespace DDF.AI {
     protected virtual void Ballte_mode(){
         min = 100;
         int id = 0;
-        for(int i = 0;i<enemys.Count;i++){
-            float dist = Vector3.Distance(enemys[i].transform.position,transform.position);
+        for(int i = 0;i<enemies.Count;i++){
+            float dist = Vector3.Distance(enemies[i].transform.position,transform.position);
             if(dist<min){
                 min = dist;
                 id = i;
             }
         }
-        GameObject enemy = enemys[id];
+        GameObject enemy = enemies[id];
         GetComponent<IK_Controls>().lookObj = enemy.transform;
         Vector3 Wvc = new Vector3 (enemy.transform.position.x,transform.position.y,enemy.transform.position.z);
         Quaternion Qvc = enemy.transform.rotation;
@@ -159,7 +159,7 @@ namespace DDF.AI {
         if(entity !=null)
         if(entity.IsDead) {
             curse.Add(enemy);
-            enemys.Remove(enemy);
+            enemies.Remove(enemy);
             endbattle = true;
         }
  
@@ -254,7 +254,7 @@ namespace DDF.AI {
         }
         bool have = false;
         if(!frendly){
-            foreach(GameObject g in enemys){
+            foreach(GameObject g in enemies){
                 if(other.Equals(g)){
                     have = true;
                 }
@@ -265,7 +265,7 @@ namespace DDF.AI {
                 if(entity!=null){
                     //Debug.Log("У тебя есть Entity");
                     if(!entity.IsDead)
-                        enemys.Add(other);
+                        enemies.Add(other);
                     //Debug.Log("ты мертв " +entity.IsDead);
                 }
             }
