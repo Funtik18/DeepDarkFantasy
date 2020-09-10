@@ -1034,7 +1034,7 @@ Animator:
   m_GameObject: {fileID: 3336223143866071302}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9b101ad78dfd67a4b9332c2401567623, type: 3}
-  m_Controller: {fileID: 9100000, guid: c13ed11d2dbf36d46a2910fb4bda53c6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0c9440cc229867341801863cffe5ab8f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1121,6 +1121,7 @@ MonoBehaviour:
   bowNotReady: {fileID: 6656593694713373017}
   arrowInKolchan: {fileID: 2679071519776295976}
   bowString: {fileID: 4236878674717755374}
+  middleSpineBone: {fileID: 0}
 --- !u!114 &1403607471249147825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,7 +1134,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainEquipment: {fileID: 0}
+  stats:
+    Level:
+      varName: 
+      amount: 0
+    LevelExperience:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    SkillPoints:
+      varName: 
+      amount: 0
+    HealthPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ManaPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ResistFire:
+      varName: 
+      amount: 0
+    ResistIce:
+      varName: 
+      amount: 0
+    ResistPoison:
+      varName: 
+      amount: 0
+    Strength:
+      varName: 
+      amount: 0
+    Agility:
+      varName: 
+      amount: 0
+    Intelligence:
+      varName: 
+      amount: 0
+    Luck:
+      varName: 
+      amount: 0
+    PhysicalArmor:
+      varName: 
+      amount: 0
+    MagicArmor:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    MeleeDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ShotDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    MagicDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ChanceAvoid:
+      varName: 
+      amount: 0
+    Speed:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    "\u0421hanceCriticalShot":
+      varName: 
+      amount: 0
+    "\u0421hanceCriticalStrike":
+      varName: 
+      amount: 0
+    Weight:
+      varName: 
+      amount: 0
+      currentInamount: 0
+  inventory: {fileID: 0}
+  equipment: {fileID: 0}
   currentEffects: []
   isDead: 0
   isCastrat: 0

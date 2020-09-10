@@ -20,6 +20,7 @@ namespace DDF.AI {
     protected Animator myanim;
     public bool walk;
     public GameObject axeReady, axenotready;
+    protected GameObject enemy;
     protected List<GameObject> enemies = new List<GameObject>();
     protected List<GameObject> curse = new List<GameObject>();
 
@@ -27,7 +28,7 @@ namespace DDF.AI {
     public List<string> Targets_Tag = new List<string>();
     protected bool heviatack,isee,attacking,hiting,weapon,Agressive,endbattle;
     protected float _timer = 0,_timere = 0,mYHp;
-    protected Vector3 moveDirection = Vector3.zero;
+    protected Vector3 moveDirection = Vector3.zero,Wvc;
     protected RayScan Myeyes; 
     protected NPSEntity stats;
     protected int nap = 0;
@@ -141,9 +142,9 @@ namespace DDF.AI {
                 id = i;
             }
         }
-        GameObject enemy = enemies[id];
+        enemy = enemies[id];
         GetComponent<IK_Controls>().lookObj = enemy.transform;
-        Vector3 Wvc = new Vector3 (enemy.transform.position.x,transform.position.y,enemy.transform.position.z);
+        Wvc = new Vector3 (enemy.transform.position.x,transform.position.y,enemy.transform.position.z);
         Quaternion Qvc = enemy.transform.rotation;
 
         Myeyes.targetTag = enemy.tag;

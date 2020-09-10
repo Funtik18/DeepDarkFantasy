@@ -33,6 +33,7 @@ public class bow : MonoBehaviour
         }else{
             shoot = false;
         }
+
     }
     // Update is called once per frame
     public void prepare(){
@@ -43,7 +44,7 @@ public class bow : MonoBehaviour
     public void Fire(){
         arW.transform.parent = null;
         arW.GetComponent<Rigidbody>().isKinematic = false;
-        arW.GetComponent<Rigidbody>().AddForce(transform.right*1000);
+        arW.GetComponent<Rigidbody>().AddForce(transform.right*1000);//Пристрелка на эту силу!!
         myanim.SetBool("shoot",shoot);
         shoot = false;
     }

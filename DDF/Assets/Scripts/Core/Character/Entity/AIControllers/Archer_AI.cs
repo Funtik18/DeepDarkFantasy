@@ -3,9 +3,12 @@ using DDF.AI;
 
 public class Archer_AI : AI_Entity
 {
+    public bool dontMove;
+    public float aimOffset = 10;
     public GameObject bowReady, bowNotReady;
     public GameObject arrowInKolchan;
     public Transform bowString;
+    public Transform middleSpineBone;
    
     private bool irotate,arrow;
    
@@ -84,30 +87,54 @@ public class Archer_AI : AI_Entity
     } 
 
     protected override void myMind(){
-             if((min>sparing_distance))
+        
+        Aiming();
+
+        if((min>sparing_distance) && !dontMove)
         {
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetFloat("X",stats.CurrentSpeed);
         }
          else
-            if((min<sparing_distance-20))
+            if((min<sparing_distance-5) && !dontMove)
             {
                 myanim.SetFloat("X",stats.CurrentSpeed * -1);
             }
             else
             {
-            if(bowReady.GetComponent<bow>().ready && !attacking)
-                {
-                GetComponent<IK_Controls>().rightHandObj = null;
-                bowReady.GetComponent<bow>().shoot = true;
-                myanim.SetBool("Attak",false);
-                GetComponent<Animator>().applyRootMotion = true;
-                }else{
-                    attacking = true;
-                    myanim.SetBool("Attak",true);
-                }
-
+                shoot();
             } 
+    }
+
+    public void shoot(){
+
+        if(bowReady.GetComponent<bow>().ready && !attacking)
+        {
+
+            myanim.SetFloat("X",0f);
+            GetComponent<IK_Controls>().rightHandObj = null;
+            bowReady.GetComponent<bow>().shoot = true;
+            myanim.SetBool("Attak",false);
+            GetComponent<Animator>().applyRootMotion = false;
+            
+        }else
+        {
+            attacking = true;
+            myanim.SetBool("Attak",true);
+
+        }
+    }
+
+    public void Aiming(){
+        
+        float verticalDist = (enemy.transform.position.y - transform.position.y);
+        Vector3 temp = new Vector3(enemy.transform.position.x,transform.position.y,enemy.transform.position.z);
+        float horizontalDist = Vector3.Distance(temp,transform.position) + aimOffset;
+        Debug.Log(verticalDist);
+        Debug.Log(horizontalDist);
+        Debug.Log((horizontalDist/100)+(verticalDist/horizontalDist));
+        myanim.SetFloat("Vertical",horizontalDist/100+(verticalDist/horizontalDist));
+        
     }
 
     public override void endAnim()
