@@ -12,6 +12,7 @@ namespace DDF.PCG.WEAPON
             chest.startItems.Add(wg.Generator(2));
             chest.startItems.Add(wg.Generator(2));
             chest.startItems.Add(wg.Generator(2));
+            chest.startItems.Add(wg.Generator(2));
         }
     }
 }

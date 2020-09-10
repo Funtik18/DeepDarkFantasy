@@ -31,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     public void FixedUpdate()
     {
         MoveUpdate();
-
     }
     public void MoveUpdate()
     {
@@ -40,16 +39,15 @@ public class PlayerMovement : MonoBehaviour
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            moveAmount = Mathf.Clamp01(Mathf.Abs(vertical) + Mathf.Abs(horizontal));
+            moveAmount = Mathf.Clamp01(Mathf.Abs(vertical)+Mathf.Abs(horizontal));
+
 
             Animator.SetFloat("vertical", moveAmount, 0.15f, Time.deltaTime);
-
             Vector3 moveDir = CameraTransform.forward * vertical;
             moveDir += CameraTransform.right * horizontal;
             moveDir.Normalize();
             moveDirection = moveDir;
             rotationDirection = CameraTransform.forward;
-
             RotationNormal();
             characterStatus.isGround = Ground();
         }
@@ -67,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         Quaternion lookDir = Quaternion.LookRotation(targetDir);
-        Quaternion targetRot = Quaternion.Slerp(transform.rotation, lookDir, 1);
+        Quaternion targetRot = Quaternion.Slerp(transform.rotation, lookDir, 0.15f);
         transform.rotation = targetRot;
     }
 

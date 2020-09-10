@@ -2,129 +2,180 @@
 <Items>
 <Weapons>
 <AvaliableWeapons>
-<type id="1" text=" WeaponOneHandedItem " name="Клинок" />
-<type id="1" text=" WeaponOneHandedItem " name="Гладиус" />
-<type id="1" text=" WeaponOneHandedItem " name="Даггер" />
-<type id="1" text=" WeaponOneHandedItem " name="Ксифос" />
-<type id="1" text=" WeaponOneHandedItem " name="Кипос" />
-<type id="1" text=" WeaponOneHandedItem " name="Махайра" />
-<type id="1" text=" WeaponOneHandedItem " name="Ксифос" />
-<type id="1" text=" WeaponOneHandedItem " name="Фальката" />
-<type id="1" text=" WeaponOneHandedItem " name="Клейбег" />
-<type id="2" text=" WeaponTwoHandedItem " name="Двуручный меч"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Длинный меч"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Клеймор"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Цвайхендер"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Фламберг"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Эспадон"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Гросс-мессер"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Мел путтах бемох"/>
-<type id="2" text=" WeaponTwoHandedItem " name="Нодати"/>
+<type id="1" text=" WeaponOneHandedItem " name="Клинок" gender="м"/>
+<type id="1" text=" WeaponOneHandedItem " name="Гладиус" gender="м"/>
+<type id="1" text=" WeaponOneHandedItem " name="Даггер" gender="м"/>
+<type id="1" text=" WeaponOneHandedItem " name="Ксифос" gender="м"/>
+<type id="1" text=" WeaponOneHandedItem " name="Кипос" gender="м"/>
+<type id="1" text=" WeaponOneHandedItem " name="Махайра" gender="ж"/>
+<type id="1" text=" WeaponOneHandedItem " name="Ксифос" gender="м"/>
+<type id="1" text=" WeaponOneHandedItem " name="Фальката" gender="ж"/>
+<type id="1" text=" WeaponOneHandedItem " name="Клейбег" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Двуручный меч" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Длинный меч" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Клеймор" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Цвайхендер" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Фламберг" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Эспадон" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Гросс-мессер" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Мел путтах бемох" gender="м"/>
+<type id="2" text=" WeaponTwoHandedItem " name="Нодати" gender="ж"/>
 </AvaliableWeapons >
 <WeaponOneHandedItem>
-<one id="1" text="На удивление очень удобен в руке. Древко вырезано из дерева старого мира" name=""/>
-<one  id="2" text="Этот клинок испещрен следами былых сражений, однако на клинке нет и следа ржавчины" name=""/>
-<one  id="3" text="Истину способны раскрыть лишь вопросы, задаваемые клинком" name=""/>
-<one  id="4" text="Если у вас длинный список тех, кому надо воткнуть клинок в спину, вам нужен профессиональный инструмент. Вот этот подойдет" name=""/>
-<one  id="5" text="Этот нож использовали чаще, что бы порезать колбасу, чем в бою, но вашими усилиями ситуация поменяется, верно?" name=""/>
+<one id="1" text="На удивление очень удобен в руке. Древко вырезано из дерева старого мира" name="" gender=""/>
+<one  id="2" text="Этот клинок испещрен следами былых сражений, однако на клинке нет и следа ржавчины" name="" gender=""/>
+<one  id="3" text="Истину способны раскрыть лишь вопросы, задаваемые клинком" name="" gender=""/>
+<one  id="4" text="Если у вас длинный список тех, кому надо воткнуть клинок в спину, вам нужен профессиональный инструмент. Вот этот подойдет" name="" gender=""/>
+<one  id="5" text="Этот нож использовали чаще, что бы порезать колбасу, чем в бою, но вашими усилиями ситуация поменяется, верно?" name="" gender=""/>
 </WeaponOneHandedItem >
 <WeaponTwoHandedItem>
-<two id="1" text="Меч, выкованный с любовью и закаленный с особым старанием. Его дальнейшую судьбу решать вам" name=""/>
-<two id="2" text="На гарде этого меча выгравирована какая-то надпись на неизвестном вам наречии" name=""/>
-<two id="3" text="Мечи, подобные этому, выдавались на службе воинам старой Империи" name=""/>
-<two id="4" text="Этот простой меч справиться со своей работой, если работа - срубить голову" name=""/>
-<two id="5" text="Этот огромный меч как будто выкован целиком из ненависти и злобы. То, что нужно!" name=""/>
+<two id="1" text="Меч, выкованный с любовью и закаленный с особым старанием. Его дальнейшую судьбу решать вам" name="" gender=""/>
+<two id="2" text="На гарде этого меча выгравирована какая-то надпись на неизвестном вам наречии" name="" gender=""/>
+<two id="3" text="Мечи, подобные этому, выдавались на службе воинам старой Империи" name="" gender=""/>
+<two id="4" text="Этот простой меч справиться со своей работой, если работа - срубить голову" name="" gender=""/>
+<two id="5" text="Этот огромный меч как будто выкован целиком из ненависти и злобы. То, что нужно!" name="" gender=""/>
 </WeaponTwoHandedItem >
 <Modif>
-<mod id="1" text="Пожирающий" name="Шанс нанести двойной урон 50%" />
-<mod id="2" text="Кровавый" name="Шанс пустить кровотечение 25%" />
-<mod id="3" text="Всевидящий" name="Нет промахов при атаке" />
-<mod id="4" text="Гнилой" name="Шанс наложить отравление 25%"/>
-<mod id="5" text="Пепельный" name="Наносит дополнительно 10 урона огнем"/>
-<mod id="6" text="Губительный" name="Игнорирует 5 брони"/>
-<mod id="7" text="Алчный" name="При убийстве шанс 2% на выпадения золота"/>
-<mod id="8" text="Предательский" name="Шанс критической атаки увеличен на 5%"/>
-<mod id="9" text="Роковой" name="Критический урон увеличен в 1.5 раза"/>
-<mod id="10" text="Жестокий" name="Сопротивление отравлению увеличено на 10%"/>
+<mod id="1" text="Пожирающий" name="Шанс нанести двойной урон 50%" gender="м"/>
+<mod id="2" text="Кровавый" name="Шанс пустить кровотечение 25%" gender="м"/>
+<mod id="3" text="Всевидящий" name="Нет промахов при атаке" gender="м"/>
+<mod id="4" text="Гнилой" name="Шанс наложить отравление 25%" gender="м"/>
+<mod id="5" text="Пепельный" name="Наносит дополнительно 10 урона огнем" gender="м"/>
+<mod id="6" text="Губительный" name="Игнорирует 5 брони" gender="м"/>
+<mod id="7" text="Алчный" name="При убийстве шанс 2% на выпадения золота" gender="м"/>
+<mod id="8" text="Предательский" name="Шанс критической атаки увеличен на 5%" gender="м"/>
+<mod id="9" text="Роковой" name="Критический урон увеличен в 1.5 раза" gender="м"/>
+<mod id="10" text="Жестокий" name="Сопротивление отравлению увеличено на 10%" gender="м"/>
+<mod id="1" text="Пожирающая" name="Шанс нанести двойной урон 50%" gender="ж"/>
+<mod id="2" text="Кровавая" name="Шанс пустить кровотечение 25%" gender="ж"/>
+<mod id="3" text="Всевидящая" name="Нет промахов при атаке" gender="ж"/>
+<mod id="4" text="Гнилая" name="Шанс наложить отравление 25%" gender="ж"/>
+<mod id="5" text="Пепельная" name="Наносит дополнительно 10 урона огнем" gender="ж"/>
+<mod id="6" text="Губительная" name="Игнорирует 5 брони" gender="ж"/>
+<mod id="7" text="Алчная" name="При убийстве шанс 2% на выпадения золота" gender="ж"/>
+<mod id="8" text="Предательская" name="Шанс критической атаки увеличен на 5%" gender="ж"/>
+<mod id="9" text="Роковая" name="Критический урон увеличен в 1.5 раза" gender="ж"/>
+<mod id="10" text="Жестокая" name="Сопротивление отравлению увеличено на 10%" gender="ж"/>
 </Modif>
 <End>
-<end id="1" text="Ублюдка" name=""/>
-<end id="2" text="Убийцы" name=""/>
-<end id="3" text="Легионера" name=""/>
-<end id="4" text="Беспринципности" name=""/>
-<end id="5" text="Злого умысла" name=""/>
-<end id="6" text="Душегуба" name=""/>
-<end id="7" text="Триумфа" name=""/>
-<end id="8" text="Отчаяния" name=""/>
-<end id="9" text="Сожаления" name=""/>
-<end id="10" text="Дикости" name=""/>
-<end id="11" text="Скитальца" name=""/>
-<end id="12" text="Надежды" name=""/>
-<end id="13" text="Безумия" name=""/>
-<end id="14" text="Бесчестия" name=""/>
-<end id="15" text="Рассудительности" name=""/>
-<end id="16" text="Бешенства" name=""/>
-<end id="17" text="Сосредоточенности" name=""/>
-<end id="18" text="Утешения" name=""/>
-<end id="19" text="Горести" name=""/>
-<end id="20" text="Хладнокровия" name=""/>
-<end id="21" text="Стойкости" name=""/>
-<end id="22" text="Мстителя" name=""/>
-<end id="23" text="Издевки" name=""/>
+<end id="1" text="Ублюдка" name="" gender=""/>
+<end id="2" text="Убийцы" name="" gender=""/>
+<end id="3" text="Легионера" name="" gender=""/>
+<end id="4" text="Беспринципности" name="" gender=""/>
+<end id="5" text="Злого умысла" name="" gender=""/>
+<end id="6" text="Душегуба" name="" gender=""/>
+<end id="7" text="Триумфа" name="" gender=""/>
+<end id="8" text="Отчаяния" name="" gender=""/>
+<end id="9" text="Сожаления" name="" gender=""/>
+<end id="10" text="Дикости" name="" gender=""/>
+<end id="11" text="Скитальца" name="" gender=""/>
+<end id="12" text="Надежды" name="" gender=""/>
+<end id="13" text="Безумия" name="" gender=""/>
+<end id="14" text="Бесчестия" name="" gender=""/>
+<end id="15" text="Рассудительности" name="" gender=""/>
+<end id="16" text="Бешенства" name="" gender=""/>
+<end id="17" text="Сосредоточенности" name="" gender=""/>
+<end id="18" text="Утешения" name="" gender=""/>
+<end id="19" text="Горести" name="" gender=""/>
+<end id="20" text="Хладнокровия" name="" gender=""/>
+<end id="21" text="Стойкости" name="" gender=""/>
+<end id="22" text="Мстителя" name="" gender=""/>
+<end id="23" text="Издевки" name="" gender=""/>
 </End>
 </Weapons>
 <Armor>
 <AvaliableArmor>
-<type id="1" text=" ArmorHeadItem " name="Шлем" />
-<type id="1" text=" ArmorHeadItem " name="Капюшон" />
-<type id="1" text=" ArmorHeadItem " name="Штеххельм" />
-<type id="1" text=" ArmorHeadItem " name="Бацинет" />
-<type id="1" text=" ArmorHeadItem " name="Кабассет" />
-<type id="1" text=" ArmorHeadItem " name="Кабуто" />
-<type id="1" text=" ArmorHeadItem " name="Шелом" />
-<type id="2" text=" ArmorTorsoItem " name="Нагрудная броня" />
-<type id="2" text=" ArmorTorsoItem " name="Кираса" />
-<type id="2" text=" ArmorTorsoItem " name="Латный панцирь" />
-<type id="2" text=" ArmorTorsoItem " name="Ламинарный доспех" />
-<type id="2" text=" ArmorTorsoItem " name="Кольчуга" />
-<type id="2" text=" ArmorTorsoItem " name="Калантарь" />
-<type id="2" text=" ArmorTorsoItem " name="Татами-до" />
-<type id="2" text=" ArmorTorsoItem " name="Ламеллярный доспех" />
-<type id="2" text=" ArmorTorsoItem " name="Штехцойг" />
-<type id="2" text=" ArmorTorsoItem " name="Реннцойг" />
+<type id="1" text=" ArmorHeadItem " name="Шлем" gender="м"/>
+<type id="1" text=" ArmorHeadItem " name="Капюшон" gender="м"/>
+<type id="1" text=" ArmorHeadItem " name="Штеххельм" gender="м"/>
+<type id="1" text=" ArmorHeadItem " name="Бацинет" gender="м"/>
+<type id="1" text=" ArmorHeadItem " name="Кабассет" gender="м"/>
+<type id="1" text=" ArmorHeadItem " name="Кабуто" gender="м"/>
+<type id="1" text=" ArmorHeadItem " name="Шелом" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Нагрудная броня" gender="ж"/>
+<type id="2" text=" ArmorTorsoItem " name="Кираса" gender="ж"/>
+<type id="2" text=" ArmorTorsoItem " name="Латный панцирь" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Ламинарный доспех" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Кольчуга" gender="ж"/>
+<type id="2" text=" ArmorTorsoItem " name="Калантарь" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Татами-до" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Ламеллярный доспех" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Штехцойг" gender="м"/>
+<type id="2" text=" ArmorTorsoItem " name="Реннцойг" gender="м"/>
+<type id="3" text=" ArmorWaistItem " name="Кушак" gender="м"/>
+<type id="3" text=" ArmorWaistItem " name="Пояс" gender="м"/>
+<type id="3" text=" ArmorWaistItem " name="Ремень" gender="м"/>
+<type id="4" text=" ArmorLegsItem " name="Поножи" gender="мн"/>
+<type id="4" text=" ArmorLegsItem " name="Штаны" gender="мн"/>
+<type id="4" text=" ArmorLegsItem " name="Портки" gender="мн"/>
+<type id="4" text=" ArmorLegsItem " name="Брюки" gender="мн"/>
 </AvaliableArmor>
 <Head>
-<head id="1" text="Надел воин этот шлем, а он ему как раз" name=""/>
-<head id="2" text="Судя по запаху, кто-то носил этот шлем никогда не снимая. Во всяком случае до своей погибели..." name=""/>
-<head id="3" text="Этот шлем настолько продуманно выполнен, что его не хочется снимать" name=""/>
-<head id="4" text="Чем дольше вы всматриваетесь в пустые глазницы, тем больше вам кажется, что они глядят прямо в глубину вашей души" name=""/>
-<head id="5" text="Годы служения, миг славы и вечность смерти" name=""/>
-<head id="6" text="«Чем шире наши морды, тем плотнее наши ряды»-древняя орочья мудрость" name=""/>
+<head id="1" text="Надел воин этот шлем, а он ему как раз" name="" gender=""/>
+<head id="2" text="Судя по запаху, кто-то носил этот шлем никогда не снимая. Во всяком случае до своей погибели..." name="" gender=""/>
+<head id="3" text="Этот шлем настолько продуманно выполнен, что его не хочется снимать" name="" gender=""/>
+<head id="4" text="Чем дольше вы всматриваетесь в пустые глазницы, тем больше вам кажется, что они глядят прямо в глубину вашей души" name="" gender=""/>
+<head id="5" text="Годы служения, миг славы и вечность смерти" name="" gender=""/>
+<head id="6" text="«Чем шире наши морды, тем плотнее наши ряды»-древняя орочья мудрость" name="" gender=""/>
 </Head>
 <Torso>
-<torso id="1" text="«Ад и рай – в небесах», – утверждают ханжи. Я, в себя заглянув, убедился во лжи: Ад и рай – это две половины души." name=""/>
-<torso id="2" text="Крепкая броня издревле верно служила бойцам" name=""/>
-<torso id="3" text="Старый доспех, сохранившийся только благодаря заботливому за ним уходу. Ценная реликвия людей старого мира, более склонных к миру, нежели к войне" name=""/>
-<torso id="4" text="Стоит только надеть этот доспех, как ваше сердце начинает неистово биться, как безумная птица, замкнутая в клетке" name=""/>
-<torso id="5" text="Эту броню, испещренную следами ударов мечей, явно носил воин всегда идущий в авангарде" name=""/>
-<torso id="6" text="Не может быть никакой защиты от детей небес и времени" name=""/>
-<torso id="7" text="Если неного почистить и отполировать эту броню, она вполне сойдет за новую" name=""/>
-<torso id="8" text="Эта нагрудная броня пронизана тонкими струйками запекшейся крови. Их явно будет непросто отмыть" name=""/>
-<torso id="9" text="Ничто не свободно так, как мысль человека. Особенно, если человек облачен в броню" name=""/>
-<torso id="10" text="Это нагрудная броня сделает вас неуязвимым. Ну, неуязвимым громко сказано, но лучше защищенным определенно" name=""/>
-<torso id="11" text="Моя броня-моя крепость" name=""/>
+<torso id="1" text="«Ад и рай – в небесах», – утверждают ханжи. Я, в себя заглянув, убедился во лжи: Ад и рай – это две половины души." name="" gender=""/>
+<torso id="2" text="Крепкая броня издревле верно служила бойцам" name="" gender=""/>
+<torso id="3" text="Старый доспех, сохранившийся только благодаря заботливому за ним уходу. Ценная реликвия людей старого мира, более склонных к миру, нежели к войне" name="" gender=""/>
+<torso id="4" text="Стоит только надеть этот доспех, как ваше сердце начинает неистово биться, как безумная птица, замкнутая в клетке" name="" gender=""/>
+<torso id="5" text="Эту броню, испещренную следами ударов мечей, явно носил воин всегда идущий в авангарде" name="" gender=""/>
+<torso id="6" text="Не может быть никакой защиты от детей небес и времени" name="" gender=""/>
+<torso id="7" text="Если неного почистить и отполировать эту броню, она вполне сойдет за новую" name="" gender=""/>
+<torso id="8" text="Эта нагрудная броня пронизана тонкими струйками запекшейся крови. Их явно будет непросто отмыть" name="" gender=""/>
+<torso id="9" text="Ничто не свободно так, как мысль человека. Особенно, если человек облачен в броню" name="" gender=""/>
+<torso id="10" text="Это нагрудная броня сделает вас неуязвимым. Ну, неуязвимым громко сказано, но лучше защищенным определенно" name="" gender=""/>
+<torso id="11" text="Моя броня-моя крепость" name="" gender=""/>
+<torso id="12" text="Совсем не важно как ты ударишь, а важно какой держишь удар, как двигаешься вперед. Если знаешь чего ты стоишь иди и бери своё! Только так побеждают!" name="" gender=""/>
 </Torso>
+<Belt>
+<belt id="1" text="Простой надежный пояс" name="" gender=""/>
+<belt id="2" text="На бляхе этого пояса выгравировано «Я обязательно выживу»" name="" gender=""/>
+<belt id="3" text="Старинный пояс, бляха слегка покрыта ржавчиной. Нельзя сказать, что это последнийь писк моды, но штаны удержит" name="" gender=""/>
+<belt id="4" text="«Если у тебя нет сил победить, то пусть хватит мужества не покориться» - автор неизвестен" name="" gender=""/>
+</Belt>
+<Legs>
+<leg id="1" text="В кольчужных штанах вы выглядите всегда готовым к битве. Насколько вы готовы на самом деле — это, конечно, виднее вам" name="" gender=""/>
+<leg id="2" text="В этих штанах на удивление тепло (несмотря на то, из какой тонкой ткани они сделаны)" name="" gender=""/>
+<leg id="3" text="Это потрепанные поножи до Раскольных времен покрыты коркой из запекшейся крови. Крови погибших в давнишние времена" name="" gender=""/>
+</Legs>
 <Modif>
-<mod id="1" text="Пожирающая" name="" />
-<mod id="2" text="Кровавая" name="" />
-<mod id="3" text="Всевидящая" name="" />
-<mod id="4" text="Гнилая" name=""/>
-<mod id="5" text="Пепельная" name=""/>
-<mod id="6" text="Губительная" name=""/>
-<mod id="7" text="Алчная" name=""/>
-<mod id="8" text="Предательская" name=""/>
-<mod id="9" text="Роковая" name=""/>
-<mod id="10" text="Жестокая" name=""/>
+<mod id="1" text="Пожирающая" name="" gender="ж"/>
+<mod id="2" text="Кровавая" name="" gender="ж"/>
+<mod id="3" text="Всевидящая" name="" gender="ж"/>
+<mod id="4" text="Гнилая" name="" gender="ж"/>
+<mod id="5" text="Пепельная" name="" gender="ж"/>
+<mod id="6" text="Губительная" name="" gender="ж"/>
+<mod id="7" text="Алчная" name="" gender="ж"/>
+<mod id="8" text="Предательская" name="" gender="ж"/>
+<mod id="9" text="Роковая" name="" gender="ж"/>
+<mod id="10" text="Жестокая" name="" gender="ж"/>
+<mod id="1" text="Пожирающий" name="" gender="м"/>
+<mod id="2" text="Кровавый" name="" gender="м"/>
+<mod id="3" text="Всевидящий" name="" gender="м"/>
+<mod id="4" text="Гнилой" name="" gender="м"/>
+<mod id="5" text="Пепельный" name="" gender="м"/>
+<mod id="6" text="Губительный" name="" gender="м"/>
+<mod id="7" text="Алчный" name="" gender="м"/>
+<mod id="8" text="Предательский" name="" gender="м"/>
+<mod id="9" text="Роковой" name="" gender="м"/>
+<mod id="10" text="Жестокий" name="" gender="м"/>
+<mod id="1" text="Пожирающие" name="" gender="мн"/>
+<mod id="2" text="Кровавые" name="" gender="мн"/>
+<mod id="3" text="Всевидящие" name="" gender="мн"/>
+<mod id="4" text="Гнилые" name="" gender="мн"/>
+<mod id="5" text="Пепельные" name="" gender="мн"/>
+<mod id="6" text="Губительные" name="" gender="мн"/>
+<mod id="7" text="Алчные" name="" gender="мн"/>
+<mod id="8" text="Предательские" name="" gender="мн"/>
+<mod id="9" text="Роковые" name="" gender="мн"/>
+<mod id="10" text="Жестокие" name="" gender="мн"/>
 </Modif>
 </Armor>
 </Items>
+
+

@@ -14,7 +14,6 @@ namespace DDF.Character {
 
         public static CharacterEntity _instance;
 
-
         [SerializeField]
         private List<TextsStats> textsStats;
 
@@ -35,6 +34,9 @@ namespace DDF.Character {
         #region Setup
         protected override void Awake() {
             _instance = this;
+            inventory = InventoryOverSeerGUI.GetInstance().mainInventory;
+            equipment = InventoryOverSeerGUI.GetInstance().mainEquipment;
+            equipment.currentEntity = this;
             base.Awake();
 
 			foreach (var item in textsStats) {
@@ -62,6 +64,8 @@ namespace DDF.Character {
             CurrentHealthPoints = MaxHealthPoints;
             CurrentManaPoints = MaxManaPoints;
 
+            onChangePhysicalArmor = () => UpdateTXT();
+            onChangeMeleeDamage = () => UpdateTXT();
 
             onChangeStrength = () => UpdateTXT();
             onChangeAgility = () => UpdateTXT();
@@ -69,9 +73,7 @@ namespace DDF.Character {
 
             
             UpdateUI();
-            InventoryOverSeerGUI.Getinstance().CloseGUI();
-            mainInventory = InventoryOverSeerGUI.Getinstance().mainInventory;
-            mainEquipment = InventoryOverSeerGUI.Getinstance().mainEquipment;
+            InventoryOverSeerGUI.GetInstance().CloseGUI();
         }
         protected override void UpdateStats() {
             base.UpdateStats();

@@ -1,5 +1,5 @@
-﻿using DDF.Events;
-using System.Collections.Generic;
+﻿using DDF.Atributes;
+using DDF.Events;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,8 +11,8 @@ namespace DDF.Environment {
 		public UnityEvent currentEventStay = new UnityEvent();
 		public UnityEvent currentEventExit = new UnityEvent();
 
+		[ReadOnly]
 		public bool isInField = false;
-
 
 		public virtual void OnTriggerEnter( Collider other ) {
 			isInField = true;
