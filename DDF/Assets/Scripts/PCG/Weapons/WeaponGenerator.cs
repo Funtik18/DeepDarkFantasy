@@ -241,8 +241,9 @@ namespace DDF.PCG.WEAPON
         private static XmlCategory GetRandomWithGender(List<XmlCategory> arr, string gender)
         {
 
-            var matchingModules = arr.Where(m => m.gender.Contains(gender)).ToArray();
+            var matchingModules = arr.Where(m => m.gender.Equals(gender)).ToArray();
             //Debug.Log(gender);
+
             return GetRandom(matchingModules);
         }
 

@@ -13,7 +13,7 @@ namespace DDF.UI.Inventory.Items {
         public List<Effect> secondaryEffects;
 
         private void OnEnable() {
-            damage = new VarMinMax<float>("Damage", 0, 10);
+            //damage = new VarMinMax<float>("Damage", 0, 10);
             duration = new VarMinMax<int>("Duration", 100, 100);
         }
     }
