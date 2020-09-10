@@ -20,7 +20,7 @@ public class Archer_AI : AI_Entity
             GetComponent<IK_Controls>().rightHandObj = null;
             bowReady.GetComponent<bow>().shoot = true;
 
-            enemys.Clear();
+            enemies.Clear();
             GetComponent<Animator>().applyRootMotion = false;
             myanim.SetBool("Dead",true);
             stats.IsDead = true;
@@ -42,7 +42,7 @@ public class Archer_AI : AI_Entity
             mYHp = stats.CurrentHealthPoints;
         }
 
-        if(enemys.Count != 0 || hiting){
+        if(enemies.Count != 0 || hiting){
             Agressive = true;
         }
         else{

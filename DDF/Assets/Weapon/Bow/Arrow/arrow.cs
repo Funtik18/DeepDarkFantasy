@@ -24,14 +24,12 @@ public class arrow : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if(fly){
             Debug.Log("Arrow hit" +other.name);
-            Entity entity = other.gameObject.GetComponent<Entity>();
+            Entity entity = other.transform.root.GetComponent<Entity>();
             string myname = gameObject.transform.root.name;
             string hisname = other.name;
             if(myname != hisname)
-                if(entity != null){
-                    entity?.TakeDamage(dmg);
+                entity?.TakeDamage(dmg);
                     //cS.TakeDamage(dmg,gameObject.transform.root.gameObject);
-                }
             plumage.GetComponent<Rigidbody>().isKinematic = true;
             gameObject.transform.root.parent = other.transform;
             fly = false;

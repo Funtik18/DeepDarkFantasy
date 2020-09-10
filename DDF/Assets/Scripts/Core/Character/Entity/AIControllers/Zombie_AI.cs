@@ -31,7 +31,7 @@ public class Zombie_AI : AI_Entity
 
     protected override void lookMySost(){
         if(stats.CurrentHealthPoints <= 0){
-            enemys.Clear();
+            enemies.Clear();
             GetComponent<Animator>().applyRootMotion = true;
             myanim.SetBool("Dead",true);
             stats.IsDead = true;
@@ -53,7 +53,7 @@ public class Zombie_AI : AI_Entity
             stats.IsDead = true;
             Agressive = false;
             GetComponentInChildren<RayScan>().enabled = false;
-            enemys.Clear();
+            enemies.Clear();
             _timere+=Time.deltaTime;
             //Debug.Log(_timere);
             if(_timere>=fall){
@@ -73,7 +73,7 @@ public class Zombie_AI : AI_Entity
                // IseeSomething(stats.Iam);
         }
 
-        if(enemys.Count != 0 || hiting){
+        if(enemies.Count != 0 || hiting){
             Agressive = true;
         }
         else{
