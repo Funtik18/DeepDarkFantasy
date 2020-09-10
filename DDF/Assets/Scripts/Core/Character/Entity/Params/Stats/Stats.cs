@@ -1,4 +1,5 @@
 ﻿using System;
+using DDF.Atributes;
 using UnityEngine;
 
 namespace DDF.Character.Stats {
