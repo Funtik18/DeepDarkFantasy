@@ -81,6 +81,10 @@
 <end id="21" text="Стойкости" name="" gender=""/>
 <end id="22" text="Мстителя" name="" gender=""/>
 <end id="23" text="Издевки" name="" gender=""/>
+<end id="24" text="Смерти" name="" gender=""/>
+<end id="25" text="Гнили" name="" gender=""/>
+<end id="26" text="Бога" name="" gender=""/>
+<end id="27" text="Божества" name="" gender=""/>
 </End>
 </Weapons>
 <Armor>
@@ -109,7 +113,12 @@
 <type id="4" text=" ArmorLegsItem " name="Штаны" gender="мн"/>
 <type id="4" text=" ArmorLegsItem " name="Портки" gender="мн"/>
 <type id="4" text=" ArmorLegsItem " name="Брюки" gender="мн"/>
+<type id="5" text=" ArmorFeetItem " name="Сабатоны" gender="мн"/>
+<type id="5" text=" ArmorFeetItem " name="Сапоги" gender="мн"/>
 </AvaliableArmor>
+<AvaliableJewerly>
+<type id="1" text=" ArmorJewerlyItem " name="Кольцо" gender="ср"/>
+</AvaliableJewerly>
 <Head>
 <head id="1" text="Надел воин этот шлем, а он ему как раз" name="" gender=""/>
 <head id="2" text="Судя по запаху, кто-то носил этот шлем никогда не снимая. Во всяком случае до своей погибели..." name="" gender=""/>
@@ -142,7 +151,19 @@
 <leg id="1" text="В кольчужных штанах вы выглядите всегда готовым к битве. Насколько вы готовы на самом деле — это, конечно, виднее вам" name="" gender=""/>
 <leg id="2" text="В этих штанах на удивление тепло (несмотря на то, из какой тонкой ткани они сделаны)" name="" gender=""/>
 <leg id="3" text="Это потрепанные поножи до Раскольных времен покрыты коркой из запекшейся крови. Крови погибших в давнишние времена" name="" gender=""/>
+<leg id="4" text="Двигайся без промедления. Бей быстро и жёстко. Исчезай, как дым на ветру." name="" gender=""/>
 </Legs>
+<Feets>
+<feet id="1" text="«Не то важно, сколько ты прошагал к цели, а то важно, хватит ли сил завершить путь.» - девиз черных рыцарей" name="" gender=""/>
+<feet id="2" text="«Нельзя выиграть, если ты только защищаешься. Чтобы победить, надо идти в атаку.» -1 строчка из брошюры «Методические рекомендации по ведению боевых действий в населенных пунктах и вне для орков»" name="" gender=""/>
+<feet id="3" text="С каждым шагом этих ботинков из под ног вылетают искры, словно это огниво" name="" gender=""/>
+<feet id="4" text="Эти щегольские сапоги искусной работы так умело сделаны, что вы как будто идете по воздуху" name="" gender=""/>
+<feet id="5" text="Гибкие и крепкие сапоги, обеспечивающие хорошее сцепление с любой поверхностью" name="" gender=""/>
+<feet id="6" text="В них можно убежать от смерти, но во время бега от смерти можно забыть о жизни" name="" gender=""/>
+</Feets>
+<Rings>
+<ring id="1" text="Кольцо" name="" gender=""/>
+</Rings>
 <Modif>
 <mod id="1" text="Пожирающая" name="" gender="ж"/>
 <mod id="2" text="Кровавая" name="" gender="ж"/>
@@ -154,6 +175,7 @@
 <mod id="8" text="Предательская" name="" gender="ж"/>
 <mod id="9" text="Роковая" name="" gender="ж"/>
 <mod id="10" text="Жестокая" name="" gender="ж"/>
+
 <mod id="1" text="Пожирающий" name="" gender="м"/>
 <mod id="2" text="Кровавый" name="" gender="м"/>
 <mod id="3" text="Всевидящий" name="" gender="м"/>
@@ -164,6 +186,7 @@
 <mod id="8" text="Предательский" name="" gender="м"/>
 <mod id="9" text="Роковой" name="" gender="м"/>
 <mod id="10" text="Жестокий" name="" gender="м"/>
+
 <mod id="1" text="Пожирающие" name="" gender="мн"/>
 <mod id="2" text="Кровавые" name="" gender="мн"/>
 <mod id="3" text="Всевидящие" name="" gender="мн"/>
@@ -174,6 +197,17 @@
 <mod id="8" text="Предательские" name="" gender="мн"/>
 <mod id="9" text="Роковые" name="" gender="мн"/>
 <mod id="10" text="Жестокие" name="" gender="мн"/>
+
+<mod id="1" text="Пожирающее" name="" gender="ср"/>
+<mod id="2" text="Кровавое" name="" gender="ср"/>
+<mod id="3" text="Всевидящее" name="" gender="ср"/>
+<mod id="4" text="Гнилое" name="" gender="ср"/>
+<mod id="5" text="Пепельное" name="" gender="ср"/>
+<mod id="6" text="Губительное" name="" gender="ср"/>
+<mod id="7" text="Алчное" name="" gender="ср"/>
+<mod id="8" text="Предательское" name="" gender="ср"/>
+<mod id="9" text="Роковое" name="" gender="ср"/>
+<mod id="10" text="Жестокое" name="" gender="ср"/>
 </Modif>
 </Armor>
 </Items>

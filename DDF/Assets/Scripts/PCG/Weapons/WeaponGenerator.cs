@@ -25,17 +25,24 @@ namespace DDF.PCG.WEAPON
         List<XmlCategory> torso = new List<XmlCategory>();//2
         List<XmlCategory> belt = new List<XmlCategory>();//3
         List<XmlCategory> legs = new List<XmlCategory>();//4
+        List<XmlCategory> feets = new List<XmlCategory>();//5
         List<XmlCategory> modsA = new List<XmlCategory>();
         List<XmlCategory> endsA = new List<XmlCategory>();
 
+        List<XmlCategory> jewerlys = new List<XmlCategory>();//3
+        List<XmlCategory> ring = new List<XmlCategory>();
         public Sprite[] OneH;
         public Sprite[] TwoH;
 
+        
 
         public Sprite[] Head;
         public Sprite[] Torso;
         public Sprite[] Belt;
         public Sprite[] Legs;
+        public Sprite[] Feets;
+
+        public Sprite[] Ring;
 
         [SerializeField]
         [ReadOnly]
@@ -68,7 +75,11 @@ namespace DDF.PCG.WEAPON
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Modif/mod"), modsA);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Belt/belt"), belt);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Legs/leg"), legs);
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Feets/feet"), feets);
             //Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/End/end"), endsA);
+
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableJewerly/type"), jewerlys);
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Rings/ring "), ring);
         }
 
         /// <summary>
@@ -83,7 +94,7 @@ namespace DDF.PCG.WEAPON
 
             Sprite icon;
             ItemRarity rarity;
-
+            //1 - оружка 2 - броня 3 - украшения
             switch (num)
             {
                 case 1:
@@ -142,7 +153,7 @@ namespace DDF.PCG.WEAPON
                     rar = Random.Range(0, 4);
                     height = 2;
                     rarity = (ItemRarity)rar;
-                    ///1-шлем 2-грудь 3- пояс 4 - поножи
+                    ///1-шлем 2-грудь 3- пояс 4 - поножи 5 - боты
                     switch (currentArmor.id)
                     {
                         case ("1"):
@@ -176,7 +187,7 @@ namespace DDF.PCG.WEAPON
                             icon = GetRandom(Belt);
                             return ItemCreate<WaistItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
                         case ("4"):
-                            height = Random.Range(2, 4); 
+                            height = Random.Range(2, 4);
                             valueW = float.Parse(Random.Range(1f, 5f).ToString("F1"));
                             maxValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
                             typeArmor = GetRandom(legs.ToArray());
@@ -186,6 +197,43 @@ namespace DDF.PCG.WEAPON
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Legs);
                             return ItemCreate<LegsItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                        case ("5"):
+                            valueW = float.Parse(Random.Range(1f, 5f).ToString("F1"));
+                            maxValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
+                            typeArmor = GetRandom(feets.ToArray());
+                            //Debug.Log(currentArmor.name + " " + currentArmor.gender);
+                            mod = GetRandomWithGender(modsA, currentArmor.gender);
+                            //Debug.Log(mod.text + " " + mod.gender);
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(Feets);
+                            return ItemCreate<FeetItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                    }
+                    return null;
+                case (3):
+                    XmlCategory currentJewelry = GetRandom(jewerlys.ToArray());
+                    XmlCategory typeJewelry;
+                    maxValue = float.Parse(Random.Range(0.5f, 1.5f).ToString("F1"));
+
+                    valueW = float.Parse(Random.Range(0.01f, 0.5f).ToString("F1"));
+
+                    maxValueD = Random.Range(1, 100);
+                    minValueD = Random.Range(1, 100);
+                    width = 1;
+                    rar = Random.Range(0, 4);
+                    height = 1;
+                    rarity = (ItemRarity)rar;
+                    //1 - кольцо
+                    switch (currentJewelry.id)
+                    {
+                        case ("1"):
+                            typeJewelry = GetRandom(ring.ToArray());
+                            //Debug.Log(currentJewelry.name+" "+ currentJewelry.gender);
+                            mod = GetRandomWithGender(modsA, currentJewelry.gender);
+                            //Debug.Log(mod.text+" "+mod.gender);
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(Ring);
+                            return ItemCreate<JewerlyItem>(mod, currentJewelry, end, typeJewelry, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+
                     }
                     return null;
             }
@@ -247,10 +295,17 @@ namespace DDF.PCG.WEAPON
             return GetRandom(matchingModules);
         }
 
-        private static T GetRandom<T>(T[] array)
+        private static T GetRandom<T>(T[] array)////ПАЧИМУ ЛОМАЕТСЯ НА КОЛЬЦЕ Я НЕ ПАНИМАЮ
         {
             //Debug.Log(array + " " + array.Length);
-            return array[UnityEngine.Random.Range(0, array.Length)];
+            try
+            {
+                return array[UnityEngine.Random.Range(0, array.Length)];
+            }
+            catch
+            {
+                return default;
+            }
         }
 
         #region Класс для категоризации
