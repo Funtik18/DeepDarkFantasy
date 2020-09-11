@@ -36,7 +36,7 @@ public class RayScan : MonoBehaviour {
 			{
                 add_object(hit.collider.gameObject);
 				Debug.DrawLine(pos, hit.point, Color.blue);
-				//Debug.Log(hit.collider.name);
+				Debug.Log(hit.collider.name);
 			}
 		}
 		else
@@ -73,7 +73,7 @@ public class RayScan : MonoBehaviour {
 		return result;
 	}
 
-	void Update ()
+	void FixedUpdate ()
 	{	
 		//if(Vector3.Distance(transform.position, target.position) < distance)
 		//{

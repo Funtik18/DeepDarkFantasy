@@ -89,7 +89,7 @@ public class Archer_AI : AI_Entity
     protected override void myMind(){
         
         Aiming();
-
+        
         if((min>sparing_distance) && !dontMove)
         {
             GetComponent<Animator>().applyRootMotion = true;
@@ -102,39 +102,47 @@ public class Archer_AI : AI_Entity
             }
             else
             {
-                shoot();
+                if(prepare())
+                    shoot();
             } 
     }
 
-    public void shoot(){
+    public bool prepare(){
 
         if(bowReady.GetComponent<bow>().ready && !attacking)
-        {
-
-            myanim.SetFloat("X",0f);
-            GetComponent<IK_Controls>().rightHandObj = null;
-            bowReady.GetComponent<bow>().shoot = true;
-            myanim.SetBool("Attak",false);
-            GetComponent<Animator>().applyRootMotion = false;
-            
+        { 
+            return true;
         }else
         {
             attacking = true;
             myanim.SetBool("Attak",true);
-
+            return false;
         }
+
+    }
+
+    public void shoot(){
+
+        myanim.SetFloat("X",0f);
+        GetComponent<IK_Controls>().rightHandObj = null;
+        bowReady.GetComponent<bow>().shoot = true;
+        myanim.SetBool("Attak",false);
+        GetComponent<Animator>().applyRootMotion = false;
+
     }
 
     public void Aiming(){
         
         float verticalDist = (enemy.transform.position.y - transform.position.y);
         Vector3 temp = new Vector3(enemy.transform.position.x,transform.position.y,enemy.transform.position.z);
-        float horizontalDist = Vector3.Distance(temp,transform.position) + aimOffset;
+        float forwardDist = Vector3.Distance(temp,transform.position);// + aimOffset;
         Debug.Log(verticalDist);
-        Debug.Log(horizontalDist);
-        Debug.Log((horizontalDist/100)+(verticalDist/horizontalDist));
-        myanim.SetFloat("Vertical",horizontalDist/100+(verticalDist/horizontalDist));
-        
+        Debug.Log(forwardDist);
+        Debug.Log((forwardDist/90)+(verticalDist/forwardDist));
+        myanim.SetFloat("VerticalAim",forwardDist/99+(verticalDist/forwardDist));
+        //float horizontalOtkl = (forwardDist-57.69f)/-576.92f;
+        //Debug.Log(horizontalOtkl);
+        myanim.SetFloat("HorizontalAim",-0.1f);
     }
 
     public override void endAnim()
