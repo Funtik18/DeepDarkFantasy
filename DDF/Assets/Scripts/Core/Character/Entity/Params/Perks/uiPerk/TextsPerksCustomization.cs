@@ -49,10 +49,10 @@ namespace DDF.Character.Perks {
         }
         private TextPerkCustomization CreatePerk( ScrollViewManipulatorCustomization parent, Perk perk) {
             if (parent.isNoDuplicate) {
-                if (scrollViewTo.IsContains(perk.perkName)) return null;
+                if (scrollViewTo.IsContains(perk.varName)) return null;
             }
 
-            TextPerkCustomization newPerk = Help.HelpFunctions.TransformSeer.CreateObjectInParent(parent.content, textPerkPrefab.gameObject, perk.perkName).GetComponent<TextPerkCustomization>();
+            TextPerkCustomization newPerk = Help.HelpFunctions.TransformSeer.CreateObjectInParent(parent.content, textPerkPrefab.gameObject, perk.varName).GetComponent<TextPerkCustomization>();
             newPerk.perk = perk;
             newPerk.scrollView = parent;
 
@@ -70,10 +70,10 @@ namespace DDF.Character.Perks {
 
         private TextPerkBufCustomization CreateBuf( ScrollViewManipulatorCustomization parent, Perk perk ) {
             if (parent.isNoDuplicate) {
-                if (scrollViewTo.IsContains(perk.perkName)) return null;
+                if (scrollViewTo.IsContains(perk.varName)) return null;
             }
 
-            TextPerkBufCustomization newPerk = Help.HelpFunctions.TransformSeer.CreateObjectInParent(parent.content, textPerkBufPrefab.gameObject, perk.perkName).GetComponent<TextPerkBufCustomization>();
+            TextPerkBufCustomization newPerk = Help.HelpFunctions.TransformSeer.CreateObjectInParent(parent.content, textPerkBufPrefab.gameObject, perk.varName).GetComponent<TextPerkBufCustomization>();
             newPerk.perk = perk;
             newPerk.scrollView = parent;
 

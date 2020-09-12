@@ -39,6 +39,9 @@ namespace DDF.Environment {
 		private Vector3 newPos;
 		private bool speedOrder;
 		void FixedUpdate() {
+			Debug.LogError(itemDamage.min + " "  + itemDamage.max);
+
+
 			if (!bladeActive) return;
 			if (speedOrder) {
 				newPos = transform.position;
@@ -52,7 +55,7 @@ namespace DDF.Environment {
 			if (entity == null) return;
 			if (entity == owner) return;
 			if (currentMoveSpeed > 1) {
-				entity.TakeDamage(currentMoveSpeed % Random.Range(itemDamage.min, itemDamage.max));
+				entity.TakeDamage(/*currentMoveSpeed %*/ Random.Range(itemDamage.min, itemDamage.max));
 			}
 		}
 

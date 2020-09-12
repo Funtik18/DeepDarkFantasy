@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 
 namespace DDF.Character.Perks {
-	public abstract class Perk {
-		public string perkName;
+	public abstract class Perk : Var {
 
-		public Perk( string newName) {
-			perkName = newName;
-		}
+		public Perk( string newName) : base(newName) {}
 
 		public abstract string PerkNameAndCost();
 		public abstract string PerkBuffs();
@@ -27,7 +24,7 @@ namespace DDF.Character.Perks {
 		}
 
 		public override string PerkNameAndCost() {
-			return perkName + "|" + cost;
+			return varName + "|" + cost;
 		}
 		public override string PerkBuffs() {
 			return stat.varName + "|" + amount;
@@ -50,7 +47,7 @@ namespace DDF.Character.Perks {
 			cost = value2;
 		}
 		public override string PerkNameAndCost() {
-			return perkName + "|" + cost;
+			return varName + "|" + cost;
 		}
 		public override string PerkBuffs() {
 			return stat.varName + "|" + amount;
@@ -85,18 +82,18 @@ namespace DDF.Character.Perks {
 		}
 
 		public override string PerkNameAndCost() {
-			return perkName + "|" + cost;
+			return varName + "|" + cost;
 		}
 		public override string PerkBuffs() {
 			string output = "";
 			for (int i = 0; i < intPerks.Count; i++) {
-				output += intPerks[i].perkName + "|" + intPerks[i].amount + "\n";
+				output += intPerks[i].varName + "|" + intPerks[i].amount + "\n";
 			}
 			for (int i = 0; i < floatPerks.Count; i++) {
-				output += floatPerks[i].perkName + "|" + floatPerks[i].amount + "\n";
+				output += floatPerks[i].varName + "|" + floatPerks[i].amount + "\n";
 			}
 			for (int i = 0; i < complexPerks.Count; i++) {
-				output += complexPerks[i].perkName + "|" /*+ complexPerks[i].amount*/ + "\n";
+				output += complexPerks[i].varName + "|" /*+ complexPerks[i].amount*/ + "\n";
 			}
 			return output;
 		}

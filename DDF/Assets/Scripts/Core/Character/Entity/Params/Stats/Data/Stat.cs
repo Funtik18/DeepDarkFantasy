@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace DDF.Character.Stats {
+	[Serializable]
 	public class Stat : Var {
 		protected Stat(string varName) : base(varName) {}
 		public virtual string Output() {
