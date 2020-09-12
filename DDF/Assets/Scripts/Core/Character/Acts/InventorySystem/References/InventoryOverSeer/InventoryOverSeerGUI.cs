@@ -9,9 +9,6 @@ namespace DDF.UI.Inventory {
     public class InventoryOverSeerGUI : InventoryOverSeer {
 		protected static new InventoryOverSeerGUI _instance { get; private set; }
 
-		public Inventory mainInventory;
-		public Equipment mainEquipment;
-
 		private bool isOpen = false;
 
 		public new static InventoryOverSeerGUI GetInstance() {

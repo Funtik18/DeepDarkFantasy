@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DDF.Character;
 using DDF.Inputs;
 using DDF.UI.Inventory.Items;
 using UnityEngine;
@@ -31,9 +30,9 @@ namespace DDF.Environment {
 		private void Take() {
 			Item item = physicalModel.item;
 			if(item is WeaponItem) {
-				bool result = interactEntity.Equip(item, null);
+				bool result = (interactEntity as HumanoidEntity).Equip(item, null);
 				if(result == false) {
-					bool result2 = interactEntity.Take(item, null);
+					bool result2 = ( interactEntity as HumanoidEntity).Take (item, null);
 					if(result2 == false) {
 						print("Out");
 					}

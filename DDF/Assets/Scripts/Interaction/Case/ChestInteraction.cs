@@ -1,4 +1,5 @@
-﻿using DDF.Inputs;
+﻿using DDF.Character;
+using DDF.Inputs;
 using DDF.UI;
 using DDF.UI.Inventory;
 using DDF.UI.Inventory.Items;
@@ -56,7 +57,8 @@ namespace DDF.Environment {
             insInventory?.HideInventory();
         }
         private void EmptiedChest() {
-            Inventory inventory = InventoryOverSeerGUI.GetInstance().mainInventory;
+            Inventory inventory = (interactEntity as HumanoidEntity).inventory;
+            if (inventory == null) return;
             List<Item> items = new List<Item>();
             for (int i = 0; i < insInventory.currentItems.Count; i++) {
                 Item item = inventory.AddItem(insInventory.currentItems[i], false);

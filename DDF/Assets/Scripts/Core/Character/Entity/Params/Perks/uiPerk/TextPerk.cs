@@ -19,7 +19,7 @@ namespace DDF.Character.Perks {
         }
 
         public void UpdateText( string dop = "" ) {
-            txt.text = currentPerk.perkName;
+            txt.text = currentPerk.varName;
         }
     }
 }

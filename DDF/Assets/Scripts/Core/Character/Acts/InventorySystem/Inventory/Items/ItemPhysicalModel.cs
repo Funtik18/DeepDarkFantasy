@@ -52,7 +52,7 @@ namespace DDF.Environment {
 			if (entity == null) return;
 			if (entity == owner) return;
 			if (currentMoveSpeed > 1) {
-				entity.TakeDamage(currentMoveSpeed % Random.Range(itemDamage.min, itemDamage.max));
+				entity.TakeDamage(/*currentMoveSpeed %*/ Random.Range(itemDamage.min, itemDamage.max));
 			}
 		}
 

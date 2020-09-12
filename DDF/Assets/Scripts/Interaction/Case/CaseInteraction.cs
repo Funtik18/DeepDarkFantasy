@@ -1,22 +1,39 @@
-﻿using DDF.UI;
+﻿using DDF.Atributes;
+using DDF.Character;
+using DDF.UI;
 using UnityEngine;
 
 namespace DDF.Environment {
-    public class CaseInteraction : MonoBehaviour {
-        [SerializeField]
-        private Interaction interaction;
-        [SerializeField]
-        private HintInteraction hint;
+    public class CaseInteraction : Interaction {
 
-        protected bool IsInField { get { return interaction.isInField; } }
+        [ReadOnly] [SerializeField] protected Entity interactEntity;
+        [SerializeField] private HintInteraction hint;
+        public bool IsInField { get { return isInField; } }
 
-        private void Awake() {
-            interaction.currentEventEnter.AddListener(delegate { OpenCase(); });
-            interaction.currentEventStay.AddListener(delegate { StayCase(); });
-            interaction.currentEventExit.AddListener(delegate { CloseCase(); });
+        public override void OnTriggerEnter(Collider other) {
+            interactEntity = other.transform.root.GetComponent<Entity>();
+            if (interactEntity) {
+                base.OnTriggerEnter(other);
+                OpenCase();
+            }
         }
-        
-		public virtual void OpenCase() {
+
+        public override void OnTriggerStay(Collider other) {
+            if (interactEntity) {
+                base.OnTriggerStay(other);
+                StayCase();
+            }
+        }
+
+        public override void OnTriggerExit(Collider other) {
+            if (interactEntity) {
+                base.OnTriggerExit(other);
+                CloseCase();
+                interactEntity = null;
+            }
+        }
+
+        public virtual void OpenCase() {
             hint.OpenHint();
         }
         public virtual void StayCase() {
@@ -26,5 +43,4 @@ namespace DDF.Environment {
             hint.CloseHint();
         }
     }
-
 }

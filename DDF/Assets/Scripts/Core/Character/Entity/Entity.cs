@@ -15,9 +15,6 @@ namespace DDF.Character {
         protected Skills.Skills skills;
         protected Effects.Effects effects;
 
-        [HideInInspector] public Inventory inventory;
-        [HideInInspector] public Equipment equipment;
-
         /// <summary>
         /// Текущие перки.
         /// </summary>
@@ -64,23 +61,10 @@ namespace DDF.Character {
             //perks.AddPerk("Savant");
         }
 
-
-        /// <summary>
-        /// Минимально возможный уровень.
-        /// </summary>
-        private int levelMin = 1;
-        /// <summary>
-        /// Минимально возможное значаение стата.
-        /// </summary>
-        private int statMin = 1;
-
         /// <summary>
         /// 
         /// </summary>
-        [Header("Смерть")]
-        [SerializeField]
-        [ReadOnly]
-        private bool isDead = false;
+        [SerializeField] [ReadOnly] private bool isDead = false;
         public bool IsDead
         {
             get
@@ -99,9 +83,7 @@ namespace DDF.Character {
         /// <summary>
         /// Если true персонаж не может владеть магией
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private bool isCastrat = false;
+        [SerializeField] [ReadOnly] private bool isCastrat = false;
         public bool ISCastrat
         {
             get
@@ -130,7 +112,7 @@ namespace DDF.Character {
             set
             {
                 stats.Level.amount = value;
-                if (stats.Level.amount < levelMin) stats.Level.amount = levelMin;
+                if (stats.Level.amount < stats.levelMin) stats.Level.amount = stats.levelMin;
                 onChangeLevel?.Invoke();
             }
         }
@@ -195,22 +177,16 @@ namespace DDF.Character {
         /// <summary>
         /// Максимально возможное значение для Очков Навыков.
         /// </summary>
-        [SerializeField]
-        [ReadOnly]
-        private int maxSkillPoints;
-        /// <summary>
-        /// Максимально возможное значение для Очков Навыков.
-        /// </summary>
         public int MaxSkillPoints
         {
             get
             {
-                return maxSkillPoints;
+                return stats.SkillPoints.amount;
             }
             set
             {
-                maxSkillPoints = value;
-                if (maxSkillPoints <= 0) maxSkillPoints = 0;
+                stats.SkillPoints.amount = value;
+                if (stats.SkillPoints.amount <= 0) stats.SkillPoints.amount = 0;
                 onChangeSkillPoints?.Invoke();
             }
         }
@@ -221,12 +197,12 @@ namespace DDF.Character {
         {
             get
             {
-                return stats.SkillPoints.amount;
+                return stats.SkillPoints.currentInamount;
             }
             set
             {
-                stats.SkillPoints.amount = value;
-                if (stats.SkillPoints.amount <= 0) stats.SkillPoints.amount = 0;
+                stats.SkillPoints.currentInamount = value;
+                if (stats.SkillPoints.currentInamount <= 0) stats.SkillPoints.currentInamount = 0;
                 onChangeSkillPoints?.Invoke();
             }
         }
@@ -524,7 +500,7 @@ namespace DDF.Character {
             set
             {
                 stats.Strength.amount = value;
-                if (stats.Strength.amount < statMin) stats.Strength.amount = statMin;
+                if (stats.Strength.amount < stats.statMin) stats.Strength.amount = stats.statMin;
                 onChangeStrength?.Invoke();
             }
         }
@@ -547,7 +523,7 @@ namespace DDF.Character {
             set
             {
                 stats.Agility.amount = value;
-                if (stats.Agility.amount < statMin) stats.Agility.amount = statMin;
+                if (stats.Agility.amount < stats.statMin) stats.Agility.amount = stats.statMin;
                 onChangeAgility?.Invoke();
             }
         }
@@ -569,7 +545,7 @@ namespace DDF.Character {
             set
             {
                 stats.Intelligence.amount = value;
-                if (stats.Intelligence.amount < statMin) stats.Intelligence.amount = statMin;
+                if (stats.Intelligence.amount < stats.statMin) stats.Intelligence.amount = stats.statMin;
                 onChangeIntelligance?.Invoke();
             }
         }
@@ -591,7 +567,7 @@ namespace DDF.Character {
             set
             {
                 stats.Luck.amount = value;
-                if (stats.Luck.amount < statMin) stats.Luck.amount = statMin;
+                if (stats.Luck.amount < stats.statMin) stats.Luck.amount = stats.statMin;
                 onChangeLuck?.Invoke();
             }
         }
@@ -1102,7 +1078,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseStrength()
         {
-            if (CurrentStrength == statMin) return;
+            if (CurrentStrength == stats.statMin) return;
             if (!stats.Strength.IsCanDecreace) return;
             CurrentStrength--;
             IncreaseSkillPoints();
@@ -1125,7 +1101,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseAgility()
         {
-            if (CurrentAgility == statMin) return;
+            if (CurrentAgility == stats.statMin) return;
             if (!stats.Agility.IsCanDecreace) return;
             CurrentAgility--;
             IncreaseSkillPoints();
@@ -1148,7 +1124,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseIntelligence()
         {
-            if (CurrentIntelligence == statMin) return;
+            if (CurrentIntelligence == stats.statMin) return;
             if (!stats.Intelligence.IsCanDecreace) return;
             CurrentIntelligence--;
             IncreaseSkillPoints();
@@ -1171,7 +1147,7 @@ namespace DDF.Character {
         /// </summary>
         public void DecreaseLuck()
         {
-            if (CurrentStrength == statMin) return;
+            if (CurrentStrength == stats.statMin) return;
             if (!stats.Luck.IsCanDecreace) return;
             CurrentLuck--;
             IncreaseSkillPoints();
@@ -1196,34 +1172,6 @@ namespace DDF.Character {
         }
         #endregion
 
-        #endregion
-
-        #region Actions
-        public virtual bool Take( Item item, Inventory inventory ) {
-            if(InventoryOverSeerGUI.GetInstance().mainInventory.AddItem(item, false) == false) {
-                return false;
-			}
-            inventory?.DeleteItem(item);
-            return true;
-        }
-        public virtual bool Equip( Item item, Inventory from ) {
-            Item equipedItem = InventoryOverSeerGUI.GetInstance().mainEquipment.Equip(item, from);
-            if (equipedItem == null) return false;
-            from?.DeleteItem(item);
-            return true;
-        }
-        public virtual void TakeOff( Item item, Inventory inventory ) {
-            Item dropedItem = equipment.TakeOff(item, inventory);
-            if (dropedItem == null) return;
-            this.inventory.AddItem(dropedItem);
-        }
-
-        public virtual void Drink( ConsumableItem item, Inventory inventory ) {
-            for (int i = 0; i < item.effects.Count; i++) {
-                effects.AddEffect(Instantiate(item.effects[i]));
-            }
-            inventory.DeleteItem(item);
-        }
         #endregion
 
 

@@ -9,7 +9,7 @@ namespace DDF.Character.Stats {
 		#region Stats
 		public StatInt Level;
         public StatRegularInt LevelExperience;
-        public StatInt SkillPoints;
+        public StatRegularInt SkillPoints;
 
         public StatRegularFloat HealthPoints;
         public StatRegularFloat ManaPoints;
@@ -36,13 +36,26 @@ namespace DDF.Character.Stats {
 
         public StatRegularInt Weight;
         #endregion
+
+        [ReadOnly]
+        /// <summary>
+        /// Минимально возможный уровень.
+        /// </summary>
+        public int levelMin = 1;
+        [ReadOnly]
+        /// <summary>
+        /// Минимально возможное значаение стата.
+        /// </summary>
+        public int statMin = 1;
+
+
         /// <summary>
         /// Инициализация статов.
         /// </summary>
         public virtual void Init() {
             Level = new StatInt("Текущий уровень", 1);
             LevelExperience = new StatRegularInt("Опыт", 0, 0);
-            SkillPoints = new StatInt("Доступные очки", 0);
+            SkillPoints = new StatRegularInt("Доступные очки", 0, 0);
 
             HealthPoints = new StatRegularFloat("Жизненые силы", 0, 0);
             ManaPoints = new StatRegularFloat("Магическая энергия", 0, 0);

@@ -13,7 +13,7 @@ public class NPlayerMovement : MonoBehaviour
     public float moveAmount;
     public float rotationSpeed;
     public int bufSpeedtoRun = 8;
-    public float gravity = 3f;
+    public float gravity = 1f;
     public float jumpHight = 500;
     private int runSpeed;
 
