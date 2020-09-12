@@ -25,23 +25,23 @@ namespace DDF.UI.Inventory {
 		[HideInInspector] public StatFloat armorFeet = new StatFloat("Броня ноги", 0);
 
 		[SerializeField]
-		private Inventory headEquipment;
+		public Inventory headEquipment;
 		[SerializeField]
-		private Inventory chestEquipment;
+		public Inventory chestEquipment;
 		[SerializeField]
-		private Inventory beltEquipment;
+		public Inventory beltEquipment;
 		[SerializeField]
-		private Inventory lHandEquipment;
+		public Inventory lHandEquipment;
 		[SerializeField]
-		private Inventory rHandEquipment;
+		public Inventory rHandEquipment;
 		[SerializeField]
-		private Inventory lBracletEquipment;
+		public Inventory lBracletEquipment;
 		[SerializeField]
-		private Inventory rBracletEquipment;
+		public Inventory rBracletEquipment;
 		[SerializeField]
-		private Inventory legEquipment;
+		public Inventory legEquipment;
 		[SerializeField]
-		private Inventory feetEquipment;
+		public Inventory feetEquipment;
 
 		[SerializeField]
 		private Inventory lRing0Equipment;
