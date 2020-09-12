@@ -30,8 +30,8 @@ namespace DDF.UI.Inventory.Items {
                 itemIconOrientation = value;
             }
         }
-
-        public Item3DModel item3DModel;
+        
+        public GameObject item3DModel;
 
         [Header("Stacking")]
         [Range(1, 10)]

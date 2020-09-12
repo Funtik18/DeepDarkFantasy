@@ -48,12 +48,12 @@ public class NPlayerMovement : MonoBehaviour
     public void FixedUpdate()
     {
 
-        LookMyEquip();
+        //LookMyEquip();
         MoveUpdate();
         MyIsDead();
         
     }
-    public void LookMyEquip(){
+    /*public void LookMyEquip(){
         Inventory RHand = characterEntity.equipment.rHandEquipment;
         if(RHand.currentItems.Count>0)
         {
@@ -71,7 +71,7 @@ public class NPlayerMovement : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
     public void MoveUpdate()
     {
         if (!freezMovement)

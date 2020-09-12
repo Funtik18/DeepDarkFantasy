@@ -5,11 +5,15 @@ using DDF.UI.Inventory.Items;
 using UnityEngine;
 
 namespace DDF.Environment {
-    public class Item3DModel : MonoBehaviour {
+	[RequireComponent(typeof(Rigidbody))]
+	public class Item3DModel : MonoBehaviour {
         public Entity owner;
         public Item item;
 
+		[HideInInspector] public Rigidbody itemRigidbody;
+
 		protected virtual void Awake() {
+			itemRigidbody = GetComponent<Rigidbody>();
 			if (owner == null) {
 				owner = transform.root.GetComponent<Entity>();
 			}

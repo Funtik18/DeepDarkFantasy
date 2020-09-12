@@ -13,7 +13,7 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
 
-		List<EquipmentModel> models;
+		public Transform placeRHand, placeLHand;
 
 		[HideInInspector] public StatRegularFloat lHandDamage = new StatRegularFloat("Урон о.р.", 0, 0, "-");
 		[HideInInspector] public StatRegularFloat rHandDamage = new StatRegularFloat("Урон c.р.", 0, 0, "-");
@@ -107,13 +107,25 @@ namespace DDF.UI.Inventory {
 
 		public Item Equip(Item item, Inventory from ) {
 			for (int i = 0; i < allSlots.Count; i++) {
-				if( CompareTypesEquip(allSlots[i], item)) {
+				if (CompareTypesEquip(allSlots[i], item)) {
 					Item clone;
 					if (from == null)//значит айтем взят из физ мира.
 						clone = allSlots[i].AddItem(item, false);
 					else
 						clone = allSlots[i].AddItem(item, from.isGUI);
-					if (clone != null) return clone;
+					if (clone != null) {//если смогли найти слот и добавить айтем в экипировку.
+						if(allSlots[i] == rHandEquipment) {
+							Item3DModel Rweapon = Instantiate(clone.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
+							Rweapon.transform.parent = placeRHand;
+							Rweapon.itemRigidbody.isKinematic = true;
+						}
+						if (allSlots[i] == lHandEquipment) {
+							Item3DModel Lweapon = Instantiate(clone.item3DModel, placeLHand.position, placeLHand.rotation).GetComponent<Item3DModel>();
+							Lweapon.transform.parent = placeLHand;
+							Lweapon.itemRigidbody.isKinematic = true;
+						}
+						return clone;
+					}
 				}
 			}
 			return null;
@@ -243,12 +255,6 @@ namespace DDF.UI.Inventory {
 					currentEntity.MinMeleeDamage -= weaponItem.damage.min;
 				}
 			}
-		}
-
-
-		private class EquipmentModel {
-			public GameObject phisycalSlot;
-			public Item3DWeaponModel physicalModel;
 		}
 	}
 }
