@@ -2,6 +2,9 @@
 using DDF.Character;
 using DDF.UI.Inventory;
 using DDF.UI.Inventory.Items;
+
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(CharacterController))]
 public class NPlayerMovement : MonoBehaviour
 {
     public Transform CameraTransform;
@@ -17,8 +20,6 @@ public class NPlayerMovement : MonoBehaviour
     public int bufSpeedtoRun = 8;
     public float gravity = 1f;
     public float jumpHight = 500;
-    public Transform placeRHand,placeLHand;
-    public GameObject TestWeapon;
     private int runSpeed;
 
     [HideInInspector]
@@ -28,10 +29,11 @@ public class NPlayerMovement : MonoBehaviour
     private CharacterController controller;
     private bool jumping = false;
     private string textRweapon = "";
-    [SerializeField] private CharacterEntity characterEntity;
+    private Entity characterEntity;
 
-    public void Start()
-    {
+	private void Awake() {
+        characterEntity = transform.root.GetComponent<Entity>();
+
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
@@ -47,31 +49,10 @@ public class NPlayerMovement : MonoBehaviour
     }
     public void FixedUpdate()
     {
-
-        //LookMyEquip();
         MoveUpdate();
         MyIsDead();
-        
     }
-    /*public void LookMyEquip(){
-        Inventory RHand = characterEntity.equipment.rHandEquipment;
-        if(RHand.currentItems.Count>0)
-        {
-            Item item =  RHand.currentItems[0];
-            GameObject weapon = TestWeapon;//item.
-            string nameWeapon = item.itemName;
-            if(!textRweapon.Equals(nameWeapon))
-            {
-                textRweapon = nameWeapon;
-                GameObject Rweapon = Instantiate(weapon, placeRHand.position, placeRHand.rotation);
-                Rweapon.transform.parent = placeRHand;
-                Rigidbody rig = Rweapon.GetComponent<Rigidbody>();
-                if(rig!=null){
-                    rig.isKinematic = true;
-                }
-            }
-        }
-    }*/
+
     public void MoveUpdate()
     {
         if (!freezMovement)

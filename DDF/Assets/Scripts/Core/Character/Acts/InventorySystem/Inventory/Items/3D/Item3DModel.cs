@@ -14,11 +14,13 @@ namespace DDF.Environment {
 
 		protected virtual void Awake() {
 			itemRigidbody = GetComponent<Rigidbody>();
-			if (owner == null) {
-				owner = transform.root.GetComponent<Entity>();
-			}
 			if (item == null) {
 				Debug.LogError("ERROR: 404 item");
+			}
+		}
+		protected virtual void Start() {
+			if (owner == null) {
+				owner = transform.root.GetComponent<Entity>();
 			}
 		}
 	}

@@ -113,6 +113,7 @@ namespace DDF.UI.Inventory {
 						clone = allSlots[i].AddItem(item, false);
 					else
 						clone = allSlots[i].AddItem(item, from.isGUI);
+
 					if (clone != null) {//если смогли найти слот и добавить айтем в экипировку.
 						if(allSlots[i] == rHandEquipment) {
 							Item3DModel Rweapon = Instantiate(clone.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
@@ -124,6 +125,7 @@ namespace DDF.UI.Inventory {
 							Lweapon.transform.parent = placeLHand;
 							Lweapon.itemRigidbody.isKinematic = true;
 						}
+
 						return clone;
 					}
 				}
