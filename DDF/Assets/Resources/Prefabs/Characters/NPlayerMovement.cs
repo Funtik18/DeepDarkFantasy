@@ -56,7 +56,7 @@ public class NPlayerMovement : MonoBehaviour
     private void AnimationControl() {
         Equipment characterEquipment = characterEntity.equipment;
 
-		if (!characterEquipment.rHandEquipment.IsEmpty) {//если в правой руке что то есть
+		if (!characterEquipment.rHandEquipment.IsEmpty) {//если в правой руке что то есть Спасибо КЭП
             WeaponItem weaponItem = (characterEquipment.rHandEquipment.currentItems[0] as WeaponItem);
             //if(weaponItem is OneHandedItem)
         }
