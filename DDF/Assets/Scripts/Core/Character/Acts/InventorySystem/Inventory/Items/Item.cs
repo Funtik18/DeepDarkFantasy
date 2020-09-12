@@ -1,4 +1,5 @@
 ﻿using DDF.Atributes;
+using DDF.Environment;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,8 @@ namespace DDF.UI.Inventory.Items {
                 itemIconOrientation = value;
             }
         }
+
+        public Item3DModel item3DModel;
 
         [Header("Stacking")]
         [Range(1, 10)]

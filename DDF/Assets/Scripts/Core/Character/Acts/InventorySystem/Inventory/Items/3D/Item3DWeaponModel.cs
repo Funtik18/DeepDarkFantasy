@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿
+
+using System.Collections.Generic;
 using DDF.Atributes;
 using DDF.Character;
 using DDF.UI.Inventory.Items;
@@ -8,9 +10,7 @@ namespace DDF.Environment {
 	/// <summary>
 	/// Физическая 3D модель для айтема
 	/// </summary>
-    public class ItemPhysicalModel : MonoBehaviour {
-		public Entity owner;
-        public WeaponItem item;
+    public class Item3DWeaponModel : Item3DModel {
 
 		public VarMinMax<float> itemDamage;
 		[ReadOnly] public float currentMoveSpeed = 1;
@@ -19,13 +19,10 @@ namespace DDF.Environment {
 
 		public bool isEnable = true;
 
-		private void Awake() {//если есть хозяин предмета
+		protected override void Awake() {
 			oldPos = transform.position;
-			if(owner == null) {
-				owner = transform.root.GetComponent<Entity>();
-			}
-
-			itemDamage = item.damage;
+			base.Awake();
+			itemDamage = (item as WeaponItem).damage;
 
 			if (blades == null)
 				blades = new List<Blade>();

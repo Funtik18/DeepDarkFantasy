@@ -47,14 +47,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1785584470267652902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9799a68f3e3355e4fab141f04c49409a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2031b59c2e050f34eb17d19e68f07063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerEntity: {fileID: 0}
+  owner: {fileID: 0}
   item: {fileID: 11400000, guid: 06bb92be9021d18499f4db315e1b2dc5, type: 2}
-  blades:
-  - {fileID: 2515710107748846344}
-  - {fileID: 2399168508233004248}
+  itemDamage:
+    varName: 
+    min: 0
+    max: 0
+  currentMoveSpeed: 1
+  bladeActive: 0
+  blades: []
+  isEnable: 1
 --- !u!54 &6649371462535618324
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -474,8 +479,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isInField: 0
-  currentMoveSpeed: 1
-  bladeActive: 0
 --- !u!1 &5522829864243693601
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,8 +546,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isInField: 0
-  currentMoveSpeed: 1
-  bladeActive: 0
 --- !u!1 &7806080733463976896
 GameObject:
   m_ObjectHideFlags: 0

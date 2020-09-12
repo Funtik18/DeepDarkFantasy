@@ -248,7 +248,7 @@ namespace DDF.UI.Inventory {
 
 		private class EquipmentModel {
 			public GameObject phisycalSlot;
-			public ItemPhysicalModel physicalModel;
+			public Item3DWeaponModel physicalModel;
 		}
 	}
 }

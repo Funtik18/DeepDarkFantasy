@@ -14,8 +14,8 @@ namespace DDF.UI.Inventory {
 		[HideInInspector] public InventorySlot lastSlot;
 		[HideInInspector] public InventorySlot rootSlot;
 
-		[HideInInspector] public ItemUIModel lastModel;
-		[HideInInspector] public ItemUIModel rootModel;
+		[HideInInspector] public Item2DModel lastModel;
+		[HideInInspector] public Item2DModel rootModel;
 
 		[HideInInspector] public bool isDrag = false;
 

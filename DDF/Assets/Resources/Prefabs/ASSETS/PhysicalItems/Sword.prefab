@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2258731586555195388}
-  - component: {fileID: 2258731586555195389}
   - component: {fileID: 6618140709333261249}
+  - component: {fileID: 4578864727865431596}
   - component: {fileID: 1897366684133480453}
   m_Layer: 0
   m_Name: Sword
@@ -37,22 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &2258731586555195389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258731586555195379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9799a68f3e3355e4fab141f04c49409a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: dbda863c62fc4324598f822f80dbbca7, type: 2}
-  blades:
-  - {fileID: 2798007471889346573}
-  isEnable: 1
 --- !u!54 &6618140709333261249
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -69,6 +53,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4578864727865431596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258731586555195379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2031b59c2e050f34eb17d19e68f07063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  item: {fileID: 11400000, guid: dbda863c62fc4324598f822f80dbbca7, type: 2}
+  itemDamage:
+    varName: 
+    min: 0
+    max: 0
+  currentMoveSpeed: 1
+  bladeActive: 0
+  blades: []
+  isEnable: 1
 --- !u!65 &1897366684133480453
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -485,12 +491,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isInField: 0
-  itemDamage:
-    varName: 
-    min: 0
-    max: 0
-  currentMoveSpeed: 1
-  bladeActive: 0
 --- !u!1 &7767529466203889429
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,7 +596,7 @@ MonoBehaviour:
   isInField: 0
   interactEntity: {fileID: 0}
   hint: {fileID: 2258731588054463210}
-  physicalModel: {fileID: 2258731586555195389}
+  physicalModel: {fileID: 4578864727865431596}
 --- !u!1001 &2258731587184158829
 PrefabInstance:
   m_ObjectHideFlags: 0

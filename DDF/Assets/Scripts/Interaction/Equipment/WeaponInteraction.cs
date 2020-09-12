@@ -9,7 +9,7 @@ namespace DDF.Environment {
 	/// </summary>
     public class WeaponInteraction : EquipmentInteraction {
 
-		[SerializeField] private ItemPhysicalModel physicalModel;
+		[SerializeField] private Item3DWeaponModel physicalModel;
 
 		private int clicks = 0;
 		private void Update() {
@@ -26,7 +26,9 @@ namespace DDF.Environment {
 				}
 			}
 		}
-
+		/// <summary>
+		/// Подбор 3д предмета, если оружие то сразу надевает.
+		/// </summary>
 		private void Take() {
 			Item item = physicalModel.item;
 			if(item is WeaponItem) {
