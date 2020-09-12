@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c19188a6702428428670c7c9bd7f616, type: 3}
+  m_Name: WeaponOffHandItem
+  m_EditorClassIdentifier: 
+  onlyOne: 0
+  itemID: e90ffffb-1cd6-41bd-90f8-e72f99a3a156
+  itemName: 
+  itemDescription: 
+  itemIcon: {fileID: 0}
+  itemIconOrientation: {x: 0, y: 0, z: 0}
+  itemWidth: 1
+  itemHeight: 1
+  itemStackCount: 1
+  itemStackSize: 1
+  primaryTag: {fileID: 0}
+  tags: []
+  rarity: 0
+  weight:
+    varName: "\u0412\u0435\u0441"
+    amount: 1
+  armor:
+    varName: Armor
+    amount: 0
+  duration:
+    varName: Duration
+    min: 100
+    max: 100
+  primaryEffects: []
+  secondaryEffects: []
+  offHandType: 0

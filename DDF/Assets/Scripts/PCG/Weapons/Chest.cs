@@ -8,13 +8,16 @@ namespace DDF.PCG.WEAPON
     {
         public ChestInteraction chest;
         public WeaponGenerator wg;
+
+        public int ItemType;
+        [Range(0,4)]
+        public int ItemCount;
         void Start()
         {
-            //yield return new WaitForSeconds(3f);
-            chest.startItems.Add(wg.Generator(3));
-            chest.startItems.Add(wg.Generator(3));
-            chest.startItems.Add(wg.Generator(3));
-            chest.startItems.Add(wg.Generator(3));
+            for (int i = 0; i < ItemCount; i++)
+            {
+                chest.startItems.Add(wg.Generator(ItemType));
+            }
         }
     }
 }
