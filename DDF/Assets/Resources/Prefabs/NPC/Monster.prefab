@@ -1278,7 +1278,6 @@ GameObject:
   - component: {fileID: 4134742191530965368}
   - component: {fileID: 6586659029971467371}
   - component: {fileID: 3588785483490480218}
-  - component: {fileID: 8672909288244480230}
   m_Layer: 0
   m_Name: monster_walk 1
   m_TagString: Monster
@@ -1361,6 +1360,7 @@ MonoBehaviour:
   - Zombie
   - Skeleton
   - Player
+  stats: {fileID: 5167426422727996291}
 --- !u!114 &6586659029971467371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1395,109 +1395,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &8672909288244480230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3864343343764406251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats:
-    Level:
-      varName: 
-      amount: 0
-    LevelExperience:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    SkillPoints:
-      varName: 
-      amount: 0
-    HealthPoints:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ManaPoints:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ResistFire:
-      varName: 
-      amount: 0
-    ResistIce:
-      varName: 
-      amount: 0
-    ResistPoison:
-      varName: 
-      amount: 0
-    Strength:
-      varName: 
-      amount: 0
-    Agility:
-      varName: 
-      amount: 0
-    Intelligence:
-      varName: 
-      amount: 0
-    Luck:
-      varName: 
-      amount: 0
-    PhysicalArmor:
-      varName: 
-      amount: 0
-    MagicArmor:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    MeleeDamage:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ShotDamage:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    MagicDamage:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ChanceAvoid:
-      varName: 
-      amount: 0
-    Speed:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    "\u0421hanceCriticalShot":
-      varName: 
-      amount: 0
-    "\u0421hanceCriticalStrike":
-      varName: 
-      amount: 0
-    Weight:
-      varName: 
-      amount: 0
-      currentInamount: 0
-  inventory: {fileID: 0}
-  equipment: {fileID: 0}
-  currentEffects: []
-  isDead: 0
-  isCastrat: 0
-  maxSkillPoints: 0
-  maxResistFire: 100
-  maxResistIce: 100
-  maxResistPoison: 100
-  "max\u0421hanceCriticalStrike": 100
-  "max\u0421hanceCriticalShot": 100
-  maxChanceAvoid: 100
-  strength: 5
-  agility: 5
-  Speed: 2
 --- !u!1 &3919414261953666224
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,9 +1639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8393815112414863226}
-  - component: {fileID: 1428051261643826847}
-  - component: {fileID: 8730491214787579664}
-  - component: {fileID: 7814991757944213078}
+  - component: {fileID: 5167426422727996291}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -1767,68 +1662,111 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1428051261643826847
-MeshFilter:
+--- !u!114 &5167426422727996291
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4575433406977639639}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8730491214787579664
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4575433406977639639}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7814991757944213078
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4575433406977639639}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    Level:
+      varName: 
+      amount: 0
+    LevelExperience:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    SkillPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    HealthPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ManaPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ResistFire:
+      varName: 
+      amount: 0
+    ResistIce:
+      varName: 
+      amount: 0
+    ResistPoison:
+      varName: 
+      amount: 0
+    Strength:
+      varName: 
+      amount: 0
+    Agility:
+      varName: 
+      amount: 0
+    Intelligence:
+      varName: 
+      amount: 0
+    Luck:
+      varName: 
+      amount: 0
+    PhysicalArmor:
+      varName: 
+      amount: 0
+    MagicArmor:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    MeleeDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ShotDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    MagicDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ChanceAvoid:
+      varName: 
+      amount: 0
+    Speed:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    "\u0421hanceCriticalShot":
+      varName: 
+      amount: 0
+    "\u0421hanceCriticalStrike":
+      varName: 
+      amount: 0
+    Weight:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    levelMin: 1
+    statMin: 1
+  currentEffects: []
+  isDead: 0
+  isCastrat: 0
+  maxResistFire: 100
+  maxResistIce: 100
+  maxResistPoison: 100
+  "max\u0421hanceCriticalStrike": 100
+  "max\u0421hanceCriticalShot": 100
+  maxChanceAvoid: 100
+  inventory: {fileID: 0}
+  equipment: {fileID: 0}
+  strength: 5
+  agility: 5
+  Speed: 2
 --- !u!1 &4697954154640715669
 GameObject:
   m_ObjectHideFlags: 0
@@ -3103,15 +3041,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce8f1839c40359741b67be8a73cdec7f, type: 3}
---- !u!1 &5127255981303398375 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8400179277932047494, guid: ce8f1839c40359741b67be8a73cdec7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3725816828629963617}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5506913380082230621 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9212322084784240188, guid: ce8f1839c40359741b67be8a73cdec7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3725816828629963617}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5127255981303398375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8400179277932047494, guid: ce8f1839c40359741b67be8a73cdec7f,
     type: 3}
   m_PrefabInstance: {fileID: 3725816828629963617}
   m_PrefabAsset: {fileID: 0}

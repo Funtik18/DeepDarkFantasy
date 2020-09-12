@@ -30,7 +30,7 @@ namespace DDF.AI {
     protected float _timer = 0,_timere = 0,mYHp;
     protected Vector3 moveDirection = Vector3.zero,Wvc;
     protected RayScan Myeyes; 
-    protected NPSEntity stats;
+    [SerializeField] protected NPSEntity stats;
     protected int nap = 0;
     protected float min;
     // Start is called before the first frame update
@@ -41,8 +41,7 @@ namespace DDF.AI {
         if(GetComponentInChildren<RayScan>()!=null){
             Myeyes = GetComponentInChildren<RayScan>();
         }
-        if(GetComponentInChildren<NPSEntity>()!=null){
-            stats = GetComponentInChildren<NPSEntity>();
+        if(stats != null){
             mYHp = stats.CurrentHealthPoints;
         }else{Debug.Log("Подключи NPS Entity");}
     }

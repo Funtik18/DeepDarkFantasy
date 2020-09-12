@@ -496,7 +496,6 @@ GameObject:
   - component: {fileID: 9125278318564065560}
   - component: {fileID: 9125278318564065566}
   - component: {fileID: 5688448896509965503}
-  - component: {fileID: 157317013826209894}
   m_Layer: 0
   m_Name: zombi_solid
   m_TagString: Zombie
@@ -566,6 +565,7 @@ MonoBehaviour:
   - Skeleton
   - Monster
   - Player
+  stats: {fileID: 1444919098391164408}
   fall: 10
 --- !u!114 &9125278318564065566
 MonoBehaviour:
@@ -601,109 +601,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.93, z: 0}
---- !u!114 &157317013826209894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399798324799583723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats:
-    Level:
-      varName: 
-      amount: 0
-    LevelExperience:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    SkillPoints:
-      varName: 
-      amount: 0
-    HealthPoints:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ManaPoints:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ResistFire:
-      varName: 
-      amount: 0
-    ResistIce:
-      varName: 
-      amount: 0
-    ResistPoison:
-      varName: 
-      amount: 0
-    Strength:
-      varName: 
-      amount: 0
-    Agility:
-      varName: 
-      amount: 0
-    Intelligence:
-      varName: 
-      amount: 0
-    Luck:
-      varName: 
-      amount: 0
-    PhysicalArmor:
-      varName: 
-      amount: 0
-    MagicArmor:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    MeleeDamage:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ShotDamage:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    MagicDamage:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    ChanceAvoid:
-      varName: 
-      amount: 0
-    Speed:
-      varName: 
-      amount: 0
-      currentInamount: 0
-    "\u0421hanceCriticalShot":
-      varName: 
-      amount: 0
-    "\u0421hanceCriticalStrike":
-      varName: 
-      amount: 0
-    Weight:
-      varName: 
-      amount: 0
-      currentInamount: 0
-  inventory: {fileID: 0}
-  equipment: {fileID: 0}
-  currentEffects: []
-  isDead: 0
-  isCastrat: 0
-  maxSkillPoints: 0
-  maxResistFire: 100
-  maxResistIce: 100
-  maxResistPoison: 100
-  "max\u0421hanceCriticalStrike": 100
-  "max\u0421hanceCriticalShot": 100
-  maxChanceAvoid: 100
-  strength: 10
-  agility: 5
-  Speed: 1
 --- !u!1 &1450339364946132400
 GameObject:
   m_ObjectHideFlags: 0
@@ -3582,9 +3479,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7418177511220596584}
-  - component: {fileID: 2578434126328053073}
-  - component: {fileID: 3733211330010906098}
-  - component: {fileID: 4353352872134371382}
+  - component: {fileID: 1444919098391164408}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -3607,68 +3502,111 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2578434126328053073
-MeshFilter:
+--- !u!114 &1444919098391164408
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9078803931458663920}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3733211330010906098
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9078803931458663920}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4353352872134371382
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9078803931458663920}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc212c42c0d045b4394a570e84e2cc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    Level:
+      varName: 
+      amount: 0
+    LevelExperience:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    SkillPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    HealthPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ManaPoints:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ResistFire:
+      varName: 
+      amount: 0
+    ResistIce:
+      varName: 
+      amount: 0
+    ResistPoison:
+      varName: 
+      amount: 0
+    Strength:
+      varName: 
+      amount: 0
+    Agility:
+      varName: 
+      amount: 0
+    Intelligence:
+      varName: 
+      amount: 0
+    Luck:
+      varName: 
+      amount: 0
+    PhysicalArmor:
+      varName: 
+      amount: 0
+    MagicArmor:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    MeleeDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ShotDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    MagicDamage:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    ChanceAvoid:
+      varName: 
+      amount: 0
+    Speed:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    "\u0421hanceCriticalShot":
+      varName: 
+      amount: 0
+    "\u0421hanceCriticalStrike":
+      varName: 
+      amount: 0
+    Weight:
+      varName: 
+      amount: 0
+      currentInamount: 0
+    levelMin: 1
+    statMin: 1
+  currentEffects: []
+  isDead: 0
+  isCastrat: 0
+  maxResistFire: 100
+  maxResistIce: 100
+  maxResistPoison: 100
+  "max\u0421hanceCriticalStrike": 100
+  "max\u0421hanceCriticalShot": 100
+  maxChanceAvoid: 100
+  inventory: {fileID: 0}
+  equipment: {fileID: 0}
+  strength: 10
+  agility: 5
+  Speed: 1
 --- !u!1 &9202654326168148845
 GameObject:
   m_ObjectHideFlags: 0
