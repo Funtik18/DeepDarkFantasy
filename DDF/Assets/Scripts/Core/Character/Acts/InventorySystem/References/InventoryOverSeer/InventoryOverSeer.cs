@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DDF.Character.Stats;
+using DDF.UI.Inventory;
 using UnityEngine;
 
-namespace DDF.UI.Inventory {
+namespace DDF {
+	/// <summary>
+	/// Класс ссылка, этот класс играет роль наблюдателя между контейнерами в ui.
+	/// Сильно помогает при работе инвентарей.
+	/// </summary>
     public class InventoryOverSeer : MonoBehaviour {
 		protected static InventoryOverSeer _instance { get; private set; }
 
@@ -22,20 +26,16 @@ namespace DDF.UI.Inventory {
 		[HideInInspector] public Inventory from;//откуда взяли
 		[HideInInspector] public Inventory whereNow;//где сейчас находимся
 
-		
-
-
-		protected virtual void Awake() {
-			containers = new List<Inventory>();
-		}
 		public static InventoryOverSeer GetInstance() {
-			if(_instance == null) {
+			if (_instance == null) {
 				_instance = FindObjectOfType<InventoryOverSeer>();
 			}
 			return _instance;
 		}
 
-
+		protected virtual void Awake() {
+			containers = new List<Inventory>();
+		}
 
 		/// <summary>
 		/// Показывает все контейнеры и их содержимое.
@@ -53,12 +53,9 @@ namespace DDF.UI.Inventory {
 				containers[i].HideInventory();
 			}
 		}
-
-		public void OrderRefresh() {
-			//ToolTip._instance.transform.SetAsLastSibling();
-			//MenuOptions._instance.transform.SetAsLastSibling();
-		}
-
+		/// <summary>
+		/// Запоминает новый контейнер.
+		/// </summary>
 		public void RegistrationContainer( Inventory container ) {
 			containers.Add(container);
 		}

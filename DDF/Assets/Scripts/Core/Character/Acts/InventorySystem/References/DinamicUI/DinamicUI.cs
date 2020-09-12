@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI {
+namespace DDF {
 	/// <summary>
 	/// Класс ссылка, в этом объекте создаётся динамический ui.
 	/// </summary>

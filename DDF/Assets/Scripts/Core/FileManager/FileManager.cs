@@ -14,7 +14,7 @@ namespace DDF.IO {
 
         public readonly static string SETTINGS_FILE = "/settings.json";
 
-        public static string EFFECTS_PATH { get { return "Prefabs/ASSETS/ItemsEffects"; } }
+        public static string EFFECTS_PATH { get { return "Prefabs/ASSETS/Items/ItemsEffects"; } }
 
 
         //public readonly static string CHARACTER_FILE = "/character" + EXP;

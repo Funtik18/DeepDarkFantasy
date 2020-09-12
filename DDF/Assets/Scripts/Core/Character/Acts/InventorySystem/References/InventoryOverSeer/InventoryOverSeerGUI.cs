@@ -1,11 +1,11 @@
 ﻿using DDF.Inputs;
 using DDF.UI.GUI;
-using DDF.UI.Inventory.Items;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI.Inventory {
+namespace DDF {
+	/// <summary>
+	/// Класс ссылка, помогает при работе с GUI.
+	/// </summary>
     public class InventoryOverSeerGUI : InventoryOverSeer {
 		protected static new InventoryOverSeerGUI _instance { get; private set; }
 

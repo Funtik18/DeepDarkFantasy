@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DDF.UI.Inventory {
+namespace DDF {
     public class DragParentsGUI : DragParents {
         public static new DragParentsGUI _instance { get; private set; }
 

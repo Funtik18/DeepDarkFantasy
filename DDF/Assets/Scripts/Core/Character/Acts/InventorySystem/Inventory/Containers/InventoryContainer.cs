@@ -364,8 +364,11 @@ namespace DDF.UI.Inventory {
 
             Inventory whereNow = overSeer.whereNow;
             if (whereNow.isDisposer) {//удаление из инвентаря
-                ItemPlaceOnSlot(overSeer.from.container, overSeer.whereNow.container, overSeer.rootModel.referenceItem, overSeer.buffer.GetComponent<Item2DModel>());
-                overSeer.whereNow.DeleteItem(overSeer.rootModel.referenceItem);
+                Item cashItem = overSeer.rootModel.referenceItem;
+                ItemPlaceOnSlot(overSeer.from.container, overSeer.whereNow.container, cashItem, overSeer.buffer.GetComponent<Item2DModel>());
+                overSeer.whereNow.DeleteItem(cashItem);
+                
+                inventory.onItemDisposed?.Invoke(cashItem, overSeer.from.container.inventory);
                 return;
             }
             if (whereNow.inventorytype == InventoryTypes.Equipment) {
@@ -774,8 +777,6 @@ namespace DDF.UI.Inventory {
 
             slots.Clear();
 
-            overSeer.OrderRefresh();
-
             inventory.toolTip.SetItem(item);
             inventory.toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, inventory.toolTip.rect));
             inventory.toolTip.ShowToolTip();
@@ -795,8 +796,6 @@ namespace DDF.UI.Inventory {
             slots.Clear();
 
             MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
-
-            overSeer.OrderRefresh();
 
             MenuOptions._instance.SetCurrentItem(item, inventory);
             MenuOptions._instance.OpenMenu();

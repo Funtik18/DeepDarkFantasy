@@ -1,4 +1,5 @@
-﻿using DDF.UI.Inventory.Items;
+﻿using DDF.Environment;
+using DDF.UI.Inventory.Items;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace DDF.UI.Inventory {
 		public bool isDisposer = false;
 		public bool isGUI = false;
 
-		[HideInInspector] public InventoryTypes inventorytype = InventoryTypes.Simple;
+		[HideInInspector] public InventoryTypes inventorytype = InventoryTypes.MainInventory;
 		[HideInInspector] public bool isFull;
 		[HideInInspector]
 		public bool IsEmpty {
@@ -37,6 +38,7 @@ namespace DDF.UI.Inventory {
 		/// </summary>
 		public UnityAction<Item, Inventory> onItemAdded;
 		public UnityAction<Item, Inventory> onItemRemoved;
+		public UnityAction<Item, Inventory> onItemDisposed;
 
 		private CanvasGroup canvasGroup;
 
@@ -54,10 +56,14 @@ namespace DDF.UI.Inventory {
 			else
 				overSeer = InventoryOverSeerUI.GetInstance();
 			toolTip = ToolTip.GetInstance();
+
+			//если корзина для мусора, то пусть инициализирует точку для выброса и подписывается на функцию.
+			if (isDisposer) {
+				ThrowPoint.Init();
+				onItemDisposed = ThrowItem;
+			}
 		}
-
 		protected void Start() {
-
 			container.Init();
 		}
 
@@ -79,10 +85,18 @@ namespace DDF.UI.Inventory {
 			container.HideContainer();
 			Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
 		}
+
+		/// <summary>
+		/// Выброс предмета в физ мир.
+		/// </summary>
+		private void ThrowItem(Item item, Inventory inventory) {
+			Item3DModel throwingItem = Instantiate(item.item3DModel).GetComponent<Item3DModel>();
+			throwingItem.transform.position = ThrowPoint._instance.transform.position;
+			throwingItem.itemRigidbody.isKinematic = false;
+		}
 	}
 	public enum InventoryTypes {
-		Simple,
-		TrashCan,
+		MainInventory,
 		Equipment,
 		Storage,
 	}

@@ -102,6 +102,7 @@ namespace DDF.UI.Inventory {
 				allSlots[i].inventorytype = InventoryTypes.Equipment;
 				allSlots[i].onItemAdded = ItemAdded;
 				allSlots[i].onItemRemoved = ItemRemoved;
+				
 			}
 		}
 
@@ -269,7 +270,5 @@ namespace DDF.UI.Inventory {
 				Help.HelpFunctions.TransformSeer.DestroyChildrenInParent(placeLHand);
 			}
 		}
-
-
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DDF.UI.Inventory {
+namespace DDF {
     /// <summary>
     /// Класс ссылка, в этом объекте создаётся ui.
     /// </summary>
