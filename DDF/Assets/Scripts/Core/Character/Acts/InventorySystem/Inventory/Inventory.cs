@@ -90,6 +90,10 @@ namespace DDF.UI.Inventory {
 		/// Выброс предмета в физ мир.
 		/// </summary>
 		private void ThrowItem(Item item, Inventory inventory) {
+			if (item.item3DModel == null) {
+				Debug.LogError(item.itemName + " not have item3DModel");
+				return;
+			}
 			Item3DModel throwingItem = Instantiate(item.item3DModel).GetComponent<Item3DModel>();
 			throwingItem.transform.position = ThrowPoint._instance.transform.position;
 			throwingItem.itemRigidbody.isKinematic = false;

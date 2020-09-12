@@ -39,7 +39,7 @@ namespace DDF.UI.Inventory {
 		[SerializeField]
 		public Inventory rBracletEquipment;
 		[SerializeField]
-		public Inventory legEquipment;
+		public Inventory legsEquipment;
 		[SerializeField]
 		public Inventory feetEquipment;
 
@@ -65,16 +65,18 @@ namespace DDF.UI.Inventory {
 		[SerializeField]
 		private Inventory rRing4Equipment;
 
-		private List<Inventory> rings;
 
 		private List<Inventory> allSlots;
+		private List<Inventory> weaponSlots;
+		private List<Inventory> armorSlots;
+		private List<Inventory> rings;
 
 		private HumanoidEntity currentEntity;
 		private void Awake() {
 
 			currentEntity = transform.root.GetComponent<HumanoidEntity>();
 
-			rings = new List<Inventory>();
+			rings = new List<Inventory>(10);
 			rings.Add(lRing0Equipment);
 			rings.Add(lRing1Equipment);
 			rings.Add(lRing2Equipment);
@@ -86,36 +88,69 @@ namespace DDF.UI.Inventory {
 			rings.Add(rRing3Equipment);
 			rings.Add(rRing4Equipment);
 
-			allSlots = new List<Inventory>();
-			allSlots.Add(headEquipment);
-			allSlots.Add(chestEquipment);
-			allSlots.Add(beltEquipment);
-			allSlots.Add(lHandEquipment);
-			allSlots.Add(rHandEquipment);
-			allSlots.Add(lBracletEquipment);
-			allSlots.Add(rBracletEquipment);
-			allSlots.Add(legEquipment);
-			allSlots.Add(feetEquipment);
-			allSlots.AddRange(rings);
+			armorSlots = new List<Inventory>(17);
+			armorSlots.Add(headEquipment);
+			armorSlots.Add(chestEquipment);
+			armorSlots.Add(beltEquipment);
+			armorSlots.Add(lBracletEquipment);
+			armorSlots.Add(rBracletEquipment);
+			armorSlots.Add(legsEquipment);
+			armorSlots.Add(feetEquipment);
+			armorSlots.AddRange(rings);
+
+			weaponSlots = new List<Inventory>(2);
+			weaponSlots.Add(lHandEquipment);
+			weaponSlots.Add(rHandEquipment);
+
+			allSlots = new List<Inventory>(19);
+			allSlots.AddRange(weaponSlots);
+			allSlots.AddRange(armorSlots);
 
 			for(int i = 0; i < allSlots.Count; i++) {
 				allSlots[i].inventorytype = InventoryTypes.Equipment;
 				allSlots[i].onItemAdded = ItemAdded;
 				allSlots[i].onItemRemoved = ItemRemoved;
-				
 			}
 		}
 
 		public Item Equip(Item item, Inventory from ) {
-			for (int i = 0; i < allSlots.Count; i++) {
-				if (CompareTypesEquip(allSlots[i], item)) {
-					Item clone;
-					if (from == null)//значит айтем взят из физ мира.
-						clone = allSlots[i].AddItem(item, false);
-					else
-						clone = allSlots[i].AddItem(item, from.isGUI);
 
-					if (clone != null) return clone;
+			bool enableUI = from == null ? false : from.isGUI;
+
+			Inventory cashSlot;
+
+			if (item is WeaponItem weaponItem) {
+				if (weaponItem is OneHandedItem) {
+					if (lHandEquipment.IsEmpty) {
+						cashSlot = lHandEquipment;
+					} else if (rHandEquipment.IsEmpty) {
+						if (lHandEquipment.currentItems[0] is TwoHandedItem) return null;
+						cashSlot = rHandEquipment;
+					} else {
+						return null;
+					}
+
+					return cashSlot.AddItem(item, enableUI);
+				}
+				if (weaponItem is TwoHandedItem) {
+					if (lHandEquipment.IsEmpty && rHandEquipment.IsEmpty) {
+						cashSlot = lHandEquipment;
+					} else {
+						return null;
+					}
+
+					return cashSlot.AddItem(item, enableUI);
+				}
+				if (weaponItem is RangedItem) {
+					//
+				}
+			} else if (item is ArmorItem) {
+				for (int i = 0; i < armorSlots.Count; i++) {
+					if (CompareTypesEquip(armorSlots[i], item)) {
+						Item clone = armorSlots[i].AddItem(item, enableUI);
+						if (clone != null)
+							return clone;
+					}
 				}
 			}
 			return null;
@@ -172,7 +207,7 @@ namespace DDF.UI.Inventory {
 				if (beltEquipment == inventory) {
 					armorBelt.amount = armorItem.armor.amount;
 				}
-				if (legEquipment == inventory) {
+				if (legsEquipment == inventory) {
 					armorLegs.amount = armorItem.armor.amount;
 				}
 				if (feetEquipment == inventory) {
@@ -219,7 +254,7 @@ namespace DDF.UI.Inventory {
 				if (beltEquipment == inventory) {
 					armorBelt.amount = 0;
 				}
-				if (legEquipment == inventory) {
+				if (legsEquipment == inventory) {
 					armorLegs.amount = 0;
 				}
 				if (feetEquipment == inventory) {
