@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 namespace DDF.UI.Inventory {
     /// <summary>
     /// TODO: обновлять, сортировать currentItems
-    /// TODO: проверять переполнение и выкидывать предметы.
+    /// TODO: проверять переполнение.
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(InventoryGrid))]
@@ -244,7 +244,12 @@ namespace DDF.UI.Inventory {
                     if (view.SolidHightlight) {
                         if (inventory.inventorytype == InventoryTypes.Equipment) {
                             Item item = overSeer.rootModel.referenceItem;
-                            
+                            if(item is WeaponItem) {
+								if (!whereNow.IsEmpty) {
+                                    whereNowcontainer.SelectAllSlots(whereNow.view.invalidColor);
+                                    return;
+								} 
+                            }
                             List<StorageTypes> storageTypes = whereNow.storageTypes;
                             if(storageTypes.Count == 0) {
                                 whereNowcontainer.SelectAllSlots(whereNow.view.highlightColor);

@@ -285,6 +285,9 @@ namespace DDF.UI.Inventory {
 			DisposeEquipment(inventory);
 		}
 
+		/// <summary>
+		/// Привязывает 3д модель к персонажу.
+		/// </summary>
 		private void AttachToEquipment(Inventory inventory, Item item) {
 			if (inventory == rHandEquipment) {
 				Item3DModel Rweapon = Instantiate(item.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
@@ -297,6 +300,9 @@ namespace DDF.UI.Inventory {
 				Lweapon.itemRigidbody.isKinematic = true;
 			}
 		}
+		/// <summary>
+		/// Очищает место где должна находиться 3д модель.
+		/// </summary>
 		private void DisposeEquipment(Inventory inventory) {
 			if (inventory == rHandEquipment) {
 				Help.HelpFunctions.TransformSeer.DestroyChildrenInParent(placeRHand);
