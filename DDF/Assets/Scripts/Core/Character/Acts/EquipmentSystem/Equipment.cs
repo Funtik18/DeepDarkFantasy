@@ -114,20 +114,7 @@ namespace DDF.UI.Inventory {
 					else
 						clone = allSlots[i].AddItem(item, from.isGUI);
 
-					if (clone != null) {//если смогли найти слот и добавить айтем в экипировку.
-						if(allSlots[i] == rHandEquipment) {
-							Item3DModel Rweapon = Instantiate(clone.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
-							Rweapon.transform.parent = placeRHand;
-							Rweapon.itemRigidbody.isKinematic = true;
-						}
-						if (allSlots[i] == lHandEquipment) {
-							Item3DModel Lweapon = Instantiate(clone.item3DModel, placeLHand.position, placeLHand.rotation).GetComponent<Item3DModel>();
-							Lweapon.transform.parent = placeLHand;
-							Lweapon.itemRigidbody.isKinematic = true;
-						}
-
-						return clone;
-					}
+					if (clone != null) return clone;
 				}
 			}
 			return null;
@@ -210,8 +197,9 @@ namespace DDF.UI.Inventory {
 					currentEntity.MaxMeleeDamage += weaponItem.damage.max;
 					currentEntity.MinMeleeDamage += weaponItem.damage.min;
 				}
-				
 			}
+
+			AttachToEquipment(inventory, item);
 		}
 		/// <summary>
 		/// Обмундирование убирает "эффекты" с сущности.
@@ -257,6 +245,31 @@ namespace DDF.UI.Inventory {
 					currentEntity.MinMeleeDamage -= weaponItem.damage.min;
 				}
 			}
+
+			DisposeEquipment(inventory);
 		}
+
+		private void AttachToEquipment(Inventory inventory, Item item) {
+			if (inventory == rHandEquipment) {
+				Item3DModel Rweapon = Instantiate(item.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
+				Rweapon.transform.parent = placeRHand;
+				Rweapon.itemRigidbody.isKinematic = true;
+			}
+			if (inventory == lHandEquipment) {
+				Item3DModel Lweapon = Instantiate(item.item3DModel, placeLHand.position, placeLHand.rotation).GetComponent<Item3DModel>();
+				Lweapon.transform.parent = placeLHand;
+				Lweapon.itemRigidbody.isKinematic = true;
+			}
+		}
+		private void DisposeEquipment(Inventory inventory) {
+			if (inventory == rHandEquipment) {
+				Help.HelpFunctions.TransformSeer.DestroyChildrenInParent(placeRHand);
+			}
+			if (inventory == lHandEquipment) {
+				Help.HelpFunctions.TransformSeer.DestroyChildrenInParent(placeLHand);
+			}
+		}
+
+
 	}
 }
