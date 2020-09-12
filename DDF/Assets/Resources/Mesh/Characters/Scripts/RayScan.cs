@@ -35,13 +35,13 @@ public class RayScan : MonoBehaviour {
 			else
 			{
                 add_object(hit.collider.gameObject);
-				Debug.DrawLine(pos, hit.point, Color.blue);
-				Debug.Log(hit.collider.name);
+				//Debug.DrawLine(pos, hit.point, Color.blue);
+				//Debug.Log(hit.collider.name);
 			}
 		}
 		else
 		{
-			Debug.DrawRay(pos, dir * distance, Color.red);
+			//Debug.DrawRay(pos, dir * distance, Color.red);
 		}
 		return result;
 	}
