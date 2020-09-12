@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DDF.Character;
+using DDF.UI.Inventory;
 public class NPlayerMovement : MonoBehaviour
 {
     public Transform CameraTransform;
@@ -42,8 +43,14 @@ public class NPlayerMovement : MonoBehaviour
     }
     public void FixedUpdate()
     {
+
+        LookMyEquip();
         MoveUpdate();
-        IsDead();
+        MyIsDead();
+        
+    }
+    public void LookMyEquip(){
+        characterEntity.equipment.
     }
     public void MoveUpdate()
     {
@@ -108,7 +115,7 @@ public class NPlayerMovement : MonoBehaviour
             
     }
 
-    public void IsDead(){
+    public void MyIsDead(){
         if(characterEntity.IsDead){
             freezMovement = true;
             animator.enabled = false;
@@ -117,22 +124,6 @@ public class NPlayerMovement : MonoBehaviour
     }
     public void RotationNormal()
     {
-        /*//Vector3 moveDir = CameraTransform.forward * vertical;
-        
-        if(!jumping){
-
-        //Vector3 moveDir = Vector3.zero;
-        //moveDir = transform.forward * vertical;
-        //moveDir += CameraTransform.right * horizontal;
-
-        //moveDir += transform.right * horizontal;
-
-        //moveDir.Normalize();
-        //moveDirection = moveDir;
-        }else{
-        }
-       // Debug.Log(moveDir);*/
-        
         rotationDirection = CameraTransform.forward;
 
         Vector3 targetDir = rotationDirection;
