@@ -26,6 +26,7 @@ namespace DDF.PCG.WEAPON
         List<XmlCategory> belt = new List<XmlCategory>();//3
         List<XmlCategory> legs = new List<XmlCategory>();//4
         List<XmlCategory> feets = new List<XmlCategory>();//5
+        List<XmlCategory> shields = new List<XmlCategory>();//6
         List<XmlCategory> modsA = new List<XmlCategory>();
         List<XmlCategory> endsA = new List<XmlCategory>();
 
@@ -42,6 +43,7 @@ namespace DDF.PCG.WEAPON
         public Sprite[] Belt;
         public Sprite[] Legs;
         public Sprite[] Feets;
+        public Sprite[] Shields;
 
         public Sprite[] Ring;
         public Sprite[] Wrist;
@@ -78,6 +80,7 @@ namespace DDF.PCG.WEAPON
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Belt/belt"), belt);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Legs/leg"), legs);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Feets/feet"), feets);
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Shields/shield"), shields);
             //Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/End/end"), endsA);
 
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableJewerly/type"), jewerlys);
@@ -156,7 +159,7 @@ namespace DDF.PCG.WEAPON
                     rar = Random.Range(0, 4);
                     height = 2;
                     rarity = (ItemRarity)rar;
-                    ///1-шлем 2-грудь 3- пояс 4 - поножи 5 - боты
+                    ///1-шлем 2-грудь 3- пояс 4 - поножи 5 - боты 6 - щит
                     switch (currentArmor.id)
                     {
                         case ("1"):
@@ -210,6 +213,17 @@ namespace DDF.PCG.WEAPON
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Feets);
                             return ItemCreate<FeetItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
+                        case ("6"):
+                            height += Random.Range(0, 2);
+                            valueW *= 2.5f;
+                            maxValue += (int)(height * width * 2.5f);
+                            typeArmor = GetRandom(shields.ToArray());
+                            //Debug.Log(currentArmor.name + " " + currentArmor.gender);
+                            mod = GetRandomWithGender(modsA, currentArmor.gender);
+                            //Debug.Log(mod.text + " " + mod.gender);
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(Shields);
+                            return ItemCreate<OffHandItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
                     }
                     return null;
                 case (3):
