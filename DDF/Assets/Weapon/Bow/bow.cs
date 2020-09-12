@@ -18,7 +18,8 @@ public class bow : MonoBehaviour
         myanim = this.GetComponent<Animator>();
     }
 
-    private void Update() {
+    private void FixedUpdate() {
+
         myanim.SetBool("ready",ready);
         myanim.SetBool("shoot",shoot);
 
@@ -33,6 +34,9 @@ public class bow : MonoBehaviour
         }else{
             shoot = false;
         }
+
+        Vector3 forward = transform.right*1000;
+        Debug.DrawLine(transform.position,forward,Color.green);
 
     }
     // Update is called once per frame

@@ -1,4 +1,5 @@
 ﻿using DDF.Environment;
+using System.Collections;
 using UnityEngine;
 
 namespace DDF.PCG.WEAPON
@@ -7,12 +8,13 @@ namespace DDF.PCG.WEAPON
     {
         public ChestInteraction chest;
         public WeaponGenerator wg;
-        private void Start()
+        void Start()
         {
-            chest.startItems.Add(wg.Generator(1));
-            chest.startItems.Add(wg.Generator(1));
-            chest.startItems.Add(wg.Generator(1));
-            chest.startItems.Add(wg.Generator(1));
+            //yield return new WaitForSeconds(3f);
+            chest.startItems.Add(wg.Generator(3));
+            chest.startItems.Add(wg.Generator(3));
+            chest.startItems.Add(wg.Generator(3));
+            chest.startItems.Add(wg.Generator(3));
         }
     }
 }

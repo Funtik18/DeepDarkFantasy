@@ -883,7 +883,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Vertical
+  - m_Name: VerticalAim
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: HorizontalAim
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1259,7 +1265,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: e5c63da2eaeb9be4595939cd89958266, type: 2}
     m_Threshold: -1
-    m_Position: {x: 1, y: 0}
+    m_Position: {x: -1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: X
@@ -1275,18 +1281,34 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 98d2fa017e607e7419af14a89bdfbed3, type: 2}
     m_Threshold: 1
-    m_Position: {x: -1, y: 0}
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: X
     m_Mirror: 0
-  m_BlendParameter: Vertical
-  m_BlendParameterY: X
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 3ae959bf4ab061f4b9f7d57e0b830a79, type: 2}
+    m_Threshold: 2
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: X
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 2e4410e37c2cbce48966921e7ce5eaa9, type: 2}
+    m_Threshold: 3
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: X
+    m_Mirror: 0
+  m_BlendParameter: VerticalAim
+  m_BlendParameterY: HorizontalAim
   m_MinThreshold: -1
-  m_MaxThreshold: 1
+  m_MaxThreshold: 3
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
-  m_BlendType: 0
+  m_BlendType: 2
 --- !u!1101 &6400426615436649134
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
