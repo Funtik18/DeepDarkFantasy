@@ -4,7 +4,7 @@ using DDF.AI;
 public class Archer_AI : AI_Entity
 {
     public bool dontMove;
-    public float aimOffset = 10;
+    public float radiusAngry = 60;
     public GameObject bowReady, bowNotReady;
     public GameObject arrowInKolchan;
     public Transform bowString;
@@ -90,6 +90,10 @@ public class Archer_AI : AI_Entity
         
         Aiming();
         
+        if(min > radiusAngry){
+            enemyOut(true);
+        }
+
         if((min>sparing_distance) && !dontMove)
         {
             GetComponent<Animator>().applyRootMotion = true;
@@ -138,8 +142,9 @@ public class Archer_AI : AI_Entity
         float forwardDist = Vector3.Distance(temp,transform.position);// + aimOffset;
         Debug.Log(verticalDist);
         Debug.Log(forwardDist);
-        Debug.Log((forwardDist/90)+(verticalDist/forwardDist));
-        myanim.SetFloat("VerticalAim",forwardDist/99+(verticalDist/forwardDist));
+        forwardDist = (forwardDist/90)+(verticalDist/forwardDist);
+        Debug.Log(forwardDist);
+        myanim.SetFloat("VerticalAim",forwardDist);
         //float horizontalOtkl = (forwardDist-57.69f)/-576.92f;
         //Debug.Log(horizontalOtkl);
         myanim.SetFloat("HorizontalAim",-0.1f);

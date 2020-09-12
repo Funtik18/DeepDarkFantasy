@@ -156,13 +156,7 @@ namespace DDF.AI {
         }
 
         myMind();
-        Entity entity = enemy.transform.root.GetComponent<Entity>();
-        if(entity !=null)
-        if(entity.IsDead) {
-            curse.Add(enemy);
-            enemies.Remove(enemy);
-            endbattle = true;
-        }
+        enemyOut();
  
     }
 
@@ -223,6 +217,23 @@ namespace DDF.AI {
                 }
             } 
     }
+
+    protected virtual void enemyOut(bool getOut = false){
+
+       Entity entity = enemy.transform.root.GetComponent<Entity>();
+        if(!getOut)
+        {
+            if(entity !=null)
+                if(entity.IsDead) {
+                    curse.Add(enemy);
+                    enemies.Remove(enemy);
+                    endbattle = true;
+                }
+        }else{
+            enemies.Remove(enemy);
+        }
+    }
+
     public virtual void endAnim()
     {
         myanim.SetBool("Hit",false);

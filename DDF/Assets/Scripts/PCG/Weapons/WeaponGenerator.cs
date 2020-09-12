@@ -30,7 +30,8 @@ namespace DDF.PCG.WEAPON
         List<XmlCategory> endsA = new List<XmlCategory>();
 
         List<XmlCategory> jewerlys = new List<XmlCategory>();//3
-        List<XmlCategory> ring = new List<XmlCategory>();
+        List<XmlCategory> ring = new List<XmlCategory>();//1
+        List<XmlCategory> wrist = new List<XmlCategory>();//2
         public Sprite[] OneH;
         public Sprite[] TwoH;
 
@@ -43,6 +44,7 @@ namespace DDF.PCG.WEAPON
         public Sprite[] Feets;
 
         public Sprite[] Ring;
+        public Sprite[] Wrist;
 
         [SerializeField]
         [ReadOnly]
@@ -80,6 +82,7 @@ namespace DDF.PCG.WEAPON
 
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableJewerly/type"), jewerlys);
             Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Rings/ring "), ring);
+            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Wrists/wr "), wrist);
         }
 
         /// <summary>
@@ -163,7 +166,7 @@ namespace DDF.PCG.WEAPON
                             //Debug.Log(mod.text+" "+mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Head);
-                            return ItemCreate<HeadItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<HeadItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
                         case ("2"):
                             height += Random.Range(0, 2);
                             valueW *= 5f;
@@ -174,7 +177,7 @@ namespace DDF.PCG.WEAPON
                             //Debug.Log(mod.text + " " + mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Torso);
-                            return ItemCreate<TorsoItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<TorsoItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
                         case ("3"):
                             height = 1;
                             valueW = float.Parse(Random.Range(0.5f, 2f).ToString("F1"));
@@ -185,7 +188,7 @@ namespace DDF.PCG.WEAPON
                             //Debug.Log(mod.text + " " + mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Belt);
-                            return ItemCreate<WaistItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<WaistItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
                         case ("4"):
                             height = Random.Range(2, 4);
                             valueW = float.Parse(Random.Range(1f, 5f).ToString("F1"));
@@ -196,7 +199,7 @@ namespace DDF.PCG.WEAPON
                             //Debug.Log(mod.text + " " + mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Legs);
-                            return ItemCreate<LegsItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<LegsItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
                         case ("5"):
                             valueW = float.Parse(Random.Range(1f, 5f).ToString("F1"));
                             maxValue = float.Parse(Random.Range(1f, 5f).ToString("F1"));
@@ -206,7 +209,7 @@ namespace DDF.PCG.WEAPON
                             //Debug.Log(mod.text + " " + mod.gender);
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Feets);
-                            return ItemCreate<FeetItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                            return ItemCreate<FeetItem>(mod, currentArmor, end, typeArmor, rarity, maxValue, valueW + (height + width), maxValueD, minValueD, width, height, icon);
                     }
                     return null;
                 case (3):
@@ -233,6 +236,18 @@ namespace DDF.PCG.WEAPON
                             end = GetRandom(endsW.ToArray());
                             icon = GetRandom(Ring);
                             return ItemCreate<JewerlyItem>(mod, currentJewelry, end, typeJewelry, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
+                        case ("2"):
+                            width++;
+                            height++;
+                            maxValue = float.Parse(Random.Range(1.5f, 3f).ToString("F1"));
+                            valueW = float.Parse(Random.Range(0.1f, 1.5f).ToString("F1"));
+                            typeJewelry = GetRandom(wrist.ToArray());
+                            //Debug.Log(currentJewelry.name+" "+ currentJewelry.gender);
+                            mod = GetRandomWithGender(modsA, currentJewelry.gender);
+                            //Debug.Log(mod.text+" "+mod.gender);
+                            end = GetRandom(endsW.ToArray());
+                            icon = GetRandom(Wrist);
+                            return ItemCreate<WristItem>(mod, currentJewelry, end, typeJewelry, rarity, maxValue, valueW, maxValueD, minValueD, width, height, icon);
 
                     }
                     return null;
@@ -249,7 +264,7 @@ namespace DDF.PCG.WEAPON
             obj.itemName = mod.text + " " + currentWeapon.name + " " + end.text;
             obj.itemDescription = typeWeapon.text;
             obj.rarity = rarity;
-            obj.weight = new VarFloat("Weight", valueW + (height + width));
+            obj.weight = new VarFloat("Weight", valueW );
             obj.armor = new VarFloat("Armor", value);
             obj.duration = new VarMinMax<int>("Duration", minValueD, maxValueD);
             obj.itemIcon = icon;
