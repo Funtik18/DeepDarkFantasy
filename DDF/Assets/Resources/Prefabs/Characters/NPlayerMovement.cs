@@ -30,10 +30,11 @@ public class NPlayerMovement : MonoBehaviour
     private bool jumping = false;
     private string textRweapon = "";
     private HumanoidEntity characterEntity;
+    private Equipment characterEquipment;
 
 	private void Awake() {
         characterEntity = transform.root.GetComponent<HumanoidEntity>();
-
+        characterEquipment = characterEntity.equipment;
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
@@ -49,23 +50,63 @@ public class NPlayerMovement : MonoBehaviour
     }
     public void FixedUpdate()
     {
+        AnimationControl();
         MoveUpdate();
         MyIsDead();
     }
 
     private void AnimationControl() {
-        Equipment characterEquipment = characterEntity.equipment;
+        
 
 		if (!characterEquipment.rHandEquipment.IsEmpty) {//если в правой руке что то есть Спасибо КЭП
+            
             WeaponItem weaponItem = (characterEquipment.rHandEquipment.currentItems[0] as WeaponItem);
-            //if(weaponItem is OneHandedItem)
+            
+            if (characterEquipment.lHandEquipment.IsEmpty) 
+                checkHandAnim(weaponItem);
+
+        }else{
+            //вставить код удаляющий оружие из рук
         }
         if (!characterEquipment.lHandEquipment.IsEmpty) {
-            WeaponItem weaponItem = ( characterEquipment.rHandEquipment.currentItems[0] as WeaponItem );
+          
+                WeaponItem weaponItem = ( characterEquipment.lHandEquipment.currentItems[0] as WeaponItem );
+                
+                if (characterEquipment.rHandEquipment.IsEmpty)
+                    checkHandAnim(weaponItem);
+
+        }else{
+            //вставить код удаляющий оружие из рук
         }
+
     }
 
+    public void checkHandAnim(WeaponItem weaponItem){
 
+            if (weaponItem is OneHandedItem oneHandWeapon) {
+                switch (oneHandWeapon.handedType) 
+                {
+                    case OneHandedType.Axe:  break;
+                    case OneHandedType.Sword: 
+                        animator.SetBool("oneHand",true); 
+                        break;
+                    case OneHandedType.Spear:  break;
+                    case OneHandedType.Mace:  break;
+                    case OneHandedType.Dagger: break;
+                    default: 
+                        animator.SetBool("oneHand",false); 
+                        break;
+                }
+            }
+
+            if (weaponItem is TwoHandedItem twoHandWeapon) {
+                
+                animator.SetBool("twoHand",true);
+            }else{
+                animator.SetBool("twoHand",false);
+            }
+
+    }
     public void MoveUpdate()
     {
         if (!freezMovement)
