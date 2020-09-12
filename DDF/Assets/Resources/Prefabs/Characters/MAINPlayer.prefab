@@ -3689,12 +3689,7 @@ MonoBehaviour:
   bufSpeedtoRun: 8
   gravity: 3
   jumpHight: 500
-  placeRHand: {fileID: 6838685508927583731}
-  placeLHand: {fileID: 6031610353338022785}
-  TestWeapon: {fileID: 2258731586555195379, guid: 8c2fa8cc067a7d94d8667e778d4588b5,
-    type: 3}
   freezMovement: 0
-  characterEntity: {fileID: 5524764518415365907}
 --- !u!114 &862378079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12441,12 +12436,12 @@ PrefabInstance:
         type: 3}
       propertyPath: placeRHand
       value: 
-      objectReference: {fileID: 6838685508927583731}
+      objectReference: {fileID: 6031610353338022785}
     - target: {fileID: 5520015869036677725, guid: 76b14ce02a92a18419605e90a87876ea,
         type: 3}
       propertyPath: placeLHand
       value: 
-      objectReference: {fileID: 6031610353338022785}
+      objectReference: {fileID: 6838685508927583731}
     - target: {fileID: 5520015869036677726, guid: 76b14ce02a92a18419605e90a87876ea,
         type: 3}
       propertyPath: m_LocalPosition.x

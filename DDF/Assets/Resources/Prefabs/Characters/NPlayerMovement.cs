@@ -29,10 +29,10 @@ public class NPlayerMovement : MonoBehaviour
     private CharacterController controller;
     private bool jumping = false;
     private string textRweapon = "";
-    private Entity characterEntity;
+    private HumanoidEntity characterEntity;
 
 	private void Awake() {
-        characterEntity = transform.root.GetComponent<Entity>();
+        characterEntity = transform.root.GetComponent<HumanoidEntity>();
 
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
@@ -52,6 +52,19 @@ public class NPlayerMovement : MonoBehaviour
         MoveUpdate();
         MyIsDead();
     }
+
+    private void AnimationControl() {
+        Equipment characterEquipment = characterEntity.equipment;
+
+		if (!characterEquipment.rHandEquipment.IsEmpty) {//если в правой руке что то есть
+            WeaponItem weaponItem = (characterEquipment.rHandEquipment.currentItems[0] as WeaponItem);
+            //if(weaponItem is OneHandedItem)
+        }
+        if (!characterEquipment.lHandEquipment.IsEmpty) {
+            WeaponItem weaponItem = ( characterEquipment.rHandEquipment.currentItems[0] as WeaponItem );
+        }
+    }
+
 
     public void MoveUpdate()
     {

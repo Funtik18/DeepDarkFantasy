@@ -14,22 +14,31 @@ namespace DDF.Environment {
 			interactEntity = other.transform.root.GetComponent<Entity>();
 			if (interactEntity) {
 				base.OnTriggerEnter(other);
-				hint.OpenHint();
+				OnEnter();
 			}
 		}
 		public override void OnTriggerStay(Collider other) {
 			if (interactEntity) {
 				base.OnTriggerStay(other);
-				hint.LookAtCamera(Camera.main);
+				OnStay();
 			}
 		}
 
 		public override void OnTriggerExit(Collider other) {
 			if (interactEntity) {
 				base.OnTriggerExit(other);
-				hint.CloseHint();
+				OnExit();
 				interactEntity = null;
 			}
+		}
+		protected virtual void OnEnter() {
+			hint.OpenHint();
+		}
+		protected virtual void OnStay() {
+			hint.LookAtCamera(Camera.main);
+		}
+		protected virtual void OnExit() {
+			hint.CloseHint();
 		}
 	}
 }

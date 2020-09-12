@@ -13,7 +13,7 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
 
-		public Transform placeRHand, placeLHand;
+		public Transform placeLHand, placeRHand;
 
 		[HideInInspector] public StatRegularFloat lHandDamage = new StatRegularFloat("Урон о.р.", 0, 0, "-");
 		[HideInInspector] public StatRegularFloat rHandDamage = new StatRegularFloat("Урон c.р.", 0, 0, "-");

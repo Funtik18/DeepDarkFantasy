@@ -30,6 +30,7 @@ namespace DDF.Environment {
 		/// Подбор 3д предмета, если оружие то сразу надевает.
 		/// </summary>
 		private void Take() {
+			if (physicalModel.owner) return;
 			Item item = physicalModel.item;
 			if(item is WeaponItem) {
 				bool result = (interactEntity as HumanoidEntity).Equip(item, null);
@@ -41,6 +42,19 @@ namespace DDF.Environment {
 				}
 			}
 			Help.HelpFunctions.TransformSeer.DestroyObject(physicalModel.gameObject);
+		}
+
+		protected override void OnEnter() {
+			if(!physicalModel.owner)
+				base.OnEnter();
+		}
+		protected override void OnStay() {
+			if (!physicalModel.owner)
+				base.OnStay();
+		}
+		protected override void OnExit() {
+			if(!physicalModel.owner)
+				base.OnExit();
 		}
 	}
 }
