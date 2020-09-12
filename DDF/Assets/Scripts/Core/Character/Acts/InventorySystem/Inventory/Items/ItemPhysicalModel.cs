@@ -39,9 +39,6 @@ namespace DDF.Environment {
 		private Vector3 newPos;
 		private bool speedOrder;
 		void FixedUpdate() {
-			Debug.LogError(itemDamage.min + " "  + itemDamage.max);
-
-
 			if (!bladeActive) return;
 			if (speedOrder) {
 				newPos = transform.position;

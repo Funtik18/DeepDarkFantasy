@@ -1,6 +1,8 @@
 ﻿using DDF.Character;
 using DDF.Character.Stats;
+using DDF.Environment;
 using DDF.UI.Inventory.Items;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +13,6 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Equipment : MonoBehaviour {
 
-		[HideInInspector] public Entity currentEntity;
 
 		[HideInInspector] public StatRegularFloat lHandDamage = new StatRegularFloat("Урон о.р.", 0, 0, "-");
 		[HideInInspector] public StatRegularFloat rHandDamage = new StatRegularFloat("Урон c.р.", 0, 0, "-");
@@ -67,7 +68,11 @@ namespace DDF.UI.Inventory {
 
 		private List<Inventory> allSlots;
 
+		private HumanoidEntity currentEntity;
 		private void Awake() {
+
+			currentEntity = transform.root.GetComponent<HumanoidEntity>();
+
 			rings = new List<Inventory>();
 			rings.Add(lRing0Equipment);
 			rings.Add(lRing1Equipment);
@@ -237,6 +242,12 @@ namespace DDF.UI.Inventory {
 					currentEntity.MinMeleeDamage -= weaponItem.damage.min;
 				}
 			}
+		}
+
+
+		private class EquipmentModel {
+			public GameObject phisycalSlot;
+			public ItemPhysicalModel physicalModel;
 		}
 	}
 }

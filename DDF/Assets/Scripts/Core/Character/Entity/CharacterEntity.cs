@@ -10,7 +10,7 @@ namespace DDF.Character {
     /// <summary>
     /// Весь UI этой сущности.
     /// </summary>
-    public class CharacterEntity : Entity {
+    public class CharacterEntity : HumanoidEntity {
 
         public static CharacterEntity _instance;
 
@@ -34,9 +34,6 @@ namespace DDF.Character {
         #region Setup
         protected override void Awake() {
             _instance = this;
-            inventory = InventoryOverSeerGUI.GetInstance().mainInventory;
-            equipment = InventoryOverSeerGUI.GetInstance().mainEquipment;
-            equipment.currentEntity = this;
             base.Awake();
 
 			foreach (var item in textsStats) {

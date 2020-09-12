@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace DDF.Environment {
 	public class EquipmentInteraction : Interaction {
+
 		[ReadOnly] [SerializeField] protected Entity interactEntity;
 		[SerializeField] private HintInteraction hint;
 		public bool IsInField { get { return isInField; } }
@@ -18,13 +19,14 @@ namespace DDF.Environment {
 		}
 		public override void OnTriggerStay(Collider other) {
 			if (interactEntity) {
-				base.OnTriggerEnter(other);
+				base.OnTriggerStay(other);
 				hint.LookAtCamera(Camera.main);
 			}
 		}
+
 		public override void OnTriggerExit(Collider other) {
 			if (interactEntity) {
-				base.OnTriggerEnter(other);
+				base.OnTriggerExit(other);
 				hint.CloseHint();
 				interactEntity = null;
 			}

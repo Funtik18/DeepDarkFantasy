@@ -345,7 +345,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3498533186555084160}
-  - component: {fileID: 467453176}
   - component: {fileID: 2340895665586989882}
   - component: {fileID: 7909393306650122891}
   m_Layer: 0
@@ -373,23 +372,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &467453176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797901792724224186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e034be4960effc49a8b0e5a18ecd179, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interaction: {fileID: 6400112807414212260}
-  hint: {fileID: 603488152844471483}
-  chestPrefab: {fileID: 6278855561475657400, guid: 1c67658dad6b1f847b2f0c95d48b423d,
-    type: 3}
-  startItems: []
 --- !u!114 &2340895665586989882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961825373bfb4a146a2ae70515040d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest: {fileID: 467453176}
+  chest: {fileID: 4156887137143860283}
   wg: {fileID: 7909393306650122891}
 --- !u!114 &7909393306650122891
 MonoBehaviour:
@@ -428,7 +410,36 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2a4f630fa848d6947bc641fb64e3f14e, type: 3}
   Legs:
   - {fileID: 21300000, guid: bfada9221971489449dc9a62de9bdc3a, type: 3}
+  Feets: []
+  Ring: []
   Patch: Resources\XML\WeaponsDescription.xml
+--- !u!114 &4156887137143860283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400112807414212259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e034be4960effc49a8b0e5a18ecd179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEventEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  currentEventStay:
+    m_PersistentCalls:
+      m_Calls: []
+  currentEventExit:
+    m_PersistentCalls:
+      m_Calls: []
+  isInField: 0
+  interactEntity: {fileID: 0}
+  hint: {fileID: 603488152844471483}
+  chestPrefab: {fileID: 6278855561475657400, guid: 1c67658dad6b1f847b2f0c95d48b423d,
+    type: 3}
+  startItems: []
 --- !u!1 &6915826008936446595
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,23 +698,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7830368866530784140, guid: fdcd0607ae6ff6c45a5914891070e811, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fdcd0607ae6ff6c45a5914891070e811, type: 3}
+--- !u!1 &6400112807414212259 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7830368866530784139, guid: fdcd0607ae6ff6c45a5914891070e811,
+    type: 3}
+  m_PrefabInstance: {fileID: 3781557279216784680}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6595916561948618794 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8066982010319693058, guid: fdcd0607ae6ff6c45a5914891070e811,
     type: 3}
   m_PrefabInstance: {fileID: 3781557279216784680}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6400112807414212260 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7830368866530784140, guid: fdcd0607ae6ff6c45a5914891070e811,
-    type: 3}
-  m_PrefabInstance: {fileID: 3781557279216784680}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fb1c3651144cdb42868cc7976087861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

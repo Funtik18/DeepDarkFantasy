@@ -46,7 +46,7 @@ namespace DDF.Character.Stats {
         [SerializeField] private TextStat textStatMagicDamage;
 
         private List<TextStat> textsStats;
-        public void Init( Entity currentEntity ) {
+        public void Init(HumanoidEntity currentEntity ) {
             Stats stats = currentEntity.stats;
 
             textsStats = new List<TextStat>();
