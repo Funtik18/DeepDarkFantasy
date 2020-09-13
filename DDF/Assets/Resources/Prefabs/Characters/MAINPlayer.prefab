@@ -6541,7 +6541,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9117187196158570730}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -11891,7 +11891,7 @@ PrefabInstance:
     - target: {fileID: 7327108156009656973, guid: 02b4a717c70c59945a6e6403e67f295b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7327108156009656973, guid: 02b4a717c70c59945a6e6403e67f295b,
         type: 3}
@@ -11901,7 +11901,7 @@ PrefabInstance:
     - target: {fileID: 7327108156009656973, guid: 02b4a717c70c59945a6e6403e67f295b,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7327108156009656973, guid: 02b4a717c70c59945a6e6403e67f295b,
         type: 3}
@@ -12325,21 +12325,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9117187195580992309}
     m_Modifications:
-    - target: {fileID: 5520015868336439845, guid: 76b14ce02a92a18419605e90a87876ea,
-        type: 3}
-      propertyPath: storageTypes.Array.data[0]
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5520015869036677725, guid: 76b14ce02a92a18419605e90a87876ea,
-        type: 3}
-      propertyPath: placeRHand
-      value: 
-      objectReference: {fileID: 6031610353338022785}
     - target: {fileID: 5520015869036677725, guid: 76b14ce02a92a18419605e90a87876ea,
         type: 3}
       propertyPath: placeLHand
       value: 
       objectReference: {fileID: 6838685508927583731}
+    - target: {fileID: 5520015869036677725, guid: 76b14ce02a92a18419605e90a87876ea,
+        type: 3}
+      propertyPath: placeRHand
+      value: 
+      objectReference: {fileID: 6031610353338022785}
     - target: {fileID: 5520015869036677726, guid: 76b14ce02a92a18419605e90a87876ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18677,23 +18672,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9117187195580992309}
     m_Modifications:
-    - target: {fileID: 5881990477943027906, guid: 398d6f99a294e5745a79a111d56098df,
-        type: 3}
-      propertyPath: currentItems.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5881990477943027906, guid: 398d6f99a294e5745a79a111d56098df,
-        type: 3}
-      propertyPath: currentItems.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4dfc75cf29abade4db3f074ee455540d,
-        type: 2}
-    - target: {fileID: 5881990477943027906, guid: 398d6f99a294e5745a79a111d56098df,
-        type: 3}
-      propertyPath: currentItems.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5db7ef29696fab34cb314331ac0d200e,
-        type: 2}
     - target: {fileID: 5881990477943027906, guid: 398d6f99a294e5745a79a111d56098df,
         type: 3}
       propertyPath: currentItems.Array.data[2]

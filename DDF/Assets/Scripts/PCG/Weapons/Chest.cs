@@ -12,7 +12,7 @@ namespace DDF.PCG.WEAPON
         public int ItemType;
         [Range(0,4)]
         public int ItemCount;
-        void Start()
+        void Awake()
         {
             for (int i = 0; i < ItemCount; i++)
             {

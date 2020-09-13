@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 3766785710967821249}
   - component: {fileID: 3766785710967821250}
   - component: {fileID: 3766785710967821251}
-  - component: {fileID: 3766785710967821252}
+  - component: {fileID: 5053112358858139411}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -368,21 +368,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab84ded4d5a3f047a031c17664b99b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
   slotPrefab: {fileID: 8955002858170094280, guid: f6184cbdde1fe134cbf9674da1859f0f,
     type: 3}
   modelPrefab: {fileID: 7644149658061755710, guid: ca5cbfcb00d2cb24285130c4cb0da7c2,
     type: 3}
   dragParentPrefab: {fileID: 5748191476886465536, guid: c5dd51693514871409848ee371eea22d,
     type: 3}
-  rootDragParents: {fileID: 0}
   dragParent: {fileID: 0}
   width: 2
   height: 2
   cellSize: {x: 56, y: 56}
   cellSpace: {x: 0, y: 0}
   offset: {x: 20, y: -20}
---- !u!114 &3766785710967821252
+--- !u!114 &5053112358858139411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -391,9 +389,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3766785710967821254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6471062490cde449b06c65767ff6a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ae8c2e3181a3b345a040103bc7def30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  grid: {fileID: 0}
+  size: {x: 0, y: 0}
   slotsList: []
 --- !u!1 &3766785711577616888
 GameObject:
@@ -554,15 +555,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  isDisposer: 1
+  inventoryName: 
   isGUI: 1
-  inventorytype: 0
+  isTooltipEnabled: 1
+  isMenuOptionsEnabled: 1
   isFull: 0
-  storageTypes: []
-  InventoryName: TRASHCAN
   overSeer: {fileID: 0}
   view: {fileID: 3766785711577616839}
-  container: {fileID: 3766785710967821252}
+  container: {fileID: 5053112358858139411}
+  storageTypes: 
   currentItems: []
 --- !u!225 &6349704231782881036
 CanvasGroup:

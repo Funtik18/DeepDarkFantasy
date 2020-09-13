@@ -15,14 +15,14 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(ItemsTags))]
 	public class MenuOptions : MonoBehaviour {
 
-        public static MenuOptions _instance;
+        private static MenuOptions _instance;
 
 		private CanvasGroup canvasGroup;
 
 		public RectTransform rect { get { return GetComponent<RectTransform>(); } }
 
 		public GameObject optionPrefab;
-		public List<MenuOption> options;
+		[HideInInspector] public List<MenuOption> options;
 
 		private bool isHide = true;
 		public bool IsHide { get { return isHide; } }
@@ -30,12 +30,21 @@ namespace DDF.UI.Inventory {
 		private Item currentItem;
 		private Inventory currentInventory;
 
+		public static MenuOptions GetInstance() {
+			if (_instance == null) {
+				_instance = FindObjectOfType<MenuOptions>();
+				ItemsTags.Init();
+			}
+			return _instance;
+		}
+
 		private void Awake() {
-			_instance = this;
-			ItemsTags.Init();
 			canvasGroup = GetComponent<CanvasGroup>();
 			options = new List<MenuOption>();
 		}
+
+		
+
 
 		public void AddNewOption(string optionName, UnityAction call) {
 			GameObject obj = HelpFunctions.TransformSeer.CreateObjectInParent(transform, optionPrefab);
@@ -131,7 +140,7 @@ namespace DDF.UI.Inventory {
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isGUI"></param>
-		public void ItemTagSetup( Item item) {
+		public void ItemTagSetup( Item item, Container container) {
 			curItem = item;
 			curTags = item.tags;
 			curTags.Clear();
@@ -142,16 +151,19 @@ namespace DDF.UI.Inventory {
 			AssignPrimaryTag();
 
 			//общие
-			/*if (pressets == InventoryTypes.Equipment) {
+			if (container is EquipmentContainer) {
 				FreeTag<TagEquip>(curTags);
 				AssignTag<TagTakeOff>(curTags);
 				curItem.primaryTag = GetTag<TagTakeOff>(curTags);
 			}
-			if (pressets == InventoryTypes.Storage) {
+			if(container is ChestContainer) {
 				AssignTag<TagTake>(curTags);
 				curItem.primaryTag = GetTag<TagTake>(curTags);
 			}
-			*/
+			if (container is MainContainer) {
+
+			}
+			
 
 			curTags.Sort();
 
@@ -201,13 +213,6 @@ namespace DDF.UI.Inventory {
 		}
 		public ItemTag GetTag<T>( List<ItemTag> tags ) {
 			return tags[tags.FindIndex(x => x is T)];
-		}
-
-
-		public enum TagPressets {
-			ForInventory,
-			ForEquipment,
-			ForChest,
 		}
 		#endregion
 	}

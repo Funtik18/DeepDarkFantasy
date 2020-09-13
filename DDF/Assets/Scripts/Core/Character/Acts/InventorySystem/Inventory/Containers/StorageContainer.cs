@@ -7,9 +7,24 @@ namespace DDF.UI.Inventory {
 	public class StorageContainer : Container {
 		protected int actionSelection = -1;
 
+		private void Start() {
+			menuOptions = MenuOptions.GetInstance();
+			toolTip = ToolTip.GetInstance();
+		}
+
+
 		#region Overrides
+
+		public override void AddCurrentItem(Item item) {
+			menuOptions.ItemTagSetup(item, this);
+			base.AddCurrentItem(item);
+		}
 		protected override void OnPointerEnter(PointerEventData eventData, InventorySlot slot) {
 			base.OnPointerEnter(eventData, slot);
+
+			if (menuOptions.IsHide && !overSeer.isDrag) ToolTipShow();
+
+
 			if (overSeer.isDrag) {//передвигает от фром
 				Inventory whereNow = overSeer.whereNow;
 				if (whereNow != null) {
@@ -32,7 +47,35 @@ namespace DDF.UI.Inventory {
 		protected override void OnPointerExit(PointerEventData eventData, InventorySlot slot) {
 			base.OnPointerExit(eventData, slot);
 			ReloadHightLight();
+
+			ToolTipHide();
 		}
+
+		protected override void OnPointerDown(PointerEventData eventData, InventorySlot slot) {
+			base.OnPointerDown(eventData, slot);
+			if (!menuOptions.IsHide) return;
+		}
+		protected override void OnPointerLeftClick(PointerEventData eventData, InventorySlot slot) {
+			if (slot.isEmpty()) return;
+
+			int clickCount = eventData.clickCount;
+			if (clickCount == 1) {
+
+			} else if (clickCount == 2) {
+				Item item = slot.Item;
+				menuOptions.DetermineAction(item.primaryTag)?.Invoke(item, inventory);
+			} else if (clickCount > 2) {
+
+			}
+			MenuOptionsHide();
+		}
+		protected override void OnPointerRightClick(PointerEventData eventData, InventorySlot slot) {
+			if (overSeer.isDrag) return;
+			if (slot.isEmpty()) { MenuOptionsHide(); return; }
+			ToolTipHide();
+			MenuOptionsShow();
+		}
+
 
 		protected override void OnDrop(PointerEventData eventData) {
 			if (!overSeer.isDrag) return;
@@ -190,6 +233,7 @@ namespace DDF.UI.Inventory {
 
 
 		#region UIInteraction
+		ToolTip toolTip;
 		private void ToolTipShow() {
 
 			if (overSeer.lastSlot.isEmpty()) return;
@@ -198,17 +242,17 @@ namespace DDF.UI.Inventory {
 			Item item = overSeer.lastSlot.Item;
 			List<InventorySlot> slots = TakeSlotsByItem(item);
 			rectPos = slots[slots.Count - 1].GetComponent<RectTransform>();
-
 			slots.Clear();
 
-			inventory.toolTip.SetItem(item);
-			inventory.toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, inventory.toolTip.rect));
-			inventory.toolTip.ShowToolTip();
+			toolTip.SetItem(item);
+			toolTip.SetPosition(grid.RecalculatePositionToCornRect(rectPos, toolTip.rect));
+			toolTip.ShowToolTip();
 		}
 		private void ToolTipHide() {
-			inventory.toolTip.HideToolTip();
+			toolTip.HideToolTip();
 		}
 
+		MenuOptions menuOptions;
 		private void MenuOptionsShow() {
 			if (overSeer.lastSlot.isEmpty()) return;
 			RectTransform rectPos;
@@ -219,12 +263,12 @@ namespace DDF.UI.Inventory {
 
 			slots.Clear();
 
-			MenuOptions._instance.SetPosition(grid.RecalculatePositionToCornRect(rectPos, MenuOptions._instance.rect));
+			menuOptions.SetPosition(grid.RecalculatePositionToCornRect(rectPos, menuOptions.rect));
 
-			MenuOptions._instance.SetCurrentItem(item, inventory);
-			MenuOptions._instance.OpenMenu();
+			menuOptions.SetCurrentItem(item, inventory);
+			menuOptions.OpenMenu();
 		}
-		private void MenuOptionsHide() => MenuOptions._instance.CloseMenu();
+		private void MenuOptionsHide() => menuOptions.CloseMenu();
 
 		#endregion
 	}

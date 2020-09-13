@@ -39,7 +39,7 @@ namespace DDF.UI.Inventory {
             ConstructGrid();
 
             GameObject temp = HelpFunctions.TransformSeer.CreateObjectInParent(rootDragParents.transform, dragParentPrefab);
-            temp.name = inventory.InventoryName + "-DragParent";
+            temp.name = inventory.inventoryName + "-DragParent";
             dragParent = temp.transform;
         }
 

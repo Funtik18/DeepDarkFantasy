@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 626906127655775011}
   - component: {fileID: 626906127655775020}
   - component: {fileID: 626906127655775021}
-  - component: {fileID: 626906127655775022}
+  - component: {fileID: 6671668721705217631}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -159,21 +159,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab84ded4d5a3f047a031c17664b99b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
   slotPrefab: {fileID: 8955002858170094280, guid: f6184cbdde1fe134cbf9674da1859f0f,
     type: 3}
   modelPrefab: {fileID: 7644149658061755710, guid: ca5cbfcb00d2cb24285130c4cb0da7c2,
     type: 3}
   dragParentPrefab: {fileID: 5748191476886465536, guid: c5dd51693514871409848ee371eea22d,
     type: 3}
-  rootDragParents: {fileID: 0}
   dragParent: {fileID: 0}
   width: 2
   height: 2
   cellSize: {x: 56, y: 56}
   cellSpace: {x: 0, y: 0}
   offset: {x: 20, y: -20}
---- !u!114 &626906127655775022
+--- !u!114 &6671668721705217631
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,9 +180,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 626906127655775016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6471062490cde449b06c65767ff6a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f054bd03b2408d43915d165838278bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  grid: {fileID: 0}
+  size: {x: 0, y: 0}
   slotsList: []
 --- !u!1 &626906127838458208
 GameObject:
@@ -248,17 +249,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  isDisposer: 0
+  inventoryName: 
   isGUI: 1
-  inventorytype: 0
+  isTooltipEnabled: 1
+  isMenuOptionsEnabled: 1
   isFull: 0
-  storageTypes: 05000000
-  InventoryName: BRACELET
   overSeer: {fileID: 0}
   view: {fileID: 626906126984402504}
-  container: {fileID: 626906127655775022}
+  container: {fileID: 6671668721705217631}
+  storageTypes: 05000000
   currentItems: []
-  toolTip: {fileID: 0}
 --- !u!225 &-7132866783604478065
 CanvasGroup:
   m_ObjectHideFlags: 0

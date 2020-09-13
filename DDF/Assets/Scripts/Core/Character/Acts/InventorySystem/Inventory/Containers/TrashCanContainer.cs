@@ -8,10 +8,13 @@ namespace DDF.UI.Inventory {
 
 		private void Awake() {
 			//если корзина для мусора, то пусть инициализирует точку для выброса и подписывается на функцию.
-			ThrowPoint.Init();
-			inventory.onItemDisposed = ThrowItem;
+			//ThrowPoint.Init();
+			//inventory.onItemDisposed = ThrowItem;
 		}
 
+		/// <summary>
+		/// Выброс предмета в физ мир.
+		/// </summary>
 		private void ThrowItem(Item item, Inventory inventory) {
 			if (!ThrowPoint._instance) return;
 			if (item.item3DModel == null) {

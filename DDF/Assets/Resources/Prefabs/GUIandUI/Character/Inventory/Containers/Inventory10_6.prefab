@@ -8512,7 +8512,7 @@ GameObject:
   - component: {fileID: 5881990476501761574}
   - component: {fileID: 5881990476501761573}
   - component: {fileID: 5881990476501761572}
-  - component: {fileID: 5881990476501761579}
+  - component: {fileID: 9154140456383890482}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -8649,21 +8649,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab84ded4d5a3f047a031c17664b99b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
   slotPrefab: {fileID: 8955002858170094280, guid: f6184cbdde1fe134cbf9674da1859f0f,
     type: 3}
   modelPrefab: {fileID: 7644149658061755710, guid: ca5cbfcb00d2cb24285130c4cb0da7c2,
     type: 3}
   dragParentPrefab: {fileID: 5748191476886465536, guid: c5dd51693514871409848ee371eea22d,
     type: 3}
-  rootDragParents: {fileID: 0}
   dragParent: {fileID: 0}
   width: 10
   height: 6
   cellSize: {x: 56, y: 56}
   cellSpace: {x: 0, y: 0}
   offset: {x: 20, y: -20}
---- !u!114 &5881990476501761579
+--- !u!114 &9154140456383890482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8672,9 +8670,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5881990476501761577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6471062490cde449b06c65767ff6a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bf9aca7671ee8742b1d505d013ce648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  grid: {fileID: 0}
+  size: {x: 0, y: 0}
   slotsList: []
 --- !u!1 &5881990477943027910
 GameObject:
@@ -8768,16 +8769,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryID: 
-  isRestrictions: 0
+  inventoryName: 
   isGUI: 1
+  isTooltipEnabled: 1
+  isMenuOptionsEnabled: 1
   isFull: 0
-  storageTypes: []
-  InventoryName: Inventory
   overSeer: {fileID: 0}
   view: {fileID: 5881990478111525363}
-  container: {fileID: 5881990476501761579}
-  currentItems: []
-  canvasGroup: {fileID: 0}
+  container: {fileID: 9154140456383890482}
+  storageTypes: 
+  currentItems:
+  - {fileID: 11400000, guid: 4dfc75cf29abade4db3f074ee455540d, type: 2}
+  - {fileID: 11400000, guid: 5db7ef29696fab34cb314331ac0d200e, type: 2}
 --- !u!225 &-6726365396711385832
 CanvasGroup:
   m_ObjectHideFlags: 0

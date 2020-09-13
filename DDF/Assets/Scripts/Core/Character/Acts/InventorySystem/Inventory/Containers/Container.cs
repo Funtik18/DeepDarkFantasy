@@ -149,8 +149,7 @@ namespace DDF.UI.Inventory {
             Help.HelpFunctions.TransformSeer.DestroyObject(model.gameObject);
         }
 
-        public void AddCurrentItem(Item item) {
-            //MenuOptions._instance.ItemTagSetup(item, inventory.inventorytype);
+        public virtual void AddCurrentItem(Item item) {
             inventory.currentItems.Add(item);
             inventory.onItemAdded?.Invoke(item, inventory);
         }

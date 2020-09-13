@@ -1,4 +1,5 @@
-﻿using DDF.Environment;
+﻿using DDF.Atributes;
+using DDF.Environment;
 using DDF.UI.Inventory.Items;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,13 @@ namespace DDF.UI.Inventory {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class Inventory : MonoBehaviour {
 
-		[HideInInspector] public string inventoryID;
+		[ReadOnly] public string inventoryID;
+		[ReadOnly] public string inventoryName;
 
 		public bool isGUI = false;
+		public bool isTooltipEnabled = true;
+		public bool isMenuOptionsEnabled = true;
+
 
 		[HideInInspector] public bool isFull;
 		[HideInInspector] public bool IsEmpty {
@@ -19,14 +24,14 @@ namespace DDF.UI.Inventory {
 			}
 		}
 
+		
+		[HideInInspector] public InventoryOverSeer overSeer;
+		public InventoryView view;
+		public Container container;
 		/// <summary>
 		/// Фильтр. Если размер 0 то принимает любой предмет.
 		/// </summary>
 		public List<StorageTypes> storageTypes;
-		public string InventoryName = "Inventory";
-		[HideInInspector] public InventoryOverSeer overSeer;
-		public InventoryView view;
-		public Container container;
 		public List<Item> currentItems;
 
 		/// <summary>
@@ -38,10 +43,9 @@ namespace DDF.UI.Inventory {
 
 		private CanvasGroup canvasGroup;
 
-		[HideInInspector] public ToolTip toolTip;
-
 		public void CreateNewID() {
 			inventoryID = System.Guid.NewGuid().ToString();
+			inventoryName = container.GetType().Name;
 		}
 		protected virtual void Awake() {
 			canvasGroup = GetComponent<CanvasGroup>();
@@ -51,7 +55,6 @@ namespace DDF.UI.Inventory {
 				overSeer = InventoryOverSeerGUI.GetInstance();
 			else
 				overSeer = InventoryOverSeerUI.GetInstance();
-			toolTip = ToolTip.GetInstance();
 		}
 		protected void Start() {
 			container.Init();
@@ -75,11 +78,6 @@ namespace DDF.UI.Inventory {
 			container.HideContainer();
 			Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
 		}
-
-		/// <summary>
-		/// Выброс предмета в физ мир.
-		/// </summary>
-		
 	}
 	public enum StorageTypes {
 		HeadItem,
