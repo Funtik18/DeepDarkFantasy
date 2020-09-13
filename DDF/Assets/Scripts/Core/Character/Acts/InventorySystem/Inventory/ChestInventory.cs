@@ -10,7 +10,6 @@ namespace DDF.UI.Inventory {
 
         protected override void Awake() {
             base.Awake();
-            inventorytype = InventoryTypes.Storage;
         }
     }
 }

@@ -33,8 +33,6 @@ namespace DDF.UI.Inventory {
         [HideInInspector] public InventorySlot[,] slotsArray;
         [HideInInspector] public List<InventorySlot> slotsList;
 
-        
-
         #region Settup
 
         public void Init() {
@@ -43,13 +41,11 @@ namespace DDF.UI.Inventory {
             inventory = GetComponentInParent<Inventory>();
 
             grid = GetComponent<InventoryGrid>();
-            grid.inventory = inventory;
             if (inventory.isGUI)
-                grid.rootDragParents = DragParentsGUI._instance; 
+                grid.Init(inventory, DragParentsGUI._instance);
             else
-                grid.rootDragParents = DragParentsUI._instance;
+                grid.Init(inventory, DragParentsUI._instance);
 
-            grid.Init();
 
             width = grid.width;
             height = grid.height;
@@ -129,17 +125,17 @@ namespace DDF.UI.Inventory {
         /// Добавление предмета в инвентарь.
         /// </summary>
         public Item AddItem( Item item, bool enableModel) {
-            if (inventory.inventorytype == InventoryTypes.Equipment) {
+            /*if (inventory.inventorytype == InventoryTypes.Equipment) {
                 AddItemXY(item, size, enableModel);
 			} else {
                 AddItemXY(item, item.GetSize(), enableModel);
-            }
+            }*/
             return item;
         }
 
         #region ItemWork
         private void AddCurrentItem( Item item ) {
-            MenuOptions._instance.ItemTagSetup(item, inventory.inventorytype);
+            //MenuOptions._instance.ItemTagSetup(item, inventory.inventorytype);
             currentItems.Add(item);
             inventory.onItemAdded?.Invoke(item, inventory);
         }
@@ -232,7 +228,7 @@ namespace DDF.UI.Inventory {
 
         #region Slot Events
         public virtual void OnPointerEnter( PointerEventData eventData, InventorySlot slot ) {
-            overSeer.lastSlot = slot;
+            /*overSeer.lastSlot = slot;
             overSeer.whereNow = inventory;
 
             if (MenuOptions._instance.IsHide && !overSeer.isDrag) ToolTipShow();
@@ -278,7 +274,7 @@ namespace DDF.UI.Inventory {
                     HoverHightlightCursor(overSeer.lastSlot, view.hoverColor);
                 }
                 HoverItem();
-            }
+            }*/
         }
         public void OnPointerDown( PointerEventData eventData, InventorySlot slot ) {
             if(overSeer.isDrag) ItemBackToRootSlot();
@@ -364,7 +360,7 @@ namespace DDF.UI.Inventory {
             overSeer.from = null;
         }
         private void OnDrop( PointerEventData eventData ) {
-            if (!MenuOptions._instance.IsHide) return;
+           /* if (!MenuOptions._instance.IsHide) return;
             if (!overSeer.isDrag) return;
 
             Inventory whereNow = overSeer.whereNow;
@@ -412,7 +408,7 @@ namespace DDF.UI.Inventory {
 
                     ItemBackToRootSlot();
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -420,7 +416,7 @@ namespace DDF.UI.Inventory {
         /// </summary>
         /// <param name="isRestrictions"></param>
         private void ItemBackToRootSlot(bool isRestrictions  = false) {
-            InventoryContainer from = overSeer.from.container;
+            /*InventoryContainer from = overSeer.from.container;
             Item2DModel model = overSeer.rootModel;
             Item item = model.referenceItem;
             if (isRestrictions) {
@@ -446,10 +442,10 @@ namespace DDF.UI.Inventory {
             from.AddCurrentItem(item);
 
             overSeer.isDrag = false;
-            from.ReloadHightLight();
+            from.ReloadHightLight();*/
         }
         private void ItemPlaceOnSlot( InventoryContainer from, InventoryContainer to, Item item, Item2DModel model) {
-            to.AddItemOnPosition(item, overSeer.lastSlot);
+           /* to.AddItemOnPosition(item, overSeer.lastSlot);
             to.AddCurrentItem(item);
 
             overSeer.from.container.currentModels.Remove(model);
@@ -458,7 +454,7 @@ namespace DDF.UI.Inventory {
 
             overSeer.isDrag = false;
 
-            ReloadHightLight();
+            ReloadHightLight();*/
         }
         private void ItemPlaceOnSlotRestriction( InventoryContainer from, InventoryContainer to, Item item, Item2DModel model, bool recalculatePos = true) {
             List<InventorySlot> slots = to.slotsList;
@@ -477,9 +473,9 @@ namespace DDF.UI.Inventory {
             to.currentModels.Add(model);
 
             if (recalculatePos) {
-                if(to.inventory.inventorytype == InventoryTypes.Equipment)
-                    grid.RecalculateCellPosition(overSeer.buffer, to.size);
-                else
+                //if(to.inventory.inventorytype == InventoryTypes.Equipment)
+                    //grid.RecalculateCellPosition(overSeer.buffer, to.size);
+              //  else
                     grid.RecalculateCellPosition(overSeer.buffer, item.GetSize());
             }
 

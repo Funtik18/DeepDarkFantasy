@@ -6,7 +6,11 @@ namespace DDF.Editor {
 	using UnityEditor;
     [CustomEditor(typeof(InventoryGrid))]
     public class GridDrawer : Editor {
-
+        /// <summary>
+        /// при изменении родительского объекта, якоря должны быть 0,5 0,5.
+        /// а изменяемы объект  0 0
+        ///                     1 1
+        /// </summary>
         private int width;
         private int height;
 
@@ -17,6 +21,8 @@ namespace DDF.Editor {
 
         InventoryGrid grid;
         RectTransform parent;
+        Vector2 anchorMinParent;
+        Vector2 anchorMaxParent;
 
         bool triger = true;
 
@@ -45,6 +51,7 @@ namespace DDF.Editor {
 
         public void Refresh() {
             if (grid.width != width || grid.height != height || grid.cellSize != cellSize || grid.cellSpace != cellSpace || grid.offset != offset) {
+
                 width = grid.width;
                 height = grid.height;
 

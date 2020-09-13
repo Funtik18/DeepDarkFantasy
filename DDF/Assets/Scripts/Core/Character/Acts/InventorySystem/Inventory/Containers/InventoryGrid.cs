@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace DDF.UI.Inventory {
     public class InventoryGrid : MonoBehaviour {
-        [HideInInspector]
-        public Inventory inventory;
+        private Inventory inventory;
         private InventoryView view { get { return inventory.view; } }
 
         [Tooltip("Запрашивает слот с InventorySLot")]
@@ -16,8 +15,7 @@ namespace DDF.UI.Inventory {
         [Tooltip("Запрашивает объект для хранения моделей")]
         public GameObject dragParentPrefab;
 
-        [HideInInspector]
-        public DragParents rootDragParents;
+        private DragParents rootDragParents;
         [HideInInspector]
         public Transform dragParent;
 
@@ -29,12 +27,14 @@ namespace DDF.UI.Inventory {
 
         public Vector2 offset;
 
-        private Camera camera;
+        private Camera mainCamera;
         private float screenToCameraDistance;
-        public void Init() {
+        public void Init(Inventory newinventory, DragParents newrootDragParents) {
+            inventory = newinventory;
+            rootDragParents = newrootDragParents;
 
-            camera = Camera.main;
-            screenToCameraDistance = camera.nearClipPlane;
+            mainCamera = Camera.main;
+            screenToCameraDistance = mainCamera.nearClipPlane;
 
             ConstructGrid();
 
@@ -102,7 +102,7 @@ namespace DDF.UI.Inventory {
 
 
         public Vector3 RectSetPositionToWorld(Vector3 position2D ) {
-            return camera.ScreenToWorldPoint(GetPositionNearClip(position2D));
+            return mainCamera.ScreenToWorldPoint(GetPositionNearClip(position2D));
         }
 
         public Vector2 RecalculatePositionToCornRect(RectTransform rectCorn, RectTransform rect ) {

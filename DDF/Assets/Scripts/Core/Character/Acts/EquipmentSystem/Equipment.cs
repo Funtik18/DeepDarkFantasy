@@ -107,7 +107,6 @@ namespace DDF.UI.Inventory {
 			allSlots.AddRange(armorSlots);
 
 			for(int i = 0; i < allSlots.Count; i++) {
-				allSlots[i].inventorytype = InventoryTypes.Equipment;
 				allSlots[i].onItemAdded = ItemAdded;
 				allSlots[i].onItemRemoved = ItemRemoved;
 			}

@@ -131,7 +131,7 @@ namespace DDF.UI.Inventory {
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isGUI"></param>
-		public void ItemTagSetup( Item item, InventoryTypes pressets ) {
+		public void ItemTagSetup( Item item) {
 			curItem = item;
 			curTags = item.tags;
 			curTags.Clear();
@@ -142,7 +142,7 @@ namespace DDF.UI.Inventory {
 			AssignPrimaryTag();
 
 			//общие
-			if (pressets == InventoryTypes.Equipment) {
+			/*if (pressets == InventoryTypes.Equipment) {
 				FreeTag<TagEquip>(curTags);
 				AssignTag<TagTakeOff>(curTags);
 				curItem.primaryTag = GetTag<TagTakeOff>(curTags);
@@ -151,7 +151,7 @@ namespace DDF.UI.Inventory {
 				AssignTag<TagTake>(curTags);
 				curItem.primaryTag = GetTag<TagTake>(curTags);
 			}
-			
+			*/
 
 			curTags.Sort();
 

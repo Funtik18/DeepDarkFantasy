@@ -9,6 +9,7 @@ namespace DDF.UI.Inventory {
         [Header("Settings")]
         [Tooltip("Подсветка курсора.")]
         public bool HoverHightlight = false;
+        [Tooltip("Подсветка всего инвенторя.")]
         public bool SolidHightlight = false;
 
 

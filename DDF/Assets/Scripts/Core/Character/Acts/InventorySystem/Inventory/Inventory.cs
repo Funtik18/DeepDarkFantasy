@@ -10,13 +10,10 @@ namespace DDF.UI.Inventory {
 
 		[HideInInspector] public string inventoryID;
 
-		public bool isDisposer = false;
 		public bool isGUI = false;
 
-		[HideInInspector] public InventoryTypes inventorytype = InventoryTypes.MainInventory;
 		[HideInInspector] public bool isFull;
-		[HideInInspector]
-		public bool IsEmpty {
+		[HideInInspector] public bool IsEmpty {
 			get {
 				return currentItems.Count == 0;
 			}
@@ -29,7 +26,7 @@ namespace DDF.UI.Inventory {
 		public string InventoryName = "Inventory";
 		[HideInInspector] public InventoryOverSeer overSeer;
 		public InventoryView view;
-		public InventoryContainer container;
+		public Container container;
 		public List<Item> currentItems;
 
 		/// <summary>
@@ -55,12 +52,6 @@ namespace DDF.UI.Inventory {
 			else
 				overSeer = InventoryOverSeerUI.GetInstance();
 			toolTip = ToolTip.GetInstance();
-
-			//если корзина для мусора, то пусть инициализирует точку для выброса и подписывается на функцию.
-			if (isDisposer) {
-				ThrowPoint.Init();
-				onItemDisposed = ThrowItem;
-			}
 		}
 		protected void Start() {
 			container.Init();
@@ -88,20 +79,7 @@ namespace DDF.UI.Inventory {
 		/// <summary>
 		/// Выброс предмета в физ мир.
 		/// </summary>
-		private void ThrowItem(Item item, Inventory inventory) {
-			if (item.item3DModel == null) {
-				Debug.LogError(item.itemName + " not have item3DModel");
-				return;
-			}
-			Item3DModel throwingItem = Instantiate(item.item3DModel).GetComponent<Item3DModel>();
-			throwingItem.transform.position = ThrowPoint._instance.transform.position;
-			throwingItem.itemRigidbody.isKinematic = false;
-		}
-	}
-	public enum InventoryTypes {
-		MainInventory,
-		Equipment,
-		Storage,
+		
 	}
 	public enum StorageTypes {
 		HeadItem,
