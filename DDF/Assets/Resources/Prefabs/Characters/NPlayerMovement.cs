@@ -31,6 +31,7 @@ public class NPlayerMovement : MonoBehaviour
     private string textRweapon = "";
     private HumanoidEntity characterEntity;
     private Equipment characterEquipment;
+    private bool inBattle = false;
 
 	private void Awake() {
         characterEntity = transform.root.GetComponent<HumanoidEntity>();
@@ -47,6 +48,11 @@ public class NPlayerMovement : MonoBehaviour
             Debug.Log("Jumping");
         }
 
+        if(Input.GetButtonDown("Fire1") && inBattle)
+        {
+            animator.SetBool("attack",true);
+        }
+
     }
     public void FixedUpdate()
     {
@@ -59,23 +65,25 @@ public class NPlayerMovement : MonoBehaviour
         
 
 		if (!characterEquipment.rHandEquipment.IsEmpty) {//если в правой руке что то есть Спасибо КЭП
-            
+            inBattle = true;
             WeaponItem weaponItem = (characterEquipment.rHandEquipment.currentItems[0] as WeaponItem);
             
             if (characterEquipment.lHandEquipment.IsEmpty) 
                 checkHandAnim(weaponItem);
 
         }else{
+            inBattle = false;
             //вставить код удаляющий оружие из рук
         }
         if (!characterEquipment.lHandEquipment.IsEmpty) {
-          
-                WeaponItem weaponItem = ( characterEquipment.lHandEquipment.currentItems[0] as WeaponItem );
+            inBattle = true;
+            WeaponItem weaponItem = ( characterEquipment.lHandEquipment.currentItems[0] as WeaponItem );
                 
-                if (characterEquipment.rHandEquipment.IsEmpty)
-                    checkHandAnim(weaponItem);
+            if (characterEquipment.rHandEquipment.IsEmpty)
+                checkHandAnim(weaponItem);
 
         }else{
+            inBattle = false;
             //вставить код удаляющий оружие из рук
         }
 
@@ -208,6 +216,10 @@ public class NPlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void endAnim(){
+        animator.SetBool("attack",false);
     }
 
     public void DoorOpen()
