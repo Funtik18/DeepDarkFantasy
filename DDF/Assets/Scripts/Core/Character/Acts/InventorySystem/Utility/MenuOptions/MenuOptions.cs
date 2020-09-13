@@ -155,13 +155,11 @@ namespace DDF.UI.Inventory {
 				FreeTag<TagEquip>(curTags);
 				AssignTag<TagTakeOff>(curTags);
 				curItem.primaryTag = GetTag<TagTakeOff>(curTags);
-			}
-			if(container is ChestContainer) {
+			}else if (container is MainContainer) {
+				AssignTag<TagThrow>(curTags);
+			} else {
 				AssignTag<TagTake>(curTags);
 				curItem.primaryTag = GetTag<TagTake>(curTags);
-			}
-			if (container is MainContainer) {
-				AssignTag<TagThrow>(curTags);
 			}
 
 			curTags.Sort();

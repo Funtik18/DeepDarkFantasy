@@ -6,6 +6,7 @@ using DDF.UI.Inventory.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace DDF.Environment {
@@ -17,7 +18,10 @@ namespace DDF.Environment {
 
         public List<Item> startItems;
 
-        private ChestInventory insInventory = null;
+        public UnityAction fix;
+
+
+        public ChestInventory insInventory = null;
         private bool isCreated = false;
 
         private int clicks = 0;
@@ -49,6 +53,8 @@ namespace DDF.Environment {
                 insInventory.buttonTakeAll?.onClick.AddListener(delegate { EmptiedChest(); CloseChest(); });
 
                 isCreated = true;
+
+                fix.Invoke();
             } else {
                 insInventory.ShowInventory();
             }
