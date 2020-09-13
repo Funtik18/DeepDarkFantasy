@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadd4bdc53661e6408cf6a83646aa8f0, type: 3}
   m_Name: CameraConfig
   m_EditorClassIdentifier: Assembly-CSharp::NewBehaviourScript
-  turnSmooth: 0.1
-  pivotSpeed: 9
-  Y_rot_speed: 7
-  X_rot_speed: 7
-  minAngle: -50
-  maxAngle: 90
-  normalZ: -6
-  normalX: 0.89
-  aimZ: -1
-  aimX: 0.4
-  normalY: 5.73
+  sensitivity: 2
+  distance: 5
+  height: 0
+  offsetPosition: 0
+  minY: 45
+  maxY: 45
+  inversionX: 0
+  inversionY: 0
+  smooth: 1
+  speed: 8

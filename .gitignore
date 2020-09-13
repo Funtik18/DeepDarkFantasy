@@ -1,5 +1,13 @@
-# Created by https://www.toptal.com/developers/gitignore/api/unity
-# Edit at https://www.toptal.com/developers/gitignore?templates=unity
+# Created by https://www.toptal.com/developers/gitignore/api/unity,code
+# Edit at https://www.toptal.com/developers/gitignore?templates=unity,code
+
+### Code ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
 ### Unity ###
 # This .gitignore file should be placed at the root of your Unity project directory
@@ -69,5 +77,4 @@ crashlytics-build.properties
 InitTestScene*.unity.meta
 InitTestScene*.unity
 
-
-# End of https://www.toptal.com/developers/gitignore/api/unity
+# End of https://www.toptal.com/developers/gitignore/api/unity,code
