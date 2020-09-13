@@ -4218,7 +4218,7 @@ GameObject:
   - component: {fileID: 6945794025724794552}
   - component: {fileID: 6945794025724794555}
   - component: {fileID: 6945794025724794554}
-  - component: {fileID: 7768758382956167773}
+  - component: {fileID: 689926744924444328}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -4332,7 +4332,7 @@ MonoBehaviour:
   cellSize: {x: 56, y: 56}
   cellSpace: {x: 0, y: 0}
   offset: {x: 20, y: -50}
---- !u!114 &7768758382956167773
+--- !u!114 &689926744924444328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4341,7 +4341,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6945794025724794551}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 573c46c092a71104e9bdc23c7275788f, type: 3}
+  m_Script: {fileID: 11500000, guid: d2d1134e142d8884aabb932fc59d8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
@@ -4520,13 +4520,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryID: 
   inventoryName: 
-  isGUI: 0
+  isGUI: 1
   isTooltipEnabled: 1
   isMenuOptionsEnabled: 1
   isFull: 0
   overSeer: {fileID: 0}
   view: {fileID: 6945794026261193069}
-  container: {fileID: 7768758382956167773}
+  container: {fileID: 689926744924444328}
   storageTypes: 
   currentItems: []
   buttonClose: {fileID: 3575031919115701390}

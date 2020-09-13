@@ -7,9 +7,10 @@ namespace DDF.UI.Inventory {
 	public class StorageContainer : Container {
 		protected int actionSelection = -1;
 
-		private void Start() {
+		public override void Init() {
 			menuOptions = MenuOptions.GetInstance();
 			toolTip = ToolTip.GetInstance();
+			base.Init();
 		}
 
 
@@ -20,7 +21,8 @@ namespace DDF.UI.Inventory {
 			base.AddCurrentItem(item);
 		}
 		protected override void OnPointerEnter(PointerEventData eventData, InventorySlot slot) {
-			base.OnPointerEnter(eventData, slot);
+			overSeer.lastSlot = slot;
+			overSeer.whereNow = inventory;
 
 			if (menuOptions.IsHide && !overSeer.isDrag) ToolTipShow();
 
@@ -45,14 +47,18 @@ namespace DDF.UI.Inventory {
 			}
 		}
 		protected override void OnPointerExit(PointerEventData eventData, InventorySlot slot) {
-			base.OnPointerExit(eventData, slot);
-			ReloadHightLight();
+			overSeer.lastSlot = slot;
 
 			ToolTipHide();
+
+			ReloadHightLight();
+
+			overSeer.whereNow = null;
 		}
 
 		protected override void OnPointerDown(PointerEventData eventData, InventorySlot slot) {
-			base.OnPointerDown(eventData, slot);
+			if (overSeer.isDrag) ItemBackToRootSlot();
+			overSeer.rootSlot = slot;//запомнили слот откуда взяли
 			if (!menuOptions.IsHide) return;
 		}
 		protected override void OnPointerLeftClick(PointerEventData eventData, InventorySlot slot) {

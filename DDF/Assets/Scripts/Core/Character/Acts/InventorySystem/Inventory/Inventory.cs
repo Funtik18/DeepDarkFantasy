@@ -55,8 +55,7 @@ namespace DDF.UI.Inventory {
 				overSeer = InventoryOverSeerGUI.GetInstance();
 			else
 				overSeer = InventoryOverSeerUI.GetInstance();
-		}
-		protected void Start() {
+
 			container.Init();
 		}
 

@@ -6,10 +6,12 @@ using UnityEngine.EventSystems;
 namespace DDF.UI.Inventory {
     public class TrashCanContainer : StorageContainer {
 
-		private void Awake() {
+		public override void Init() {
+			
+			base.Init();
 			//если корзина для мусора, то пусть инициализирует точку для выброса и подписывается на функцию.
-			//ThrowPoint.Init();
-			//inventory.onItemDisposed = ThrowItem;
+			ThrowPoint.Init();
+			inventory.onItemDisposed = ThrowItem;
 		}
 
 		/// <summary>
@@ -27,6 +29,24 @@ namespace DDF.UI.Inventory {
 		}
 
 		#region Overrides
+		protected override void OnPointerEnter(PointerEventData eventData, InventorySlot slot) {
+			overSeer.lastSlot = slot;
+			overSeer.whereNow = inventory;
+		}
+		protected override void OnPointerExit(PointerEventData eventData, InventorySlot slot) {
+			overSeer.lastSlot = slot;
+			overSeer.whereNow = null;
+		}
+
+		protected override void OnPointerDown(PointerEventData eventData, InventorySlot slot) {
+			if (overSeer.isDrag) ItemBackToRootSlot();
+			overSeer.rootSlot = slot;//запомнили слот откуда взяли
+		}
+		protected override void OnPointerLeftClick(PointerEventData eventData, InventorySlot slot) { }
+		protected override void OnPointerRightClick(PointerEventData eventData, InventorySlot slot) {
+			if (overSeer.isDrag) return;
+		}
+
 		protected override void OnDrop(PointerEventData eventData) {
             if (!overSeer.isDrag) return;
 
@@ -35,7 +55,6 @@ namespace DDF.UI.Inventory {
             overSeer.whereNow.DeleteItem(cashItem);
 
             inventory.onItemDisposed?.Invoke(cashItem, overSeer.from.container.inventory);
-            return;
         }
 		#endregion
 	}

@@ -140,7 +140,7 @@ namespace DDF.UI.Inventory {
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isGUI"></param>
-		public void ItemTagSetup( Item item, Container container) {
+		public void ItemTagSetup( Item item, StorageContainer container) {
 			curItem = item;
 			curTags = item.tags;
 			curTags.Clear();
@@ -161,9 +161,8 @@ namespace DDF.UI.Inventory {
 				curItem.primaryTag = GetTag<TagTake>(curTags);
 			}
 			if (container is MainContainer) {
-
+				AssignTag<TagThrow>(curTags);
 			}
-			
 
 			curTags.Sort();
 

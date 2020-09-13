@@ -7,16 +7,15 @@ namespace DDF.PCG.WEAPON
     public class Chest : MonoBehaviour
     {
         public ChestInteraction chest;
-        public WeaponGenerator wg;
 
         public int ItemType;
         [Range(0,3)]
         public int ItemCount;
-        void Awake()
+        void Start()
         {
             for (int i = 0; i < ItemCount; i++)
             {
-                chest.startItems.Add(wg.Generator(ItemType));
+                chest.startItems.Add(WeaponGenerator.GetInstance().Generator(ItemType));
             }
         }
     }

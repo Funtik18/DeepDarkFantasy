@@ -41,7 +41,7 @@ namespace DDF.UI.Inventory {
 
         #region Public methods
         #region Initialization
-        public void Init() {
+        public virtual void Init() {
             inventory = GetComponentInParent<Inventory>();
             grid = GetComponent<InventoryGrid>();
 
@@ -182,23 +182,14 @@ namespace DDF.UI.Inventory {
 
         #region Slot events
         #region Pointer
-        protected virtual void OnPointerEnter(PointerEventData eventData, InventorySlot slot) {
-            overSeer.lastSlot = slot;
-            overSeer.whereNow = inventory;
-        }
-        protected virtual void OnPointerDown(PointerEventData eventData, InventorySlot slot) {
-            if (overSeer.isDrag) ItemBackToRootSlot();
-            overSeer.rootSlot = slot;//запомнили слот откуда взяли
-        }
+        protected virtual void OnPointerEnter(PointerEventData eventData, InventorySlot slot) { }
+        protected virtual void OnPointerDown(PointerEventData eventData, InventorySlot slot) { }
         protected virtual void OnPointerLeftClick(PointerEventData eventData, InventorySlot slot) { }
         protected virtual void OnPointerMiddleClick(PointerEventData eventData, InventorySlot slot) { }
         protected virtual void OnPointerRightClick(PointerEventData eventData, InventorySlot slot) { }
 
         protected virtual void OnPointerUp(PointerEventData eventData, InventorySlot slot) { }
-        protected virtual void OnPointerExit(PointerEventData eventData, InventorySlot slot) {
-            overSeer.lastSlot = slot;
-            overSeer.whereNow = null;
-        }
+        protected virtual void OnPointerExit(PointerEventData eventData, InventorySlot slot) { }
 		#endregion
 		#region Drag
 		protected virtual void OnBeginDrag(PointerEventData eventData) {

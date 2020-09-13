@@ -14,6 +14,8 @@ namespace DDF.PCG.WEAPON
     public class WeaponGenerator : MonoBehaviour
     {
 
+        private static WeaponGenerator _instance;
+
         List<XmlCategory> weapons = new List<XmlCategory>();//1
         List<XmlCategory> OneHanded = new List<XmlCategory>();//1
         List<XmlCategory> TwoHanded = new List<XmlCategory>();//2
@@ -52,46 +54,53 @@ namespace DDF.PCG.WEAPON
         [ReadOnly]
         private string Patch = @"Resources\XML\WeaponsDescription.xml";
 
-        void Awake()
-        {
-            string FullPatch = Application.dataPath + "\\" + Patch;
-
-            if (!File.Exists(FullPatch))
-            {
-                Debug.LogError("File not found");
-                return;
-                //throw new FileNotFoundException(Patch);
+        public static WeaponGenerator GetInstance() {
+            if(_instance == null) {
+                _instance = FindObjectOfType<WeaponGenerator>();
+                DontDestroyOnLoad(_instance);
+                _instance.Init();
             }
-            XmlDocument Doc = new XmlDocument();
-            Doc.Load(FullPatch);
-            //XmlNodeList nodes = Doc.DocumentElement.SelectNodes("/Weapons/AvaliableWeapons/type");
-
-            //Weapons
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/AvaliableWeapons/type"), weapons);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/WeaponOneHandedItem/one "), OneHanded);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/WeaponTwoHandedItem/two"), TwoHanded);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/Modif/mod"), modsW);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/End/end"), endsW);
-            //Armors
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableArmor/type"), armors);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Head/head "), head);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Torso/torso"), torso);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Modif/mod"), modsA);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Belt/belt"), belt);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Legs/leg"), legs);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Feets/feet"), feets);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Shields/shield"), shields);
-            //Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/End/end"), endsA);
-
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableJewerly/type"), jewerlys);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Rings/ring "), ring);
-            Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Wrists/wr "), wrist);
+            return _instance;
         }
 
-        /// <summary>
-        /// передавать инт для выбора, что сгенерировать 1-оружие 2-броня
-        /// </summary>
-        public Item Generator(int num)
+		public void Init() {
+			string FullPatch = Application.dataPath + "\\" + Patch;
+
+			if (!File.Exists(FullPatch)) {
+				Debug.LogError("File not found");
+				return;
+				//throw new FileNotFoundException(Patch);
+			}
+			XmlDocument Doc = new XmlDocument();
+			Doc.Load(FullPatch);
+			//XmlNodeList nodes = Doc.DocumentElement.SelectNodes("/Weapons/AvaliableWeapons/type");
+
+			//Weapons
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/AvaliableWeapons/type"), weapons);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/WeaponOneHandedItem/one "), OneHanded);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/WeaponTwoHandedItem/two"), TwoHanded);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/Modif/mod"), modsW);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Weapons/End/end"), endsW);
+			//Armors
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableArmor/type"), armors);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Head/head "), head);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Torso/torso"), torso);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Modif/mod"), modsA);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Belt/belt"), belt);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Legs/leg"), legs);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Feets/feet"), feets);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Shields/shield"), shields);
+			//Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/End/end"), endsA);
+
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/AvaliableJewerly/type"), jewerlys);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Rings/ring "), ring);
+			Parser(Doc.DocumentElement.SelectNodes("/Items/Armor/Wrists/wr "), wrist);
+		}
+
+		/// <summary>
+		/// передавать инт для выбора, что сгенерировать 1-оружие 2-броня
+		/// </summary>
+		public Item Generator(int num)
         {
             XmlCategory mod;
             XmlCategory end;
