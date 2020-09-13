@@ -1,5 +1,7 @@
-﻿using DDF.Inputs;
+﻿using System.Collections.Generic;
+using DDF.Inputs;
 using DDF.UI.GUI;
+using DDF.UI.Inventory;
 using UnityEngine;
 
 namespace DDF {
@@ -7,17 +9,19 @@ namespace DDF {
 	/// Класс ссылка, помогает при работе с GUI.
 	/// </summary>
     public class InventoryOverSeerGUI : InventoryOverSeer {
-		protected static new InventoryOverSeerGUI _instance { get; private set; }
+		private static InventoryOverSeerGUI _instance;
 
 		private bool isOpen = false;
 
-		public new static InventoryOverSeerGUI GetInstance() {
+		public static InventoryOverSeerGUI GetInstance() {
 			if (_instance == null) {
 				_instance = FindObjectOfType<InventoryOverSeerGUI>();
 				DragParentsGUI.Init();
+				_instance.Init();
 			}
 			return _instance;
 		}
+		
 
 		private void Update() {
 			if (Input.GetButtonDown(InputManager.ButtonInventoryPage)) {

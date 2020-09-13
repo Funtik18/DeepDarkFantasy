@@ -57,6 +57,7 @@ namespace DDF.UI.Inventory {
 				overSeer = InventoryOverSeerUI.GetInstance();
 
 			container.Init();
+			overSeer.RegistrationContainer(this);
 		}
 
 		public virtual Item AddItem(Item item, bool enableModel = true) {

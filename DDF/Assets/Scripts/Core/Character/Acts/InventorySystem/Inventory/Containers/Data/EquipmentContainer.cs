@@ -9,7 +9,6 @@ namespace DDF.UI.Inventory {
     public class EquipmentContainer : StorageContainer {
 
 		#region Overrides
-
 		public override Item AddItem(Item item, bool enableModel) {
             AddItemXY(item, size, enableModel);
             return item;

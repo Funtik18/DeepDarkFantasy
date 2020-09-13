@@ -75,7 +75,6 @@ namespace DDF.UI.Inventory {
             }
             copy.Clear();
             #endregion
-            overSeer.RegistrationContainer(inventory);
         }
 
         private void SubscribeSlot(InventorySlot slot) {
@@ -145,7 +144,7 @@ namespace DDF.UI.Inventory {
         }
         public virtual void DeleteModel(Item item) {
             Item2DModel model = FindModelByItem(item);
-            currentModels.Remove(model);
+            RemoveModelItem(model);
             Help.HelpFunctions.TransformSeer.DestroyObject(model.gameObject);
         }
 
@@ -257,7 +256,7 @@ namespace DDF.UI.Inventory {
 
                             if (i == 0) {
                                 Item2DModel newModel = grid.CreateModelByItem(item);
-                                currentModels.Add(newModel);
+                                AddModelItem(newModel);
 
                                 if (enableModel) newModel.ShowModel();
                                 else newModel.HideModel();
@@ -334,9 +333,9 @@ namespace DDF.UI.Inventory {
              to.AddItemOnPosition(item, overSeer.lastSlot);
              to.AddCurrentItem(item);
 
-             overSeer.from.container.currentModels.Remove(model);
+             overSeer.from.container.RemoveModelItem(model);
              model.transform.SetParent(to.grid.dragParent);
-             to.currentModels.Add(model);
+             to.AddModelItem(model);
 
              overSeer.isDrag = false;
         }

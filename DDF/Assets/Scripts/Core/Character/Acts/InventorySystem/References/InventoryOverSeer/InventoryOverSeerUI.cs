@@ -7,12 +7,13 @@ namespace DDF {
 	/// Класс ссылка, помогает при работе с ui.
 	/// </summary>
 	public class InventoryOverSeerUI : InventoryOverSeer {
-		protected static new InventoryOverSeerUI _instance { get; private set; }
+		protected static InventoryOverSeerUI _instance;
 
-		public new static InventoryOverSeerUI GetInstance() {
+		public static InventoryOverSeerUI GetInstance() {
 			if (_instance == null) {
 				_instance = FindObjectOfType<InventoryOverSeerUI>();
 				DragParentsUI.Init();
+				_instance.Init();
 			}
 			return _instance;
 		}

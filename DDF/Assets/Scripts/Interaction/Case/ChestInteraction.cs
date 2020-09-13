@@ -18,7 +18,7 @@ namespace DDF.Environment {
 
         public List<Item> startItems;
 
-        public UnityAction fix;
+        public UnityAction onCreated;
 
 
         public ChestInventory insInventory = null;
@@ -54,7 +54,7 @@ namespace DDF.Environment {
 
                 isCreated = true;
 
-                fix.Invoke();
+                onCreated.Invoke();
             } else {
                 insInventory.ShowInventory();
             }

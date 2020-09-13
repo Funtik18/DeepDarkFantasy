@@ -9,7 +9,6 @@ namespace DDF {
 	/// Сильно помогает при работе инвентарей.
 	/// </summary>
     public class InventoryOverSeer : MonoBehaviour {
-		protected static InventoryOverSeer _instance { get; private set; }
 
 		[HideInInspector] public List<Inventory> containers;
 
@@ -26,16 +25,10 @@ namespace DDF {
 		[HideInInspector] public Inventory from;//откуда взяли
 		[HideInInspector] public Inventory whereNow;//где сейчас находимся
 
-		public static InventoryOverSeer GetInstance() {
-			if (_instance == null) {
-				_instance = FindObjectOfType<InventoryOverSeer>();
-			}
-			return _instance;
-		}
-
-		protected virtual void Awake() {
+		public virtual void Init() {
 			containers = new List<Inventory>();
 		}
+
 
 		/// <summary>
 		/// Показывает все контейнеры и их содержимое.

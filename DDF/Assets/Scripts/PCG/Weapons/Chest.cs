@@ -13,11 +13,13 @@ namespace DDF.PCG.WEAPON
         public int ItemCount;
         void Awake()
         {
-            chest.fix = () => {
-                for (int i = 0; i < ItemCount; i++) {
-                    chest.insInventory.AddItem(WeaponGenerator.GetInstance().Generator(ItemType));
-                }
-            };
+            chest.onCreated = InitItems;
+        }
+
+        private void InitItems() {
+            for (int i = 0; i < ItemCount; i++) {
+                chest.insInventory.AddItem(WeaponGenerator.GetInstance().Generator(ItemType));
+            }
         }
     }
 }
