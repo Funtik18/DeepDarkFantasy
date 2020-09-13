@@ -114,10 +114,10 @@ public class NPlayerMovement : MonoBehaviour
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
 
-            Vector3 becup = new Vector3(moveDirection.x,moveDirection.y,moveDirection.z);
-            moveDirection = transform.forward*vertical;
-            moveDirection += transform.right*horizontal;
-            moveDirection.y += becup.y;
+           // Vector3 becup = new Vector3(moveDirection.x,moveDirection.y,moveDirection.z);
+            //moveDirection = transform.forward*vertical;
+            //moveDirection += transform.right*horizontal;
+           // moveDirection.y += becup.y;
             /*
             Vector3 moveDir = transform.forward * vertical;
             moveDir += transform.right * horizontal;
@@ -144,7 +144,7 @@ public class NPlayerMovement : MonoBehaviour
 
             characterStatus.isGround = Ground();
             if(!Ground()){
-                animator.SetBool("jump",true);
+                //animator.SetBool("jump",true);
                 runSpeed = 0;
                 moveDirection.y += -gravity*Time.deltaTime*4;
             }else{
@@ -152,8 +152,8 @@ public class NPlayerMovement : MonoBehaviour
                 jumping = false;
             }   
 
-            if(controller!= null)
-                controller.Move(moveDirection*Time.deltaTime*(characterEntity.MaxSpeed+runSpeed));//moveDirection/(10-speed));//Нужно придумать как регулировать скорость
+            //if(controller!= null)
+               // controller.Move(moveDirection*Time.deltaTime*(characterEntity.MaxSpeed+runSpeed));//moveDirection/(10-speed));//Нужно придумать как регулировать скорость
         }
     }
 
