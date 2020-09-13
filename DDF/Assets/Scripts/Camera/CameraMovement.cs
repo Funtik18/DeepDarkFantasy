@@ -4,89 +4,54 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public Transform camTrans;
-    public Transform pivot;
-    public Transform Character;
-    public Transform mTransform;
+    public CameraConfig config;
 
-    public CharacterStatus characterStatus;
-    public CameraConfig cameraConfig;
+    private float rotationY;
+    private int inversY, inversX;
+    [SerializeField] private Transform player;
 
-    public bool leftPivot;
-    public float delta;
-
-    public float mouseX;
-    public float mouseY;
-    public float smoothX;
-    public float smoothY;
-    public float smoothXVelocity;
-    public float smoothYVelocity;
-    public float lookAngle;
-    public float titleAngle;
-
-    void LateUpdate()
+    // Check for collider in the path of ray from camera to player
+    private Vector3 PositionCorrection(Vector3 target, Vector3 position)
     {
-
-        FixedTick();
-
-    }
-
-    void FixedTick()
-    {
-        delta = Time.deltaTime;
-        HandlePosition();
-        HandleRotatiton();
-
-        Vector3 targetPosition = Vector3.Lerp(mTransform.position, Character.position, 1);
-        mTransform.position = targetPosition;
-    }
-
-    void HandlePosition()
-    {
-        float targetX = cameraConfig.normalX;
-        float targetY = cameraConfig.normalY;
-        float targetZ = cameraConfig.normalZ;
-
-        if (leftPivot)
+        if (Physics.Linecast(target, position, out var hit))
         {
-            targetX = -targetX;
+            float tempDistance = Vector3.Distance(target, hit.point);
+            Vector3 pos = target - (transform.rotation * Vector3.forward * tempDistance);
+            position = new Vector3(pos.x, position.y, pos.z);
         }
 
-        Vector3 newPivotPosition = pivot.localPosition;
-        newPivotPosition.x = targetX;
-        newPivotPosition.y = targetY;
-
-        Vector3 newCameraPosition = camTrans.localPosition;
-        newCameraPosition.z = targetZ;
-
-        float t = delta * cameraConfig.pivotSpeed;
-        pivot.localPosition = Vector3.Lerp(pivot.localPosition, newPivotPosition, t);
-        camTrans.localPosition = Vector3.Lerp(camTrans.localPosition, newCameraPosition, t);
+        return position;
     }
 
-    void HandleRotatiton()
+    private void LateUpdate()
     {
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
-
-        if (cameraConfig.turnSmooth > 0)
+        if (player != null)
         {
-            smoothX = Mathf.SmoothDamp(smoothX, mouseX, ref smoothXVelocity, cameraConfig.turnSmooth);
-            smoothY = Mathf.SmoothDamp(smoothY, mouseY, ref smoothYVelocity, cameraConfig.turnSmooth);
+            inversX = config.inversionX == CameraConfig.InversionX.Disabled ? 1 : -1;
+            inversY = config.inversionY == CameraConfig.InversionY.Disabled ? -1 : 1;
+
+            // Rotate camera around player
+            transform.RotateAround(player.position, Vector3.up, Input.GetAxis("Mouse X") * config.sensitivity * inversX);
+
+            Vector3 position = player.position - (transform.rotation * Vector3.forward * config.distance);
+            position += transform.rotation * Vector3.right * config.offsetPosition; // horizontal offset
+            position = new Vector3(position.x, player.position.y + config.height, position.z); // height offset
+            position = PositionCorrection(player.position, position);
+
+            // Rotate camera along Y axis
+            rotationY += Input.GetAxis("Mouse Y") * config.sensitivity;
+            rotationY = Mathf.Clamp(rotationY, -Mathf.Abs(config.minY), Mathf.Abs(config.maxY));
+            transform.localEulerAngles = new Vector3(rotationY * inversY, transform.localEulerAngles.y, 0);
+
+            // Smooth option
+            if (config.smooth == CameraConfig.Smooth.Disabled)
+            {
+                transform.position = position;
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, position, config.speed * Time.deltaTime);
+            }
         }
-        else
-        {
-            smoothX = mouseX;
-            smoothY = mouseY;
-        }
-
-        lookAngle += smoothX * cameraConfig.Y_rot_speed;
-        Quaternion targetRot = Quaternion.Euler(0, lookAngle, 0);
-        mTransform.rotation = targetRot;
-
-        titleAngle -= smoothY * cameraConfig.Y_rot_speed;
-        titleAngle = Mathf.Clamp(titleAngle, cameraConfig.minAngle, cameraConfig.maxAngle);
-        pivot.localRotation = Quaternion.Euler(titleAngle, 0, 0);
-
     }
 }

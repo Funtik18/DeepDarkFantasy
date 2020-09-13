@@ -10,7 +10,7 @@ namespace DDF.PCG.WEAPON
         public WeaponGenerator wg;
 
         public int ItemType;
-        [Range(0,4)]
+        [Range(0,3)]
         public int ItemCount;
         void Awake()
         {

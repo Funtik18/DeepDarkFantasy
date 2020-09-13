@@ -664,7 +664,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7322285a41395b546b1f209add5d9e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainEquipment: {fileID: 0}
+  inventory: {fileID: 0}
+  equipment: {fileID: 0}
   currentEffects: []
   isDead: 0
   isCastrat: 0
@@ -8429,6 +8430,8 @@ MonoBehaviour:
   smoothYVelocity: 0
   lookAngle: 0
   titleAngle: 0
+  focusObject: {fileID: 0}
+  leftSide: 0
 --- !u!1 &7586813409750285869
 GameObject:
   m_ObjectHideFlags: 0

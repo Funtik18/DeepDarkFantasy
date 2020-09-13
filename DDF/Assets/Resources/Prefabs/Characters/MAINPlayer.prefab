@@ -2122,22 +2122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63433038bee961044bcb828f274ac025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camTrans: {fileID: 3089013607744562292}
-  pivot: {fileID: 3089013608155766895}
-  Character: {fileID: 8044789358432898377}
-  mTransform: {fileID: 3089013607895853959}
-  characterStatus: {fileID: 11400000, guid: be1528919289bea4f94ca54e67848002, type: 2}
-  cameraConfig: {fileID: 11400000, guid: 05e70e75378ae614e81b2fcaaabda48f, type: 2}
-  leftPivot: 0
-  delta: 0
-  mouseX: 0
-  mouseY: 0
-  smoothX: 0
-  smoothY: 0
-  smoothXVelocity: 0
-  smoothYVelocity: 0
-  lookAngle: 0
-  titleAngle: 0
+  config: {fileID: 11400000, guid: 05e70e75378ae614e81b2fcaaabda48f, type: 2}
+  player: {fileID: 8044789358432898377}
 --- !u!1 &3089013608155766894
 GameObject:
   m_ObjectHideFlags: 0
@@ -3656,7 +3642,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 39f6267a2be3b554e8e4b5dc060b5fa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
