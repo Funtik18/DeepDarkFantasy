@@ -308,6 +308,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &92812135 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3185015081895188243, guid: a4f60fd180d824e41aa584888a4083e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 4400410911687012622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &111770230
 Transform:
   m_ObjectHideFlags: 0
@@ -7998,17 +8004,17 @@ PrefabInstance:
     - target: {fileID: 774601346332199776, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 774601346332199776, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 774601346332199776, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 774601346332199776, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
@@ -10699,6 +10705,37 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586813409431744988, guid: a4f60fd180d824e41aa584888a4083e5,
+        type: 3}
+      propertyPath: sensitivity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586813409431744988, guid: a4f60fd180d824e41aa584888a4083e5,
+        type: 3}
+      propertyPath: maxY
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586813409431744988, guid: a4f60fd180d824e41aa584888a4083e5,
+        type: 3}
+      propertyPath: minY
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586813409431744988, guid: a4f60fd180d824e41aa584888a4083e5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 05e70e75378ae614e81b2fcaaabda48f,
+        type: 2}
+    - target: {fileID: 7586813409431744988, guid: a4f60fd180d824e41aa584888a4083e5,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 92812135}
+    - target: {fileID: 7586813409732040447, guid: a4f60fd180d824e41aa584888a4083e5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7670156848858363801, guid: a4f60fd180d824e41aa584888a4083e5,
         type: 3}
