@@ -288,6 +288,12 @@ namespace DDF.UI.Inventory {
 		/// Привязывает 3д модель к персонажу.
 		/// </summary>
 		private void AttachToEquipment(Inventory inventory, Item item) {
+			if(item.item3DModel == null) {
+				Debug.LogError("ERROR 404 - item " + item.itemName + " doesn't have item3DModel");
+				return;
+			}
+
+
 			if (inventory == rHandEquipment) {
 				Item3DModel Rweapon = Instantiate(item.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
 				Rweapon.transform.parent = placeRHand;

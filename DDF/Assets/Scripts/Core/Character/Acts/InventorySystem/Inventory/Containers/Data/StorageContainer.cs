@@ -85,6 +85,8 @@ namespace DDF.UI.Inventory {
 
 		protected override void OnDrop(PointerEventData eventData) {
 			if (!overSeer.isDrag) return;
+
+
 			if (actionSelection == -1) {//нельзя
 				ItemBackToRootSlot();
 			}

@@ -240,7 +240,6 @@ namespace DDF.UI.Inventory {
         protected int AddItemXY(Item item, Vector2 size, bool enableModel) {
 
             for (int y = 0; y < height; y++) {
-
                 for (int x = 0; x < width; x++) {
 
                     InventorySlot slot = slotsArray[x, y];
@@ -264,7 +263,7 @@ namespace DDF.UI.Inventory {
                                 overSeer.buffer = newModel.transform as RectTransform;
 
                                 AddItemOnPosition(item, neighbors[i], false);
-                                grid.RecalculateCellProportion(overSeer.buffer, item.GetSize());
+                                grid.RecalculateCellProportion(overSeer.buffer, size);
                             }
                         }
                         neighbors.Clear();
@@ -330,14 +329,18 @@ namespace DDF.UI.Inventory {
         /// <param name="item"></param>
         /// <param name="model"></param>
         protected virtual void ItemPlaceOnSlot(Container from, Container to, Item item, Item2DModel model) {
-             to.AddItemOnPosition(item, overSeer.lastSlot);
-             to.AddCurrentItem(item);
+            grid.ResetCell(overSeer.buffer, overSeer.lastSlot.position);
+            grid.RecalculateCellProportion(overSeer.buffer, item.GetSize());
+            
+            to.AddItemOnPosition(item, overSeer.lastSlot);
 
-             overSeer.from.container.RemoveModelItem(model);
-             model.transform.SetParent(to.grid.dragParent);
-             to.AddModelItem(model);
+            to.AddCurrentItem(item);
 
-             overSeer.isDrag = false;
+            overSeer.from.container.RemoveModelItem(model);
+            model.transform.SetParent(to.grid.dragParent);
+            to.AddModelItem(model);
+
+            overSeer.isDrag = false;
         }
         /// <summary>
         /// Возвращает айтем туда, откуда взяли.

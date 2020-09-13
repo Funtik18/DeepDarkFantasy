@@ -88,7 +88,7 @@ namespace DDF.UI.Inventory {
             model.transform.SetParent(from.grid.dragParent);
             model.transform.position = rect.TransformPoint(rect.rect.center);
             
-            grid.RecalculateCellPosition(overSeer.buffer, from.size);
+            grid.RecalculateCellPosition(model.transform as RectTransform, from.size);
 
             overSeer.isDrag = false;
 
@@ -115,18 +115,24 @@ namespace DDF.UI.Inventory {
 
             from.RemoveModelItem(model);
 
+            /*if (recalculatePos) {
+                grid.ResetCell(model.transform as RectTransform, slots[0].position);
+                grid.RecalculateCellProportion(model.transform as RectTransform, size);
+
+                grid.RecalculateCellPosition(model.transform as RectTransform, size);
+            }*/
+
+            grid.ResetCell(model.transform as RectTransform, slots[0].position);
+            grid.RecalculateCellProportion(model.transform as RectTransform, to.size);
+
             RectTransform rect = slots[0].GetComponent<RectTransform>();
             model.transform.SetParent(to.grid.dragParent);
             model.transform.position = rect.TransformPoint(rect.rect.center);
+            grid.RecalculateCellPosition(model.transform as RectTransform, to.size);
 
             to.AddModelItem(model);
 
-            if (recalculatePos) {
-                grid.RecalculateCellPosition(overSeer.buffer, to.size);
-                // if (to.inventory.inventorytype == InventoryTypes.Equipment)
-                // else
-                //grid.RecalculateCellPosition(overSeer.buffer, item.GetSize());
-            }
+            
 
             overSeer.isDrag = false;
 
