@@ -7,7 +7,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private CameraConfig config;
 
     private float rotationY;
-    private int inversY, inversX;
+    private int inverseY, inverseX;
 
     // Check for collider in the path of ray from camera to player
     private Vector3 PositionCorrection(Vector3 target, Vector3 position)
@@ -24,15 +24,15 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        inversX = config.inversionX == CameraConfig.InversionX.Disabled ? 1 : -1;
-        inversY = config.inversionY == CameraConfig.InversionY.Disabled ? -1 : 1;
+        inverseX = config.inversionX == CameraConfig.InversionX.Disabled ? 1 : -1;
+        inverseY = config.inversionY == CameraConfig.InversionY.Disabled ? -1 : 1;
 
         // Offset rotation include right and height offsets
-        var offsetRotPos = target.position + new Vector3(config.offsetRight, config.offsetHeight, 0);
+        var offsetRotPos = target.position + new Vector3(config.offsetRight, config.offsetHeight);
 
         // Rotate camera around player
-        transform.RotateAround(offsetRotPos, Vector3.up, Input.GetAxis("Mouse X") * config.rotSpeed * inversX);
-        transform.RotateAround(offsetRotPos, transform.right, Input.GetAxis("Mouse Y") * config.rotSpeed * inversY);
+        transform.RotateAround(offsetRotPos, Vector3.up, Input.GetAxis("Mouse X") * config.rotSpeed * inverseX);
+        transform.RotateAround(offsetRotPos, transform.right, Input.GetAxis("Mouse Y") * config.rotSpeed * inverseY);
 
         // Apply distance offset to rotation offset
         var pos = offsetRotPos - (transform.forward * config.offsetDistance);
