@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraMovement : MonoBehaviour
 {
-    public CameraConfig config;
+    [SerializeField] private Transform target;
+    [SerializeField] private CameraConfig config;
 
     private float rotationY;
     private int inversY, inversX;
-    [SerializeField] private Transform player;
 
     // Check for collider in the path of ray from camera to player
     private Vector3 PositionCorrection(Vector3 target, Vector3 position)
@@ -25,33 +24,27 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (player != null)
+        inversX = config.inversionX == CameraConfig.InversionX.Disabled ? 1 : -1;
+        inversY = config.inversionY == CameraConfig.InversionY.Disabled ? -1 : 1;
+
+        // Offset rotation include right and height offsets
+        var offsetRotPos = target.position + new Vector3(config.offsetRight, config.offsetHeight, 0);
+
+        // Apply distance offset to rotation offset
+        var pos = offsetRotPos - (transform.forward * config.offsetDistance);
+
+        // Rotate camera around player
+        transform.RotateAround(offsetRotPos, Vector3.up, Input.GetAxis("Mouse X") * config.rotSpeed * inversX);
+        transform.RotateAround(offsetRotPos, transform.right, Input.GetAxis("Mouse Y") * config.rotSpeed * inversY);
+
+        // Smooth option
+        if (config.smooth == CameraConfig.Smooth.Disabled)
         {
-            inversX = config.inversionX == CameraConfig.InversionX.Disabled ? 1 : -1;
-            inversY = config.inversionY == CameraConfig.InversionY.Disabled ? -1 : 1;
-
-            // Rotate camera around player
-            transform.RotateAround(player.position, Vector3.up, Input.GetAxis("Mouse X") * config.sensitivity * inversX);
-
-            Vector3 position = player.position - (transform.rotation * Vector3.forward * config.distance);
-            position += transform.rotation * Vector3.right * config.offsetPosition; // horizontal offset
-            position = new Vector3(position.x, player.position.y + config.height, position.z); // height offset
-            position = PositionCorrection(player.position, position);
-
-            // Rotate camera along Y axis
-            rotationY += Input.GetAxis("Mouse Y") * config.sensitivity;
-            rotationY = Mathf.Clamp(rotationY, -Mathf.Abs(config.minY), Mathf.Abs(config.maxY));
-            transform.localEulerAngles = new Vector3(rotationY * inversY, transform.localEulerAngles.y, 0);
-
-            // Smooth option
-            if (config.smooth == CameraConfig.Smooth.Disabled)
-            {
-                transform.position = position;
-            }
-            else
-            {
-                transform.position = Vector3.Lerp(transform.position, position, config.speed * Time.deltaTime);
-            }
+            transform.position = pos;
+        }
+        else
+        {
+            transform.position = Vector3.Slerp(transform.position, pos, config.movSpeed * Time.deltaTime);
         }
     }
 }
