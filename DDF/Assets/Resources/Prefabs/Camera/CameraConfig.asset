@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadd4bdc53661e6408cf6a83646aa8f0, type: 3}
   m_Name: CameraConfig
   m_EditorClassIdentifier: Assembly-CSharp::NewBehaviourScript
-  sensitivity: 2
-  distance: 5
-  height: 0
-  offsetPosition: 0
-  minY: 45
-  maxY: 45
+  rotSpeed: 5
+  offsetDistance: 5
+  offsetHeight: 4
+  offsetRight: 0
+  upAngle: 45
+  downAngle: 45
   inversionX: 0
   inversionY: 0
   smooth: 1
-  speed: 8
+  movSpeed: 8
