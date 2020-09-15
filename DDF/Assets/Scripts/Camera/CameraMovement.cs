@@ -30,12 +30,12 @@ public class CameraMovement : MonoBehaviour
         // Offset rotation include right and height offsets
         var offsetRotPos = target.position + new Vector3(config.offsetRight, config.offsetHeight, 0);
 
-        // Apply distance offset to rotation offset
-        var pos = offsetRotPos - (transform.forward * config.offsetDistance);
-
         // Rotate camera around player
         transform.RotateAround(offsetRotPos, Vector3.up, Input.GetAxis("Mouse X") * config.rotSpeed * inversX);
         transform.RotateAround(offsetRotPos, transform.right, Input.GetAxis("Mouse Y") * config.rotSpeed * inversY);
+
+        // Apply distance offset to rotation offset
+        var pos = offsetRotPos - (transform.forward * config.offsetDistance);
 
         // Smooth option
         if (config.smooth == CameraConfig.Smooth.Disabled)
