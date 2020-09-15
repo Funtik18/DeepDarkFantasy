@@ -7,7 +7,9 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private CameraConfig config;
 
     private float rotationY;
-    private int inverseY, inverseX;
+    
+    private int InverseX => config.inversionX ? -1 : 1;
+    private int InverseY => config.inversionY ? 1 : -1;
 
     // Check for collider in the path of ray from camera to player
     private Vector3 PositionCorrection(Vector3 target, Vector3 position)
@@ -24,27 +26,25 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        inverseX = config.inversionX == CameraConfig.InversionX.Disabled ? 1 : -1;
-        inverseY = config.inversionY == CameraConfig.InversionY.Disabled ? -1 : 1;
-
         // Offset rotation include right and height offsets
-        var offsetRotPos = target.position + new Vector3(config.offsetRight, config.offsetHeight);
+        var offsetRotPos = target.position + (Vector3.up * config.offsetHeight);
+        offsetRotPos += target.right * config.offsetRight;
 
         // Rotate camera around player
-        transform.RotateAround(offsetRotPos, Vector3.up, Input.GetAxis("Mouse X") * config.rotSpeed * inverseX);
-        transform.RotateAround(offsetRotPos, transform.right, Input.GetAxis("Mouse Y") * config.rotSpeed * inverseY);
+        transform.RotateAround(offsetRotPos, Vector3.up, Input.GetAxis("Mouse X") * config.rotationSpeed * InverseX);
+        transform.RotateAround(offsetRotPos, transform.right, Input.GetAxis("Mouse Y") * config.rotationSpeed * InverseY);
 
         // Apply distance offset to rotation offset
         var pos = offsetRotPos - (transform.forward * config.offsetDistance);
 
         // Smooth option
-        if (config.smooth == CameraConfig.Smooth.Disabled)
+        if (config.smooth)
         {
             transform.position = pos;
         }
         else
         {
-            transform.position = Vector3.Slerp(transform.position, pos, config.movSpeed * Time.deltaTime);
+            transform.position = Vector3.Slerp(transform.position, pos, config.moveSpeed * Time.deltaTime);
         }
     }
 }
