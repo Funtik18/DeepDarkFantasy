@@ -1,20 +1,15 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName ="Camera/Config")]
+[CreateAssetMenu(menuName = "Camera/Config")]
 public class CameraConfig : ScriptableObject
 {
-    public enum InversionX { Disabled = 0, Enabled = 1 };
-    public enum InversionY { Disabled = 0, Enabled = 1 };
-    public enum Smooth { Disabled = 0, Enabled = 1 };
-
     [Header("General")]
     [Tooltip("Mouse sensitivity")]
-    public float rotSpeed = 2;
+    public float rotationSpeed = 2;
     [Tooltip("Distance to observations object")]
     public float offsetDistance = 5;
     [Tooltip("Height of camera")]
     public float offsetHeight = 2.3f;
-
     [Tooltip("Distance towards the right shoulder")]
     public float offsetRight = 0.0f;
 
@@ -23,11 +18,11 @@ public class CameraConfig : ScriptableObject
     public float downAngle = 45f;
 
     [Header("Invert")]
-    public InversionX inversionX = InversionX.Disabled;
-    public InversionY inversionY = InversionY.Disabled;
+    public bool inversionX = false;
+    public bool inversionY = false;
 
     [Header("Smooth Movement")]
-    public Smooth smooth = Smooth.Enabled;
+    public bool smooth = true;
     [Tooltip("Smooth speed")]
-    public float movSpeed = 8;
+    public float moveSpeed = 8;
 }
