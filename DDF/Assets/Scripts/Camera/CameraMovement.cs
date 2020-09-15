@@ -4,6 +4,7 @@
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private Transform target;
+    [SerializeField] private LayerMask mask;
     [SerializeField] private CameraConfig config;
 
     private float rotationX;
@@ -13,27 +14,28 @@ public class CameraMovement : MonoBehaviour
     private void LateUpdate()
     {
         // Offset rotation include right and height offsets
-        var offsetRotPos = target.position + (Vector3.up * config.offsetHeight);
-        offsetRotPos += target.right * config.offsetRight;
+        var offsetPosition = target.position + (Vector3.up * config.offsetHeight);
+        offsetPosition += target.right * config.offsetRight;
 
         // Rotate camera around player
         var deltaHor = Input.GetAxis("Mouse X") * config.rotationSpeed * InverseX;
         var deltaVer = ClampVerticalAngle(Input.GetAxis("Mouse Y") * config.rotationSpeed * InverseY);
 
-        transform.RotateAround(offsetRotPos, Vector3.up, deltaHor);
-        transform.RotateAround(offsetRotPos, transform.right, deltaVer);
+        transform.RotateAround(offsetPosition, Vector3.up, deltaHor);
+        transform.RotateAround(offsetPosition, transform.right, deltaVer);
 
         // Apply distance offset to rotation offset
-        var pos = offsetRotPos - (transform.forward * config.offsetDistance);
+        var position = offsetPosition - (transform.forward * config.offsetDistance);
+        position = DistanceCorrection(offsetPosition, position);
 
         // Smooth option
         if (config.smooth)
         {
-            transform.position = pos;
+            transform.position = position;
         }
         else
         {
-            transform.position = Vector3.Slerp(transform.position, pos, config.moveSpeed * Time.deltaTime);
+            transform.position = Vector3.Slerp(transform.position, position, config.moveSpeed * Time.deltaTime);
         }
     }
 
@@ -50,13 +52,12 @@ public class CameraMovement : MonoBehaviour
     }
 
     // Check for collider in the path of ray from camera to player
-    private Vector3 PositionCorrection(Vector3 target, Vector3 position)
+    private Vector3 DistanceCorrection(Vector3 target, Vector3 position)
     {
-        if (Physics.Linecast(target, position, out var hit))
+        if (Physics.Linecast(target, position, out var hit, mask))
         {
-            float tempDistance = Vector3.Distance(target, hit.point);
-            Vector3 pos = target - (transform.rotation * Vector3.forward * tempDistance);
-            position = new Vector3(pos.x, position.y, pos.z);
+            float tempDistance = Vector3.Distance(target, hit.point) * 0.8f;
+            position = target - (transform.forward * tempDistance);
         }
 
         return position;
