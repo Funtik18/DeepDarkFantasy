@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace DDF.PCG.WEAPON
@@ -14,7 +15,9 @@ namespace DDF.PCG.WEAPON
     public class WeaponGenerator : MonoBehaviour
     {
 
-        private static WeaponGenerator _instance;
+        //private static WeaponGenerator _instance;
+
+        [HideInInspector] public static WeaponGenerator _instance;
 
         List<XmlCategory> weapons = new List<XmlCategory>();//1
         List<XmlCategory> OneHanded = new List<XmlCategory>();//1
@@ -35,6 +38,7 @@ namespace DDF.PCG.WEAPON
         List<XmlCategory> jewerlys = new List<XmlCategory>();//3
         List<XmlCategory> ring = new List<XmlCategory>();//1
         List<XmlCategory> wrist = new List<XmlCategory>();//2
+
         public Sprite[] OneH;
         public Sprite[] TwoH;
 
@@ -54,16 +58,30 @@ namespace DDF.PCG.WEAPON
         [ReadOnly]
         private string Patch = @"Resources\XML\WeaponsDescription.xml";
 
-        public static WeaponGenerator GetInstance() {
+        /*public static WeaponGenerator GetInstance() {
             if(_instance == null) {
                 _instance = FindObjectOfType<WeaponGenerator>();
                 DontDestroyOnLoad(_instance);
                 _instance.Init();
             }
             return _instance;
+        }*/
+
+        void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this;
+                DontDestroyOnLoad(this.gameObject);
+                Init();
+            }
+            else if (_instance != null)
+            {
+                Destroy(this.gameObject);
+            }
         }
 
-		public void Init() {
+        void Init() {
 			string FullPatch = Application.dataPath + "\\" + Patch;
 
 			if (!File.Exists(FullPatch)) {
@@ -98,7 +116,7 @@ namespace DDF.PCG.WEAPON
 		}
 
 		/// <summary>
-		/// передавать инт для выбора, что сгенерировать 1-оружие 2-броня
+		/// передавать инт для выбора, что сгенерировать 1-оружие 2-броня 3 - украшения
 		/// </summary>
 		public Item Generator(int num)
         {
