@@ -7,10 +7,11 @@ namespace DDF.UI.Inventory {
 	public class StorageContainer : Container {
 		protected int actionSelection = -1;
 
-		public override void Init() {
+		public override void Init(Inventory owner) {
+
 			menuOptions = MenuOptions.GetInstance();
 			toolTip = ToolTip.GetInstance();
-			base.Init();
+			base.Init(owner);
 		}
 
 

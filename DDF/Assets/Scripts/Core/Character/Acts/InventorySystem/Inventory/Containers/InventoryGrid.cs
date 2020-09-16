@@ -34,6 +34,10 @@ namespace DDF.UI.Inventory {
             rootDragParents = newrootDragParents;
 
             mainCamera = Camera.main;
+            if(mainCamera == null) {
+                Debug.LogError("Inventory grid = null, cause main camera not set tag 'MainCamera'");
+                return;
+			}
             screenToCameraDistance = mainCamera.nearClipPlane;
 
             ConstructGrid();

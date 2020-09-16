@@ -1,5 +1,4 @@
 # DeepDarkFantasy
-<h1>DeepDarkFantasy</h1>
 Unity ver. 2020.1.0f1
 
 Trello: https://trello.com/b/GHQ4H7Yu/god-valley

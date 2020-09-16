@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 namespace DDF.UI.Inventory {
     public class TrashCanContainer : StorageContainer {
 
-		public override void Init() {
+		public override void Init(Inventory owner) {
 			
-			base.Init();
+			base.Init(owner);
 			//если корзина для мусора, то пусть инициализирует точку для выброса и подписывается на функцию.
 			ThrowPoint.Init();
 			inventory.onItemDisposed = ThrowItem;

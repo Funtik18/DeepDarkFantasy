@@ -41,10 +41,9 @@ namespace DDF.UI.Inventory {
 
         #region Public methods
         #region Initialization
-        public virtual void Init() {
-            inventory = GetComponentInParent<Inventory>();
+        public virtual void Init(Inventory owner) {
+            inventory = owner;
             grid = GetComponent<InventoryGrid>();
-
             currentModels = new List<Item2DModel>();
 
             //TODO
