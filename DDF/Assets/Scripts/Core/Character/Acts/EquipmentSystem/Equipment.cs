@@ -311,9 +311,11 @@ namespace DDF.UI.Inventory {
 
 
 			if (inventory == rHandEquipment) {
-				Item3DModel Rweapon = Instantiate(item.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
-				Rweapon.transform.parent = placeRHand;
-				Rweapon.itemRigidbody.isKinematic = true;
+				if(!(item is TwoHandedItem)) {
+					Item3DModel Rweapon = Instantiate(item.item3DModel, placeRHand.position, placeRHand.rotation).GetComponent<Item3DModel>();
+					Rweapon.transform.parent = placeRHand;
+					Rweapon.itemRigidbody.isKinematic = true;
+				}
 			}
 			if (inventory == lHandEquipment) {
 				Item3DModel Lweapon = Instantiate(item.item3DModel, placeLHand.position, placeLHand.rotation).GetComponent<Item3DModel>();

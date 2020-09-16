@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace DDF.UI.Inventory {
+    /// <summary>
+    /// TODO: пофикисть ItemBackToRootSlot у двуручного айтема.
+    /// </summary>
     public class EquipmentContainer : StorageContainer {
 
 		#region Overrides
