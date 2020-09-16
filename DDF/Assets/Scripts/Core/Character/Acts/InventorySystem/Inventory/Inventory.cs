@@ -40,6 +40,8 @@ namespace DDF.UI.Inventory {
 		public UnityAction<Item, Inventory> onItemAdded;
 		public UnityAction<Item, Inventory> onItemRemoved;
 		public UnityAction<Item, Inventory> onItemDisposed;
+		public UnityAction<Item, Inventory> onItemBeginDrag; 
+		public UnityAction<Item, Inventory> onItemDrop;
 
 		private CanvasGroup canvasGroup;
 
@@ -60,14 +62,17 @@ namespace DDF.UI.Inventory {
 			overSeer.RegistrationContainer(this);
 		}
 
-		public virtual Item AddItem(Item item, bool enableModel = true) {
+		public virtual Item AddItem(Item item, bool enableModel = true, bool interactModel = true) {
 			if (item == null) { Debug.LogError("Error 404"); return null; }
 			Item clone = item.GetItemCopy<Item>();
-			return container.AddItem(clone, enableModel);
+			return container.AddItem(clone, enableModel, interactModel);
 		}
 		public void DeleteItem(Item item) {
 			container.DeleteItem(item);
 			container.DeleteModel(item);
+		}
+		public void DeleteItems() {
+			
 		}
 
 		public void ShowInventory() {

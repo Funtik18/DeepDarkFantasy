@@ -109,6 +109,8 @@ namespace DDF.UI.Inventory {
 			for(int i = 0; i < allSlots.Count; i++) {
 				allSlots[i].onItemAdded = ItemAdded;
 				allSlots[i].onItemRemoved = ItemRemoved;
+				allSlots[i].onItemBeginDrag = ItemBeginDrag;
+				allSlots[i].onItemDrop = ItemDrop;
 			}
 		}
 
@@ -116,29 +118,24 @@ namespace DDF.UI.Inventory {
 
 			bool enableUI = from == null ? false : from.isGUI;
 
-			Inventory cashSlot;
-
 			if (item is WeaponItem weaponItem) {
 				if (weaponItem is OneHandedItem) {
 					if (lHandEquipment.IsEmpty) {
-						cashSlot = lHandEquipment;
+						return lHandEquipment.AddItem(item, enableUI);
 					} else if (rHandEquipment.IsEmpty) {
 						if (lHandEquipment.currentItems[0] is TwoHandedItem) return null;
-						cashSlot = rHandEquipment;
+						return rHandEquipment.AddItem(item, enableUI);
 					} else {
 						return null;
 					}
-
-					return cashSlot.AddItem(item, enableUI);
 				}
 				if (weaponItem is TwoHandedItem) {
 					if (lHandEquipment.IsEmpty && rHandEquipment.IsEmpty) {
-						cashSlot = lHandEquipment;
+						rHandEquipment.AddItem(item, enableUI, false);
+						return lHandEquipment.AddItem(item, enableUI);
 					} else {
 						return null;
 					}
-
-					return cashSlot.AddItem(item, enableUI);
 				}
 				if (weaponItem is RangedItem) {
 					//
@@ -166,6 +163,9 @@ namespace DDF.UI.Inventory {
 		}
 		public Item TakeOff(Item item, Inventory inventory) {
 			Item clone = item.GetItemCopy<Item>();
+			if(item is TwoHandedItem) {
+				rHandEquipment.DeleteItem(rHandEquipment.currentItems[0]);
+			}
 			inventory.DeleteItem(item);
 			return clone;
 		}
@@ -283,6 +283,22 @@ namespace DDF.UI.Inventory {
 
 			DisposeEquipment(inventory);
 		}
+
+		private void ItemBeginDrag(Item item, Inventory inventory) {//костыль, когда берём двуручный, то удаляем дубликат
+			if(item is TwoHandedItem && inventory == lHandEquipment) {
+				rHandEquipment.DeleteItem(rHandEquipment.currentItems[0]);
+			}
+		}
+		private void ItemDrop(Item item, Inventory inventory) {
+			if (item is TwoHandedItem && inventory == lHandEquipment) {
+				rHandEquipment.AddItem(item, true, false);
+			}else if (item is TwoHandedItem && inventory == rHandEquipment) {
+				rHandEquipment.DeleteItem(rHandEquipment.currentItems[0]);
+				lHandEquipment.AddItem(item);
+				rHandEquipment.AddItem(item, true, false);
+			}
+		}
+
 
 		/// <summary>
 		/// Привязывает 3д модель к персонажу.

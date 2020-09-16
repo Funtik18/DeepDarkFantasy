@@ -11,13 +11,17 @@ namespace DDF.UI.Inventory {
     [DisallowMultipleComponent]
     public class Item2DModel : MonoBehaviour {
 
+        [Header("Model Colors")]
+        public Color normalModelColor = new Color32(255, 255, 255, 255);
+        public Color disableModelColor = new Color32(255, 255, 255, 200);
+
+        [Header("Info")]
         [SerializeField]
         private Image icon;
         public Image Icon {
             get => this.icon; 
             set => this.icon = value;
         }
-
 
         [SerializeField]
         private Image hightlight;
@@ -75,6 +79,15 @@ namespace DDF.UI.Inventory {
 		}
         public void HideModel() {
             Help.HelpFunctions.CanvasGroupSeer.DisableGameObject(canvasGroup);
+        }
+
+        public void Interactable(bool triger) {
+            canvasGroup.interactable = !triger;
+            canvasGroup.blocksRaycasts = !triger;
+            if (!triger)
+                Icon.color = disableModelColor;
+            else
+                Icon.color = normalModelColor;
         }
 
         public void RefreshModel() {

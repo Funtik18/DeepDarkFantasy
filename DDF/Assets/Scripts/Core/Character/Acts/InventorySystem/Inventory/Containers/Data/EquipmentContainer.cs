@@ -9,8 +9,8 @@ namespace DDF.UI.Inventory {
     public class EquipmentContainer : StorageContainer {
 
 		#region Overrides
-		public override Item AddItem(Item item, bool enableModel) {
-            AddItemXY(item, size, enableModel);
+		public override Item AddItem(Item item, bool enableModel, bool interactModel = true) {
+            AddItemXY(item, size, enableModel, interactModel);
             return item;
         }
 
@@ -46,26 +46,31 @@ namespace DDF.UI.Inventory {
             }
         }
 
-		protected override void OnDrop(PointerEventData eventData) {
+
+        protected override void OnBeginDrag(PointerEventData eventData) {
+            base.OnBeginDrag(eventData);
+
+        }
+        protected override void OnDrop(PointerEventData eventData) {
             if (!overSeer.isDrag) return;
             Inventory whereNow = overSeer.whereNow;
             Inventory from = overSeer.from;
-
-            if (!whereNow.IsEmpty) {
+            Item2DModel model = overSeer.rootModel;
+            Item item = model.referenceItem;
+            if (!whereNow.IsEmpty) {//если занято, нельзя дропнуть
                 from.container.ItemBackToRootSlot();
                 return;
             }
 
-            Item2DModel model = overSeer.rootModel;
-            Item item = model.referenceItem;
             List<StorageTypes> storageTypes = whereNow.storageTypes;
             if (storageTypes.Count == 0) {
                 ItemPlaceOnSlotSolid(from.container, whereNow.container, item, model);
                 return;
             } else {
                 for (int i = 0; i < storageTypes.Count; i++) {
-                    if (item.CompareType(storageTypes[i].ToString())) {
+                    if (item.CompareType(storageTypes[i].ToString())) {//смогли найти место для дропа
                         ItemPlaceOnSlotSolid(from.container, whereNow.container, item, model);
+                        inventory.onItemDrop?.Invoke(item, inventory);
                         return;
                     }
                 }

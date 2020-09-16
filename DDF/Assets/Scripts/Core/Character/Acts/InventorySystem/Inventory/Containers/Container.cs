@@ -123,8 +123,8 @@ namespace DDF.UI.Inventory {
         /// <summary>
         /// Добавление предмета в инвентарь.
         /// </summary>
-        public virtual Item AddItem(Item item, bool enableModel) {
-            AddItemXY(item, item.GetSize(), enableModel);
+        public virtual Item AddItem(Item item, bool enableModel, bool interactModel) {
+            AddItemXY(item, item.GetSize(), enableModel, interactModel);
             return item;
         }
         /// <summary>
@@ -211,6 +211,8 @@ namespace DDF.UI.Inventory {
             overSeer.buffer.SetAsLastSibling();
             grid.dragParent.SetAsLastSibling();
             #endregion
+
+            inventory.onItemBeginDrag?.Invoke(overSeer.rootModel.referenceItem, inventory);
         }
         protected virtual void OnDrag(PointerEventData eventData) {
             if (!overSeer.isDrag) return;
@@ -236,7 +238,7 @@ namespace DDF.UI.Inventory {
 
         #region Private methods
         #region Add
-        protected int AddItemXY(Item item, Vector2 size, bool enableModel) {
+        protected int AddItemXY(Item item, Vector2 size, bool enableModel, bool interactModel) {
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
@@ -258,6 +260,8 @@ namespace DDF.UI.Inventory {
 
                                 if (enableModel) newModel.ShowModel();
                                 else newModel.HideModel();
+
+                                newModel.Interactable(interactModel);
 
                                 overSeer.buffer = newModel.transform as RectTransform;
 
